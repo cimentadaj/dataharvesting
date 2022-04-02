@@ -74,7 +74,9 @@ Resources
 Tutorials
   - https://www.youtube.com/watch?v=LjTZNmBjC5Q
   - https://codingclubuc3m.rbind.io/post/2020-02-11/
+  - https://cbail.github.io/ids704/screenscraping/rmarkdown/Screenscraping_in_R.html
 
 Papers
   
 Resources
+  - https://cbail.github.io/ids704/Home.html
