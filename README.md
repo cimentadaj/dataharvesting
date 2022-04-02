@@ -4,14 +4,14 @@ Material for the course 'Data Harvesting' for the [masters in computational soci
 Curriculum:
 
 - An introduction to Web Scraping
-  ○ What is Web Scraping?
-  ○ Types of Web Scraping
-  ○ Data formats: XML and HTML
-  ○ Practical access to XML and HTML
-  ○ Automation for Web Scraping programs
-  ○ Selenium and JavaScript based scraping
-  ○ Ethical issues with Web Scraping
-  ○ Practical exercises
+  - What is Web Scraping?
+  - Types of Web Scraping
+  - Data formats: XML and HTML
+  - Practical access to XML and HTML
+  - Automation for Web Scraping programs
+  - Selenium and JavaScript based scraping
+  - Ethical issues with Web Scraping
+  - Practical exercises
   
 - Data APIs
   ○ What is an API
