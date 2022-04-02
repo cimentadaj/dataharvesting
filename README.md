@@ -47,3 +47,35 @@ Curriculum:
   - Practical exercises
 
 The course assumes students will be familiar with the R programming language, transforming and manipulating datasets as well as saving their work with Git and Github. No prior knowledge on software development nor data acquisition techniques is needed.
+
+
+**APIs**
+
+Tutorials
+  - https://sicss.io/2020/materials/day2-digital-trace-data/apis/rmarkdown/Application_Programming_interfaces.html (these two are together)
+  - https://www.youtube.com/watch?v=jde_c7pB5U8 (these two are together)
+  - https://cfss.uchicago.edu/notes/application-program-interface/
+
+Papers
+  - https://journals.sagepub.com/doi/abs/10.1177/1940161220964767?journalCode=hijb&
+  - https://methods.sagepub.com/book/research-methods-in-political-science-and-international-relations/i3919.xml
+  - https://www.tandfonline.com/doi/abs/10.1080/10584609.2018.1477506?journalCode=upcp20
+  - https://osf.io/preprints/socarxiv/pf7n6/
+
+Resources
+  - https://github.com/toddmotto/public-apis
+  - https://apilist.fun/
+  - https://ropensci.org/packages/
+
+
+**Web scraping**
+
+Tutorials
+  - https://www.youtube.com/watch?v=LjTZNmBjC5Q
+  - https://codingclubuc3m.rbind.io/post/2020-02-11/
+
+Papers
+  -
+  
+Resources
+  -
