@@ -1,7 +1,7 @@
 # dataharvesting
 Material for the course 'Data Harvesting' for the [masters in computational social science - UC3M](https://www.uc3m.es/master/computational-social-science#home).
 
-Introduction:
+## Introduction:
 
 Every day millions of gigabytes of data are shared across the internet. The standard way for most internet users to download this data is by manually clicking and downloading files in formats such as Excel files, CSV files, and Word files. However, this process of downloading  files by clicking works well for downloading one or two files. What if you needed to download 500 CSV files? Or what happens when you need to download data that is refreshed every 20 seconds? The process of manually clicking each file is simply not a feasible solution when downloading data at scale or at frequent intervals. That’s why with the increasing amount of data on the internet, there’s also been an increase in the tools that allow you to access that data programmatically. This course will focus on exploring these technologies. 
 
@@ -14,7 +14,7 @@ A big part of the course will emphasize automation, as a way for the student to 
 The goal of the course is to empower students with the right toolset and ideas to be able to create data acquisition programs, automate their data extraction pipeline and quickly transform that data into formats suitable for analysis. The course will place all these contents in light of the legal and ethical consequences that data acquisition can entail, always informing the students of best practices when grabbing data from the internet. The contents of the course will be as follows:
 
 
-Curriculum:
+## Curriculum:
 
 - An introduction to Web Scraping
   - What is Web Scraping?
@@ -48,8 +48,9 @@ Curriculum:
 
 The course assumes students will be familiar with the R programming language, transforming and manipulating datasets as well as saving their work with Git and Github. No prior knowledge on software development nor data acquisition techniques is needed.
 
+# Material
 
-**APIs**
+## APIs
 
 Tutorials
   - https://sicss.io/2020/materials/day2-digital-trace-data/apis/rmarkdown/Application_Programming_interfaces.html (these two are together)
@@ -68,7 +69,7 @@ Resources
   - https://ropensci.org/packages/
 
 
-**Web scraping**
+## Web scraping
 
 Tutorials
   - https://www.youtube.com/watch?v=LjTZNmBjC5Q
