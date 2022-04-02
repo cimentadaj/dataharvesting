@@ -14,21 +14,21 @@ Curriculum:
   - Practical exercises
   
 - Data APIs
-  ○ What is an API
-  ○ Fundamentals of API communication
-  ○ An introduction to the JSON format
-  ○ Create your own API (and share it)
-  ○ REST architecture
-  ○ APIs as a way to share and obtain data (any kind)
-  ○ Automation of API requests
-  ○ Talking with Databases
-  ○ Authentication and ethical access to APIs
-  ○ Practical exercises
+  - What is an API
+  - Fundamentals of API communication
+  - An introduction to the JSON format
+  - Create your own API (and share it)
+  - REST architecture
+  - APIs as a way to share and obtain data (any kind)
+  - Automation of API requests
+  - Talking with Databases
+  - Authentication and ethical access to APIs
+  - Practical exercises
   
 - Automation of Data Acquisition
-  ○ Why do we need automation?
-  ○ Accessing servers
-  ○ Technologies for automating programs
-  ○ Automating cron jobs
-  ○ Logging tasks
-  ○ Practical exercises
+  - Why do we need automation?
+  - Accessing servers
+  - Technologies for automating programs
+  - Automating cron jobs
+  - Logging tasks
+  - Practical exercises
