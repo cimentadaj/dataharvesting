@@ -75,7 +75,5 @@ Tutorials
   - https://codingclubuc3m.rbind.io/post/2020-02-11/
 
 Papers
-  -
   
 Resources
-  -
