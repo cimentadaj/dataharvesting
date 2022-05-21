@@ -9,6 +9,9 @@ name: bookdown
 jobs:
   bookdown:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./book/
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
