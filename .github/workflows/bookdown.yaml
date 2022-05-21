@@ -14,6 +14,7 @@ jobs:
         working-directory: ./book/
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      RENV_PATHS_ROOT: ~/.local/share/renv
     steps:
       - uses: actions/checkout@v2
 
@@ -23,7 +24,19 @@ jobs:
         with:
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-renv@v1
+      - name: Cache packages renv
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.RENV_PATHS_ROOT }}
+          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-renv-
+
+      - name: Restore packages renv
+        shell: Rscript {0}
+        run: |
+          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          renv::restore()
 
       - name: Cache bookdown results
         uses: actions/cache@v2
