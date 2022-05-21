@@ -1,13 +1,7 @@
-Welcome! 
+# Data Harvesting
 
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/cimentadaj/dataharvesting/workflows/bookdown/badge.svg)](https://github.com/cimentadaj/dataharvesting/actions)
+<!-- badges: end -->
 
-This template provides a skeleton file structure that you can edit to create your book. 
-
-The contents inside the .Rmd files provide some pointers to help you get started, but feel free to also delete the content in each file and start fresh.
-
-Additional resources:
-
-The **bookdown** book: https://bookdown.org/yihui/bookdown/
-
-The **bookdown** package reference site: https://pkgs.rstudio.com/bookdown
+This is a work in progress book for the course data harvesting at UC3M.
