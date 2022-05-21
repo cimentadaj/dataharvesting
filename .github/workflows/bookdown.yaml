@@ -23,7 +23,7 @@ jobs:
         with:
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-renv@v1
+      - uses: r-lib/actions/setup-renv@v2
 
       - name: Cache bookdown results
         uses: actions/cache@v2
@@ -33,7 +33,7 @@ jobs:
           restore-keys: bookdown-
 
       - name: Build site
-        run: Rscript -e 'renv::restore(); bookdown::render_book("index.Rmd", quiet = TRUE)'
+        run: Rscript -e 'bookdown::render_book("index.Rmd", quiet = TRUE)'
 
       - name: Deploy to GitHub pages 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
