@@ -67,6 +67,7 @@ Resources
   - https://github.com/toddmotto/public-apis
   - https://apilist.fun/
   - https://ropensci.org/packages/
+  - https://httr2.r-lib.org/articles/wrapping-apis.html
 
 
 ## Web scraping
