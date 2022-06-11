@@ -13,7 +13,7 @@ div.rmdnote, div.rstudio-tip, div.rmdwarning {
 }
 
 div.rmdnote {
-    background-image: url("../images/globe.png");
+    background-image: url("../images/pencil.png");
 }
 
 div.sourceCode {
