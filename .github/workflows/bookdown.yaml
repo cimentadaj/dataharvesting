@@ -24,6 +24,9 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Install system-wide depencies
+        run: sudo apt-get install -y libgdal-dev libudunits2-dev
+
       - name: Cache packages renv
         uses: actions/cache@v1
         with:

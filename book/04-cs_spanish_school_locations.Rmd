@@ -1,12 +1,24 @@
+```{r knitr-setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.asp = 0.618
+)
+
+main_dir <- "./images/cs_spanish_school_locations"
+```
+
 # Case study: scraping Spanish school locations from the web
 
-In this case study we'll working through the basics of web scraping using R and the `xml2` package. We'll begin with a simple example using fake data and elaborate further by trying to scrape the location of a sample of schools in Spain. 
+In this case study we'll working through the basics of web scraping using R and the `xml2` package. We'll begin with a simple example using fake data and elaborate further by trying to scrape the location of a sample of schools in Spain.
 
 ## Basic steps
 
-For web scraping in `R`, you can fulfill almost all of your needs with the `xml2` package. As you wander through the web, you'll see many examples using the `rvest` package. `xml2` and `rvest` are very similar so don't feel you're lacking behind for learning one and not the other. In addition to these two packages, we'll need some other libraries for plotting locations on a map (`ggplot2`, `sf`, `rnaturalearth`), identifying who we are when we scrape (`httr`) and wrangling data (`tidyverse`). 
+For web scraping in `R`, you can fulfill almost all of your needs with the `xml2` package. As you wander through the web, you'll see many examples using the `rvest` package. `xml2` and `rvest` are very similar so don't feel you're lacking behind for learning one and not the other. In addition to these two packages, we'll need some other libraries for plotting locations on a map (`ggplot2`, `sf`, `rnaturalearth`), identifying who we are when we scrape (`httr`) and wrangling data (`tidyverse`).
 
-Additionally, we'll also need the package `scrapex`. In the real-world example that we'll be doing below, we'll be scraping data from the website `www.buscocolegio.com` to locate a sample of schools in Spain. However, throughout the tutorial we won't be scraping the data directly from their real-website. What would happen to this tutorial if 6 months from now `www.buscocolegio.com` updates the design of their website? Everything from our real-world example would be lost. 
+Additionally, we'll also need the package `scrapex`. In the real-world example that we'll be doing below, we'll be scraping data from the website `www.buscocolegio.com` to locate a sample of schools in Spain. However, throughout the tutorial we won't be scraping the data directly from their real-website. What would happen to this tutorial if 6 months from now `www.buscocolegio.com` updates the design of their website? Everything from our real-world example would be lost.
 
 Web scraping tutorials are usually very unstable precisely because of this. To circumvent that problem, I've saved a random sample of websites from some schools in `www.buscocolegio.com` into an R package called `scrapex`. Although the links we'll be working on will be hosted locally on your machine, the HTML of the website should be very similar to the one hosted on the website (with the exception of some images/icons which were deleted on purpose to make the package lightweight).
 
@@ -98,11 +110,11 @@ xml_structure(xml_raw)
 
 You can see that the structure is tree-based, meaning that tags such as `<jason>` and `<carol>` are nested within the `<people>` tag. In XML jargon, `<people>` is the **root node**, whereas `<jason>` and `<carol>` are the **child nodes** from `<people>`.
 
-In more detail, the structure is as follows: 
+In more detail, the structure is as follows:
 
 * The **root** node is `<people>`
 * The **child** nodes are `<jason>` and `<carol>`
-* Then each **child** node has nodes `<first_name>`, `<married>`, `<last_name>` and `<occupation>` nested within them. 
+* Then each **child** node has nodes `<first_name>`, `<married>`, `<last_name>` and `<occupation>` nested within them.
 
 Put another way, if something is nested within a **node**, then the nested node is a **child** of the upper-level node. In our example, the **root** node is `<people>` so we can check which are its children:
 
@@ -127,13 +139,13 @@ Tags can also have different attributes which are usually specified as `<fake_ta
 xml_attrs(child_xml, "type")
 ```
 
-Wait, why didn't this work? Well, if you look at the output of `child_xml`, we have two nodes on which are for `<jason>` and `<carol>`. 
+Wait, why didn't this work? Well, if you look at the output of `child_xml`, we have two nodes on which are for `<jason>` and `<carol>`.
 
 ```{r }
 child_xml
 ```
 
-Do these tags have an attribute? No, because if they did, they would have something like `<jason type='fake_tag'>`. What we need is to look down at the `<person>` tag within `<jason>` and `<carol>` and extract the attribute from `<person>`. 
+Do these tags have an attribute? No, because if they did, they would have something like `<jason type='fake_tag'>`. What we need is to look down at the `<person>` tag within `<jason>` and `<carol>` and extract the attribute from `<person>`.
 
 Does this sound familiar? Both `<jason>` and `<carol>` have an associated `<person>` tag below them, making them their children. We can just go down one level by running `xml_children` on these tags and extract them.
 
@@ -164,7 +176,7 @@ xml_find_all(xml_raw, "/people/jason/person")
 
 The expression above is asking for the node `"/people/jason/person"`. This will return the same as saying `xml_raw %>% xml_child(search = 1)`. For deeply nested trees, `xml_find_all` will be many times much cleaner than calling `xml_child` recursively many times.
 
-However, in most cases the 'addresses' used in `xml_find_all` come from a separate language called XPath (in fact, the 'address' we've been looking at **is** XPath). XPath is a complex language (such as regular expressions for strings) which is beyond this brief tutorial. However, with the examples we've seen so far, we can use some basic XPath which we'll need later on. 
+However, in most cases the 'addresses' used in `xml_find_all` come from a separate language called XPath (in fact, the 'address' we've been looking at **is** XPath). XPath is a complex language (such as regular expressions for strings) which is beyond this brief tutorial. However, with the examples we've seen so far, we can use some basic XPath which we'll need later on.
 
 To extract all the tags in a document, we can use `//name_of_tag`.
 
@@ -179,7 +191,7 @@ With the previous XPath, we're searching for **all** married tags within the com
 xml_find_all(xml_raw, "//occupation")
 ```
 
-If you want to find any other tag you can replace `"//occupation"` with your tag of interest and `xml_find_all` will find all of them. 
+If you want to find any other tag you can replace `"//occupation"` with your tag of interest and `xml_find_all` will find all of them.
 
 If you wanted to find all tags **below** your current node, you only need to add a `.` at the beginning: `".//occupation"`. For example, if we dived into the `<jason>` tag and we wanted his `<occupation>` tag, `"//occupation"` will returns **all** `<occupation>` tags. Instead, `".//occupation"` will return only the found tags **below** the current tag. For example:
 
@@ -218,7 +230,7 @@ xml_raw %>%
 
 ```
 
-Once you've narrowed down your tree-based search to one single piece of text or numbers, `xml_text()` will extract that for you (there's also `xml_double` and `xml_integer` for extracting numbers). As I said, XPath is really a huge language. If you're interested, [this](https://devhints.io/xpath) XPath cheat sheets have helped me a lot to learn tricks for easy scraping. 
+Once you've narrowed down your tree-based search to one single piece of text or numbers, `xml_text()` will extract that for you (there's also `xml_double` and `xml_integer` for extracting numbers). As I said, XPath is really a huge language. If you're interested, [this](https://devhints.io/xpath) XPath cheat sheets have helped me a lot to learn tricks for easy scraping.
 
 ## Real-world example
 
@@ -246,21 +258,21 @@ school_raw <- read_html(school_url) %>% xml_child()
 school_raw
 ```
 
-Web scraping strategies are very specific to the website you're after. You have to get very familiar with the website you're interested to be able to match perfectly the information you're looking for. In many cases, scraping two websites will require vastly different strategies. For this particular example, we're only interested in figuring out the **location** of each school so we only have to extract its location. 
+Web scraping strategies are very specific to the website you're after. You have to get very familiar with the website you're interested to be able to match perfectly the information you're looking for. In many cases, scraping two websites will require vastly different strategies. For this particular example, we're only interested in figuring out the **location** of each school so we only have to extract its location.
 
-```{r, echo = FALSE, out.width = 3000}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/main_page.png"))
 ```
 
 <br>
 
-In the image above you'll find a typical school's website in `wwww.buscocolegio.com`. The website has a lot of information, but we're only interested in the button that is circled by the orange rectangle. If you can't find it easily, it's below the Google Maps on the right which says "Buscar colegio cercano". 
+In the image above you'll find a typical school's website in `wwww.buscocolegio.com`. The website has a lot of information, but we're only interested in the button that is circled by the orange rectangle. If you can't find it easily, it's below the Google Maps on the right which says "Buscar colegio cercano".
 
 When you click on this button, this actually points you towards the coordinates of the school so we just have to find a way of figuring out how to click this button or figure out how to get its information. All browsers allow you to do this if you press CTRL + SHIFT + c at the same time (Firefox and Chrome support this hotkey). If a window on the right popped in full of code, then you're on the right track:
 
 <br>
 
-```{r, echo = FALSE, out.width = 3000}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/developer_tools.png"))
 ```
 
@@ -270,7 +282,7 @@ Here we can search the source code of the website. If you place your mouse point
 
 <br>
 
-```{r, echo = FALSE, out.width = 3000}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/search_developer_tools.png"))
 ```
 
@@ -280,7 +292,7 @@ After we click enter, we'll be automatically directed to the tag that has the in
 
 <br>
 
-```{r, echo = FALSE, out.width = 3000}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/location_tag.png"))
 ```
 
@@ -290,19 +302,19 @@ More specifically, we can see that the latitude and longitude of schools are fou
 
 <br>
 
-```{r, echo = FALSE, out.width = 3000}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/location_tag_zoomed.png"))
 ```
 
 <br>
 
-Can you see the latitude and longitude fields in the text highlighted blue? It's hidden in-between words. That is precisely the type of information we're after. Extracting all `<a>` tags from the website (hint: XPath similar to `"//a"`) will yield hundreds of matches because `<a>` is a very common tag. Moreover, refining the search to `<a>` tags which have an `href` attribute will also yield hundreds of matches because `href` is the standard attribute to attach links within websites. We need to narrow down our search within the website. 
+Can you see the latitude and longitude fields in the text highlighted blue? It's hidden in-between words. That is precisely the type of information we're after. Extracting all `<a>` tags from the website (hint: XPath similar to `"//a"`) will yield hundreds of matches because `<a>` is a very common tag. Moreover, refining the search to `<a>` tags which have an `href` attribute will also yield hundreds of matches because `href` is the standard attribute to attach links within websites. We need to narrow down our search within the website.
 
-One strategy is to find the 'father' or 'grandfather' node of this particular `<a>` tag and then match a node which has that same sequence of grandfather -> father -> child node. By looking at the structure of this small XML snippet from the right-most window, we see that the 'grandfather' of this `<a>` tag is `<p class="d-flex align-items-baseline g-mt-5'>` which has a particularly long attribute named `class`. 
+One strategy is to find the 'father' or 'grandfather' node of this particular `<a>` tag and then match a node which has that same sequence of grandfather -> father -> child node. By looking at the structure of this small XML snippet from the right-most window, we see that the 'grandfather' of this `<a>` tag is `<p class="d-flex align-items-baseline g-mt-5'>` which has a particularly long attribute named `class`.
 
 <br>
 
-```{r, echo = FALSE, out.width = 3000}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/location_tag_zoomed.png"))
 ```
 
@@ -343,7 +355,7 @@ Ok, now we need some regex skills to get only the latitude and longitude (regex 
 location <-
   location_str %>%
   str_extract_all("=.+$") %>%
-  str_replace_all("=|colegio\\.longitud", "") %>% 
+  str_replace_all("=|colegio\\.longitud", "") %>%
   str_split("&") %>%
   .[[1]]
 
@@ -375,11 +387,11 @@ school_grabber <- function(school_url) {
     school_raw %>%
     xml_find_all("//p[@class='d-flex align-items-baseline g-mt-5']//a") %>%
     xml_attr(attr = "href")
-  
+
   location <-
     location_str %>%
     str_extract_all("=.+$") %>%
-    str_replace_all("=|colegio\\.longitud", "") %>% 
+    str_replace_all("=|colegio\\.longitud", "") %>%
     str_split("&") %>%
     .[[1]]
 
@@ -427,7 +439,7 @@ So now that we have the locations of these schools, let's plot them:
 res <- mutate_all(res, as.numeric)
 
 sp_sf <-
-  ne_countries(scale = "large", country = "Spain", returnclass = "sf") %>% 
+  ne_countries(scale = "large", country = "Spain", returnclass = "sf") %>%
   st_transform(crs = 4326)
 
 ggplot(sp_sf) +
@@ -439,7 +451,7 @@ ggplot(sp_sf) +
 
 ```
 
-There we go! We went from literally no information at the beginning of this tutorial to interpretable and summarized information only using web data. We can see some schools in Madrid (center) as well in other regions of Spain, including Catalonia and Galicia. 
+There we go! We went from literally no information at the beginning of this tutorial to interpretable and summarized information only using web data. We can see some schools in Madrid (center) as well in other regions of Spain, including Catalonia and Galicia.
 
 This marks the end of our scraping adventure but before we finish, I want to mention some of the ethical guidelines for web scraping. Scraping is extremely useful for us but can give headaches to other people maintaining the website of interest. Here's a list of ethical guidelines you should always follow:
 
@@ -458,4 +470,3 @@ You can read more about these ethical issues [here](http://robertorocha.info/on-
 ## Wrap up
 
 This tutorial introduced you to basic concepts in web scraping and applied them in a real-world setting. Web scraping is a vast field in computer science (you can find entire books on the subject such as [this](https://www.apress.com/gp/book/9781484235812)). We covered some basic techniques which I think can take you a long way but there's definitely more to learn. For those curious about where to turn, I'm looking forward to the upcoming book ["A Field Guide for Web Scraping and Accessing APIs with R"](https://rud.is/b/books/) by Bob Rudis, which should be released in the near future. Now go scrape some websites ethically!
-
