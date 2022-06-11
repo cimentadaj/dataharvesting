@@ -55,12 +55,11 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="active" href="index.html"><span class="header-section-number">1</span> About</a></li>
-<li><a class="" href="hello-bookdown.html"><span class="header-section-number">2</span> Hello bookdown</a></li>
-<li><a class="" href="cross.html"><span class="header-section-number">3</span> Cross-references</a></li>
-<li><a class="" href="parts.html"><span class="header-section-number">4</span> Parts</a></li>
-<li><a class="" href="footnotes-and-citations.html"><span class="header-section-number">5</span> Footnotes and citations</a></li>
-<li><a class="" href="blocks.html"><span class="header-section-number">6</span> Blocks</a></li>
-<li><a class="" href="sharing-your-book.html"><span class="header-section-number">7</span> Sharing your book</a></li>
+<li><a class="" href="cross.html"><span class="header-section-number">2</span> Cross-references</a></li>
+<li><a class="" href="parts.html"><span class="header-section-number">3</span> Parts</a></li>
+<li><a class="" href="footnotes-and-citations.html"><span class="header-section-number">4</span> Footnotes and citations</a></li>
+<li><a class="" href="blocks.html"><span class="header-section-number">5</span> Blocks</a></li>
+<li><a class="" href="sharing-your-book.html"><span class="header-section-number">6</span> Sharing your book</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -105,10 +104,68 @@
 <code class="sourceCode R"><span class="fu">bookdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgs.rstudio.com/bookdown/reference/serve_book.html">serve_book</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 
 </div>
+<div id="introduction" class="section level2">
+<h2>
+<span class="header-section-number">1.4</span> Introduction:<a class="anchor" aria-label="anchor" href="#introduction"><i class="fas fa-link"></i></a>
+</h2>
+<p>Every day millions of gigabytes of data are shared across the internet. The standard way for most internet users to download this data is by manually clicking and downloading files in formats such as Excel files, CSV files, and Word files. However, this process of downloading files by clicking works well for downloading one or two files. What if you needed to download 500 CSV files? Or what happens when you need to download data that is refreshed every 20 seconds? The process of manually clicking each file is simply not a feasible solution when downloading data at scale or at frequent intervals. That’s why with the increasing amount of data on the internet, there’s also been an increase in the tools that allow you to access that data programmatically. This course will focus on exploring these technologies.</p>
+<p>Throughout the course, we’ll describe and create upon the basic formats for data transfer such as JSON, HTML and XML. We will learn how to subset, manipulate and transform these formats for suitable data analysis tasks. Most of these data formats can be accessed by scraping a website: programmatically accessing the data in a website and asking the program to download as much data as we need and as frequently as needed. An integral part of the course will focus on how to perform ethical web scrapping, how to scale your web scrapping to download massive amounts of data as well as to program your scraper to access data in frequent intervals.</p>
+<p>The course will also focus on an emerging technology for websites to share data: Application Programming Interfaces (API). We will touch upon the basic formats for data sharing through APIs as well as how to make thousands of data requests in just seconds. Special emphasis will be made on security and ethical guidelines when speaking to APIs.</p>
+<p>A big part of the course will emphasize automation, as a way for the student to create robust and scalable data acquisition pipelines. At each step of the process, we will focus on the practical applications of these techniques and exercise active participation by the students through hands-on challenges on data acquisition. The course will make heavy use of Github where students will need to share their homework as well as explore the immense repository of data acquisition technology already available as open source software.</p>
+<p>The goal of the course is to empower students with the right toolset and ideas to be able to create data acquisition programs, automate their data extraction pipeline and quickly transform that data into formats suitable for analysis. The course will place all these contents in light of the legal and ethical consequences that data acquisition can entail, always informing the students of best practices when grabbing data from the internet.</p>
+</div>
+<div id="curriculum" class="section level2">
+<h2>
+<span class="header-section-number">1.5</span> Curriculum:<a class="anchor" aria-label="anchor" href="#curriculum"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>
+<strong>An introduction to Web Scraping</strong>
+<ul>
+<li>What is Web Scraping?</li>
+<li>Types of Web Scraping</li>
+<li>Data formats: XML and HTML</li>
+<li>Practical access to XML and HTML</li>
+<li>Automation for Web Scraping programs</li>
+<li>Selenium and JavaScript based scraping</li>
+<li>Ethical issues with Web Scraping</li>
+<li>Practical exercises</li>
+</ul>
+</li>
+<li>
+<strong>Data APIs</strong>
+<ul>
+<li>What is an API</li>
+<li>Fundamentals of API communication</li>
+<li>An introduction to the JSON format</li>
+<li>Create your own API (and share it)</li>
+<li>REST architecture</li>
+<li>APIs as a way to share and obtain data (any kind)</li>
+<li>Automation of API requests</li>
+<li>Talking with Databases</li>
+<li>Authentication and ethical access to APIs</li>
+<li>Practical exercises</li>
+</ul>
+</li>
+<li>
+<strong>Automation of Data Acquisition</strong>
+<ul>
+<li>Why do we need automation?</li>
+<li>Accessing servers</li>
+<li>Technologies for automating programs</li>
+<li>Automating cron jobs</li>
+<li>Logging tasks</li>
+<li>Practical exercises</li>
+</ul>
+</li>
+</ul>
+<p>The course assumes students will be familiar with the R programming language, transforming and manipulating datasets as well as saving their work with Git and Github. No prior knowledge on software development nor data acquisition techniques is needed.</p>
+
+</div>
 </div>
   <div class="chapter-nav">
 <div class="empty"></div>
-<div class="next"><a href="hello-bookdown.html"><span class="header-section-number">2</span> Hello bookdown</a></div>
+<div class="next"><a href="cross.html"><span class="header-section-number">2</span> Cross-references</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -116,6 +173,8 @@
 <li><a class="nav-link" href="#usage"><span class="header-section-number">1.1</span> Usage</a></li>
 <li><a class="nav-link" href="#render-book"><span class="header-section-number">1.2</span> Render book</a></li>
 <li><a class="nav-link" href="#preview-book"><span class="header-section-number">1.3</span> Preview book</a></li>
+<li><a class="nav-link" href="#introduction"><span class="header-section-number">1.4</span> Introduction:</a></li>
+<li><a class="nav-link" href="#curriculum"><span class="header-section-number">1.5</span> Curriculum:</a></li>
 </ul>
 
       <div class="book-extra">
@@ -133,7 +192,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-06-02.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-06-11.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
