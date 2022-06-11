@@ -20,8 +20,8 @@ The contents of the course will be as follows:
 - [X] **Introduction**
 
 - **An introduction to Web Scraping**
-  - [ ] What is Web Scraping?
-  - [ ] Types of Web Scraping
+  - [ ] Introduction (types of webscraping, xpath, etc..)
+  - [ ] A primer on web scraping
   - [ ] Data formats: XML and HTML
   - [ ] Practical access to XML and HTML
   - [ ] Automation for Web Scraping programs
