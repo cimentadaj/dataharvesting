@@ -2,12 +2,9 @@ fig:nice-fig
 tab:nice-tab
 eq:binom
 thm:tri
-about
-usage
-render-book
-preview-book
 introduction
 curriculum
+test
 cross
 chapters-and-sub-chapters
 captioned-figures-and-tables
