@@ -1,13 +1,14 @@
 ```{r knitr-setup, include=FALSE}
+main_dir <- "./images/cs_spanish_school_locations"
 knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
   warning = FALSE,
   fig.align = "center",
+  fig.path = paste0(main_dir, "/automatic_rmarkdown/"),
   fig.asp = 0.618
 )
 
-main_dir <- "./images/cs_spanish_school_locations"
 ```
 
 # Case study: scraping Spanish school locations from the web
@@ -435,7 +436,7 @@ res
 
 So now that we have the locations of these schools, let's plot them:
 
-```{r}
+```{r, spain-map-schools}
 res <- mutate_all(res, as.numeric)
 
 sp_sf <-
