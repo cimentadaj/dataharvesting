@@ -11,42 +11,44 @@ The course will also focus on an emerging technology for websites to share data:
 
 A big part of the course will emphasize automation, as a way for the student to create robust and scalable data acquisition pipelines. At each step of the process, we will focus on the practical applications of these techniques and exercise active participation by the students through hands-on challenges on data acquisition. The course will make heavy use of Github where students will need to share their homework as well as explore the immense repository of data acquisition technology already available as open source software.
 
-The goal of the course is to empower students with the right toolset and ideas to be able to create data acquisition programs, automate their data extraction pipeline and quickly transform that data into formats suitable for analysis. The course will place all these contents in light of the legal and ethical consequences that data acquisition can entail, always informing the students of best practices when grabbing data from the internet. The contents of the course will be as follows:
-
-
-## Curriculum:
-
-- An introduction to Web Scraping
-  - What is Web Scraping?
-  - Types of Web Scraping
-  - Data formats: XML and HTML
-  - Practical access to XML and HTML
-  - Automation for Web Scraping programs
-  - Selenium and JavaScript based scraping
-  - Ethical issues with Web Scraping
-  - Practical exercises
-  
-- Data APIs
-  - What is an API
-  - Fundamentals of API communication
-  - An introduction to the JSON format
-  - Create your own API (and share it)
-  - REST architecture
-  - APIs as a way to share and obtain data (any kind)
-  - Automation of API requests
-  - Talking with Databases
-  - Authentication and ethical access to APIs
-  - Practical exercises
-  
-- Automation of Data Acquisition
-  - Why do we need automation?
-  - Accessing servers
-  - Technologies for automating programs
-  - Automating cron jobs
-  - Logging tasks
-  - Practical exercises
+The goal of the course is to empower students with the right toolset and ideas to be able to create data acquisition programs, automate their data extraction pipeline and quickly transform that data into formats suitable for analysis. The course will place all these contents in light of the legal and ethical consequences that data acquisition can entail, always informing the students of best practices when grabbing data from the internet. 
 
 The course assumes students will be familiar with the R programming language, transforming and manipulating datasets as well as saving their work with Git and Github. No prior knowledge on software development nor data acquisition techniques is needed.
+  
+The contents of the course will be as follows:
+
+- [X] **Introduction**
+
+- **An introduction to Web Scraping**
+  - [ ] What is Web Scraping?
+  - [ ] Types of Web Scraping
+  - [ ] Data formats: XML and HTML
+  - [ ] Practical access to XML and HTML
+  - [ ] Automation for Web Scraping programs
+  - [ ] Selenium and JavaScript based scraping
+  - [ ] Ethical issues with Web Scraping
+  - [ ] Practical exercises
+  
+- **Data APIs**
+  - [ ] What is an API
+  - [ ] Fundamentals of API communication
+  - [ ] An introduction to the JSON format
+  - [ ] Create your own API (and share it)
+  - [ ] REST architecture
+  - [ ] APIs as a way to share and obtain data (any kind)
+  - [ ] Automation of API requests
+  - [ ] Talking with Databases
+  - [ ] Authentication and ethical access to APIs
+  - [ ] Practical exercises
+  
+- **Automation of Data Acquisition**
+  - [ ] Why do we need automation?
+  - [ ] Accessing servers
+  - [ ] Technologies for automating programs
+  - [ ] Automating cron jobs
+  - [ ] Logging tasks
+  - [ ] Practical exercises
+
 
 # Material
 
