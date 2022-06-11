@@ -1,0 +1,7 @@
+# A primer on Webscraping
+
+TODO
+
+- Here a quick example using rvest to scrape Wikipedia tables. You need to add the Wikipedia page to `scrapex`.
+
+- Here a quick example using rvest to scrape IMDB (? better example ?). You need to add the Wikipedia page to `scrapex`.

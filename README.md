@@ -20,14 +20,14 @@ The contents of the course will be as follows:
 - [X] **Introduction**
 
 - **An introduction to Web Scraping**
-  - [ ] Introduction (types of webscraping, xpath, etc..)
-  - [ ] A primer on web scraping
-  - [ ] Data formats: XML and HTML
-  - [ ] Practical access to XML and HTML
-  - [ ] Automation for Web Scraping programs
-  - [ ] Selenium and JavaScript based scraping
-  - [ ] Ethical issues with Web Scraping
-  - [ ] Practical exercises
+  - [ ] 1. Introduction (types of webscraping, xpath, etc..)
+  - [ ] 2. A primer on Webscraping
+  - [ ] 3. Data formats: XML and HTML
+  - [ ] 4. Case study: scraping Spanish school locations from the web
+  - [ ] 5. Automation for Web Scraping programs
+  - [ ] 6. Selenium and JavaScript based scraping
+  - [ ] 7. Ethical issues with Web Scraping
+  - [ ] 8. Practical exercises
   
 - **Data APIs**
   - [ ] What is an API
@@ -78,6 +78,7 @@ Tutorials
   - https://www.youtube.com/watch?v=LjTZNmBjC5Q
   - https://codingclubuc3m.rbind.io/post/2020-02-11/
   - https://cbail.github.io/ids704/screenscraping/rmarkdown/Screenscraping_in_R.html
+  - https://rvest.tidyverse.org/articles/harvesting-the-web.html
 
 Papers
   
