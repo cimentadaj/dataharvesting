@@ -10,6 +10,9 @@ A big part of the course will emphasize automation, as a way for the student to 
 
 The goal of the course is to empower students with the right toolset and ideas to be able to create data acquisition programs, automate their data extraction pipeline and quickly transform that data into formats suitable for analysis. The course will place all these contents in light of the legal and ethical consequences that data acquisition can entail, always informing the students of best practices when grabbing data from the internet. 
 
+::: {.rmdnote}
+The course assumes students will be familiar with the R programming language, transforming and manipulating datasets as well as saving their work with Git and Github. No prior knowledge on software development nor data acquisition techniques is needed.
+:::
 
 ## Curriculum:
 
@@ -43,4 +46,3 @@ The goal of the course is to empower students with the right toolset and ideas t
   - Logging tasks
   - Practical exercises
 
-The course assumes students will be familiar with the R programming language, transforming and manipulating datasets as well as saving their work with Git and Github. No prior knowledge on software development nor data acquisition techniques is needed.
