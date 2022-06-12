@@ -70,10 +70,17 @@ cleaned_data %>%
   scale_color_viridis_d() +
   theme_minimal()
 
+
+# TODO: This is too hard for an exercise right away. You thought of saving cleaned_data to scrapex
+# and raise this exercises later on such that students can recycle the data frame elsewhere and
+# just focus on scraping the colors. This should be once students know xpath.
+
 html_website %>%
   html_nodes(xpath = "//table[@style='text-align:center; font-size:90%;']") %>%
   html_nodes(xpath = "//th")
 
+# TODO: can you come up with a direct xpath to background colors? That
+# way it's less verbose
 all_style_attr <-
   html_website %>%
   html_nodes(xpath = "//table[@style='text-align:center; font-size:90%;']") %>%
@@ -103,7 +110,6 @@ cleaned_colors_data %>%
   scale_colour_manual(values = vector_colors) +
   ggtitle(label = "Parties and share of votes in all Spanish Elections") +
   theme_minimal()
-
 
 ```
 
