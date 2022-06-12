@@ -4,4 +4,107 @@ TODO
 
 - Here a quick example using rvest to scrape Wikipedia tables. You need to add the Wikipedia page to `scrapex`.
 
+```{r}
+
+library(rvest)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+
+link <- "https://en.wikipedia.org/wiki/Elections_in_Spain"
+
+html_website <-
+  link %>%
+  read_html()
+
+html_website
+
+all_tables <-
+  html_website %>%
+  html_table()
+
+elections_data <- all_tables[[5]]
+
+elections_data %>%
+  select_if(is.character)
+
+wrong_labels <- c(
+  "Dissolved",
+  "[k]",
+  "[l]",
+  "[m]",
+  "n",
+  "Banned",
+  "Boycotted",
+  "Did not run"
+)
+
+wrong_labels <- paste0(wrong_labels, collapse = "|")
+
+semi_cleaned_data <-
+  elections_data %>%
+  mutate_if(
+    is.character,
+    .funs = str_replace_all,
+    pattern = wrong_labels,
+    replacement = NA_character_
+  ) %>%
+  mutate(Election = str_replace_all(Election, "Apr. |Nov. ", "")) %>%
+  mutate_all(as.numeric) %>%
+  filter(!is.na(Election)) %>%
+  rename_all(~ str_replace_all(.x, "\\[.+\\]", ""))
+
+cleaned_data <-
+  semi_cleaned_data %>%
+  pivot_longer(-Election, names_to = "parties")
+
+cleaned_data
+
+tail(cleaned_data)
+
+cleaned_data %>%
+  ggplot(aes(Election, value, color = parties)) +
+  geom_line() +
+  scale_y_continuous(labels = function(x) paste0(x, "%")) +
+  scale_color_viridis_d() +
+  theme_minimal()
+
+html_website %>%
+  html_nodes(xpath = "//table[@style='text-align:center; font-size:90%;']") %>%
+  html_nodes(xpath = "//th")
+
+all_style_attr <-
+  html_website %>%
+  html_nodes(xpath = "//table[@style='text-align:center; font-size:90%;']") %>%
+  html_nodes(xpath = "//tbody//th[@style]") %>%
+  html_attr("style")
+
+where_background <- all_style_attr %>% str_detect("background")
+
+party_colors <- all_style_attr[where_background] %>% str_replace_all("background:", "")
+
+parties <- names(semi_cleaned_data)[-1]
+colors_lookup <- tibble(parties = parties, party_colors = party_colors)
+
+cleaned_colors_data <-
+  cleaned_data %>%
+  left_join(colors_lookup)
+
+tmp_colors <- cleaned_colors_data %>% distinct(parties, party_colors)
+vector_colors <- tmp_colors$party_colors
+names(vector_colors) <- tmp_colors$parties
+
+cleaned_colors_data %>%
+  ggplot(aes(Election, value, color = parties)) +
+  geom_line() +
+  scale_y_continuous(name = "% of votes", labels = function(x) paste0(x, "%")) +
+  xlab("Election years") +
+  scale_colour_manual(values = vector_colors) +
+  ggtitle(label = "Parties and share of votes in all Spanish Elections") +
+  theme_minimal()
+
+
+```
+
 - Here a quick example using rvest to scrape IMDB (? better example ?). You need to add the Wikipedia page to `scrapex`.
