@@ -1,4 +1,4 @@
-```{r knitr-setup, include=FALSE}
+```{r primer-setup, include=FALSE}
 main_dir <- "./images/primer_webscraping"
 knitr::opts_chunk$set(
   echo = TRUE,
