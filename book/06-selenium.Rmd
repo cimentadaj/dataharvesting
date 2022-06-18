@@ -1,0 +1,118 @@
+# Scraping JavaScript based website
+
+```{r selenium-setup, include=FALSE}
+main_dir <- "./images/selenium_javascript"
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.path = paste0(main_dir, "/automatic_rmarkdown/"),
+  fig.asp = 0.618
+)
+```
+
+
+
+
+```{r, eval = FALSE}
+## sudo docker pull selenium/standalone-firefox:2.53.0
+## docker run -d -p 4445:4444 selenium/standalone-firefox:2.53.0
+
+library(RSelenium)
+library(rvest)
+library(glue)
+library(stringr)
+library(tibble)
+library(stringr)
+library(tidyr)
+library(dplyr)
+
+remDr <- remoteDriver(port = 4445L)
+remDr$open()
+
+clickForm <- function(driver, id_val, type_val) {
+  driver$findElement(value = glue("//*[@id='{id_val}']"))$clickElement()
+  Sys.sleep(2)
+  driver$findElement(value = glue("//*[@id='{id_val}']"))$sendKeysToElement(list(type_val))
+  Sys.sleep(2)
+  driver$findElement(value = glue("//*[@id='{id_val}']"))$clickElement()
+  driver
+}
+
+remDr$navigate("https://www.educacion.gob.es/centros/selectaut.do;jsessionid=D1599759162212D625E129FAB8584742")
+
+sleep <- 3
+val <- "/html/body/div[2]/div[2]/form/div/fieldset/div[2]/ul/li[1]/a"
+remDr$findElement(value = val)$clickElement()
+
+# Fill all forms
+Sys.sleep(3)
+remDr <- clickForm(remDr, "comboniv", "Formación Profesional")
+Sys.sleep(1)
+remDr <- clickForm(remDr, "ssel_natur", "Centro privado")
+Sys.sleep(3)
+remDr <- clickForm(remDr, "tipocentro", "Centro Privado de Formación Profesional Especifica")
+Sys.sleep(1)
+
+# Click enter to see all schools
+remDr$findElement(value = "//*[@id='idGhost']")$clickElement()
+Sys.sleep(sleep)
+
+html_all <- remDr$getPageSource()[[1]] %>% read_html()
+
+all_properties <-
+  html_all %>%
+  html_elements(xpath = "//ul") %>%
+  html_elements(xpath = ".//li") %>%
+  html_text()
+
+schools <- all_properties[str_detect(all_properties, "Centros seleccionados")]
+schools <- as.numeric(str_replace(schools, "Centros seleccionados: ", ""))
+number_schools <- glue("/html/body/div[2]/div[2]/div/form/table/tbody/tr[{seq_len(schools)}]/td[5]/a")
+
+all_dfs <- list()
+
+for (i in seq_along(number_schools)) {
+  print(glue("School {i}"))
+  remDr$findElement(value = number_schools[i])$clickElement()
+
+  ## Sys.sleep(sleep)
+  html <- remDr$getPageSource()[[1]] %>% read_html()
+
+  ensenanzas_table <-
+    html %>%
+    html_table() %>%
+    .[[1]]
+
+  all_properties <-
+    html %>%
+    html_elements(xpath = "//div[@id='formulario']") %>%
+    html_elements(xpath = ".//li") %>%
+    html_text()
+
+  all_properties <- gsub("http://", "", all_properties)
+
+  all_fields <- gsub("\\n|\\t", "", all_properties)
+  matrix_fields <- str_split(all_fields, pattern = ":", simplify = TRUE)
+
+  column_names <- str_trim(matrix_fields[, 1])
+  values <- str_trim(matrix_fields[, 2])
+
+  names(values) <- column_names
+
+  property_df <-
+    values %>%
+    enframe() %>%
+    pivot_wider()
+
+  final_df <- bind_cols(property_df, ensenanzas_table)
+
+  all_dfs[[i]] <- final_df
+
+  remDr$goBack()
+}
+
+
+complete_dfs <- bind_rows(all_dfs)
+```
