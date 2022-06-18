@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>7 Scraping JavaScript based website | Data Harvesting with R</title>
+<meta name="author" content="Jorge Cimentada">
+<meta name="description" content="## sudo docker pull selenium/standalone-firefox:2.53.0 ## docker run -d -p 4445:4444 selenium/standalone-firefox:2.53.0 library(RSelenium) library(rvest) library(glue) library(stringr)...">
+<meta name="generator" content="bookdown 0.26 with bs4_book()">
+<meta property="og:title" content="7 Scraping JavaScript based website | Data Harvesting with R">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/scraping-javascript-based-website.html">
+<meta property="og:description" content="## sudo docker pull selenium/standalone-firefox:2.53.0 ## docker run -d -p 4445:4444 selenium/standalone-firefox:2.53.0 library(RSelenium) library(rvest) library(glue) library(stringr)...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="7 Scraping JavaScript based website | Data Harvesting with R">
+<meta name="twitter:description" content="## sudo docker pull selenium/standalone-firefox:2.53.0 ## docker run -d -p 4445:4444 selenium/standalone-firefox:2.53.0 library(RSelenium) library(rvest) library(glue) library(stringr)...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
+<link href="libs/_Roboto%20Mono-0.4.1/font.css" rel="stylesheet">
+<link href="libs/_Montserrat-0.4.1/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  
+   ga('create', 'UA-99618359-1', 'auto');
+   ga('send', 'pageview');
+  
+  </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h2>
+        <a href="index.html" title="">Data Harvesting with R</a>
+      </h2>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
+<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
+<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
+<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">5</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="footnotes-and-citations.html"><span class="header-section-number">6</span> Footnotes and citations</a></li>
+<li><a class="active" href="scraping-javascript-based-website.html"><span class="header-section-number">7</span> Scraping JavaScript based website</a></li>
+<li><a class="" href="sharing-your-book.html"><span class="header-section-number">8</span> Sharing your book</a></li>
+<li><a class="" href="references.html">References</a></li>
+<li><a class="" href="cross.html"><span class="header-section-number">9</span> Cross-references</a></li>
+<li><a class="" href="parts.html"><span class="header-section-number">10</span> Parts</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/cimentadaj/dataharvesting/tree/main/book">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="scraping-javascript-based-website" class="section level1">
+<h1>
+<span class="header-section-number">7</span> Scraping JavaScript based website<a class="anchor" aria-label="anchor" href="#scraping-javascript-based-website"><i class="fas fa-link"></i></a>
+</h1>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## sudo docker pull selenium/standalone-firefox:2.53.0</span>
+<span class="co">## docker run -d -p 4445:4444 selenium/standalone-firefox:2.53.0</span>
+
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://docs.ropensci.org/RSelenium">RSelenium</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidyverse/glue">glue</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://stringr.tidyverse.org">stringr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://stringr.tidyverse.org">stringr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+
+<span class="va">remDr</span> <span class="op">&lt;-</span> <span class="fu">remoteDriver</span><span class="op">(</span>port <span class="op">=</span> <span class="fl">4445L</span><span class="op">)</span>
+<span class="va">remDr</span><span class="op">$</span><span class="fu">open</span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">clickForm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">driver</span>, <span class="va">id_val</span>, <span class="va">type_val</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"//*[@id='{id_val}']"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="fu">clickElement</span><span class="op">(</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
+  <span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"//*[@id='{id_val}']"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="fu">sendKeysToElement</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">type_val</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
+  <span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"//*[@id='{id_val}']"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="fu">clickElement</span><span class="op">(</span><span class="op">)</span>
+  <span class="va">driver</span>
+<span class="op">}</span>
+
+<span class="va">remDr</span><span class="op">$</span><span class="fu">navigate</span><span class="op">(</span><span class="st">"https://www.educacion.gob.es/centros/selectaut.do;jsessionid=D1599759162212D625E129FAB8584742"</span><span class="op">)</span>
+
+<span class="va">sleep</span> <span class="op">&lt;-</span> <span class="fl">3</span>
+<span class="va">val</span> <span class="op">&lt;-</span> <span class="st">"/html/body/div[2]/div[2]/form/div/fieldset/div[2]/ul/li[1]/a"</span>
+<span class="va">remDr</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>value <span class="op">=</span> <span class="va">val</span><span class="op">)</span><span class="op">$</span><span class="fu">clickElement</span><span class="op">(</span><span class="op">)</span>
+
+<span class="co"># Fill all forms</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
+<span class="va">remDr</span> <span class="op">&lt;-</span> <span class="fu">clickForm</span><span class="op">(</span><span class="va">remDr</span>, <span class="st">"comboniv"</span>, <span class="st">"Formación Profesional"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">remDr</span> <span class="op">&lt;-</span> <span class="fu">clickForm</span><span class="op">(</span><span class="va">remDr</span>, <span class="st">"ssel_natur"</span>, <span class="st">"Centro privado"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
+<span class="va">remDr</span> <span class="op">&lt;-</span> <span class="fu">clickForm</span><span class="op">(</span><span class="va">remDr</span>, <span class="st">"tipocentro"</span>, <span class="st">"Centro Privado de Formación Profesional Especifica"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+
+<span class="co"># Click enter to see all schools</span>
+<span class="va">remDr</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>value <span class="op">=</span> <span class="st">"//*[@id='idGhost']"</span><span class="op">)</span><span class="op">$</span><span class="fu">clickElement</span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="va">sleep</span><span class="op">)</span>
+
+<span class="va">html_all</span> <span class="op">&lt;-</span> <span class="va">remDr</span><span class="op">$</span><span class="fu">getPageSource</span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">all_properties</span> <span class="op">&lt;-</span>
+  <span class="va">html_all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html">html_elements</a></span><span class="op">(</span>xpath <span class="op">=</span> <span class="st">"//ul"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html">html_elements</a></span><span class="op">(</span>xpath <span class="op">=</span> <span class="st">".//li"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">schools</span> <span class="op">&lt;-</span> <span class="va">all_properties</span><span class="op">[</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">all_properties</span>, <span class="st">"Centros seleccionados"</span><span class="op">)</span><span class="op">]</span>
+<span class="va">schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace</a></span><span class="op">(</span><span class="va">schools</span>, <span class="st">"Centros seleccionados: "</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span>
+<span class="va">number_schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"/html/body/div[2]/div[2]/div/form/table/tbody/tr[{seq_len(schools)}]/td[5]/a"</span><span class="op">)</span>
+
+<span class="va">all_dfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">number_schools</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"School {i}"</span><span class="op">)</span><span class="op">)</span>
+  <span class="va">remDr</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>value <span class="op">=</span> <span class="va">number_schools</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="fu">clickElement</span><span class="op">(</span><span class="op">)</span>
+
+  <span class="co">## Sys.sleep(sleep)</span>
+  <span class="va">html</span> <span class="op">&lt;-</span> <span class="va">remDr</span><span class="op">$</span><span class="fu">getPageSource</span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="op">)</span>
+
+  <span class="va">ensenanzas_table</span> <span class="op">&lt;-</span>
+    <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+
+  <span class="va">all_properties</span> <span class="op">&lt;-</span>
+    <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html">html_elements</a></span><span class="op">(</span>xpath <span class="op">=</span> <span class="st">"//div[@id='formulario']"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html">html_elements</a></span><span class="op">(</span>xpath <span class="op">=</span> <span class="st">".//li"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span>
+
+  <span class="va">all_properties</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"http://"</span>, <span class="st">""</span>, <span class="va">all_properties</span><span class="op">)</span>
+
+  <span class="va">all_fields</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\\n|\\t"</span>, <span class="st">""</span>, <span class="va">all_properties</span><span class="op">)</span>
+  <span class="va">matrix_fields</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split</a></span><span class="op">(</span><span class="va">all_fields</span>, pattern <span class="op">=</span> <span class="st">":"</span>, simplify <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+  <span class="va">column_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_trim.html">str_trim</a></span><span class="op">(</span><span class="va">matrix_fields</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span>
+  <span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_trim.html">str_trim</a></span><span class="op">(</span><span class="va">matrix_fields</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span>
+
+  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">values</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">column_names</span>
+
+  <span class="va">property_df</span> <span class="op">&lt;-</span>
+    <span class="va">values</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span><span class="op">)</span>
+
+  <span class="va">final_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_cols</a></span><span class="op">(</span><span class="va">property_df</span>, <span class="va">ensenanzas_table</span><span class="op">)</span>
+
+  <span class="va">all_dfs</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">final_df</span>
+
+  <span class="va">remDr</span><span class="op">$</span><span class="fu">goBack</span><span class="op">(</span><span class="op">)</span>
+<span class="op">}</span>
+
+
+<span class="va">complete_dfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">all_dfs</span><span class="op">)</span></code></pre></div>
+
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="footnotes-and-citations.html"><span class="header-section-number">6</span> Footnotes and citations</a></div>
+<div class="next"><a href="sharing-your-book.html"><span class="header-section-number">8</span> Sharing your book</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#scraping-javascript-based-website"><span class="header-section-number">7</span> Scraping JavaScript based website</a></li></ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/blob/main/06-selenium.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/edit/main/06-selenium.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-06-18.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
