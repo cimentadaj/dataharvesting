@@ -85,11 +85,11 @@
 <p>Additionally, we’ll also need the package <code>scrapex</code>. In the real-world example that we’ll be doing below, we’ll be scraping data from the website <code>www.buscocolegio.com</code> to locate a sample of schools in Spain. However, throughout the tutorial we won’t be scraping the data directly from their real-website. What would happen to this tutorial if 6 months from now <code>www.buscocolegio.com</code> updates the design of their website? Everything from our real-world example would be lost.</p>
 <p>Web scraping tutorials are usually very unstable precisely because of this. To circumvent that problem, I’ve saved a random sample of websites from some schools in <code>www.buscocolegio.com</code> into an R package called <code>scrapex</code>. Although the links we’ll be working on will be hosted locally on your machine, the HTML of the website should be very similar to the one hosted on the website (with the exception of some images/icons which were deleted on purpose to make the package lightweight).</p>
 <p>You can install the package with:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"cimentadaj/scrapex"</span><span class="op">)</span></code></pre></div>
 <p>Now, let’s move on the fake data example and load all of our packages with:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/">xml2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr.r-lib.org/">httr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
@@ -98,7 +98,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span></code></pre></div>
 <p>Let’s begin with a simple example. Below we define an XML string and look at its structure:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xml_test</span> <span class="op">&lt;-</span> <span class="st">"&lt;people&gt;
 &lt;jason&gt;
   &lt;person type='fictional'&gt;
@@ -174,7 +174,7 @@
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/xml_examples/xml_three.png" width="30%" style="display: block; margin: auto;"></div>
 <p>In theory, tags can have whatever meaning you attach to them (such as <code>&lt;people&gt;</code> or <code>&lt;occupation&gt;</code>). However, in practice there are hundreds of tags which are standard in websites (for example, <a href="https://www.w3schools.com/tags/">here</a>). If you’re just getting started, there’s no need for you to learn them but as you progress in web scraping, you’ll start to recognize them (one brief example is <code>&lt;strong&gt;</code> which simply <strong>bolds</strong> text in a website).</p>
 <p>The <code>xml2</code> package was designed to read XML strings and to navigate the tree structure to extract information. For example, let’s read in the XML data from our fake example and look at its general structure:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xml_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_xml</a></span><span class="op">(</span><span class="va">xml_test</span><span class="op">)</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_structure.html">xml_structure</a></span><span class="op">(</span><span class="va">xml_raw</span><span class="op">)</span></code></pre></div>
 <pre><code>## &lt;people&gt;
@@ -206,20 +206,20 @@
 <li>Then each <strong>child</strong> node has nodes <code>&lt;first_name&gt;</code>, <code>&lt;married&gt;</code>, <code>&lt;last_name&gt;</code> and <code>&lt;occupation&gt;</code> nested within them.</li>
 </ul>
 <p>Put another way, if something is nested within a <strong>node</strong>, then the nested node is a <strong>child</strong> of the upper-level node. In our example, the <strong>root</strong> node is <code>&lt;people&gt;</code> so we can check which are its children:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># xml_child returns only one child (specified in search)</span>
 <span class="co"># Here, jason is the first child</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span><span class="va">xml_raw</span>, search <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_node}
 ## &lt;jason&gt;
 ## [1] &lt;person type="fictional"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Jason\n ...</code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Here, carol is the second child</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span><span class="va">xml_raw</span>, search <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_node}
 ## &lt;carol&gt;
 ## [1] &lt;person type="real"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Carol\n      ...</code></pre>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Use xml_children to extract **all** children</span>
 <span class="va">child_xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_children</a></span><span class="op">(</span><span class="va">xml_raw</span><span class="op">)</span>
 
@@ -228,7 +228,7 @@
 ## [1] &lt;jason&gt;\n  &lt;person type="fictional"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n ...
 ## [2] &lt;carol&gt;\n  &lt;person type="real"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n      ...</code></pre>
 <p>Tags can also have different attributes which are usually specified as <code>&lt;fake_tag attribute='fake'&gt;</code> and ended as usual with <code>&lt;/fake_tag&gt;</code>. If you look at the XML structure of our example, you’ll notice that each <code>&lt;person&gt;</code> tag has an attribute called <code>type</code>. As you’ll see in our real-world example, extracting these attributes is often the aim of our scraping adventure. Using <code>xml2</code>, we can extract all attributes that match a specific name with <code>xml_attrs</code>.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Extract the attribute type from all nodes</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attrs</a></span><span class="op">(</span><span class="va">child_xml</span>, <span class="st">"type"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
@@ -237,14 +237,14 @@
 ## [[2]]
 ## named character(0)</code></pre>
 <p>Wait, why didn’t this work? Well, if you look at the output of <code>child_xml</code>, we have two nodes on which are for <code>&lt;jason&gt;</code> and <code>&lt;carol&gt;</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">child_xml</span></code></pre></div>
 <pre><code>## {xml_nodeset (2)}
 ## [1] &lt;jason&gt;\n  &lt;person type="fictional"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n ...
 ## [2] &lt;carol&gt;\n  &lt;person type="real"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n      ...</code></pre>
 <p>Do these tags have an attribute? No, because if they did, they would have something like <code>&lt;jason type='fake_tag'&gt;</code>. What we need is to look down at the <code>&lt;person&gt;</code> tag within <code>&lt;jason&gt;</code> and <code>&lt;carol&gt;</code> and extract the attribute from <code>&lt;person&gt;</code>.</p>
 <p>Does this sound familiar? Both <code>&lt;jason&gt;</code> and <code>&lt;carol&gt;</code> have an associated <code>&lt;person&gt;</code> tag below them, making them their children. We can just go down one level by running <code>xml_children</code> on these tags and extract them.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># We go down one level of children</span>
 <span class="va">person_nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_children</a></span><span class="op">(</span><span class="va">child_xml</span><span class="op">)</span>
 
@@ -253,7 +253,7 @@
 <pre><code>## {xml_nodeset (2)}
 ## [1] &lt;person type="fictional"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Jason\n ...
 ## [2] &lt;person type="real"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Carol\n      ...</code></pre>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Both type attributes</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attrs</a></span><span class="op">(</span><span class="va">person_nodes</span>, <span class="st">"type"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
@@ -264,13 +264,13 @@
 ##   type 
 ## "real"</code></pre>
 <p>Using the <code>xml_path</code> function you can even find the ‘address’ of these nodes to retrieve specific tags without having to write down <code>xml_children</code> many times. For example:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Specific address of each person tag for the whole xml tree</span>
 <span class="co"># only using the `person_nodes`</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_path.html">xml_path</a></span><span class="op">(</span><span class="va">person_nodes</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "/people/jason/person" "/people/carol/person"</code></pre>
 <p>We have the ‘address’ of specific tags in the tree but how do we extract them automatically? To extract specific ‘addresses’ of this XML tree, the main function we’ll use is <code>xml_find_all</code>. This function accepts the XML tree and an ‘address’ string. We can use very simple strings, such as the one given by <code>xml_path</code>:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># You can use results from xml_path like directories</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">xml_raw</span>, <span class="st">"/people/jason/person"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (1)}
@@ -278,28 +278,28 @@
 <p>The expression above is asking for the node <code>"/people/jason/person"</code>. This will return the same as saying <code>xml_raw %&gt;% xml_child(search = 1)</code>. For deeply nested trees, <code>xml_find_all</code> will be many times much cleaner than calling <code>xml_child</code> recursively many times.</p>
 <p>However, in most cases the ‘addresses’ used in <code>xml_find_all</code> come from a separate language called XPath (in fact, the ‘address’ we’ve been looking at <strong>is</strong> XPath). XPath is a complex language (such as regular expressions for strings) which is beyond this brief tutorial. However, with the examples we’ve seen so far, we can use some basic XPath which we’ll need later on.</p>
 <p>To extract all the tags in a document, we can use <code>//name_of_tag</code>.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Search for all 'married' nodes</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">xml_raw</span>, <span class="st">"//married"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (2)}
 ## [1] &lt;married&gt;\n        Jason\n      &lt;/married&gt;
 ## [2] &lt;married&gt;\n        Carol\n      &lt;/married&gt;</code></pre>
 <p>With the previous XPath, we’re searching for <strong>all</strong> married tags within the complete XML tree. The result returns all married nodes (I use the words tags and nodes interchangeably) in the complete tree structure. Another example would be finding all <code>&lt;occupation&gt;</code> tags:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">xml_raw</span>, <span class="st">"//occupation"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (2)}
 ## [1] &lt;occupation&gt;\n      Spy\n    &lt;/occupation&gt;
 ## [2] &lt;occupation&gt;\n      Scientist\n    &lt;/occupation&gt;</code></pre>
 <p>If you want to find any other tag you can replace <code>"//occupation"</code> with your tag of interest and <code>xml_find_all</code> will find all of them.</p>
 <p>If you wanted to find all tags <strong>below</strong> your current node, you only need to add a <code>.</code> at the beginning: <code>".//occupation"</code>. For example, if we dived into the <code>&lt;jason&gt;</code> tag and we wanted his <code>&lt;occupation&gt;</code> tag, <code>"//occupation"</code> will returns <strong>all</strong> <code>&lt;occupation&gt;</code> tags. Instead, <code>".//occupation"</code> will return only the found tags <strong>below</strong> the current tag. For example:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xml_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="co"># Dive only into Jason's tag</span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span>search <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">".//occupation"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (1)}
 ## [1] &lt;occupation&gt;\n      Spy\n    &lt;/occupation&gt;</code></pre>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Instead, the wrong way would have been:</span>
 <span class="va">xml_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="co"># Dive only into Jason's tag</span>
@@ -311,7 +311,7 @@
 ## [2] &lt;occupation&gt;\n      Scientist\n    &lt;/occupation&gt;</code></pre>
 <p>The first example only returns <code>&lt;jason&gt;</code>’s occupation whereas the second returned <strong>all</strong> occupations, regardless of where you are in the tree.</p>
 <p>XPath also allows you to identify tags that contain only one specific <strong>attribute</strong>, such as the one’s we saw earlier. For example, to filter all <code>&lt;person&gt;</code> tags with the attribute <code>filter</code> set to <code>fictional</code>, we could do it with:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Give me all the tags 'person' that have an attribute type='fictional'</span>
 <span class="va">xml_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//person[@type='fictional']"</span><span class="op">)</span></code></pre></div>
@@ -319,7 +319,7 @@
 ## [1] &lt;person type="fictional"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Jason\n ...</code></pre>
 <p>If you wanted to do the same but for the tags <strong>below</strong> your current nodes, the same trick we learned earlier would work: <code>".//person[@type='fictional']"</code>. These are just some primers that can help you jump easily to using XPath, but I encourage you to look at other examples on the web, as complex websites often require complex XPath expressions.</p>
 <p>Before we begin our real-word example, you might be asking yourself how you can actually <strong>extract</strong> the text/numeric data from these <strong>nodes</strong>. Well, that’s easy: <code>xml_text</code>.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xml_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">".//occupation"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -332,16 +332,16 @@
 </h2>
 <p>We’re interested in making a list of many schools in Spain and visualizing their location. This can be useful for many things such as matching population density of children across different regions to school locations. The website <code>www.buscocolegio.com</code> contains a database of schools similar to what we’re looking for. As described at the beginning, instead we’re going to use <code>scrapex</code> which has the function <code><a href="https://rdrr.io/pkg/scrapex/man/spanish_schools_ex.html">spanish_schools_ex()</a></code> containing the links to a sample of websites from different schools saved locally on your computer.</p>
 <p>Let’s look at an example for one school.</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">school_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/spanish_schools_ex.html">spanish_schools_ex</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># Keep only the HTML file of one particular school.</span>
 <span class="va">school_url</span> <span class="op">&lt;-</span> <span class="va">school_links</span><span class="op">[</span><span class="fl">13</span><span class="op">]</span>
 
 <span class="va">school_url</span></code></pre></div>
-<pre><code>## [1] "/home/runner/.local/share/renv/cache/v5/R-4.2/x86_64-pc-linux-gnu/scrapex/0.0.1.9999/5f52b0cca7211cbdd54fe40a58a02568/scrapex/extdata/spanish_schools_ex/school_3006839.html"</code></pre>
+<pre><code>## [1] "/home/runner/.local/share/renv/cache/v5/R-4.2/x86_64-pc-linux-gnu/scrapex/0.0.1.9999/8bd8b482443a462d0c5a1f9fd4e932dc/scrapex/extdata/spanish_schools_ex/school_3006839.html"</code></pre>
 <p>If you’re interested in looking at the website interactively in your browser, you can do it with <code>browseURL(prep_browser(school_url))</code>. Let’s read the HTML (XML and HTML are <strong>usually</strong> interchangeable, so here we use <code>read_html</code>).</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Here we use `read_html` because `read_xml` is throwing an error</span>
 <span class="co"># when attempting to read. However, everything we've discussed</span>
 <span class="co"># should be the same.</span>
@@ -397,20 +397,20 @@
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/location_tag_zoomed.png" width="100%" style="display: block; margin: auto;"></div>
 <p><br></p>
 <p>Don’t be intimidated by these tag names and long attributes. I also don’t know what any of these attributes mean. But what I do know is that this is the ‘grandfather’ of the <code>&lt;a&gt;</code> tag I’m interested in. So using our XPath skills, let’s search for that <code>&lt;p&gt;</code> tag and see if we get only one match.</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Search for all &lt;p&gt; tags with that class in the document</span>
 <span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//p[@class='d-flex align-items-baseline g-mt-5']"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (1)}
 ## [1] &lt;p class="d-flex align-items-baseline g-mt-5"&gt;\r\n\t                    &lt; ...</code></pre>
 <p>Only one match, so this is good news. This means that we can uniquely identify this particular <code>&lt;p&gt;</code> tag. Let’s refine the search to say: Find all <code>&lt;a&gt;</code> tags which are children of that specific <code>&lt;p&gt;</code> tag. This only means I’ll add a <code>"//a"</code> to the previous expression. Since there is only one <code>&lt;p&gt;</code> tag with the class, we’re interested in checking whether there is more than one <code>&lt;a&gt;</code> tag below this <code>&lt;p&gt;</code> tag.</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//p[@class='d-flex align-items-baseline g-mt-5']//a"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (1)}
 ## [1] &lt;a href="/Colegio/buscar-colegios-cercanos.action?colegio.latitud=38.8274 ...</code></pre>
 <p>There we go! We can see the specific <code>href</code> that contains the latitude and longitude data we’re interested in. How do we extract the <code>href</code> attribute? Using <code>xml_attr</code> as we did before!</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">location_str</span> <span class="op">&lt;-</span>
   <span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//p[@class='d-flex align-items-baseline g-mt-5']//a"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -419,7 +419,7 @@
 <span class="va">location_str</span></code></pre></div>
 <pre><code>## [1] "/Colegio/buscar-colegios-cercanos.action?colegio.latitud=38.8274492&amp;colegio.longitud=0.0221681"</code></pre>
 <p>Ok, now we need some regex skills to get only the latitude and longitude (regex expressions are used to search for patterns inside a string, such as for example a date. See <a href="https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/">here</a> for some examples):</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">location</span> <span class="op">&lt;-</span>
   <span class="va">location_str</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="st">"=.+$"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -431,7 +431,7 @@
 <pre><code>## [1] "38.8274492" "0.0221681"</code></pre>
 <p>Ok, so we got the information we needed for one single school. Let’s turn that into a function so we can pass only the school’s link and get the coordinates back.</p>
 <p>Before we do that, I will set something called my <code>User-Agent</code>. In short, the <code>User-Agent</code> is <strong>who</strong> you are. It is good practice to identify the person who is scraping the website because if you’re causing any trouble on the website, the website can directly identify who is causing problems. You can figure out your user agent <a href="https://www.google.com/search?client=ubuntu&amp;channel=fs&amp;q=what%27s+my+user+agent&amp;ie=utf-8&amp;oe=utf-8">here</a> and paste it in the string below. In addition, I will add a time sleep of 5 seconds to the function because we want to make sure we don’t cause any troubles to the website we’re scraping due to an overload of requests.</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># This sets your `User-Agent` globally so that all requests are</span>
 <span class="co"># identified with this `User-Agent`</span>
 <span class="fu"><a href="https://httr.r-lib.org/reference/set_config.html">set_config</a></span><span class="op">(</span>
@@ -473,7 +473,7 @@
 <pre><code>##     latitude longitude
 ## 1 38.8274492 0.0221681</code></pre>
 <p>Ok, so it’s working. The only thing left is to extract this for many schools. As shown earlier, <code>scrapex</code> contains a list of 27 school links that we can automatically scrape. Let’s loop over those, get the information of coordinates for each and collapse all of them into a data frame.</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">school_grabber</span><span class="op">)</span>
 <span class="va">res</span></code></pre></div>
 <pre><code>##    latitude  longitude
@@ -505,7 +505,7 @@
 ## 26 41.73767  1.8383666
 ## 27 41.62345  2.0013628</code></pre>
 <p>So now that we have the locations of these schools, let’s plot them:</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span><span class="op">(</span><span class="va">res</span>, <span class="va">as.numeric</span><span class="op">)</span>
 
 <span class="va">sp_sf</span> <span class="op">&lt;-</span>
@@ -565,7 +565,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-06-18.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-07-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
