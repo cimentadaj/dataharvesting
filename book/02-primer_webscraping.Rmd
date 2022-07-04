@@ -13,35 +13,93 @@ knitr::opts_chunk$set(
 
 # A primer on Webscraping
 
-TODO
+Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning. String manipulations, subetting, clever tricks and approximations rather than exact solutions will be your companion on your day to day. This book will skip the usual start from the basics sections to directly giving your results from your efforts. The aim of this primer is to create a plot like this one:
 
-- Here a quick example using rvest to scrape Wikipedia tables. You need to add the Wikipedia page to `scrapex`.
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "elections_plot.png"))
+```
+
+This plot shows the election results for all political parties in Spain since 1978. We do not have data on this on your local computer so we'll need to find this online and scrape it. By scrape it I specifically mean to write down a little R script that will go to a website for you and manually select the data points that you tell it to. Wikipedia has such data but remember that websites change. To make this book as persistent over time as possible, we have the `history_elections_spain_ex()` function in `scrapex` which already has the website saved locally for you (the original website is https://en.wikipedia.org/wiki/Elections_in_Spain). Let's load all packages and take a look at the website.
 
 ```{r}
-
+library(scrapex)
 library(rvest)
 library(dplyr)
 library(tidyr)
 library(stringr)
 library(ggplot2)
 
-link <- "https://en.wikipedia.org/wiki/Elections_in_Spain"
+link <- history_elections_spain_ex()
+link
+```
 
+This is where your the website is saved locally on your computer. We can directly visualize this on our browser like this:
+
+```{r, eval = FALSE}
+browseURL(prep_browser(link))
+```
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "elections_website.png"))
+```
+
+On the bottom right you can see the plot that we'd like to generate. This plots has all political parties since 1978 up until the 2020 elections. The first step in webscraping is to 'read' the website into R. We can do that with `read_html` function. We pass the website link (the typical https://en.wikipedia.org string) but since we already have the website locally, we just pass it the path to the local website:
+
+
+```{r}
 html_website <-
   link %>%
   read_html()
 
 html_website
+```
 
+We can't understand much from the output from `read_html` because the HTML code behind the website is **very long**. `read_html` only shows the top level details. In any case, we don't need to understand these details at first. Now that we have the website already in R we need to figure out where is the actual data on elections on the website. If you scroll down, near the end of the website you'll see a **table** like this one:
+
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "elections_table.png"))
+```
+
+This is precisely the data we need. This contains the election results for all parties since 1978. The `rvest` package (which we have already loaded and also has the `read_html` function) has a very handy function called `html_table()` which automatically extracts all tables from a website into R. However, `html_table()` needs to know which website we're working with so we ned to pass it the `html_website` we read in the previous step:
+
+```{r}
 all_tables <-
   html_website %>%
   html_table()
+```
 
+`html_table()` reads **all** tables so there's a lot of information in `all_tables` (a list with 10 tables to be more precise). I won't print the entire R object because it's too verbose but I encourage the reader to write `all_tables` in the R console and explore all the tables that it scraped automatically. I did that myself to understand where is the information that we're looking for. After carefully inspecting all tables, I figure out that the table we're looking for is in slot 5:
+
+```{r}
 elections_data <- all_tables[[5]]
+elections_data
+```
 
-elections_data %>%
-  select_if(is.character)
+You can see it's the same table we saw on the website here:
 
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "elections_table.png"))
+```
+
+On the first column we have the year and on each column we have the name of the political party. However, the table has some problems that we need to fix. Let's outline everything:
+
+* The first row of the table is empty
+* The `Election` column is a `character` column because in row 15 and 16 it contains months `Apr.` and `Nov.`.
+* For each political party column there are values which are not numbers (these are usually values representing foot notes such as `[k]` and others such as `Dissolved` for parties which dissolved over the years). This force some columns to be `character` columns which in fact we want all columns to be of class `numeric` to visualize these in a plot.
+* Column names also have these *footnote* values in their names. We probably should remove them.
+
+As I recalled in the first paragraphs of this primer, to be able to do webscraping, you need to be a data ninja. You'll need to become familiar with the basics of regular expressions (this is a fancy name for manipulating strings) and also on cleaning data. Here we'll use the very basics of string manipulation, it's fine if you feel completely lost. Just work hard at it and little by little you'll learn tricks along the way.
+
+The first thing we'd want to do is to keep only the columns which are character. Most of our problems are related to these columns:
+
+```{r}
+elections_data %>% select_if(is.character)
+```
+
+We can see all the different string values in those columns. What we'd want is to replace all non-numeric values for `NA`'s. That way when we convert these columns to numbers we won't loose any information. How can we remove these values? I went through each of these columns are wrote down the `character` values that we need to remove:
+
+```{r}
 wrong_labels <- c(
   "Dissolved",
   "[k]",
@@ -52,78 +110,136 @@ wrong_labels <- c(
   "Boycotted",
   "Did not run"
 )
+```
 
+Now we just need to apply some basic regular expression (regex from now on) skills to remove them. Let's explain what we want to do. In the regex world the `|` stands for OR. This means that if we want to find all the words `Banned` and `Boycotted` and replace them with `NA'` we could write `Banned|Boycotted`. This literally means `Banned` OR `Boycotted`. We can take the previous `wrong_labels` vector and insert a `|` between the wrong labels:
+
+
+```{r}
 wrong_labels <- paste0(wrong_labels, collapse = "|")
+wrong_labels
+```
 
+This effectively says: `Dissolved` OR `[k]` OR `[l]`, ...
+
+With this string we can use the function `str_replace_all` to replace all wrong labels for `NA`'s. Here's how we'd do it:
+
+```{r}
 semi_cleaned_data <-
   elections_data %>%
   mutate_if(
     is.character,
-    .funs = str_replace_all,
-    pattern = wrong_labels,
-    replacement = NA_character_
-  ) %>%
-  mutate(Election = str_replace_all(Election, "Apr. |Nov. ", "")) %>%
+    ~ str_replace_all(string = .x, pattern = wrong_labels, replacement = NA_character_)
+  )
+```
+
+Alright, don't get stressed, we'll explain this line by line. The second line references our data (`elections_data`, the one we've been working with until now). The third line uses the `mutate_if` function which works for applying a function to columns that we subset based on a criteria. Let's break down that explanation even further. You can actually read the code from above like this:
+
+* For the `elections_data`
+* For columns which are `character` columns (`mutate_if(is character, ...)`)
+* Apply a transformation (`mutate_if(is character, ~ str_replace_all(...)`)
+
+For our example this means that for all character columns, the function `str_replace_all` function will be applied. This function replaces all `wrong_labels` for `NA`'s. We can see this right away:
+
+```{r}
+semi_cleaned_data %>% select_if(is.character)
+```
+
+All columns **still** are characters, but don't have any of the wrong labels that we identified before. The only problem we have is that the `Election` column has the months `Apr.` and `Nov. ` and we won't be able to convert that to numeric. We can apply our regex trick of saying "replace Apr. OR Nov. by an empty string". Let's do that:
+
+```{r}
+semi_cleaned_data <-
+  semi_cleaned_data %>%
+  mutate(
+    Election = str_replace_all(string = Election, pattern = "Apr. |Nov. ", replacement = "")
+  )
+```
+
+Let's check again that everything worked as expected:
+
+```{r}
+semi_cleaned_data %>% select_if(is.character)
+```
+
+There we go, we don't have strings in any of the se columns anymore. Let's transform all columns into numeric and remove that first row that is empty:
+
+```{r}
+semi_cleaned_data <-
+  semi_cleaned_data %>%
   mutate_all(as.numeric) %>%
-  filter(!is.na(Election)) %>%
+  filter(!is.na(Election))
+
+semi_cleaned_data
+```
+
+There we go, all columns are of class numeric and look nice and tidy for plotting. Last step we need to take is to remove the footnote values from the party column names. For doing that we'll need some more advanced regex patterns that I'll explain briefly (we have a separate chapter for this). The pattern we'll use is `[.+]` which means: detect any character (this is the `.`) that is repeated one or more times (this is the `+`) and are enclosed within brackets (this is the `[]` part). So for example, the string `Election` won't find any match because it does not have a bracket with any values repeated one or more times. However, the column name `UCD[a]` does have this pattern: it contains two brackets `[]` that have a value that is repeated one time (`a`). There's a last quick that we need to take into account which is that brackets (`[]`) have a special meaning in the regex world. To signal to regex that you want to match brackets literally, you need to append them with the backslash (`\\`). So the final regex pattern we want to match is: `\\[.+\\]`. Let's use it to rename all columns:
+
+
+```{r}
+semi_cleaned_data <-
+  semi_cleaned_data %>%
   rename_all(~ str_replace_all(.x, "\\[.+\\]", ""))
 
+semi_cleaned_data
+```
+
+The dataset is ready to plot. It's tidy and clean. Let's plot it:
+
+```{r}
+# Pivot from wide to long to plot it in ggplot
 cleaned_data <-
   semi_cleaned_data %>%
   pivot_longer(-Election, names_to = "parties")
 
-cleaned_data
-
-tail(cleaned_data)
-
+# Plot it
 cleaned_data %>%
   ggplot(aes(Election, value, color = parties)) +
   geom_line() +
   scale_y_continuous(labels = function(x) paste0(x, "%")) +
   scale_color_viridis_d() +
   theme_minimal()
-
-
-# TODO: This is too hard for an exercise right away. You thought of saving cleaned_data to scrapex
-# and raise this exercises later on such that students can recycle the data frame elsewhere and
-# just focus on scraping the colors. This should be once students know xpath.
-
-html_website %>%
-  html_nodes(xpath = "//table[@style='text-align:center; font-size:90%;']") %>%
-  html_nodes(xpath = "//th")
-
-# TODO: can you come up with a direct xpath to background colors? That
-# way it's less verbose
-all_style_attr <-
-  html_website %>%
-  html_nodes(xpath = "//table[@style='text-align:center; font-size:90%;']") %>%
-  html_nodes(xpath = "//tbody//th[@style]") %>%
-  html_attr("style")
-
-where_background <- all_style_attr %>% str_detect("background")
-
-party_colors <- all_style_attr[where_background] %>% str_replace_all("background:", "")
-
-parties <- names(semi_cleaned_data)[-1]
-colors_lookup <- tibble(parties = parties, party_colors = party_colors)
-
-cleaned_colors_data <-
-  cleaned_data %>%
-  left_join(colors_lookup)
-
-tmp_colors <- cleaned_colors_data %>% distinct(parties, party_colors)
-vector_colors <- tmp_colors$party_colors
-names(vector_colors) <- tmp_colors$parties
-
-cleaned_colors_data %>%
-  ggplot(aes(Election, value, color = parties)) +
-  geom_line() +
-  scale_y_continuous(name = "% of votes", labels = function(x) paste0(x, "%")) +
-  xlab("Election years") +
-  scale_colour_manual(values = vector_colors) +
-  ggtitle(label = "Parties and share of votes in all Spanish Elections") +
-  theme_minimal()
-
 ```
 
-- Here a quick example using rvest to scrape IMDB (? better example ?). You need to add the Wikipedia page to `scrapex`.
+<!-- # TODO: This is too hard for an exercise right away. You thought of saving cleaned_data to scrapex -->
+<!-- # and raise this exercises later on such that students can recycle the data frame elsewhere and -->
+<!-- # just focus on scraping the colors. This should be once students know xpath. -->
+
+<!-- html_website %>% -->
+<!--   html_nodes(xpath = "//table[@style='text-align:center; font-size:90%;']") %>% -->
+<!--   html_nodes(xpath = "//th") -->
+
+<!-- # TODO: can you come up with a direct xpath to background colors? That -->
+<!-- # way it's less verbose -->
+<!-- all_style_attr <- -->
+<!--   html_website %>% -->
+<!--   html_nodes(xpath = "//table[@style='text-align:center; font-size:90%;']") %>% -->
+<!--   html_nodes(xpath = "//tbody//th[@style]") %>% -->
+<!--   html_attr("style") -->
+
+<!-- where_background <- all_style_attr %>% str_detect("background") -->
+
+<!-- party_colors <- all_style_attr[where_background] %>% str_replace_all("background:", "") -->
+
+<!-- parties <- names(semi_cleaned_data)[-1] -->
+<!-- colors_lookup <- tibble(parties = parties, party_colors = party_colors) -->
+
+<!-- cleaned_colors_data <- -->
+<!--   cleaned_data %>% -->
+<!--   left_join(colors_lookup) -->
+
+<!-- tmp_colors <- cleaned_colors_data %>% distinct(parties, party_colors) -->
+<!-- vector_colors <- tmp_colors$party_colors -->
+<!-- names(vector_colors) <- tmp_colors$parties -->
+
+<!-- cleaned_colors_data %>% -->
+<!--   ggplot(aes(Election, value, color = parties)) + -->
+<!--   geom_line() + -->
+<!--   scale_y_continuous(name = "% of votes", labels = function(x) paste0(x, "%")) + -->
+<!--   xlab("Election years") + -->
+<!--   scale_colour_manual(values = vector_colors) + -->
+<!--   ggtitle(label = "Parties and share of votes in all Spanish Elections") + -->
+<!--   theme_minimal() -->
+
+<!-- ``` -->
+
+<!-- - Here a quick example using rvest to scrape IMDB (? better example ?). You need to add the Wikipedia page to `scrapex`. -->

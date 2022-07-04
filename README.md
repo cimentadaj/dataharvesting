@@ -23,11 +23,13 @@ The contents of the course will be as follows:
   - [ ] 1. Introduction (types of webscraping, xpath, etc..)
   - [ ] 2. A primer on Webscraping
   - [ ] 3. Data formats: XML and HTML
-  - [ ] 4. Case study: scraping Spanish school locations from the web
-  - [ ] 5. Automation for Web Scraping programs
-  - [ ] 6. Selenium and JavaScript based scraping
-  - [ ] 7. Ethical issues with Web Scraping
-  - [ ] 8. Practical exercises
+  - [ ] 4. What you need to know about regular expressions
+  - [ ] 4. What you need to know about Xpath (rearrange chapters)
+  - [ ] 5. Case study: scraping Spanish school locations from the web
+  - [ ] 6. Automation for Web Scraping programs
+  - [ ] 7. Selenium and JavaScript based scraping
+  - [ ] 8. Ethical issues with Web Scraping
+  - [ ] 9. Practical exercises
   
 - **Data APIs**
   - [ ] What is an API

@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.2.0",
+    "Version": "4.2.1",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -1941,10 +1941,9 @@
       "RemoteHost": "api.github.com",
       "RemoteRepo": "scrapex",
       "RemoteUsername": "cimentadaj",
-      "RemotePkgRef": "cimentadaj/scrapex",
       "RemoteRef": "HEAD",
-      "RemoteSha": "d8da33f8853df7bfa17e19ee6b101da3bcdbb9d2",
-      "Hash": "5f52b0cca7211cbdd54fe40a58a02568",
+      "RemoteSha": "1321ba2aea0eea97aa8615dba602cf87d1e443ab",
+      "Hash": "8bd8b482443a462d0c5a1f9fd4e932dc",
       "Requirements": [
         "here",
         "xml2"

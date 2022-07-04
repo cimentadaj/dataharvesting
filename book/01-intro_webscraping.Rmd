@@ -2,6 +2,7 @@
 
 TODO
 
+- Install scrapex and explain the problem decribed in scrapex README that web scraping tutorial are doomed to be obsolete etc..
 Webscraping is creative: no clear way to get what you want. Need to come up with creative solutions.
 
 You need mad data cleaning skills and string / regex intermediatte. **Come up with a general regex that encompasses what they need to know to read this book and if they can't figure it out, they should study up on that**. Talk about string as a heavy lifter for the book.
