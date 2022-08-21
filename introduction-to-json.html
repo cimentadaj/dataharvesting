@@ -4,17 +4,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>2 Introduction to Webscraping | Data Harvesting with R</title>
+<title>12 Introduction to JSON | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
-<meta name="description" content="Welcome to the world of collecting data from the internet. Although this TODO Install scrapex and explain the problem decribed in scrapex README that web scraping tutorial are doomed to be...">
+<meta name="description" content="Examples of JSON Examples of nested JSON How they’re parsed into R How they handle nested data frames in R">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
-<meta property="og:title" content="2 Introduction to Webscraping | Data Harvesting with R">
+<meta property="og:title" content="12 Introduction to JSON | Data Harvesting with R">
 <meta property="og:type" content="book">
-<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/introduction-to-webscraping.html">
-<meta property="og:description" content="Welcome to the world of collecting data from the internet. Although this TODO Install scrapex and explain the problem decribed in scrapex README that web scraping tutorial are doomed to be...">
+<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/introduction-to-json.html">
+<meta property="og:description" content="Examples of JSON Examples of nested JSON How they’re parsed into R How they handle nested data frames in R">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2 Introduction to Webscraping | Data Harvesting with R">
-<meta name="twitter:description" content="Welcome to the world of collecting data from the internet. Although this TODO Install scrapex and explain the problem decribed in scrapex README that web scraping tutorial are doomed to be...">
+<meta name="twitter:title" content="12 Introduction to JSON | Data Harvesting with R">
+<meta name="twitter:description" content="Examples of JSON Examples of nested JSON How they’re parsed into R How they handle nested data frames in R">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
@@ -55,7 +55,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Introduction</a></li>
-<li><a class="active" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
+<li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
 <li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
 <li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
 <li><a class="" href="what-they-never-taught-you-about-regular-expressions.html"><span class="header-section-number">5</span> What they never taught you about regular expressions</a></li>
@@ -65,7 +65,7 @@
 <li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
 <li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
 <li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
-<li><a class="" href="introduction-to-json.html"><span class="header-section-number">12</span> Introduction to JSON</a></li>
+<li><a class="active" href="introduction-to-json.html"><span class="header-section-number">12</span> Introduction to JSON</a></li>
 <li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">13</span> A primer on APIs</a></li>
 <li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">14</span> What is a RESTful API?</a></li>
 <li><a class="" href="authentication-in-apis.html"><span class="header-section-number">15</span> Authentication in APIs</a></li>
@@ -80,32 +80,27 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="introduction-to-webscraping" class="section level1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="introduction-to-json" class="section level1">
 <h1>
-<span class="header-section-number">2</span> Introduction to Webscraping<a class="anchor" aria-label="anchor" href="#introduction-to-webscraping"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12</span> Introduction to JSON<a class="anchor" aria-label="anchor" href="#introduction-to-json"><i class="fas fa-link"></i></a>
 </h1>
-<p>Welcome to the world of collecting data from the internet. Although this
-TODO</p>
-<ul>
-<li>Install scrapex and explain the problem decribed in scrapex README that web scraping tutorial are doomed to be obsolete etc..
-Webscraping is creative: no clear way to get what you want. Need to come up with creative solutions.</li>
-</ul>
-<p>You need mad data cleaning skills and string / regex intermediatte. <strong>Come up with a general regex that encompasses what they need to know to read this book and if they can’t figure it out, they should study up on that</strong>. Talk about string as a heavy lifter for the book.</p>
-<p>TODO: You need to write the the entire webscraping part can be done without internet
-TODO: Add a general script to save all plots in a folder for each chapter automatically (look at R4DS and their initial scripts)</p>
+<p>Examples of JSON
+Examples of nested JSON
+How they’re parsed into R</p>
+<p>How they handle nested data frames in R</p>
 
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="index.html"><span class="header-section-number">1</span> Introduction</a></div>
-<div class="next"><a href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></div>
+<div class="prev"><a href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></div>
+<div class="next"><a href="a-primer-on-apis.html"><span class="header-section-number">13</span> A primer on APIs</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#introduction-to-webscraping"><span class="header-section-number">2</span> Introduction to Webscraping</a></li></ul>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#introduction-to-json"><span class="header-section-number">12</span> Introduction to JSON</a></li></ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/blob/main/01-intro_webscraping.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/edit/main/01-intro_webscraping.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/blob/main/11-intro_json.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/edit/main/11-intro_json.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
