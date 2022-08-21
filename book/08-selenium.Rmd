@@ -116,3 +116,5 @@ for (i in seq_along(number_schools)) {
 
 complete_dfs <- bind_rows(all_dfs)
 ```
+
+## Exercises

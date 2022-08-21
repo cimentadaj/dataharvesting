@@ -1,0 +1,5 @@
+# What they never taught you about regular expressions
+
+Primer on regular expressions
+
+## Exercises

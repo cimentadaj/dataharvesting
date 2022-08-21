@@ -1,0 +1,5 @@
+# Insightful and robust data collection progams
+
+Adding logger
+Checking inputs
+Saving empty rows to avoid breaking programs

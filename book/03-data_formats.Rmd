@@ -3,3 +3,6 @@
 Here you'll want to copy the XML / HTML examples from the Spanish school case study and elaborate more on them. Inspiration: https://rvest.tidyverse.org/articles/harvesting-the-web.html
 
 You want to do two things: explain as clearly as possible HTML as done in the school example and then dive into elaborate examples on how to extract that. Think of an example from the web that is in scrapex but a simple one. Repeat for XML. Difference between XML and HTML: https://www.guru99.com/xml-vs-html-difference.html
+
+
+## Exercises

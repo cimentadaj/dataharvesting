@@ -1,0 +1,3 @@
+# Automating Web scraping scripts
+
+You're still unsure whether this is too much info for the students. This involves renting a server and stuff like that. Moreover, it assumes that they're using Linux for using cron stuff when they might be using mac or windows. I also don't think they might benefit from this from the start since they are probably gonna to scrape simpler things.

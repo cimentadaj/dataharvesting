@@ -1,0 +1,5 @@
+# Why automation is important
+
+Examples where data is lost (bycicle)
+Lack of time to scrape at all times
+

@@ -471,3 +471,6 @@ You can read more about these ethical issues [here](http://robertorocha.info/on-
 ## Wrap up
 
 This tutorial introduced you to basic concepts in web scraping and applied them in a real-world setting. Web scraping is a vast field in computer science (you can find entire books on the subject such as [this](https://www.apress.com/gp/book/9781484235812)). We covered some basic techniques which I think can take you a long way but there's definitely more to learn. For those curious about where to turn, I'm looking forward to the upcoming book ["A Field Guide for Web Scraping and Accessing APIs with R"](https://rud.is/b/books/) by Bob Rudis, which should be released in the near future. Now go scrape some websites ethically!
+
+
+## Exercises

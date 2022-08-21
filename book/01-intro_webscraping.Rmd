@@ -1,5 +1,6 @@
 # Introduction to Webscraping
 
+Welcome to the world of collecting data from the internet. Although this
 TODO
 
 - Install scrapex and explain the problem decribed in scrapex README that web scraping tutorial are doomed to be obsolete etc..

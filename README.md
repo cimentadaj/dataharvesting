@@ -24,32 +24,24 @@ The contents of the course will be as follows:
   - [ ] 2. A primer on Webscraping
   - [ ] 3. Data formats: XML and HTML
   - [ ] 4. What you need to know about regular expressions
-  - [ ] 4. What you need to know about Xpath (rearrange chapters)
-  - [ ] 5. Case study: scraping Spanish school locations from the web
-  - [ ] 6. Automation for Web Scraping programs
-  - [ ] 7. Selenium and JavaScript based scraping
-  - [ ] 8. Ethical issues with Web Scraping
-  - [ ] 9. Practical exercises
+  - [ ] 5. What you need to know about Xpath (rearrange chapters)
+  - [ ] 6. Case study: scraping Spanish school locations from the web
+  - [ ] 7. Automation for Web Scraping programs
+  - [ ] 8. Selenium and JavaScript based scraping
+  - [ ] 9. Ethical issues with Web Scraping
   
 - **Data APIs**
-  - [ ] What is an API
-  - [ ] Fundamentals of API communication
-  - [ ] An introduction to the JSON format
-  - [ ] Create your own API (and share it)
-  - [ ] REST architecture
-  - [ ] APIs as a way to share and obtain data (any kind)
-  - [ ] Automation of API requests
-  - [ ] Talking with Databases
-  - [ ] Authentication and ethical access to APIs
-  - [ ] Practical exercises
+  - [ ] 10. What is an API
+  - [ ] 11. An introduction to the JSON format
+  - [ ] 12. A primer on grabbing data from an API
+  - [ ] 13. REST architecture
+  - [ ] 14. Authentication and ethical access to APIs
+  - [ ] 15. Case study: think of an example
   
 - **Automation of Data Acquisition**
-  - [ ] Why do we need automation?
-  - [ ] Accessing servers
-  - [ ] Technologies for automating programs
-  - [ ] Automating cron jobs
-  - [ ] Logging tasks
-  - [ ] Practical exercises
+  - [ ] 16. Why do we need automation?
+  - [ ] 17. Automating data collectiong programs
+  - [ ] 18. Insightful and robust data collectiong programs
 
 
 # Material

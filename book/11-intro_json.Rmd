@@ -1,0 +1,7 @@
+# Introduction to JSON
+
+Examples of JSON
+Examples of nested JSON
+How they're parsed into R
+
+How they handle nested data frames in R
