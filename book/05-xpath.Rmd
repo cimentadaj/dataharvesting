@@ -2,4 +2,101 @@
 
 Primer on XPath
 
+
+```{r}
+xml_test <- "<people>
+<jason>
+  <person type='fictional'>
+    <first_name>
+      <married>
+        Jason
+      </married>
+    </first_name>
+    <last_name>
+        Bourne
+    </last_name>
+    <occupation>
+      Spy
+    </occupation>
+  </person>
+</jason>
+<carol>
+  <person type='real'>
+    <first_name>
+      <married>
+        Carol
+      </married>
+    </first_name>
+    <last_name>
+        Kalp
+    </last_name>
+    <occupation>
+      Scientist
+    </occupation>
+  </person>
+</carol>
+</people>
+"
+
+xml_raw <- read_xml(xml_test)
+```
+
+To extract all the tags in a document, we can use `//name_of_tag`.
+
+```{r}
+# Search for all 'married' nodes
+xml_find_all(xml_raw, "//married")
+```
+
+With the previous XPath, we're searching for **all** married tags within the complete XML tree. The result returns all married nodes (I use the words tags and nodes interchangeably) in the complete tree structure. Another example would be finding all `<occupation>` tags:
+
+```{r}
+xml_find_all(xml_raw, "//occupation")
+```
+
+If you want to find any other tag you can replace `"//occupation"` with your tag of interest and `xml_find_all` will find all of them.
+
+If you wanted to find all tags **below** your current node, you only need to add a `.` at the beginning: `".//occupation"`. For example, if we dived into the `<jason>` tag and we wanted his `<occupation>` tag, `"//occupation"` will returns **all** `<occupation>` tags. Instead, `".//occupation"` will return only the found tags **below** the current tag. For example:
+
+```{r}
+xml_raw %>%
+  # Dive only into Jason's tag
+  xml_child(search = 1) %>%
+  xml_find_all(".//occupation")
+
+# Instead, the wrong way would have been:
+xml_raw %>%
+  # Dive only into Jason's tag
+  xml_child(search = 1) %>%
+  # Here we get both occupation tags
+  xml_find_all("//occupation")
+```
+
+The first example only returns `<jason>`'s occupation whereas the second returned **all** occupations, regardless of where you are in the tree.
+
+XPath also allows you to identify tags that contain only one specific **attribute**, such as the one's we saw earlier. For example, to filter all `<person>` tags with the attribute `filter` set to `fictional`, we could do it with:
+
+```{r}
+# Give me all the tags 'person' that have an attribute type='fictional'
+xml_raw %>%
+  xml_find_all("//person[@type='fictional']")
+```
+
+If you wanted to do the same but for the tags **below** your current nodes, the same trick we learned earlier would work: `".//person[@type='fictional']"`. These are just some primers that can help you jump easily to using XPath, but I encourage you to look at other examples on the web, as complex websites often require complex XPath expressions.
+
+Before we begin our real-word example, you might be asking yourself how you can actually **extract** the text/numeric data from these **nodes**. Well, that's easy: `xml_text`.
+
+```{r}
+xml_raw %>%
+  xml_find_all(".//occupation") %>%
+  xml_text()
+
+```
+
+Once you've narrowed down your tree-based search to one single piece of text or numbers, `xml_text()` will extract that for you (there's also `xml_double` and `xml_integer` for extracting numbers). As I said, XPath is really a huge language. If you're interested, [this](https://devhints.io/xpath) XPath cheat sheets have helped me a lot to learn tricks for easy scraping.
+
+
+
+
 ## Exercises
+

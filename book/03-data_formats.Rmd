@@ -1,8 +1,236 @@
+```{r data-formats-setup, include=FALSE}
+main_dir <- "./images/data_formats"
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.path = paste0(main_dir, "/automatic_rmarkdown/"),
+  fig.asp = 0.618
+)
+
+```
+
 # Data Formats for Webscraping
 
-Here you'll want to copy the XML / HTML examples from the Spanish school case study and elaborate more on them. Inspiration: https://rvest.tidyverse.org/articles/harvesting-the-web.html
+Most of the webscraping that you'll be doing involves parsing data either on XML or HTML formats. These two formats are very much alike and in fact for many of our examples you'll notice that they are almost indistinguishable. Here's a very brief definition of what these formats are: a series of tags that formats how a website is structured (HTML) or how you store and transfer data. That sounds rather vague so let's directly jump into some examples.
 
-You want to do two things: explain as clearly as possible HTML as done in the school example and then dive into elaborate examples on how to extract that. Think of an example from the web that is in scrapex but a simple one. Repeat for XML. Difference between XML and HTML: https://www.guru99.com/xml-vs-html-difference.html
+## XML
 
+XML is abbreviation for Extensible Markup Language whereas HTML stands for Hypertext Markup Language. In either case, you'll be able to parse these formats with the `xml2` package in R. Let's load that:
 
-## Exercises
+```{r, message = FALSE}
+library(xml2)
+```
+
+Let's begin with a simple example. Below we define an XML string and look at its structure:
+
+```{r}
+xml_test <- "<people>
+<jason>
+  <person type='fictional'>
+    <first_name>
+      <married>
+        Jason
+      </married>
+    </first_name>
+    <last_name>
+        Bourne
+    </last_name>
+    <occupation>
+      Spy
+    </occupation>
+  </person>
+</jason>
+<carol>
+  <person type='real'>
+    <first_name>
+      <married>
+        Carol
+      </married>
+    </first_name>
+    <last_name>
+        Kalp
+    </last_name>
+    <occupation>
+      Scientist
+    </occupation>
+  </person>
+</carol>
+</people>
+"
+
+cat(xml_test)
+```
+
+In XML and HTML the basic building blocks are called tags. For example, the first tag in the structure shown above is `<people>`. This tag is matched by `</people>` at the end of the string:
+
+```{r, out.width = "30%", echo = FALSE}
+knitr::include_graphics(file.path(main_dir, "examples/xml_one.png"))
+```
+
+If you pay close attention, you'll see that **each** tag in the XML structure has a beginning (signaled by `<>`) and an end (signaled by `</>`). For example, the next tag after `<people>` is `<jason>` and right before the tag `<carol>` is the end of the jason tag `</jason>`.
+
+```{r, out.width = "30%", echo = FALSE}
+knitr::include_graphics(file.path(main_dir, "examples/xml_two.png"))
+```
+
+Similarly, you'll find that the `<carol>` tag is also matched by a `</carol>` finishing tag.
+
+```{r, out.width = "30%", echo = FALSE}
+knitr::include_graphics(file.path(main_dir, "examples/xml_three.png"))
+```
+
+In theory, tags can have whatever meaning you attach to them (such as `<people>` or `<occupation>`). However, in practice there are hundreds of tags which are standard in websites (for example, [here](https://www.w3schools.com/tags/)). If you're just getting started, there's no need for you to learn them but as you progress in web scraping, you'll start to recognize them (one brief example is `<strong>` which simply **bolds** text in a website).
+
+One key difference between XML and HTML is that some HTML tags don't need to be closed, meaning they don't need a `<\ >` tag. The `\` signals that this is the closing tag. XML is very strict about this and you'll find that all tags have an equivalent closing tag.
+
+In R you can read `XML` and `HTML` formats with the `read_xml` and `read_html` functions. Let's read in the XML data from our fake example and look at its general structure:
+
+```{r}
+xml_raw <- read_xml(xml_test)
+xml_structure(xml_raw)
+```
+
+You can see that the structure is tree-based, meaning that tags such as `<jason>` and `<carol>` are nested within the `<people>` tag. In XML jargon, `<people>` is the **root node**, whereas `<jason>` and `<carol>` are the **child nodes** from `<people>`.
+
+In more detail, the structure is as follows:
+
+* The **root** node is `<people>`
+* The **child** nodes are `<jason>` and `<carol>`
+* Then each **child** node has nodes `<first_name>`, `<married>`, `<last_name>` and `<occupation>` nested within them.
+
+Put another way, if something is nested within a **node**, then the nested node is a **child** of the upper-level node. In our example, the **root** node is `<people>` so we can check which are its children:
+
+```{r}
+# xml_child returns only one child (specified in search)
+# Here, jason is the first child
+xml_child(xml_raw, search = 1)
+
+# Here, carol is the second child
+xml_child(xml_raw, search = 2)
+
+# Use xml_children to extract **all** children
+child_xml <- xml_children(xml_raw)
+
+child_xml
+```
+
+Tags can also have different attributes which are usually specified as `<fake_tag attribute='fake'>` and ended as usual with `</fake_tag>`. If you look at the XML structure of our example, you'll notice that each `<person>` tag has an attribute called `type`. As you'll see in our real-world example, extracting these attributes is often the aim of our scraping adventure. Using `xml2`, we can extract all attributes that match a specific name with `xml_attrs`.
+
+```{r}
+# Extract the attribute type from all nodes
+xml_attrs(child_xml, "type")
+```
+
+Wait, why didn't this work? Well, if you look at the output of `child_xml`, we have two nodes on which are for `<jason>` and `<carol>`.
+
+```{r }
+child_xml
+```
+
+Do these tags have an attribute? No, because if they did, they would have something like `<jason type='fake_tag'>`. What we need is to look down at the `<person>` tag within `<jason>` and `<carol>` and extract the attribute from `<person>`.
+
+Does this sound familiar? Both `<jason>` and `<carol>` have an associated `<person>` tag below them, making them their children. We can just go down one level by running `xml_children` on these tags and extract them.
+
+```{r}
+# We go down one level of children
+person_nodes <- xml_children(child_xml)
+
+# <person> is now the main node, so we can extract attributes
+person_nodes
+
+# Both type attributes
+xml_attrs(person_nodes, "type")
+```
+
+Using the `xml_path` function you can even find the 'address' of these nodes to retrieve specific tags without having to write down `xml_children` many times. For example:
+
+```{r}
+# Specific address of each person tag for the whole xml tree
+# only using the `person_nodes`
+xml_path(person_nodes)
+```
+
+We have the 'address' of specific tags in the tree but how do we extract them automatically? To extract specific 'addresses' of this XML tree, the main function we'll use is `xml_find_all`. This function accepts the XML tree and an 'address' string. We can use very simple strings, such as the one given by `xml_path`:
+
+```{r}
+# You can use results from xml_path like directories
+xml_find_all(xml_raw, "/people/jason/person")
+```
+
+The expression above is asking for the node `"/people/jason/person"`. This will return the same as saying `xml_raw %>% xml_child(search = 1)`. For deeply nested trees, `xml_find_all` will be many times much cleaner than calling `xml_child` recursively many times.
+
+However, in most cases the 'addresses' used in `xml_find_all` come from a separate language called XPath (in fact, the 'address' we've been looking at **is** XPath). XPath is a complex language (such as regular expressions for strings) which will be covered in a separate tutorial. 
+
+Another property you'll find in XML is that each tag can have properties. For example, we can see that both `<jason>` and `<carol>` have a `type` property in the `<person>` tag. These properties are all around XML's and they often contain handy information that we want to extract. Some tags might have many properties, for example like this:
+
+```
+<name>
+<person age="23" status="married" occupation="teacher"> John Doe </person>
+</name>
+```
+
+XML's can also have tags repeated many times, so for example, you might have a generic `<person>` tag that is used for each person in your database:
+
+```
+<name>
+<person age="23" status="married" occupation="teacher"> John Doe </person>
+<person age="25" status="single" occupation="doctor"> Jane Doe </person>
+</name>
+```
+
+Whenever you encounter a website you want to scrape, you'll need to figure out if it's an XML or HTML website. How do you do that? The first node of the web structure usually signals what type of document it is. For example, here's an excerpt of an XML document:
+
+```{xml}
+<?xml version="1.0>
+<company>
+    <name> John Doe </name> 
+    <email> johndoe@gmail.com </email>
+</address>
+```
+
+The header node tells you that this is an XML document. 
+
+## HTML
+
+HTML is very similar to XML. Here is an example for comparison:
+
+```{html}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+
+<h1> <a href="www.google.com">This is a Heading </a> </h1>
+<br>
+<p>This is a paragraph.</p>
+
+</body>
+</html>
+```
+
+Some of the similarities include:
+
+* It's tag based, meaning everything is surrounded with tags
+* Tags can have properties as well (`href` here)
+* Most tags need to end (`</ >`)
+* The root node signals what type of document it is (here HTML)
+
+However, not everything is the same. One key difference is that in this example there is one tag (`<br>`) that does not have a closing tag (`</br>`). This happens sometimes in HTML. There is another key difference which is not evident from this example: for HTML there are hundreds of standard tags such as `<head>`, `<body>` or `<p>`. These tags have special meaning, standard for HTML, that formats how the data is presented in a website. For example, if we rendered the previous HTML chunk:
+
+```{r, echo = FALSE}
+knitr::include_graphics(file.path(main_dir, "examples/html_ex1.png"))
+```
+
+**This is a heading** contains a hyperlink (`<a>` tag with the `href` propertiy), is bigger and is in bold in comparison to "This is a paragraph". Why dot these tags have such properties? This is because tags in HTML have specific meaning on how to format a website. Remember how I told you that HTML serves to **structure** information and XML to transfer data? HTML tags have specific meanings that a browser knows how to present. In contrast, XML allows you to create endless tags which have your own personal meaning, all in a hierarchical structure.
+
+For a comprehensive list of all HTML tags and what they do, you can check out this [list](https://www.w3schools.com/tags/default.asp). For XML there isn't a list like this because XML doesn't have standard tags, users create their own tags which have their own meaning: remember, XML simply transfers data, tags are not for rendering so they don't have any special meaning other than what the creator meant for them.
+
+Now I have to be frank with you, this difference is pretty much the same for us: for our webscraping needs, we don't care how the data is formatted on a website (HTML) or whether your tags have special meanings (XML), we only care that they are formatted in tags such that we can extract information (as we'll see in the XPath chapter). 
+
+Before we finish, it's important to highlight that HTML is much more widely used in webscraping. That is because most of what you webcsraping are websites and HTML in specifically designed to show how a website is formatted. However, the difference will be indistinguishable to you when webscraping from R. You'll see in the next chapter how everything you need to know about webscraping applies nearly the same for XML as it does for HTML.
+
+###### Bring in XPath chapter here? That way you'll link everything in here and add exercises.
