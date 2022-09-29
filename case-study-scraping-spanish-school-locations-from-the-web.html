@@ -93,10 +93,10 @@
 <p>Additionally, we’ll also need the package <code>scrapex</code>. In the real-world example that we’ll be doing below, we’ll be scraping data from the website <code>www.buscocolegio.com</code> to locate a sample of schools in Spain. However, throughout the tutorial we won’t be scraping the data directly from their real-website. What would happen to this tutorial if 6 months from now <code>www.buscocolegio.com</code> updates the design of their website? Everything from our real-world example would be lost.</p>
 <p>Web scraping tutorials are usually very unstable precisely because of this. To circumvent that problem, I’ve saved a random sample of websites from some schools in <code>www.buscocolegio.com</code> into an R package called <code>scrapex</code>. Although the links we’ll be working on will be hosted locally on your machine, the HTML of the website should be very similar to the one hosted on the website (with the exception of some images/icons which were deleted on purpose to make the package lightweight).</p>
 <p>You can install the package with:</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"cimentadaj/scrapex"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/">xml2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr.r-lib.org/">httr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
@@ -111,7 +111,7 @@
 </h2>
 <p>We’re interested in making a list of many schools in Spain and visualizing their location. This can be useful for many things such as matching population density of children across different regions to school locations. The website <code>www.buscocolegio.com</code> contains a database of schools similar to what we’re looking for. As described at the beginning, instead we’re going to use <code>scrapex</code> which has the function <code><a href="https://rdrr.io/pkg/scrapex/man/spanish_schools_ex.html">spanish_schools_ex()</a></code> containing the links to a sample of websites from different schools saved locally on your computer.</p>
 <p>Let’s look at an example for one school.</p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">school_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/spanish_schools_ex.html">spanish_schools_ex</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># Keep only the HTML file of one particular school.</span>
@@ -120,7 +120,7 @@
 <span class="va">school_url</span></code></pre></div>
 <pre><code>## [1] "/home/runner/.local/share/renv/cache/v5/R-4.2/x86_64-pc-linux-gnu/scrapex/0.0.1.9999/8bd8b482443a462d0c5a1f9fd4e932dc/scrapex/extdata/spanish_schools_ex/school_3006839.html"</code></pre>
 <p>If you’re interested in looking at the website interactively in your browser, you can do it with <code>browseURL(prep_browser(school_url))</code>. Let’s read the HTML (XML and HTML are <strong>usually</strong> interchangeable, so here we use <code>read_html</code>).</p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Here we use `read_html` because `read_xml` is throwing an error</span>
 <span class="co"># when attempting to read. However, everything we've discussed</span>
 <span class="co"># should be the same.</span>
@@ -176,20 +176,20 @@
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/location_tag_zoomed.png" width="100%" style="display: block; margin: auto;"></div>
 <p><br></p>
 <p>Don’t be intimidated by these tag names and long attributes. I also don’t know what any of these attributes mean. But what I do know is that this is the ‘grandfather’ of the <code>&lt;a&gt;</code> tag I’m interested in. So using our XPath skills, let’s search for that <code>&lt;p&gt;</code> tag and see if we get only one match.</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Search for all &lt;p&gt; tags with that class in the document</span>
 <span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//p[@class='d-flex align-items-baseline g-mt-5']"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (1)}
 ## [1] &lt;p class="d-flex align-items-baseline g-mt-5"&gt;\r\n\t                    &lt; ...</code></pre>
 <p>Only one match, so this is good news. This means that we can uniquely identify this particular <code>&lt;p&gt;</code> tag. Let’s refine the search to say: Find all <code>&lt;a&gt;</code> tags which are children of that specific <code>&lt;p&gt;</code> tag. This only means I’ll add a <code>"//a"</code> to the previous expression. Since there is only one <code>&lt;p&gt;</code> tag with the class, we’re interested in checking whether there is more than one <code>&lt;a&gt;</code> tag below this <code>&lt;p&gt;</code> tag.</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//p[@class='d-flex align-items-baseline g-mt-5']//a"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (1)}
 ## [1] &lt;a href="/Colegio/buscar-colegios-cercanos.action?colegio.latitud=38.8274 ...</code></pre>
 <p>There we go! We can see the specific <code>href</code> that contains the latitude and longitude data we’re interested in. How do we extract the <code>href</code> attribute? Using <code>xml_attr</code> as we did before!</p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">location_str</span> <span class="op">&lt;-</span>
   <span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//p[@class='d-flex align-items-baseline g-mt-5']//a"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -198,7 +198,7 @@
 <span class="va">location_str</span></code></pre></div>
 <pre><code>## [1] "/Colegio/buscar-colegios-cercanos.action?colegio.latitud=38.8274492&amp;colegio.longitud=0.0221681"</code></pre>
 <p>Ok, now we need some regex skills to get only the latitude and longitude (regex expressions are used to search for patterns inside a string, such as for example a date. See <a href="https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/">here</a> for some examples):</p>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">location</span> <span class="op">&lt;-</span>
   <span class="va">location_str</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="st">"=.+$"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -210,7 +210,7 @@
 <pre><code>## [1] "38.8274492" "0.0221681"</code></pre>
 <p>Ok, so we got the information we needed for one single school. Let’s turn that into a function so we can pass only the school’s link and get the coordinates back.</p>
 <p>Before we do that, I will set something called my <code>User-Agent</code>. In short, the <code>User-Agent</code> is <strong>who</strong> you are. It is good practice to identify the person who is scraping the website because if you’re causing any trouble on the website, the website can directly identify who is causing problems. You can figure out your user agent <a href="https://www.google.com/search?client=ubuntu&amp;channel=fs&amp;q=what%27s+my+user+agent&amp;ie=utf-8&amp;oe=utf-8">here</a> and paste it in the string below. In addition, I will add a time sleep of 5 seconds to the function because we want to make sure we don’t cause any troubles to the website we’re scraping due to an overload of requests.</p>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># This sets your `User-Agent` globally so that all requests are</span>
 <span class="co"># identified with this `User-Agent`</span>
 <span class="fu"><a href="https://httr.r-lib.org/reference/set_config.html">set_config</a></span><span class="op">(</span>
@@ -252,7 +252,7 @@
 <pre><code>##     latitude longitude
 ## 1 38.8274492 0.0221681</code></pre>
 <p>Ok, so it’s working. The only thing left is to extract this for many schools. As shown earlier, <code>scrapex</code> contains a list of 27 school links that we can automatically scrape. Let’s loop over those, get the information of coordinates for each and collapse all of them into a data frame.</p>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">school_grabber</span><span class="op">)</span>
 <span class="va">res</span></code></pre></div>
 <pre><code>##    latitude  longitude
@@ -284,7 +284,7 @@
 ## 26 41.73767  1.8383666
 ## 27 41.62345  2.0013628</code></pre>
 <p>So now that we have the locations of these schools, let’s plot them:</p>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span><span class="op">(</span><span class="va">res</span>, <span class="va">as.numeric</span><span class="op">)</span>
 
 <span class="va">sp_sf</span> <span class="op">&lt;-</span>
@@ -315,9 +315,9 @@
 </h2>
 <p>This tutorial introduced you to basic concepts in web scraping and applied them in a real-world setting. Web scraping is a vast field in computer science (you can find entire books on the subject such as <a href="https://www.apress.com/gp/book/9781484235812">this</a>). We covered some basic techniques which I think can take you a long way but there’s definitely more to learn. For those curious about where to turn, I’m looking forward to the upcoming book <a href="https://rud.is/b/books/">“A Field Guide for Web Scraping and Accessing APIs with R”</a> by Bob Rudis, which should be released in the near future. Now go scrape some websites ethically!</p>
 </div>
-<div id="exercises-2" class="section level2">
+<div id="exercises-3" class="section level2">
 <h2>
-<span class="header-section-number">7.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-3"><i class="fas fa-link"></i></a>
 </h2>
 
 </div>
@@ -332,7 +332,7 @@
 <li><a class="nav-link" href="#basic-steps"><span class="header-section-number">7.1</span> Basic steps</a></li>
 <li><a class="nav-link" href="#real-world-example"><span class="header-section-number">7.2</span> Real-world example</a></li>
 <li><a class="nav-link" href="#wrap-up"><span class="header-section-number">7.3</span> Wrap up</a></li>
-<li><a class="nav-link" href="#exercises-2"><span class="header-section-number">7.4</span> Exercises</a></li>
+<li><a class="nav-link" href="#exercises-3"><span class="header-section-number">7.4</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">
@@ -350,7 +350,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-09-26.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-09-29.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
