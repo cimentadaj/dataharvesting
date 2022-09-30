@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 
 # A primer on Webscraping
 
-Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning. String manipulations, subetting, clever tricks and approximations rather than exact solutions will be your companion on your day to day. This book will skip the usual start from the basics sections to directly giving your results from your efforts. The aim of this primer is to create a plot like this one:
+Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning. String manipulations, sub setting, clever tricks and approximations rather than exact solutions will be your companion on your day to day. This book will skip the usual start from the basics sections to directly giving your results from your efforts. The aim of this primer is to create a plot like this one:
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir, "elections_plot.png"))
@@ -61,7 +61,7 @@ We can't understand much from the output from `read_html` because the HTML code 
 knitr::include_graphics(file.path(main_dir, "elections_table.png"))
 ```
 
-This is precisely the data we need. This contains the election results for all parties since 1978. The `rvest` package (which we have already loaded and also has the `read_html` function) has a very handy function called `html_table()` which automatically extracts all tables from a website into R. However, `html_table()` needs to know which website we're working with so we ned to pass it the `html_website` we read in the previous step:
+This is precisely the data we need. This contains the election results for all parties since 1978. The `rvest` package (which we have already loaded and also has the `read_html` function) has a very handy function called `html_table()` which automatically extracts all tables from a website into R. However, `html_table()` needs to know which website we're working with so we need to pass it the `html_website` we read in the previous step:
 
 ```{r}
 all_tables <-
@@ -161,7 +161,7 @@ Let's check again that everything worked as expected:
 semi_cleaned_data %>% select_if(is.character)
 ```
 
-There we go, we don't have strings in any of the se columns anymore. Let's transform all columns into numeric and remove that first row that is empty:
+There we go, we don't have strings in any of the the columns anymore. Let's transform all columns into numeric and remove that first row that is empty:
 
 ```{r}
 semi_cleaned_data <-
@@ -183,7 +183,7 @@ semi_cleaned_data <-
 semi_cleaned_data
 ```
 
-The dataset is ready to plot. It's tidy and clean. Let's plot it:
+The data set is ready to plot. It's tidy and clean. Let's plot it:
 
 ```{r}
 # Pivot from wide to long to plot it in ggplot

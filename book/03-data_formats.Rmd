@@ -135,7 +135,7 @@ knitr::include_graphics(file.path(main_dir, "examples/html_ex1.png"))
 
 **This is a heading** contains a hyperlink (`<a>` tag with the `href` property), is bigger and is in bold in comparison to "This is a paragraph". These specific tags together with their attributes are interpreted to give this outline of the text and as you'll start to notice, it is the trademark value of the HTML language.
 
-In contrast, XML tags have no meaning other than what the creator meant for them. An `<occupation>` tag simply means that inside the tag is occupation related content. That's why we say that XML is for transfering data (because the tags have no inherent behavior) and HTML is for structuring website.
+In contrast, XML tags have no meaning other than what the creator meant for them. An `<occupation>` tag simply means that inside the tag is occupation related content. That's why we say that XML is for transferring data (because the tags have no inherent behavior) and HTML is for structuring website.
 
 Another difference between XML and HTML is that some HTML tags don't need to be closed, meaning they don't need a `<\ >` tag (for example `<br>` which adds a space between content in a website). On the other hand, XML is very strict about this and you'll find that all tags have an equivalent closing tag.
 
@@ -263,7 +263,7 @@ The structure shows that each `<div>` tag has an `align` attribute. As you might
 
 The `<a>` tag contains text with a hyperlink (`href`). The `<img>` tag (abbreviation for image) contains the `src` tag that points to where an image is, together with the width and height of the image. Finally, the `<p>` tag is short for paragraph and contains the `style` attribute for declaring styling properties of the text. These are just some examples of common HTML tags and common attributes. In any case, as I've outlined above, it's fine to not know these tags; with an intuition behind what they do is enough to locate specific parts of a website.
 
-To finalize, whenever you'll be scraping something, you'll want to know whether it's XML or HTML based. If you manage to receive an `.html` or `.xml` it's just as simple as looking at the extension of the file. If by any chance you have access to the source code of a file, you can also look at the tags and quickly see if there are many of the standard HTML tags and deduce the actual format. Another solution is to just look at the root node and you'll see the hint right away. You'll see that `xml` is signalled right at the beginning:
+To finalize, whenever you'll be scraping something, you'll want to know whether it's XML or HTML based. If you manage to receive an `.html` or `.xml` it's just as simple as looking at the extension of the file. If by any chance you have access to the source code of a file, you can also look at the tags and quickly see if there are many of the standard HTML tags and deduce the actual format. Another solution is to just look at the root node and you'll see the hint right away. You'll see that `xml` is signaled right at the beginning:
 
 ```{xml}
 <?xml version="1.0>
@@ -294,9 +294,11 @@ and the same for `html`:
 
 I have to be frank with you. Although XML and HTML have important differences with respect to the technology and their philosophy, this difference is pretty much the same for us: for our webscraping needs, we don't care how the data is formatted on a website (HTML) or whether your tags have special meanings (XML), we only care that they are formatted in tags such that we can extract information.
 
-Let's do a brief recap for you key take aways. To read XML and HTML we can use the equivalent `read_*` functions from the `xml2` package. To navigate the nodes of these data forms you can use `xml_child` recursively until you find what you're looking for. To extract the children of a given node, you can use `xml_children` and to extract attributes of any given tag, you can resort to `xml_attr`. Finally, if you want to extract the text of a tag, `xml_text` extracts that for you. These functions give you a handy toolset to explore small scale tree nodes from oboth XML and HTML documents.
+Let's do a brief recap as a summary. XML and HTML code is tag based, built on opening and closing tags like this: `<tag>` `</tag>`. These languages are hierarchical, meaning that nodes within nodes have parent-child relationships. These tags can have attributes that signal either behavior (HTML) or data (XML) from the tags. 
 
-Before we finish, it's important to highlight that HTML is much more widely used in webscraping. That is because most of what you webcsraping are websites and HTML in specifically designed to show how a website is formatted. However, the difference will be indistinguishable to you when webscraping from R.
+To read XML and HTML into R we can use the equivalent `read_*` functions from the `xml2` package. To navigate the nodes of these data forms you can use `xml_child` recursively until you find what you're looking for. To extract the children of a given node, you can use `xml_children` and to extract attributes of any given tag, you can resort to `xml_attr`. Finally, if you want to extract the text of a tag, `xml_text` extracts that for you. These functions give you a handy tool set to explore small scale tree nodes from both XML and HTML documents.
+
+Before we finish, it's important to highlight that HTML is much more widely used in webscraping. That is because most of what you webscraping are websites and HTML in specifically designed to show how a website is formatted. However, the difference will be indistinguishable to you when webscraping from R.
 
 ## Exercises
 
@@ -366,11 +368,9 @@ xml_attrs(xml_find_all(custom_raw, "/root/child2/granchild2"))
 [2] <body>\n    <div align="left">\n      First text\n    </div>\n    <div al ...
 ```
 
-Can you extract the text of the last name of Carol the scientist only using R subsetting rules on your object? For example `some_object$people$person$...` (Hint: `xml2` has a function called `as_list`).
+Can you extract the text of the last name of Carol the scientist only using R sub setting rules on your object? For example `some_object$people$person$...` (Hint: `xml2` has a function called `as_list`).
 
 ```{r}
 xml_list <- as_list(xml_raw)
 xml_list$people$carol$person$last_name[[1]]
 ```
-
-###### Bring in XPath chapter here? That way you'll link everything in here and add exercises.
