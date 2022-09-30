@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>1 Introduction | Data Harvesting with R</title>
+<title>1 Welcome | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
 <meta name="description" content="This is a book about webscraping and talking to APIs with R.">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
-<meta property="og:title" content="1 Introduction | Data Harvesting with R">
+<meta property="og:title" content="1 Welcome | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/">
 <meta property="og:description" content="This is a book about webscraping and talking to APIs with R.">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="1 Introduction | Data Harvesting with R">
+<meta name="twitter:title" content="1 Welcome | Data Harvesting with R">
 <meta name="twitter:description" content="This is a book about webscraping and talking to APIs with R.">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -54,7 +54,7 @@
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
-<li><a class="active" href="index.html"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="active" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
 <li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
 <li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
 <li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
@@ -80,9 +80,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><!--bookdown:title:end--><!--bookdown:title:start--><div id="introduction" class="section level1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><!--bookdown:title:end--><!--bookdown:title:start--><div id="welcome" class="section level1">
 <h1>
-<span class="header-section-number">1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction"><i class="fas fa-link"></i></a>
+<span class="header-section-number">1</span> Welcome<a class="anchor" aria-label="anchor" href="#welcome"><i class="fas fa-link"></i></a>
 </h1>
 <p>Every day millions of gigabytes of data are shared across the internet. The standard way for most internet users to download this data is by manually clicking and downloading files in formats such as Excel files, CSV files, and Word files. However, this process of downloading files by clicking works well for downloading one or two files. What if you needed to download 500 CSV files? Or what happens when you need to download data that is refreshed every 20 seconds? The process of manually clicking each file is simply not a feasible solution when downloading data at scale or at frequent intervals. That’s why with the increasing amount of data on the internet, there’s also been an increase in the tools that allow you to access that data programmatically. This course will focus on exploring these technologies.</p>
 <p>Let me give you an example. When the COVID pandemic struck the world in 2020, it was paramount to understand the mortality rates that it was causing and the general decomposition of this mortality (how it was affecting males versus females as well as different age groups). A team of researchers at the Max Planck Institute for Demographic Research set out to collect administrative data on reported deaths by country, regions, gender and age. Now this might sound like fun but it’s actually awfully difficult because some countries uploaded data and refreshed it every day while others did it on a weekly basis. Some regions of a given country might update the data on a different schedule. The website might be different and the process of getting to know the website can take more time. Scale that process to collect data for hundreds of countries and the process of collecting mortality data can become incredibly cumbersome: you might spend hours on the web simply clicking links to download data (see <a href="https://timriffe.github.io/covid_age/DataAvail.html">here</a> for a sample of countries and dates that they had to collect data from). Aside from the long and tedious task of boringly clicking links for hours, chances are you’ll also introduce errors along the way. You might confuse one region with another and assign a wrong name to the CSV file, you might skip a particular country by mistake or you might simply misspell a country’s name, messing up the order of files that you were saving.</p>
@@ -97,6 +97,11 @@
 <div id="curriculum" class="section level2">
 <h2>
 <span class="header-section-number">1.1</span> Curriculum<a class="anchor" aria-label="anchor" href="#curriculum"><i class="fas fa-link"></i></a>
+</h2>
+</div>
+<div id="todo-update-once-the-course-is-ready" class="section level2">
+<h2>
+<span class="header-section-number">1.2</span> TODO: Update once the course is ready<a class="anchor" aria-label="anchor" href="#todo-update-once-the-course-is-ready"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li>
@@ -147,8 +152,9 @@
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="nav-link" href="#welcome"><span class="header-section-number">1</span> Welcome</a></li>
 <li><a class="nav-link" href="#curriculum"><span class="header-section-number">1.1</span> Curriculum</a></li>
+<li><a class="nav-link" href="#todo-update-once-the-course-is-ready"><span class="header-section-number">1.2</span> TODO: Update once the course is ready</a></li>
 </ul>
 
       <div class="book-extra">

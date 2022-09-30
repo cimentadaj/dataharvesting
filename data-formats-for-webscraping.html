@@ -54,7 +54,7 @@
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
 <li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
 <li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
 <li><a class="active" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
@@ -383,73 +383,26 @@
 <p>To read XML and HTML into R we can use the equivalent <code>read_*</code> functions from the <code>xml2</code> package. To navigate the nodes of these data forms you can use <code>xml_child</code> recursively until you find what you’re looking for. To extract the children of a given node, you can use <code>xml_children</code> and to extract attributes of any given tag, you can resort to <code>xml_attr</code>. Finally, if you want to extract the text of a tag, <code>xml_text</code> extracts that for you. These functions give you a handy tool set to explore small scale tree nodes from both XML and HTML documents.</p>
 <p>Before we finish, it’s important to highlight that HTML is much more widely used in webscraping. That is because most of what you webscraping are websites and HTML in specifically designed to show how a website is formatted. However, the difference will be indistinguishable to you when webscraping from R.</p>
 </div>
-<div id="exercises" class="section level2">
+<div id="exercises-1" class="section level2">
 <h2>
-<span class="header-section-number">4.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-1"><i class="fas fa-link"></i></a>
 </h2>
 <ol style="list-style-type: decimal">
-<li>Extract the values for the <code>align</code> attributes in <code>html_raw</code> (Hint, look at the function <code>xml_children</code>).</li>
-</ol>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">div_nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span><span class="va">html_raw</span>, search <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attrs</a></span><span class="op">(</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_children</a></span><span class="op">(</span><span class="va">div_nodes</span><span class="op">)</span>, <span class="st">"align"</span><span class="op">)</span></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li>Extract the occupation of Carol Kalp from <code>xml_raw</code>
-</li>
-</ol>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">carol_node</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span><span class="va">xml_raw</span>, search <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="va">person_node</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span><span class="va">carol_node</span>, search <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="va">occupation</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span><span class="va">person_node</span>, search <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-<span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="va">occupation</span><span class="op">)</span></code></pre></div>
-<ol start="3" style="list-style-type: decimal">
-<li>Extract the text of all <code>&lt;div&gt;</code> tags from <code>html_raw</code>. Your result should look specifically like this:</li>
+<li><p>Extract the values for the <code>align</code> attributes in <code>html_raw</code> (Hint, look at the function <code>xml_children</code>).</p></li>
+<li><p>Extract the occupation of Carol Kalp from <code>xml_raw</code></p></li>
+<li><p>Extract the text of all <code>&lt;div&gt;</code> tags from <code>html_raw</code>. Your result should look specifically like this:</p></li>
 </ol>
 <pre><code>[1] "\n      First text\n    "  "\n      Second text\n    "
 [3] "\n      Third text\n    "  "\n      Fourth text\n    "</code></pre>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">div_nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span><span class="va">html_raw</span>, search <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_children</a></span><span class="op">(</span><span class="va">div_nodes</span><span class="op">)</span>, <span class="st">"align"</span><span class="op">)</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
-<li>Manually create an XML string which contains a root node, then two children nested within and then two grandchildren nested within each child. The first child and the second grandchild of the <em>second</em> child should have an attribute called family set to ‘1’. Read that string and find those two attributes but only with the function <code>xml_find_all</code> and <code>xml_attrs</code>.</li>
-</ol>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">custom_xml</span> <span class="op">&lt;-</span> <span class="st">"&lt;root&gt;
-&lt;child1 family='1'&gt;
-&lt;granchild1&gt;
-&lt;/granchild1&gt;
-&lt;granchild2&gt;
-&lt;/granchild2&gt;
-&lt;/child1&gt;
-
-
-&lt;child2&gt;
-&lt;granchild1&gt;
-&lt;/granchild1&gt;
-&lt;granchild2 family='1'&gt;
-&lt;/granchild2&gt;
-&lt;/child2&gt;
-&lt;/root&gt;"</span>
-
-<span class="va">custom_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_xml</a></span><span class="op">(</span><span class="va">custom_xml</span><span class="op">)</span>
-
-<span class="co"># First attribute</span>
-<span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attrs</a></span><span class="op">(</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">custom_raw</span>, <span class="st">"/root/child1"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Second attribute</span>
-<span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attrs</a></span><span class="op">(</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">custom_raw</span>, <span class="st">"/root/child2/granchild2"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<ol start="5" style="list-style-type: decimal">
-<li>The output of all the previous exercises has been either a <code>xml_nodeset</code> or an <code>html_document</code> (you can read it at the top of the print out of your results):</li>
+<li><p>Manually create an XML string which contains a root node, then two children nested within and then two grandchildren nested within each child. The first child and the second grandchild of the <em>second</em> child should have an attribute called family set to ‘1’. Read that string and find those two attributes but only with the function <code>xml_find_all</code> and <code>xml_attrs</code>.</p></li>
+<li><p>The output of all the previous exercises has been either a <code>xml_nodeset</code> or an <code>html_document</code> (you can read it at the top of the print out of your results):</p></li>
 </ol>
 <pre><code>{html_document}
 &lt;html&gt;
 [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
 [2] &lt;body&gt;\n    &lt;div align="left"&gt;\n      First text\n    &lt;/div&gt;\n    &lt;div al ...</code></pre>
-<p>Can you extract the text of the last name of Carol the scientist only using R sub setting rules on your object? For example <code>some_object$people$person$...</code> (Hint: <code>xml2</code> has a function called <code>as_list</code>).</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">xml_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/as_list.html">as_list</a></span><span class="op">(</span><span class="va">xml_raw</span><span class="op">)</span>
-<span class="va">xml_list</span><span class="op">$</span><span class="va">people</span><span class="op">$</span><span class="va">carol</span><span class="op">$</span><span class="va">person</span><span class="op">$</span><span class="va">last_name</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>## [1] "\n        Kalp\n    "</code></pre>
+<p>Can you extract the text of the last name of Carol the scientist only using R subsetting rules on your object? For example <code>some_object$people$person$...</code> (Hint: <code>xml2</code> has a function called <code>as_list</code>).</p>
 
 </div>
 </div>
@@ -463,7 +416,7 @@
 <li><a class="nav-link" href="#a-primer-on-xml-and-html"><span class="header-section-number">4.1</span> A primer on XML and HTML</a></li>
 <li><a class="nav-link" href="#tag-attributes"><span class="header-section-number">4.2</span> Tag attributes</a></li>
 <li><a class="nav-link" href="#conclusion"><span class="header-section-number">4.3</span> Conclusion</a></li>
-<li><a class="nav-link" href="#exercises"><span class="header-section-number">4.4</span> Exercises</a></li>
+<li><a class="nav-link" href="#exercises-1"><span class="header-section-number">4.4</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">

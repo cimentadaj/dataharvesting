@@ -54,7 +54,7 @@
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
 <li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
 <li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
 <li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
@@ -85,7 +85,7 @@
 <span class="header-section-number">6</span> What they never taught you about XPath<a class="anchor" aria-label="anchor" href="#what-they-never-taught-you-about-xpath"><i class="fas fa-link"></i></a>
 </h1>
 <p>Primer on XPath</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xml_test</span> <span class="op">&lt;-</span> <span class="st">"&lt;people&gt;
 &lt;jason&gt;
   &lt;person type='fictional'&gt;
@@ -122,28 +122,28 @@
 
 <span class="va">xml_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_xml</a></span><span class="op">(</span><span class="va">xml_test</span><span class="op">)</span></code></pre></div>
 <p>To extract all the tags in a document, we can use <code>//name_of_tag</code>.</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Search for all 'married' nodes</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">xml_raw</span>, <span class="st">"//married"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (2)}
 ## [1] &lt;married&gt;\n        Jason\n      &lt;/married&gt;
 ## [2] &lt;married&gt;\n        Carol\n      &lt;/married&gt;</code></pre>
 <p>With the previous XPath, we’re searching for <strong>all</strong> married tags within the complete XML tree. The result returns all married nodes (I use the words tags and nodes interchangeably) in the complete tree structure. Another example would be finding all <code>&lt;occupation&gt;</code> tags:</p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">xml_raw</span>, <span class="st">"//occupation"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (2)}
 ## [1] &lt;occupation&gt;\n      Spy\n    &lt;/occupation&gt;
 ## [2] &lt;occupation&gt;\n      Scientist\n    &lt;/occupation&gt;</code></pre>
 <p>If you want to find any other tag you can replace <code>"//occupation"</code> with your tag of interest and <code>xml_find_all</code> will find all of them.</p>
 <p>If you wanted to find all tags <strong>below</strong> your current node, you only need to add a <code>.</code> at the beginning: <code>".//occupation"</code>. For example, if we dived into the <code>&lt;jason&gt;</code> tag and we wanted his <code>&lt;occupation&gt;</code> tag, <code>"//occupation"</code> will returns <strong>all</strong> <code>&lt;occupation&gt;</code> tags. Instead, <code>".//occupation"</code> will return only the found tags <strong>below</strong> the current tag. For example:</p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xml_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="co"># Dive only into Jason's tag</span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span>search <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">".//occupation"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (1)}
 ## [1] &lt;occupation&gt;\n      Spy\n    &lt;/occupation&gt;</code></pre>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Instead, the wrong way would have been:</span>
 <span class="va">xml_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="co"># Dive only into Jason's tag</span>
@@ -155,7 +155,7 @@
 ## [2] &lt;occupation&gt;\n      Scientist\n    &lt;/occupation&gt;</code></pre>
 <p>The first example only returns <code>&lt;jason&gt;</code>’s occupation whereas the second returned <strong>all</strong> occupations, regardless of where you are in the tree.</p>
 <p>XPath also allows you to identify tags that contain only one specific <strong>attribute</strong>, such as the one’s we saw earlier. For example, to filter all <code>&lt;person&gt;</code> tags with the attribute <code>filter</code> set to <code>fictional</code>, we could do it with:</p>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Give me all the tags 'person' that have an attribute type='fictional'</span>
 <span class="va">xml_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//person[@type='fictional']"</span><span class="op">)</span></code></pre></div>
@@ -163,15 +163,15 @@
 ## [1] &lt;person type="fictional"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Jason\n ...</code></pre>
 <p>If you wanted to do the same but for the tags <strong>below</strong> your current nodes, the same trick we learned earlier would work: <code>".//person[@type='fictional']"</code>. These are just some primers that can help you jump easily to using XPath, but I encourage you to look at other examples on the web, as complex websites often require complex XPath expressions.</p>
 <p>Before we begin our real-word example, you might be asking yourself how you can actually <strong>extract</strong> the text/numeric data from these <strong>nodes</strong>. Well, that’s easy: <code>xml_text</code>.</p>
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xml_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">".//occupation"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "\n      Spy\n    "       "\n      Scientist\n    "</code></pre>
 <p>Once you’ve narrowed down your tree-based search to one single piece of text or numbers, <code><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text()</a></code> will extract that for you (there’s also <code>xml_double</code> and <code>xml_integer</code> for extracting numbers). As I said, XPath is really a huge language. If you’re interested, <a href="https://devhints.io/xpath">this</a> XPath cheat sheets have helped me a lot to learn tricks for easy scraping.</p>
-<div id="exercises-2" class="section level2">
+<div id="exercises-3" class="section level2">
 <h2>
-<span class="header-section-number">6.1</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.1</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-3"><i class="fas fa-link"></i></a>
 </h2>
 
 </div>
@@ -183,7 +183,7 @@
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#what-they-never-taught-you-about-xpath"><span class="header-section-number">6</span> What they never taught you about XPath</a></li>
-<li><a class="nav-link" href="#exercises-2"><span class="header-section-number">6.1</span> Exercises</a></li>
+<li><a class="nav-link" href="#exercises-3"><span class="header-section-number">6.1</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">
