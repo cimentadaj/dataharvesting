@@ -207,7 +207,7 @@
 <p>and here is the rendered website:</p>
 <div class="inline-figure"><img src="images/data_formats/examples/html_ex1.png" style="display: block; margin: auto;"></div>
 <p><strong>This is a heading</strong> contains a hyperlink (<code>&lt;a&gt;</code> tag with the <code>href</code> property), is bigger and is in bold in comparison to “This is a paragraph”. These specific tags together with their attributes are interpreted to give this outline of the text and as you’ll start to notice, it is the trademark value of the HTML language.</p>
-<p>In contrast, XML tags have no meaning other than what the creator meant for them. An <code>&lt;occupation&gt;</code> tag simply means that inside the tag is occupation related content. That’s why we say that XML is for transfering data (because the tags have no inherent behavior) and HTML is for structuring website.</p>
+<p>In contrast, XML tags have no meaning other than what the creator meant for them. An <code>&lt;occupation&gt;</code> tag simply means that inside the tag is occupation related content. That’s why we say that XML is for transferring data (because the tags have no inherent behavior) and HTML is for structuring website.</p>
 <p>Another difference between XML and HTML is that some HTML tags don’t need to be closed, meaning they don’t need a <code>&lt;\ &gt;</code> tag (for example <code>&lt;br&gt;</code> which adds a space between content in a website). On the other hand, XML is very strict about this and you’ll find that all tags have an equivalent closing tag.</p>
 <p>Now, you might be asking yourself, since there are no standard tags for XML, how many standard HTML tags are there? Well, too many for you to remember if you’re getting started. Here’s a short set:</p>
 <div class="inline-figure"><img src="images/data_formats/examples/html_ex2.jpg" width="100%" style="display: block; margin: auto;"></div>
@@ -357,7 +357,7 @@
 <span id="cb54-2"><a href="data-formats-for-webscraping.html#cb54-2"></a><span class="kw">&lt;img</span><span class="ot"> src=</span><span class="st">"img_girl.jpg"</span><span class="ot"> width=</span><span class="st">"500"</span><span class="ot"> height=</span><span class="st">"600"</span><span class="kw">&gt;</span></span>
 <span id="cb54-3"><a href="data-formats-for-webscraping.html#cb54-3"></a><span class="kw">&lt;p</span><span class="ot"> style=</span><span class="st">"color:red;"</span><span class="kw">&gt;</span>This is a red paragraph.<span class="kw">&lt;/p&gt;</span></span></code></pre></div>
 <p>The <code>&lt;a&gt;</code> tag contains text with a hyperlink (<code>href</code>). The <code>&lt;img&gt;</code> tag (abbreviation for image) contains the <code>src</code> tag that points to where an image is, together with the width and height of the image. Finally, the <code>&lt;p&gt;</code> tag is short for paragraph and contains the <code>style</code> attribute for declaring styling properties of the text. These are just some examples of common HTML tags and common attributes. In any case, as I’ve outlined above, it’s fine to not know these tags; with an intuition behind what they do is enough to locate specific parts of a website.</p>
-<p>To finalize, whenever you’ll be scraping something, you’ll want to know whether it’s XML or HTML based. If you manage to receive an <code>.html</code> or <code>.xml</code> it’s just as simple as looking at the extension of the file. If by any chance you have access to the source code of a file, you can also look at the tags and quickly see if there are many of the standard HTML tags and deduce the actual format. Another solution is to just look at the root node and you’ll see the hint right away. You’ll see that <code>xml</code> is signalled right at the beginning:</p>
+<p>To finalize, whenever you’ll be scraping something, you’ll want to know whether it’s XML or HTML based. If you manage to receive an <code>.html</code> or <code>.xml</code> it’s just as simple as looking at the extension of the file. If by any chance you have access to the source code of a file, you can also look at the tags and quickly see if there are many of the standard HTML tags and deduce the actual format. Another solution is to just look at the root node and you’ll see the hint right away. You’ll see that <code>xml</code> is signaled right at the beginning:</p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb55-1"><a href="data-formats-for-webscraping.html#cb55-1"></a><span class="kw">&lt;?xml</span> version="1.0&gt;</span>
 <span id="cb55-2"><a href="data-formats-for-webscraping.html#cb55-2"></a>&lt;company&gt;</span>
 <span id="cb55-3"><a href="data-formats-for-webscraping.html#cb55-3"></a>    &lt;name&gt; John Doe &lt;/name&gt;</span>
@@ -379,8 +379,9 @@
 <span class="header-section-number">4.3</span> Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"><i class="fas fa-link"></i></a>
 </h2>
 <p>I have to be frank with you. Although XML and HTML have important differences with respect to the technology and their philosophy, this difference is pretty much the same for us: for our webscraping needs, we don’t care how the data is formatted on a website (HTML) or whether your tags have special meanings (XML), we only care that they are formatted in tags such that we can extract information.</p>
-<p>Let’s do a brief recap for you key take aways. To read XML and HTML we can use the equivalent <code>read_*</code> functions from the <code>xml2</code> package. To navigate the nodes of these data forms you can use <code>xml_child</code> recursively until you find what you’re looking for. To extract the children of a given node, you can use <code>xml_children</code> and to extract attributes of any given tag, you can resort to <code>xml_attr</code>. Finally, if you want to extract the text of a tag, <code>xml_text</code> extracts that for you. These functions give you a handy toolset to explore small scale tree nodes from oboth XML and HTML documents.</p>
-<p>Before we finish, it’s important to highlight that HTML is much more widely used in webscraping. That is because most of what you webcsraping are websites and HTML in specifically designed to show how a website is formatted. However, the difference will be indistinguishable to you when webscraping from R.</p>
+<p>Let’s do a brief recap as a summary. XML and HTML code is tag based, built on opening and closing tags like this: <code>&lt;tag&gt;</code> <code>&lt;/tag&gt;</code>. These languages are hierarchical, meaning that nodes within nodes have parent-child relationships. These tags can have attributes that signal either behavior (HTML) or data (XML) from the tags.</p>
+<p>To read XML and HTML into R we can use the equivalent <code>read_*</code> functions from the <code>xml2</code> package. To navigate the nodes of these data forms you can use <code>xml_child</code> recursively until you find what you’re looking for. To extract the children of a given node, you can use <code>xml_children</code> and to extract attributes of any given tag, you can resort to <code>xml_attr</code>. Finally, if you want to extract the text of a tag, <code>xml_text</code> extracts that for you. These functions give you a handy tool set to explore small scale tree nodes from both XML and HTML documents.</p>
+<p>Before we finish, it’s important to highlight that HTML is much more widely used in webscraping. That is because most of what you webscraping are websites and HTML in specifically designed to show how a website is formatted. However, the difference will be indistinguishable to you when webscraping from R.</p>
 </div>
 <div id="exercises" class="section level2">
 <h2>
@@ -444,17 +445,12 @@
 &lt;html&gt;
 [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
 [2] &lt;body&gt;\n    &lt;div align="left"&gt;\n      First text\n    &lt;/div&gt;\n    &lt;div al ...</code></pre>
-<p>Can you extract the text of the last name of Carol the scientist only using R subsetting rules on your object? For example <code>some_object$people$person$...</code> (Hint: <code>xml2</code> has a function called <code>as_list</code>).</p>
+<p>Can you extract the text of the last name of Carol the scientist only using R sub setting rules on your object? For example <code>some_object$people$person$...</code> (Hint: <code>xml2</code> has a function called <code>as_list</code>).</p>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xml_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/as_list.html">as_list</a></span><span class="op">(</span><span class="va">xml_raw</span><span class="op">)</span>
 <span class="va">xml_list</span><span class="op">$</span><span class="va">people</span><span class="op">$</span><span class="va">carol</span><span class="op">$</span><span class="va">person</span><span class="op">$</span><span class="va">last_name</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 <pre><code>## [1] "\n        Kalp\n    "</code></pre>
-<div id="bring-in-xpath-chapter-here-that-way-youll-link-everything-in-here-and-add-exercises." class="section level6">
-<h6>
-<span class="header-section-number">4.4.0.0.0.1</span> Bring in XPath chapter here? That way you’ll link everything in here and add exercises.<a class="anchor" aria-label="anchor" href="#bring-in-xpath-chapter-here-that-way-youll-link-everything-in-here-and-add-exercises."><i class="fas fa-link"></i></a>
-</h6>
 
-</div>
 </div>
 </div>
   <div class="chapter-nav">
@@ -485,7 +481,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-09-29.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-09-30.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

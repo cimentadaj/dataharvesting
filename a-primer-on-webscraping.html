@@ -6,15 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>3 A primer on Webscraping | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
-<meta name="description" content="Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning. String manipulations,...">
+<meta name="description" content="Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning. String manipulations, sub...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
 <meta property="og:title" content="3 A primer on Webscraping | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/a-primer-on-webscraping.html">
-<meta property="og:description" content="Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning. String manipulations,...">
+<meta property="og:description" content="Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning. String manipulations, sub...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3 A primer on Webscraping | Data Harvesting with R">
-<meta name="twitter:description" content="Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning. String manipulations,...">
+<meta name="twitter:description" content="Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning. String manipulations, sub...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 <h1>
 <span class="header-section-number">3</span> A primer on Webscraping<a class="anchor" aria-label="anchor" href="#a-primer-on-webscraping"><i class="fas fa-link"></i></a>
 </h1>
-<p>Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning. String manipulations, subetting, clever tricks and approximations rather than exact solutions will be your companion on your day to day. This book will skip the usual start from the basics sections to directly giving your results from your efforts. The aim of this primer is to create a plot like this one:</p>
+<p>Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning. String manipulations, sub setting, clever tricks and approximations rather than exact solutions will be your companion on your day to day. This book will skip the usual start from the basics sections to directly giving your results from your efforts. The aim of this primer is to create a plot like this one:</p>
 <div class="inline-figure"><img src="images/primer_webscraping/elections_plot.png" width="100%" style="display: block; margin: auto;"></div>
 <p>This plot shows the election results for all political parties in Spain since 1978. We do not have data on this on your local computer so we’ll need to find this online and scrape it. By scrape it I specifically mean to write down a little R script that will go to a website for you and manually select the data points that you tell it to. Wikipedia has such data but remember that websites change. To make this book as persistent over time as possible, we have the <code><a href="https://rdrr.io/pkg/scrapex/man/history_elections_spain_ex.html">history_elections_spain_ex()</a></code> function in <code>scrapex</code> which already has the website saved locally for you (the original website is <a href="https://en.wikipedia.org/wiki/Elections_in_Spain" class="uri">https://en.wikipedia.org/wiki/Elections_in_Spain</a>). Let’s load all packages and take a look at the website.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -115,7 +115,7 @@
 ## [2] &lt;body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject  ...</code></pre>
 <p>We can’t understand much from the output from <code>read_html</code> because the HTML code behind the website is <strong>very long</strong>. <code>read_html</code> only shows the top level details. In any case, we don’t need to understand these details at first. Now that we have the website already in R we need to figure out where is the actual data on elections on the website. If you scroll down, near the end of the website you’ll see a <strong>table</strong> like this one:</p>
 <div class="inline-figure"><img src="images/primer_webscraping/elections_table.png" width="100%" style="display: block; margin: auto;"></div>
-<p>This is precisely the data we need. This contains the election results for all parties since 1978. The <code>rvest</code> package (which we have already loaded and also has the <code>read_html</code> function) has a very handy function called <code><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table()</a></code> which automatically extracts all tables from a website into R. However, <code><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table()</a></code> needs to know which website we’re working with so we ned to pass it the <code>html_website</code> we read in the previous step:</p>
+<p>This is precisely the data we need. This contains the election results for all parties since 1978. The <code>rvest</code> package (which we have already loaded and also has the <code>read_html</code> function) has a very handy function called <code><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table()</a></code> which automatically extracts all tables from a website into R. However, <code><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table()</a></code> needs to know which website we’re working with so we need to pass it the <code>html_website</code> we read in the previous step:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_tables</span> <span class="op">&lt;-</span>
   <span class="va">html_website</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -261,7 +261,7 @@
 ## 14 2016      &lt;NA&gt;     &lt;NA&gt;   "0.8"     &lt;NA&gt;    "0.2" "13.1"  &lt;NA&gt;
 ## 15 2019      &lt;NA&gt;     &lt;NA&gt;   "1.0"     &lt;NA&gt;     &lt;NA&gt; "15.9" "0.7"
 ## 16 2019      &lt;NA&gt;     &lt;NA&gt;   "1.2"     &lt;NA&gt;     &lt;NA&gt; "6.8"   &lt;NA&gt;</code></pre>
-<p>There we go, we don’t have strings in any of the se columns anymore. Let’s transform all columns into numeric and remove that first row that is empty:</p>
+<p>There we go, we don’t have strings in any of the the columns anymore. Let’s transform all columns into numeric and remove that first row that is empty:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">semi_cleaned_data</span> <span class="op">&lt;-</span>
   <span class="va">semi_cleaned_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -316,7 +316,7 @@
 ## 15     2019  NA    28    20.8  NA     2.2   1.6   3.6   0.5   1.2  NA     0.5
 ## # … with 6 more variables: UPyD &lt;dbl&gt;, Cs &lt;dbl&gt;, Com. &lt;dbl&gt;, Pod. &lt;dbl&gt;,
 ## #   Vox &lt;dbl&gt;, MP &lt;dbl&gt;</code></pre>
-<p>The dataset is ready to plot. It’s tidy and clean. Let’s plot it:</p>
+<p>The data set is ready to plot. It’s tidy and clean. Let’s plot it:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Pivot from wide to long to plot it in ggplot</span>
 <span class="va">cleaned_data</span> <span class="op">&lt;-</span>
@@ -388,7 +388,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-09-29.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-09-30.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

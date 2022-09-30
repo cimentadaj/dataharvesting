@@ -7,7 +7,6 @@ a-primer-on-xml-and-html
 tag-attributes
 conclusion
 exercises
-bring-in-xpath-chapter-here-that-way-youll-link-everything-in-here-and-add-exercises.
 what-they-never-taught-you-about-regular-expressions
 exercises-1
 what-they-never-taught-you-about-xpath
