@@ -6,7 +6,11 @@ TODO
 - Install scrapex and explain the problem decribed in scrapex README that web scraping tutorial are doomed to be obsolete etc..
 Webscraping is creative: no clear way to get what you want. Need to come up with creative solutions.
 
+- Install all other packages used in the book.
+
 You need mad data cleaning skills and string / regex intermediatte. **Come up with a general regex that encompasses what they need to know to read this book and if they can't figure it out, they should study up on that**. Talk about string as a heavy lifter for the book.
+
+Highlight that we'll be using both the xml2 package and rvest package interchangeably. Explain that rvest is just a wrapper around xml2 and is slightly more high level. We'll use both along the course.
 
 TODO: You need to write the the entire webscraping part can be done without internet
 TODO: Add a general script to save all plots in a folder for each chapter automatically (look at R4DS and their initial scripts)

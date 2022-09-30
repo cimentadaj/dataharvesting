@@ -18,7 +18,7 @@ description: |
 url: https://cimentadaj.github.io/dataharvesting/
 ---
 
-# Introduction
+# Welcome
 
 Every day millions of gigabytes of data are shared across the internet. The standard way for most internet users to download this data is by manually clicking and downloading files in formats such as Excel files, CSV files, and Word files. However, this process of downloading  files by clicking works well for downloading one or two files. What if you needed to download 500 CSV files? Or what happens when you need to download data that is refreshed every 20 seconds? The process of manually clicking each file is simply not a feasible solution when downloading data at scale or at frequent intervals. That’s why with the increasing amount of data on the internet, there’s also been an increase in the tools that allow you to access that data programmatically. This course will focus on exploring these technologies. 
 
@@ -39,6 +39,8 @@ The course assumes students will be familiar with the R programming language, tr
 :::
 
 ## Curriculum
+
+## TODO: Update once the course is ready
 
 - **An introduction to Web Scraping**
   - What is Web Scraping?

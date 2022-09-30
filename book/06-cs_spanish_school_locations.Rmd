@@ -13,32 +13,26 @@ knitr::opts_chunk$set(
 
 # Case study: scraping Spanish school locations from the web
 
-In this case study we'll working through the basics of web scraping using R and the `xml2` package. We'll begin with a simple example using fake data and elaborate further by trying to scrape the location of a sample of schools in Spain.
+In this chapter we'll be scraping the location of a sample of schools in Spain. This case study involves using XPath to find the specific chunks of code that contain coordinates of schools in Spain, as well as inspecting the source code of a website in depth. The final result of this chapter is to generate a plot like this one without previous knowledge of where schools are:
 
-## Basic steps
-
-For web scraping in `R`, you can fulfill almost all of your needs with the `xml2` package. As you wander through the web, you'll see many examples using the `rvest` package. `xml2` and `rvest` are very similar so don't feel you're lacking behind for learning one and not the other. In addition to these two packages, we'll need some other libraries for plotting locations on a map (`ggplot2`, `sf`, `rnaturalearth`), identifying who we are when we scrape (`httr`) and wrangling data (`tidyverse`).
-
-Additionally, we'll also need the package `scrapex`. In the real-world example that we'll be doing below, we'll be scraping data from the website `www.buscocolegio.com` to locate a sample of schools in Spain. However, throughout the tutorial we won't be scraping the data directly from their real-website. What would happen to this tutorial if 6 months from now `www.buscocolegio.com` updates the design of their website? Everything from our real-world example would be lost.
-
-Web scraping tutorials are usually very unstable precisely because of this. To circumvent that problem, I've saved a random sample of websites from some schools in `www.buscocolegio.com` into an R package called `scrapex`. Although the links we'll be working on will be hosted locally on your machine, the HTML of the website should be very similar to the one hosted on the website (with the exception of some images/icons which were deleted on purpose to make the package lightweight).
-
-You can install the package with:
-
-```{r, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("cimentadaj/scrapex")
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "/automatic_rmarkdown/spain-map-schools-1.png"))
 ```
+
+In the real-world example that we'll be doing below, we'll be scraping data from the website `www.buscocolegio.com` to locate a sample of schools in Spain. As usual, the website has been saved locally in the `scrapex` package such that any changes made on the website don't break our code in the future. Althought the links we'll be working with will be hosted locally on your machine, the HTML of the website should be very similar to the one hosted on the online website (with the exception of some images/icons which were deleted on purpose to make the package lightweight). With that said, the local website should be a fairly good representation of what you'll find in real website on the internet.
+
+Before we begin, let's load all the package we'll use in the chapter:
+
 ```{r, message = FALSE}
 library(xml2)
 library(httr)
 library(tidyverse)
 library(sf)
 library(rnaturalearth)
-library(ggplot2)
 library(scrapex)
 ```
-## Real-world example
+
+## Building a scraper for one school
 
 We're interested in making a list of many schools in Spain and visualizing their location. This can be useful for many things such as matching population density of children across different regions to school locations. The website `www.buscocolegio.com` contains a database of schools similar to what we're looking for. As described at the beginning, instead we're going to use `scrapex` which has the function `spanish_schools_ex()` containing the links to a sample of websites from different schools saved locally on your computer.
 

@@ -304,14 +304,14 @@ Before we finish, it's important to highlight that HTML is much more widely used
 
 1. Extract the values for the `align` attributes in `html_raw` (Hint, look at the function `xml_children`).
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, echo = FALSE}
 div_nodes <- xml_child(html_raw, search = 2)
 xml_attrs(xml_children(div_nodes), "align")
 ```
 
 2. Extract the occupation of Carol Kalp from `xml_raw`
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, echo = FALSE}
 carol_node <- xml_child(xml_raw, search = 2)
 person_node <- xml_child(carol_node, search = 1)
 occupation <- xml_child(person_node, search = 3)
@@ -325,14 +325,16 @@ xml_text(occupation)
 [3] "\n      Third text\n    "  "\n      Fourth text\n    "
 ```
 
-```{r, eval = FALSE}
+
+```{r, eval = FALSE, echo = FALSE}
 div_nodes <- xml_child(html_raw, search = 2)
 xml_text(xml_children(div_nodes), "align")
 ```
 
 4. Manually create an XML string which contains a root node, then two children nested within and then two grandchildren nested within each child. The first child and the second grandchild of the *second* child should have an attribute called family set to '1'. Read that string and find those two attributes but only with the function `xml_find_all` and `xml_attrs`.
 
-```{r, eval = FALSE}
+
+```{r, eval = FALSE, echo = FALSE}
 custom_xml <- "<root>
 <child1 family='1'>
 <granchild1>
@@ -368,9 +370,9 @@ xml_attrs(xml_find_all(custom_raw, "/root/child2/granchild2"))
 [2] <body>\n    <div align="left">\n      First text\n    </div>\n    <div al ...
 ```
 
-Can you extract the text of the last name of Carol the scientist only using R sub setting rules on your object? For example `some_object$people$person$...` (Hint: `xml2` has a function called `as_list`).
+Can you extract the text of the last name of Carol the scientist only using R subsetting rules on your object? For example `some_object$people$person$...` (Hint: `xml2` has a function called `as_list`).
 
-```{r}
+```{r, eval = FALSE, echo = FALSE}
 xml_list <- as_list(xml_raw)
 xml_list$people$carol$person$last_name[[1]]
 ```
