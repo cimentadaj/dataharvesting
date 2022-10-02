@@ -448,9 +448,8 @@ knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/main_website_type
 We recycle the first XPath from the public/private scraper and then find the exact `<div>` that belongs to the type of school:
 
 ```{r}
-school <- read_html(school_link)
 text_boxes <-
-  school %>%
+  school_raw %>%
   xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']")
 
 text_boxes
@@ -459,7 +458,7 @@ text_boxes
 Those are the 10 nodes we saw before. Let's extract the text within each one and match to where is the keyword from the header "Tipo Centro":
 
 
-```{r}`
+```{r}
 selected_node <- text_boxes %>% xml_text() %>% str_detect("Tipo Centro")
 selected_node
 ```
