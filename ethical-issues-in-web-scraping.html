@@ -6,15 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>10 Ethical issues in Web Scraping | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
-<meta name="description" content="This is a book about webscraping and talking to APIs with R.">
+<meta name="description" content="Time sleep Read the terms and services: many websites prohibit web scraping and you could be in a breach of privacy by scraping the data. One famous example. Check the robots.txt file. This is a...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
 <meta property="og:title" content="10 Ethical issues in Web Scraping | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/ethical-issues-in-web-scraping.html">
-<meta property="og:description" content="This is a book about webscraping and talking to APIs with R.">
+<meta property="og:description" content="Time sleep Read the terms and services: many websites prohibit web scraping and you could be in a breach of privacy by scraping the data. One famous example. Check the robots.txt file. This is a...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="10 Ethical issues in Web Scraping | Data Harvesting with R">
-<meta name="twitter:description" content="This is a book about webscraping and talking to APIs with R.">
+<meta name="twitter:description" content="Time sleep Read the terms and services: many websites prohibit web scraping and you could be in a breach of privacy by scraping the data. One famous example. Check the robots.txt file. This is a...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
@@ -84,6 +84,15 @@
 <h1>
 <span class="header-section-number">10</span> Ethical issues in Web Scraping<a class="anchor" aria-label="anchor" href="#ethical-issues-in-web-scraping"><i class="fas fa-link"></i></a>
 </h1>
+<ul>
+<li><p>Time sleep</p></li>
+<li><p>Read the terms and services: many websites prohibit web scraping and you could be in a breach of privacy by scraping the data. <a href="https://fortune.com/2016/05/18/okcupid-data-research/">One</a> famous example.</p></li>
+<li><p>Check the <code>robots.txt</code> file. This is a file that most websites have (<code>www.buscocolegio.com</code> does <strong>not</strong>) which tell you which specific paths inside the website are scrapable and which are not. See <a href="https://www.robotstxt.org/robotstxt.html">here</a> for an explanation of what robots.txt look like and where to find them.</p></li>
+<li><p>Some websites are supported by very big servers, which means you can send 4-5 website requests per second. Others, such as <code>www.buscocolegio.com</code> are not. It’s good practice to always put a time sleep between your requests. In our example, I set it to 5 seconds because this is a small website and we don’t want to crash their servers.</p></li>
+<li><p>When making requests, there are computational ways of identifying yourself. For example, every request (such as the one’s we do) can have something called a <code>User-Agent</code>. It is good practice to include yourself in as the <code>User-Agent</code> (as we did in our code) because the admin of the server can directly identify if someone’s causing problems due to their web scraping.</p></li>
+<li><p>Limit your scraping to non-busy hours such as overnight. This can help reduce the chances of collapsing the website since fewer people are visiting websites in the evening.</p></li>
+</ul>
+<p>You can read more about these ethical issues <a href="http://robertorocha.info/on-the-ethics-of-web-scraping/">here</a>.</p>
 
 </div>
   <div class="chapter-nav">
@@ -108,7 +117,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-09-30.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-10-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

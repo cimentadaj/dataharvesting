@@ -17,7 +17,10 @@ what-they-never-taught-you-about-xpath
 exercises-3
 case-study-scraping-spanish-school-locations-from-the-web
 building-a-scraper-for-one-school
-wrap-up
+data-cleaning-1
+scaling-the-scraper-to-all-schools
+scraping-publicprivate-school-information
+extracting-type-of-school
 exercises-4
 automating-web-scraping-scripts
 scraping-javascript-based-website

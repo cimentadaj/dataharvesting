@@ -86,7 +86,7 @@
 </h1>
 <p>In this chapter we’ll be scraping the location of a sample of schools in Spain. This case study involves using XPath to find the specific chunks of code that contain coordinates of schools in Spain, as well as inspecting the source code of a website in depth. The final result of this chapter is to generate a plot like this one without previous knowledge of where schools are:</p>
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/automatic_rmarkdown/spain-map-schools-1.png" width="100%" style="display: block; margin: auto;"></div>
-<p>In the real-world example that we’ll be doing below, we’ll be scraping data from the website <code>www.buscocolegio.com</code> to locate a sample of schools in Spain. As usual, the website has been saved locally in the <code>scrapex</code> package such that any changes made on the website don’t break our code in the future. Althought the links we’ll be working with will be hosted locally on your machine, the HTML of the website should be very similar to the one hosted on the online website (with the exception of some images/icons which were deleted on purpose to make the package lightweight). With that said, the local website should be a fairly good representation of what you’ll find in real website on the internet.</p>
+<p>As usual, the website has been saved locally in the <code>scrapex</code> package such that any changes made on the website don’t break our code in the future. Althought the links we’ll be working with will be hosted locally on your machine, the HTML of the website should be very similar to the one hosted on the online website (with the exception of some images/icons which were deleted on purpose to make the package lightweight). With that said, the local website should be a fairly good representation of what you’ll find in real website on the internet. The website is in Spanish so I’ll make sure to point out specifically the type of information we’re looking for. Non-spanish speakers should be able to work through this chapter without a problem.</p>
 <p>Before we begin, let’s load all the package we’ll use in the chapter:</p>
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/">xml2</a></span><span class="op">)</span>
@@ -99,7 +99,7 @@
 <h2>
 <span class="header-section-number">7.1</span> Building a scraper for one school<a class="anchor" aria-label="anchor" href="#building-a-scraper-for-one-school"><i class="fas fa-link"></i></a>
 </h2>
-<p>We’re interested in making a list of many schools in Spain and visualizing their location. This can be useful for many things such as matching population density of children across different regions to school locations. The website <code>www.buscocolegio.com</code> contains a database of schools similar to what we’re looking for. As described at the beginning, instead we’re going to use <code>scrapex</code> which has the function <code><a href="https://rdrr.io/pkg/scrapex/man/spanish_schools_ex.html">spanish_schools_ex()</a></code> containing the links to a sample of websites from different schools saved locally on your computer.</p>
+<p>Visualizing school locations can be useful for many things such as matching population density of children across different regions to school locations or mapping patterns of inequality by geographical locations. The website <code>www.buscocolegio.com</code> contains a database of schools for all of Spain, containing a plethora of information of each school, together with the coordinates of where the school is located. The function <code><a href="https://rdrr.io/pkg/scrapex/man/spanish_schools_ex.html">spanish_schools_ex()</a></code> contains the local links to each school.</p>
 <p>Let’s look at an example for one school.</p>
 <div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">school_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/spanish_schools_ex.html">spanish_schools_ex</a></span><span class="op">(</span><span class="op">)</span>
@@ -108,14 +108,15 @@
 <span class="va">school_url</span> <span class="op">&lt;-</span> <span class="va">school_links</span><span class="op">[</span><span class="fl">13</span><span class="op">]</span>
 
 <span class="va">school_url</span></code></pre></div>
-<pre><code>## [1] "/home/runner/.local/share/renv/cache/v5/R-4.2/x86_64-pc-linux-gnu/scrapex/0.0.1.9999/7a70cfb9c8bfdc53119637d85dd2a7e2/scrapex/extdata/spanish_schools_ex/school_3006839.html"</code></pre>
-<p>If you’re interested in looking at the website interactively in your browser, you can do it with <code>browseURL(prep_browser(school_url))</code>. Let’s read the HTML (XML and HTML are <strong>usually</strong> interchangeable, so here we use <code>read_html</code>).</p>
+<pre><code>## [1] "/home/runner/.local/share/renv/cache/v5/R-4.2/x86_64-pc-linux-gnu/scrapex/0.0.1.9999/1428e5ef0f7f539d6d0170b2832bddc7/scrapex/extdata/spanish_schools_ex/school_3006839.html"</code></pre>
+<p>Let’s look at the rendered website with the code below:</p>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Here we use `read_html` because `read_xml` is throwing an error</span>
-<span class="co"># when attempting to read. However, everything we've discussed</span>
-<span class="co"># should be the same.</span>
-<span class="va">school_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">school_url</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span><span class="op">)</span>
-
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/browseURL.html">browseURL</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/prep_browser.html">prep_browser</a></span><span class="op">(</span><span class="va">school_url</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/main_website_no_selection.png" width="100%" style="display: block; margin: auto;"></div>
+<p>The website shows standard details of the school “CEIP SANCHIS GUARNER”. You can see it’s contact email and other contact details. Additionally, you can see it’s location on the right. We want to extract precisely that data to visualize their locations. How can we access those coordinates?</p>
+<p>Let’s read the website into R before we start narrowing down how to obtain the coordinates:</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">school_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">school_url</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">school_raw</span></code></pre></div>
 <pre><code>## {html_node}
 ## &lt;head&gt;
@@ -140,46 +141,50 @@
 ## [19] &lt;link rel="stylesheet" href="https://s3.eu-west-3.amazonaws.com/buscocol ...
 ## [20] &lt;link rel="stylesheet" href="https://s3.eu-west-3.amazonaws.com/buscocol ...
 ## ...</code></pre>
-<p>Web scraping strategies are very specific to the website you’re after. You have to get very familiar with the website you’re interested to be able to match perfectly the information you’re looking for. In many cases, scraping two websites will require vastly different strategies. For this particular example, we’re only interested in figuring out the <strong>location</strong> of each school so we only have to extract its location.</p>
-<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/main_page.png" width="100%" style="display: block; margin: auto;"></div>
-<p><br></p>
-<p>In the image above you’ll find a typical school’s website in <code>wwww.buscocolegio.com</code>. The website has a lot of information, but we’re only interested in the button that is circled by the orange rectangle. If you can’t find it easily, it’s below the Google Maps on the right which says “Buscar colegio cercano”.</p>
-<p>When you click on this button, this actually points you towards the coordinates of the school so we just have to find a way of figuring out how to click this button or figure out how to get its information. All browsers allow you to do this if you press CTRL + SHIFT + c at the same time (Firefox and Chrome support this hotkey). If a window on the right popped in full of code, then you’re on the right track:</p>
+<p>At this point, we shouldn’t worry about exploring the actual website in R. It’s always a better idea to look at the code on your browser. Once you have an idea of where the data you’re looking for is, you can come back to the raw HTML and search for the specific tags.</p>
+<p>Web scraping strategies are very specific to the website you’re after. You have to get very familiar with the website you’re interested to be able to match perfectly the information you’re looking for. In many cases, scraping two websites will require vastly different strategies.</p>
+<p>The first thing we want to do is to start looking at the source code of the maps section on the right so you can start looking for hints of the coordinates somewhere in the code. We do that by popping up the <em>web developer’s tools</em>. All browsers support this tool and you can open it if you press CTRL + SHIFT + c at the same time (Firefox and Chrome support this hotkey). You can also open it by searching the settings menu of your browser and looking for ‘Web Developer Tools’. If a window on the right popped in full of code then you’re on the right track:</p>
 <p><br></p>
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/developer_tools.png" width="100%" style="display: block; margin: auto;"></div>
 <p><br></p>
-<p>Here we can search the source code of the website. If you place your mouse pointer over the lines of code from this right-most window, you’ll see sections of the website being highlighted in blue. This indicates which parts of the code refer to which parts of the website. Luckily for us, we don’t have to search the complete source code to find that specific location. We can approximate our search by typing the text we’re looking for in the search bar at the top of the right window:</p>
+<p>Here we can search the source code of the website. If you place your mouse pointer over the lines of code from this right-most window, you’ll see sections of the website being highlighted in blue. This indicates which parts of the code refer to which parts of the website. We never should search the complete source code to find what we want but rather approximate our search by typing the text we’re looking for in the search bar at the top of the right window.</p>
+<p>My first intuition is to search for the text just below the Google Maps:</p>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/main_page.png" width="100%" style="display: block; margin: auto;"></div>
 <p><br></p>
+<p>Searching for that text will be our best approximation because we’ll be just within the maps section of the code and we can start looking for coordinates there instead of the entire website. Let’s search for that in the search bar of developer tools:</p>
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/search_developer_tools.png" width="100%" style="display: block; margin: auto;"></div>
 <p><br></p>
 <p>After we click enter, we’ll be automatically directed to the tag that has the information that we want.</p>
 <p><br></p>
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/location_tag.png" width="100%" style="display: block; margin: auto;"></div>
 <p><br></p>
-<p>More specifically, we can see that the latitude and longitude of schools are found in an attributed called <code>href</code> in a tag <code>&lt;a&gt;</code>:</p>
+<p>At this point, I started browsing the tags in this part of code. To our surprise, we actually landed specifically where the coordinates are. We can see that the latitude and longitude of schools are found in an attributed called <code>href</code> in an <code>&lt;a&gt;</code> tag:</p>
 <p><br></p>
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/location_tag_zoomed.png" width="100%" style="display: block; margin: auto;"></div>
 <p><br></p>
-<p>Can you see the latitude and longitude fields in the text highlighted blue? It’s hidden in-between words. That is precisely the type of information we’re after. Extracting all <code>&lt;a&gt;</code> tags from the website (hint: XPath similar to <code>"//a"</code>) will yield hundreds of matches because <code>&lt;a&gt;</code> is a very common tag. Moreover, refining the search to <code>&lt;a&gt;</code> tags which have an <code>href</code> attribute will also yield hundreds of matches because <code>href</code> is the standard attribute to attach links within websites. We need to narrow down our search within the website.</p>
-<p>One strategy is to find the ‘father’ or ‘grandfather’ node of this particular <code>&lt;a&gt;</code> tag and then match a node which has that same sequence of grandfather -&gt; father -&gt; child node. By looking at the structure of this small XML snippet from the right-most window, we see that the ‘grandfather’ of this <code>&lt;a&gt;</code> tag is <code>&lt;p class="d-flex align-items-baseline g-mt-5'&gt;</code> which has a particularly long attribute named <code>class</code>.</p>
+<p>Can you see the latitude and longitude fields in the text highlighted blue? It’s hidden in-between words. That is precisely the type of information we’re after. The <code>href</code> attribute of the <code>&lt;a&gt;</code> tag contains the coordinates.</p>
+<p>Extracting all <code>&lt;a&gt;</code> tags from the website will yield hundreds of matches because <code>&lt;a&gt;</code> is a very common tag in HTML. Refining the search to <code>&lt;a&gt;</code> tags which have an <code>href</code> attribute will also yield hundreds of matches because <code>href</code> is the standard attribute to attach links within websites. We need to narrow down our search within the website.</p>
+<p>One strategy is to find the ‘father’ or ‘grandfather’ node of this particular <code>&lt;a&gt;</code> tag and match it. The strategy is too look for an ascendant tag that has a particular property that is unique enough to narrow down the search. For example, if the father of the <code>&lt;a&gt;</code> tag would be only a <code>&lt;p&gt;</code> tag, then that would return dozens of results. By looking at the structure of this small HTML snippet from the right-most window, we see that the ‘father’ of this <code>&lt;a&gt;</code> tag is <code>&lt;p class="d-flex align-items-baseline g-mt-5'&gt;</code> which has a particularly long attribute named <code>class</code>. That seems like a good candidate to use:</p>
 <p><br></p>
-<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/location_tag_zoomed.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/father_p_tag.png" width="100%" style="display: block; margin: auto;"></div>
 <p><br></p>
-<p>Don’t be intimidated by these tag names and long attributes. I also don’t know what any of these attributes mean. But what I do know is that this is the ‘grandfather’ of the <code>&lt;a&gt;</code> tag I’m interested in. So using our XPath skills, let’s search for that <code>&lt;p&gt;</code> tag and see if we get only one match.</p>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<p>The <code>&lt;p&gt;</code> tag is the father of both the <code>&lt;i&gt;</code> tag and the <code>&lt;a&gt;</code> tag we want to extract the coordinates from:</p>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/automatic_rmarkdown/unnamed-chunk-68-1.png" width="672" style="display: block; margin: auto;"></div>
+<p>It’s important to not be intimidated by these tag names and long attributes. I also don’t know what any of these attributes mean. But what I do know is that this is the ‘father’ of the <code>&lt;a&gt;</code> tag I’m interested in. So using our XPath skills, let’s search for a <code>&lt;p&gt;</code> tag that has a class set to <code>'d-flex align-items-baseline g-mt-5'</code> and see if we get only one match. That would mean that we can identify that tag precisely:</p>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Search for all &lt;p&gt; tags with that class in the document</span>
 <span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//p[@class='d-flex align-items-baseline g-mt-5']"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (1)}
 ## [1] &lt;p class="d-flex align-items-baseline g-mt-5"&gt;\r\n\t                    &lt; ...</code></pre>
 <p>Only one match, so this is good news. This means that we can uniquely identify this particular <code>&lt;p&gt;</code> tag. Let’s refine the search to say: Find all <code>&lt;a&gt;</code> tags which are children of that specific <code>&lt;p&gt;</code> tag. This only means I’ll add a <code>"//a"</code> to the previous expression. Since there is only one <code>&lt;p&gt;</code> tag with the class, we’re interested in checking whether there is more than one <code>&lt;a&gt;</code> tag below this <code>&lt;p&gt;</code> tag.</p>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//p[@class='d-flex align-items-baseline g-mt-5']//a"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (1)}
 ## [1] &lt;a href="/Colegio/buscar-colegios-cercanos.action?colegio.latitud=38.8274 ...</code></pre>
-<p>There we go! We can see the specific <code>href</code> that contains the latitude and longitude data we’re interested in. How do we extract the <code>href</code> attribute? Using <code>xml_attr</code> as we did before!</p>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<p>There we go! We can see the specific <code>href</code> that contains the latitude and longitude data we’re interested in. How do we extract the <code>href</code> attribute? <code>xml_attr</code> is the standard function to extract attributes out of tags:</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">location_str</span> <span class="op">&lt;-</span>
   <span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//p[@class='d-flex align-items-baseline g-mt-5']//a"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -187,24 +192,59 @@
 
 <span class="va">location_str</span></code></pre></div>
 <pre><code>## [1] "/Colegio/buscar-colegios-cercanos.action?colegio.latitud=38.8274492&amp;colegio.longitud=0.0221681"</code></pre>
-<p>Ok, now we need some regex skills to get only the latitude and longitude (regex expressions are used to search for patterns inside a string, such as for example a date. See <a href="https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/">here</a> for some examples):</p>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div id="data-cleaning-1" class="section level3">
+<h3>
+<span class="header-section-number">7.1.1</span> Data cleaning<a class="anchor" aria-label="anchor" href="#data-cleaning-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Ok, now we need some regular expression skills to get only the latitude and longitude. In the string with the coordinates we see that the first coordinate appears after the first <code>=</code>. Moreover, aside from the coordinates, there’s a few words like <code>colegio</code> (this is just spanish for school) and <code>longitud</code> that are in the middle of the two coordinates. With this mind, we can write the regex:</p>
+<ul>
+<li>
+<code>"=.+$"</code> which captures a <code>=</code> followed by any character (the <code>.</code>) repeated 1 or more times (<code>+</code>) until the end of the string (<code>$</code>). In layman terms: extract any text after the <code>=</code> until the end of the string.</li>
+</ul>
+<p>Let’s apply that:</p>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">location</span> <span class="op">&lt;-</span>
   <span class="va">location_str</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="st">"=.+$"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="st">"=|colegio\\.longitud"</span>, <span class="st">""</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="st">"=.+$"</span><span class="op">)</span>
+
+<span class="va">location</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] "=38.8274492&amp;colegio.longitud=0.0221681"</code></pre>
+<p>The result is exactly what we wanted. Now we need to replaced everything that is not the coordinates. A regex for that would look like:</p>
+<ul>
+<li>
+<code>"=|colegio\\.longitud"</code> which matches the <code>=</code> or <code>colegio.longitud</code> (remember that <code>|</code> stands for OR in regex). Why is the <code>.</code> preceded by two <code>\\</code>? As you saw in the previous regex that we used, the <code>.</code> in regular expressions means <em>any</em> character. To signal that we want this <code>.</code> to be matched literally we write it like <code>\\.</code>. In layman terms: match either <code>=</code> or <code>colegio.longitud</code>. Let’s apply it:</li>
+</ul>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">location</span> <span class="op">&lt;-</span>
+  <span class="va">location</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="st">"=|colegio\\.longitud"</span>, <span class="st">""</span><span class="op">)</span>
+
+<span class="va">location</span></code></pre></div>
+<pre><code>## [1] "38.8274492&amp;0.0221681"</code></pre>
+<p>There we go. We replaced everything between the coordinates except the <code>&amp;</code> in between. Why didn’t we replace that? Because we’ll split the two coordinates by <code>&amp;</code> and have them both separate:</p>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">location</span> <span class="op">&lt;-</span>
+  <span class="va">location</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split</a></span><span class="op">(</span><span class="st">"&amp;"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 
 <span class="va">location</span></code></pre></div>
 <pre><code>## [1] "38.8274492" "0.0221681"</code></pre>
-<p>Ok, so we got the information we needed for one single school. Let’s turn that into a function so we can pass only the school’s link and get the coordinates back.</p>
-<p>Before we do that, I will set something called my <code>User-Agent</code>. In short, the <code>User-Agent</code> is <strong>who</strong> you are. It is good practice to identify the person who is scraping the website because if you’re causing any trouble on the website, the website can directly identify who is causing problems. You can figure out your user agent <a href="https://www.google.com/search?client=ubuntu&amp;channel=fs&amp;q=what%27s+my+user+agent&amp;ie=utf-8&amp;oe=utf-8">here</a> and paste it in the string below. In addition, I will add a time sleep of 5 seconds to the function because we want to make sure we don’t cause any troubles to the website we’re scraping due to an overload of requests.</p>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<p>Alright, so that’s the end of our data cleaning efforts. We managed to locate the specific HTML node that contained the school coordinates and extracted it using string manipulations. Now that we got that information for one single school, let’s turn that into a function so we can pass only the school’s link and get the coordinates back</p>
+<p>TODO reference user agent chapter</p>
+</div>
+</div>
+<div id="scaling-the-scraper-to-all-schools" class="section level2">
+<h2>
+<span class="header-section-number">7.2</span> Scaling the scraper to all schools<a class="anchor" aria-label="anchor" href="#scaling-the-scraper-to-all-schools"><i class="fas fa-link"></i></a>
+</h2>
+<p>When moving the code to scrape one single case to many cases, you’ll want to move the code into a function to make it more compact, organized and easy to read. Let’s move all our code into a function but also make sure to set your user agent as well add a time sleep of 5 seconds to the function because we want to make sure we don’t cause any troubles to the website we’re scraping due to an overload of requests:</p>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># This sets your `User-Agent` globally so that all requests are</span>
 <span class="co"># identified with this `User-Agent`</span>
 <span class="fu"><a href="https://httr.r-lib.org/reference/set_config.html">set_config</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://httr.r-lib.org/reference/user_agent.html">user_agent</a></span><span class="op">(</span><span class="st">"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:70.0) Gecko/20100101 Firefox/70.0"</span><span class="op">)</span>
+  <span class="fu"><a href="https://httr.r-lib.org/reference/user_agent.html">user_agent</a></span><span class="op">(</span><span class="st">"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0"</span><span class="op">)</span>
 <span class="op">)</span>
 
 <span class="co"># Collapse all of the code from above into one function called</span>
@@ -237,14 +277,13 @@
   <span class="op">)</span>
 <span class="op">}</span>
 
-
 <span class="fu">school_grabber</span><span class="op">(</span><span class="va">school_url</span><span class="op">)</span></code></pre></div>
 <pre><code>##     latitude longitude
 ## 1 38.8274492 0.0221681</code></pre>
-<p>Ok, so it’s working. The only thing left is to extract this for many schools. As shown earlier, <code>scrapex</code> contains a list of 27 school links that we can automatically scrape. Let’s loop over those, get the information of coordinates for each and collapse all of them into a data frame.</p>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">school_grabber</span><span class="op">)</span>
-<span class="va">res</span></code></pre></div>
+<p>We can see that it worked for a single school, so we can try on all schools. The only thing left is to extract this for many schools. As shown earlier, <code>scrapex</code> contains a list of 27 school links that we can automatically scrape. Let’s loop over those, get the information of coordinates for each and collapse all of them into a data frame.</p>
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">coordinates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">school_grabber</span><span class="op">)</span>
+<span class="va">coordinates</span></code></pre></div>
 <pre><code>##    latitude  longitude
 ## 1  42.72779 -8.6567935
 ## 2  43.24439 -8.8921645
@@ -274,8 +313,8 @@
 ## 26 41.73767  1.8383666
 ## 27 41.62345  2.0013628</code></pre>
 <p>So now that we have the locations of these schools, let’s plot them:</p>
-<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span><span class="op">(</span><span class="va">res</span>, <span class="va">as.numeric</span><span class="op">)</span>
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">coordinates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span><span class="op">(</span><span class="va">coordinates</span>, <span class="va">as.numeric</span><span class="op">)</span>
 
 <span class="va">sp_sf</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html">ne_countries</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="st">"large"</span>, country <span class="op">=</span> <span class="st">"Spain"</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -283,32 +322,328 @@
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">sp_sf</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">longitude</span>, y <span class="op">=</span> <span class="va">latitude</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">coordinates</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">longitude</span>, y <span class="op">=</span> <span class="va">latitude</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">20</span>, <span class="fl">10</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">45</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Sample of schools in Spain"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/automatic_rmarkdown/spain-map-schools-1.png" width="672" style="display: block; margin: auto;"></div>
-<p>There we go! We went from literally no information at the beginning of this tutorial to interpretable and summarized information only using web data. We can see some schools in Madrid (center) as well in other regions of Spain, including Catalonia and Galicia.</p>
-<p>This marks the end of our scraping adventure but before we finish, I want to mention some of the ethical guidelines for web scraping. Scraping is extremely useful for us but can give headaches to other people maintaining the website of interest. Here’s a list of ethical guidelines you should always follow:</p>
-<ul>
-<li><p>Read the terms and services: many websites prohibit web scraping and you could be in a breach of privacy by scraping the data. <a href="https://fortune.com/2016/05/18/okcupid-data-research/">One</a> famous example.</p></li>
-<li><p>Check the <code>robots.txt</code> file. This is a file that most websites have (<code>www.buscocolegio.com</code> does <strong>not</strong>) which tell you which specific paths inside the website are scrapable and which are not. See <a href="https://www.robotstxt.org/robotstxt.html">here</a> for an explanation of what robots.txt look like and where to find them.</p></li>
-<li><p>Some websites are supported by very big servers, which means you can send 4-5 website requests per second. Others, such as <code>www.buscocolegio.com</code> are not. It’s good practice to always put a time sleep between your requests. In our example, I set it to 5 seconds because this is a small website and we don’t want to crash their servers.</p></li>
-<li><p>When making requests, there are computational ways of identifying yourself. For example, every request (such as the one’s we do) can have something called a <code>User-Agent</code>. It is good practice to include yourself in as the <code>User-Agent</code> (as we did in our code) because the admin of the server can directly identify if someone’s causing problems due to their web scraping.</p></li>
-<li><p>Limit your scraping to non-busy hours such as overnight. This can help reduce the chances of collapsing the website since fewer people are visiting websites in the evening.</p></li>
-</ul>
-<p>You can read more about these ethical issues <a href="http://robertorocha.info/on-the-ethics-of-web-scraping/">here</a>.</p>
+<p>There’s it is! We managed to extract the coordinates of all the schools, clean them and plot them.</p>
 </div>
-<div id="wrap-up" class="section level2">
+<div id="scraping-publicprivate-school-information" class="section level2">
 <h2>
-<span class="header-section-number">7.2</span> Wrap up<a class="anchor" aria-label="anchor" href="#wrap-up"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.3</span> Scraping public/private school information<a class="anchor" aria-label="anchor" href="#scraping-publicprivate-school-information"><i class="fas fa-link"></i></a>
 </h2>
-<p>This tutorial introduced you to basic concepts in web scraping and applied them in a real-world setting. Web scraping is a vast field in computer science (you can find entire books on the subject such as <a href="https://www.apress.com/gp/book/9781484235812">this</a>). We covered some basic techniques which I think can take you a long way but there’s definitely more to learn. For those curious about where to turn, I’m looking forward to the upcoming book <a href="https://rud.is/b/books/">“A Field Guide for Web Scraping and Accessing APIs with R”</a> by Bob Rudis, which should be released in the near future. Now go scrape some websites ethically!</p>
+<p>Suppose that working as a consultant for the ministry of economy, they task you with understanding whether public/private schools are correlated with income inequality at the neighborhood level. There’s many public sources nowadays that can tell you the average income for a given neighborhood so we can find that data already cleaned and ready to use for us on the internet. However, it’s difficult to find a list of all national schools of a country together with the information on whether they’re public or private.</p>
+<p>As we saw in <code>www.buscocolegio.com</code>, each school website has also information on whether a school is public or private. It’s exactly here:</p>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/main_website_public_private.png" width="100%" style="display: block; margin: auto;"></div>
+<p>“Centro Público” means Public Center. Ig we managed to build a scraper to extract this information we would know if a school is either public or private. Let’s open up web developer tools and look specifically at the tag that is highlighted when clicking on “Centro Público”:</p>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/tag_public_private.png" width="100%" style="display: block; margin: auto;"></div>
+<p>The public/private information we’re interested is within a <code>&lt;strong&gt;</code> tag. This tag in HTML means that the text will be in bold (althought we don’t care about what each tag does, it’s handy to know). Searching simply for a <code>&lt;strong&gt;</code> tag will probably yield dozens of matches since <code>&lt;strong&gt;</code> is too generic. We need to find a more unique tag that identifies the entire box. At this point, I started looking at the father tags above <code>&lt;strong&gt;</code> and found the 1st ascendant of the <code>&lt;strong&gt;</code> tag:</p>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/father_tag_public_private.png" width="100%" style="display: block; margin: auto;"></div>
+<p>The <code>&lt;div&gt;</code> tag with class <code>'col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25'</code> seems unique enough to give it a try. Let’s try:</p>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']"</span><span class="op">)</span></code></pre></div>
+<pre><code>## {xml_nodeset (10)}
+##  [1] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [2] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [3] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [4] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [5] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [6] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [7] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [8] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [9] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+## [10] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...</code></pre>
+<p>Ok, this makes sense. It returns 10 nodes because this same <code>&lt;div&gt;</code> is present in all details of the bigger details box:</p>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/main_website_details_box.png" width="100%" style="display: block; margin: auto;"></div>
+<p>One strategy is to extract all <code>&lt;strong&gt;</code> tags within that tag and extract the text. If we find the “Centro Público” text in there, we can use some regex to extract it:</p>
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">text_boxes</span> <span class="op">&lt;-</span>
+  <span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']//strong"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">text_boxes</span></code></pre></div>
+<pre><code>##  [1] "616522706"                                                         
+##  [2] "966428835"                                                         
+##  [3] "03006839@edu.gva.es"                                               
+##  [4] "-"                                                                 
+##  [5] "966428836"                                                         
+##  [6] "3006839"                                                           
+##  [7] "Centro Público"                                                    
+##  [8] "Colegio de Educación Infantil y Primaria"                          
+##  [9] "GENERALITAT VALENCIANA"                                            
+## [10] "Vuelta al cole, inicio y fin de clases, vacaciones y días festivos"</code></pre>
+<p>We can see the type of school right there in slot 7 of the vector. Let’s finalize this by detecting the string with a pattern and extracting it:</p>
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">single_public_private</span> <span class="op">&lt;-</span>
+  <span class="va">text_boxes</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="st">"Centro"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="va">text_boxes</span><span class="op">[</span><span class="va">.</span><span class="op">]</span>
+
+<span class="va">single_public_private</span></code></pre></div>
+<pre><code>## [1] "Centro Público"</code></pre>
+<p>There we go. We have the scaffold code to build a function and extract this for all schools. Let’s move our code into a function that accepts one school url and loop over all schools:</p>
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">grab_public_private_school</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">school_link</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>
+  <span class="va">school</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">school_link</span><span class="op">)</span>
+  <span class="va">text_boxes</span> <span class="op">&lt;-</span>
+    <span class="va">school</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']//strong"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span>
+
+  <span class="va">single_public_private</span> <span class="op">&lt;-</span>
+    <span class="va">text_boxes</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="st">"Centro"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="va">text_boxes</span><span class="op">[</span><span class="va">.</span><span class="op">]</span>
+
+
+  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+    public_private <span class="op">=</span> <span class="va">single_public_private</span>,
+    stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>
+  <span class="op">)</span>
+<span class="op">}</span>
+
+<span class="va">public_private_schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">grab_public_private_school</span><span class="op">)</span>
+<span class="va">public_private_schools</span></code></pre></div>
+<pre><code>##    public_private
+## 1  Centro Privado
+## 2  Centro Público
+## 3  Centro Público
+## 4  Centro Público
+## 5  Centro Privado
+## 6  Centro Público
+## 7  Centro Público
+## 8  Centro Privado
+## 9  Centro Público
+## 10 Centro Público
+## 11 Centro Público
+## 12 Centro Público
+## 13 Centro Público
+## 14 Centro Público
+## 15 Centro Público
+## 16 Centro Público
+## 17 Centro Público
+## 18 Centro Privado
+## 19 Centro Público
+## 20 Centro Público
+## 21 Centro Privado
+## 22 Centro Público
+## 23 Centro Privado
+## 24 Centro Público
+## 25 Centro Público
+## 26 Centro Privado
+## 27 Centro Público</code></pre>
+<p>With this info at hand we can merge it with the coordinates of the school and visualize public/private schools by location:</p>
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Let's translate the public/private names from Spanish to English</span>
+<span class="va">lookup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Centro Público"</span> <span class="op">=</span> <span class="st">"Public"</span>, <span class="st">"Centro Privado"</span> <span class="op">=</span> <span class="st">"Private"</span><span class="op">)</span>
+<span class="va">public_private_schools</span><span class="op">$</span><span class="va">public_private</span> <span class="op">&lt;-</span> <span class="va">lookup</span><span class="op">[</span><span class="va">public_private_schools</span><span class="op">$</span><span class="va">public_private</span><span class="op">]</span>
+
+<span class="co"># Merge it with the coordinates data</span>
+<span class="va">all_schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">coordinates</span>, <span class="va">public_private_schools</span><span class="op">)</span>
+
+<span class="co"># Plot private/public by coordinates</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">sp_sf</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">all_schools</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">longitude</span>, y <span class="op">=</span> <span class="va">latitude</span>, color <span class="op">=</span> <span class="va">public_private</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">20</span>, <span class="fl">10</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">45</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Sample of schools in Spain by private/public"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/automatic_rmarkdown/unnamed-chunk-87-1.png" width="672" style="display: block; margin: auto;"></div>
+</div>
+<div id="extracting-type-of-school" class="section level2">
+<h2>
+<span class="header-section-number">7.4</span> Extracting type of school<a class="anchor" aria-label="anchor" href="#extracting-type-of-school"><i class="fas fa-link"></i></a>
+</h2>
+<p>One additional information that might also be useful to know is the type of each school: kindergarten, secondary school, primary school, etc. This information is just next to whether the school is private or public:</p>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/main_website_type_school.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Now, you might think we can just copy the exact code from the previous extraction but this one is slightly different. The problem is that we don’t know in advance what the type of school each school might be. That is, we can’t use regex to search (like we did for the public/private) for something like “Primary” because it can be “Primary school” or many other types of school. What we have to do here is to search for the header of the box:</p>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/main_website_type_school_header.png" width="100%" style="display: block; margin: auto;"></div>
+<p>We recycle the first XPath from the public/private scraper and then find the exact <code>&lt;div&gt;</code> that belongs to the type of school:</p>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">text_boxes</span> <span class="op">&lt;-</span>
+  <span class="va">school_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']"</span><span class="op">)</span>
+
+<span class="va">text_boxes</span></code></pre></div>
+<pre><code>## {xml_nodeset (10)}
+##  [1] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [2] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [3] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [4] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [5] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [6] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [7] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [8] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+##  [9] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...
+## [10] &lt;div class="col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px ...</code></pre>
+<p>Those are the 10 nodes we saw before. Let’s extract the text within each one and match to where is the keyword from the header “Tipo Centro”:</p>
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">selected_node</span> <span class="op">&lt;-</span> <span class="va">text_boxes</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="st">"Tipo Centro"</span><span class="op">)</span>
+<span class="va">selected_node</span></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</code></pre>
+<p>The 7th node is the one we’re looking for. Let’s subset that node and from here on we can do as we did last time: extract the <code>strong</code> tag. Note that we’ll use the XPath <code>.//strong</code>. <code>.//strong</code> means to find all <code>strong</code> tags but the <code>.</code> means to search for all tags <em>below</em> the current selection. If we would write instead <code>//strong</code>, it would search for all <code>strong</code> tags in the entire source code. The <code>.</code> in front tells XPath to search downwards from the current selection. Let’s write that and confirmar that we get the correct text:</p>
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">single_type_school</span> <span class="op">&lt;-</span>
+  <span class="va">text_boxes</span><span class="op">[</span><span class="va">selected_node</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">".//strong"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">single_type_school</span></code></pre></div>
+<pre><code>## [1] "Colegio de Educación Infantil y Primaria"</code></pre>
+<p>Perfect, that’s the type of school that is also on the website. “Colegio de Educación Infantil y Primaria” means “Pre-school and Primary School”. With the code ready, we can wrap it all in a function and extract for all schools:</p>
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">grab_type_school</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">school_link</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>
+  <span class="va">school</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">school_link</span><span class="op">)</span>
+
+  <span class="va">text_boxes</span> <span class="op">&lt;-</span>
+    <span class="va">school</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']"</span><span class="op">)</span>
+
+  <span class="va">selected_node</span> <span class="op">&lt;-</span>
+    <span class="va">text_boxes</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="st">"Tipo Centro"</span><span class="op">)</span>
+
+  <span class="va">single_type_school</span> <span class="op">&lt;-</span>
+    <span class="va">text_boxes</span><span class="op">[</span><span class="va">selected_node</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">".//strong"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span>
+
+
+  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+    type_school <span class="op">=</span> <span class="va">single_type_school</span>,
+    stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>
+  <span class="op">)</span>
+<span class="op">}</span>
+
+<span class="va">all_type_schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">grab_type_school</span><span class="op">)</span>
+<span class="va">all_type_schools</span></code></pre></div>
+<pre><code>##                                     type_school
+## 1                              Escuela Infantil
+## 2                              Escuela Infantil
+## 3                              Escuela Infantil
+## 4                              Escuela Infantil
+## 5                              Escuela Infantil
+## 6  Escuela de Educación Infantil, Casa de Niños
+## 7                              Escuela Infantil
+## 8                              Escuela Infantil
+## 9                              Escuela Infantil
+## 10 Escuela de Educación Infantil, Casa de Niños
+## 11                             Escuela Infantil
+## 12      Escuela Municipal de Educación Infantil
+## 13     Colegio de Educación Infantil y Primaria
+## 14                             Escuela Infantil
+## 15                             Escuela Infantil
+## 16                             Escuela Infantil
+## 17                             Escuela Infantil
+## 18                             Escuela Infantil
+## 19                                       Escola
+## 20                                       Escola
+## 21                                       Escola
+## 22                                       Escola
+## 23                                       Escola
+## 24                                       Escola
+## 25                                       Escola
+## 26                                       Escola
+## 27                                       Escola</code></pre>
+<p>Let’s merge it to the previous data on schools and visualize the points by both private/public as well as type of school:</p>
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">all_schools</span>, <span class="va">all_type_schools</span><span class="op">)</span>
+
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">sp_sf</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">all_schools</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">longitude</span>, y <span class="op">=</span> <span class="va">latitude</span>, color <span class="op">=</span> <span class="va">public_private</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">20</span>, <span class="fl">10</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">45</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">type_school</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Sample of schools in Spain"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/automatic_rmarkdown/unnamed-chunk-95-1.png" width="672" style="display: block; margin: auto;"></div>
+<p>As you might have seen from this chapter, webscraping is all about being creative. Finding somewhat unique tags that identify the data you’re looking for is not a precise science and requires tricks using regular expressions, string manipulations and handy XPath knowledge. In the exercises below you’ll need to be creative and find clever ways to extract additional data from the schools data.</p>
 </div>
 <div id="exercises-4" class="section level2">
 <h2>
-<span class="header-section-number">7.3</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.5</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-4"><i class="fas fa-link"></i></a>
 </h2>
+<ol style="list-style-type: decimal">
+<li>On the left menu click where it says “Enseñanzas” (teachings in english). I want you to extract the <em>unique</em> modality of the school. This is whether the school has remote or in-presence classes. You can find the information here:</li>
+</ol>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/school_modality.png" width="100%" style="display: block; margin: auto;"></div>
+<p>For this school, all classes are in-presence or “presencial” in Spanish. You result should be a data frame of one column with 27 rows (one for each school). You result should be like this but for the 27 schools:</p>
+<pre><code>##   mode_school
+## 1  Presencial
+## 2  Presencial
+## 3  Presencial
+## 4  Presencial
+## 5  Presencial
+## 6  Presencial</code></pre>
+<p><strong>Hint: it might be handy to pick tags in XPath using indices such as <code>//tag[2]</code> to get the specific index you want.</strong></p>
+<ol start="2" style="list-style-type: decimal">
+<li>On the left menu click where it says “Servicios” (services in English). I want you to extract all services that each school provides. In this example, the school provides “Comedor escolar” (school cafeteria) and “Transporte” (transportation):</li>
+</ol>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/services_school.png" width="100%" style="display: block; margin: auto;"></div>
+<p>You result should look something like this but for 27 schools:</p>
+<pre><code>##                      amenities
+## 11                        &lt;NA&gt;
+## 12                        &lt;NA&gt;
+## 13 Comedor Escolar, Transporte
+## 14                     Comedor
+## 15                     Comedor
+## 16                        &lt;NA&gt;</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>From the main school page, extract the address of the school. The information is here:</li>
+</ol>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/school_address_selection.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Your result should be like this but for 27 schools:</p>
+<pre><code>##                                                                             addresses
+## 1                  CALZADA S/N-IRIA. 15917. Puente-Cesures, Padrón, A Coruña, GALICIA
+## 2                                 TRABE. 15110. A Trabe, Ponteceso, A Coruña, GALICIA
+## 3                      CL. MEJORADA, S/N. 02690. Alpera, Albacete, CASTILLA-LA MANCHA
+## 4 TR. CANTARRANAS, 3 B. 02610. El Bonillo, Bonillo (El), Albacete, CASTILLA-LA MANCHA
+## 5                                 C/ de la Fuente de Piedra 10. 28018. Madrid, MADRID
+## 6                                    C/ Mayor 29. 28596. Brea de Tajo, Madrid, MADRID</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>On the main page of the website, if you scroll down you’ll find a part of the website like this:</li>
+</ol>
+<div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/other_schools_href.png" width="100%" style="display: block; margin: auto;"></div>
+<p>These are schools that other people visited when visiting this specific school. If you were doing some type of network analysis, you might want to analyze whether people visiting certain type of schools are interested in schools with certain properties. For that, you might need to actually go to the other school’s websites and extract information. Right now we won’t do that, but your task is to extract the other school’s links in case you wanted to automatically scrape these schools as well. For each school, you’ll have four links to other similar schools. Your result should be like this but for 27 schools:</p>
+<pre><code>## # A tibble: 27 × 4
+##    school_one                                school_two school_three school_four
+##    &lt;chr&gt;                                     &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;      
+##  1 /Colegio/detalles-colegio.action?id=1500… /Colegio/… /Colegio/de… /Colegio/d…
+##  2 /Colegio/detalles-colegio.action?id=1502… /Colegio/… /Colegio/de… /Colegio/d…
+##  3 /Colegio/detalles-colegio.action?id=2009… /Colegio/… /Colegio/de… /Colegio/d…
+##  4 /Colegio/detalles-colegio.action?id=2009… /Colegio/… /Colegio/de… /Colegio/d…
+##  5 /Colegio/detalles-colegio.action?id=2804… /Colegio/… /Colegio/de… /Colegio/d…
+##  6 /Colegio/detalles-colegio.action?id=2804… /Colegio/… /Colegio/de… /Colegio/d…
+##  7 /Colegio/detalles-colegio.action?id=2806… /Colegio/… /Colegio/de… /Colegio/d…
+##  8 /Colegio/detalles-colegio.action?id=2805… /Colegio/… /Colegio/de… /Colegio/d…
+##  9 /Colegio/detalles-colegio.action?id=2806… /Colegio/… /Colegio/de… /Colegio/d…
+## 10 /Colegio/detalles-colegio.action?id=2805… /Colegio/… /Colegio/de… /Colegio/d…
+## # … with 17 more rows</code></pre>
+<p><strong>Hint: you’ll want to look for the hyperlink that leads to each school in the <code>href</code> tag.</strong></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Combine <code>all_schools</code> with the previous exercises into a final data frame for each school. Final result should like this but for 27 schools:</li>
+</ol>
+<pre><code>## # A tibble: 27 × 11
+##    latitude longitude public_private type_school mode_school amenities addresses
+##       &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;    
+##  1     42.7     -8.66 Private        Escuela In… Presencial  &lt;NA&gt;      CALZADA …
+##  2     43.2     -8.89 Public         Escuela In… Presencial  &lt;NA&gt;      TRABE. 1…
+##  3     39.0     -1.23 Public         Escuela In… Presencial  &lt;NA&gt;      CL. MEJO…
+##  4     39.2     -1.62 Public         Escuela In… Presencial  &lt;NA&gt;      TR. CANT…
+##  5     40.4     -3.64 Private        Escuela In… Presencial  &lt;NA&gt;      C/ de la…
+##  6     40.2     -3.11 Public         Escuela de… Presencial  &lt;NA&gt;      C/ Mayor…
+##  7     40.4     -3.70 Public         Escuela In… Presencial  Horario … JOSÉ ABA…
+##  8     40.3     -3.52 Private        Escuela In… Presencial  &lt;NA&gt;      C/ Feder…
+##  9     40.5     -3.37 Public         Escuela In… Presencial  &lt;NA&gt;      C/ José …
+## 10     40.6     -3.45 Public         Escuela de… Presencial  &lt;NA&gt;      C/ Subid…
+## # … with 17 more rows, and 4 more variables: school_one &lt;chr&gt;,
+## #   school_two &lt;chr&gt;, school_three &lt;chr&gt;, school_four &lt;chr&gt;</code></pre>
 
 </div>
 </div>
@@ -319,9 +654,13 @@
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#case-study-scraping-spanish-school-locations-from-the-web"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="nav-link" href="#building-a-scraper-for-one-school"><span class="header-section-number">7.1</span> Building a scraper for one school</a></li>
-<li><a class="nav-link" href="#wrap-up"><span class="header-section-number">7.2</span> Wrap up</a></li>
-<li><a class="nav-link" href="#exercises-4"><span class="header-section-number">7.3</span> Exercises</a></li>
+<li>
+<a class="nav-link" href="#building-a-scraper-for-one-school"><span class="header-section-number">7.1</span> Building a scraper for one school</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#data-cleaning-1"><span class="header-section-number">7.1.1</span> Data cleaning</a></li></ul>
+</li>
+<li><a class="nav-link" href="#scaling-the-scraper-to-all-schools"><span class="header-section-number">7.2</span> Scaling the scraper to all schools</a></li>
+<li><a class="nav-link" href="#scraping-publicprivate-school-information"><span class="header-section-number">7.3</span> Scraping public/private school information</a></li>
+<li><a class="nav-link" href="#extracting-type-of-school"><span class="header-section-number">7.4</span> Extracting type of school</a></li>
+<li><a class="nav-link" href="#exercises-4"><span class="header-section-number">7.5</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">
@@ -339,7 +678,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-09-30.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-10-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
