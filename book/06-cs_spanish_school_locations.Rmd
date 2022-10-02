@@ -19,7 +19,7 @@ In this chapter we'll be scraping the location of a sample of schools in Spain. 
 knitr::include_graphics(file.path(main_dir, "/automatic_rmarkdown/spain-map-schools-1.png"))
 ```
 
-In the real-world example that we'll be doing below, we'll be scraping data from the website `www.buscocolegio.com` to locate a sample of schools in Spain. As usual, the website has been saved locally in the `scrapex` package such that any changes made on the website don't break our code in the future. Althought the links we'll be working with will be hosted locally on your machine, the HTML of the website should be very similar to the one hosted on the online website (with the exception of some images/icons which were deleted on purpose to make the package lightweight). With that said, the local website should be a fairly good representation of what you'll find in real website on the internet.
+As usual, the website has been saved locally in the `scrapex` package such that any changes made on the website don't break our code in the future. Althought the links we'll be working with will be hosted locally on your machine, the HTML of the website should be very similar to the one hosted on the online website (with the exception of some images/icons which were deleted on purpose to make the package lightweight). With that said, the local website should be a fairly good representation of what you'll find in real website on the internet. The website is in Spanish so I'll make sure to point out specifically the type of information we're looking for. Non-spanish speakers should be able to work through this chapter without a problem.
 
 Before we begin, let's load all the package we'll use in the chapter:
 
@@ -34,7 +34,7 @@ library(scrapex)
 
 ## Building a scraper for one school
 
-We're interested in making a list of many schools in Spain and visualizing their location. This can be useful for many things such as matching population density of children across different regions to school locations. The website `www.buscocolegio.com` contains a database of schools similar to what we're looking for. As described at the beginning, instead we're going to use `scrapex` which has the function `spanish_schools_ex()` containing the links to a sample of websites from different schools saved locally on your computer.
+Visualizing school locations can be useful for many things such as matching population density of children across different regions to school locations or mapping patterns of inequality by geographical locations. The website `www.buscocolegio.com` contains a database of schools for all of Spain, containing a plethora of information of each school, together with the coordinates of where the school is located. The function `spanish_schools_ex()` contains the local links to each school.
 
 Let's look at an example for one school.
 
@@ -47,28 +47,30 @@ school_url <- school_links[13]
 school_url
 ```
 
-If you're interested in looking at the website interactively in your browser, you can do it with `browseURL(prep_browser(school_url))`. Let's read the HTML (XML and HTML are **usually** interchangeable, so here we use `read_html`).
+Let's look at the rendered website with the code below:
+
+```{r, eval = FALSE}
+browseURL(prep_browser(school_url))
+```
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/main_website_no_selection.png"))
+```
+
+The website shows standard details of the school "CEIP SANCHIS GUARNER". You can see it's contact email and other contact details. Additionally, you can see it's location on the right. We want to extract precisely that data to visualize their locations. How can we access those coordinates?
+
+Let's read the website into R before we start narrowing down how to obtain the coordinates:
 
 ```{r}
-# Here we use `read_html` because `read_xml` is throwing an error
-# when attempting to read. However, everything we've discussed
-# should be the same.
 school_raw <- read_html(school_url) %>% xml_child()
-
 school_raw
 ```
 
-Web scraping strategies are very specific to the website you're after. You have to get very familiar with the website you're interested to be able to match perfectly the information you're looking for. In many cases, scraping two websites will require vastly different strategies. For this particular example, we're only interested in figuring out the **location** of each school so we only have to extract its location.
+At this point, we shouldn't worry about exploring the actual website in R. It's always a better idea to look at the code on your browser. Once you have an idea of where the data you're looking for is, you can come back to the raw HTML and search for the specific tags.
 
-```{r, echo = FALSE, out.width = "100%"}
-knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/main_page.png"))
-```
+Web scraping strategies are very specific to the website you're after. You have to get very familiar with the website you're interested to be able to match perfectly the information you're looking for. In many cases, scraping two websites will require vastly different strategies.
 
-<br>
-
-In the image above you'll find a typical school's website in `wwww.buscocolegio.com`. The website has a lot of information, but we're only interested in the button that is circled by the orange rectangle. If you can't find it easily, it's below the Google Maps on the right which says "Buscar colegio cercano".
-
-When you click on this button, this actually points you towards the coordinates of the school so we just have to find a way of figuring out how to click this button or figure out how to get its information. All browsers allow you to do this if you press CTRL + SHIFT + c at the same time (Firefox and Chrome support this hotkey). If a window on the right popped in full of code, then you're on the right track:
+The first thing we want to do is to start looking at the source code of the maps section on the right so you can start looking for hints of the coordinates somewhere in the code. We do that by popping up the *web developer's tools*. All browsers support this tool and you can open it if you press CTRL + SHIFT + c at the same time (Firefox and Chrome support this hotkey). You can also open it by searching the settings menu of your browser and looking for 'Web Developer Tools'. If a window on the right popped in full of code then you're on the right track:
 
 <br>
 
@@ -78,9 +80,17 @@ knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/developer_tools.p
 
 <br>
 
-Here we can search the source code of the website. If you place your mouse pointer over the lines of code from this right-most window, you'll see sections of the website being highlighted in blue. This indicates which parts of the code refer to which parts of the website. Luckily for us, we don't have to search the complete source code to find that specific location. We can approximate our search by typing the text we're looking for in the search bar at the top of the right window:
+Here we can search the source code of the website. If you place your mouse pointer over the lines of code from this right-most window, you'll see sections of the website being highlighted in blue. This indicates which parts of the code refer to which parts of the website. We never should search the complete source code to find what we want but rather approximate our search by typing the text we're looking for in the search bar at the top of the right window.
+
+My first intuition is to search for the text just below the Google Maps:
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/main_page.png"))
+```
 
 <br>
+
+Searching for that text will be our best approximation because we'll be just within the maps section of the code and we can start looking for coordinates there instead of the entire website. Let's search for that in the search bar of developer tools:
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/search_developer_tools.png"))
@@ -98,7 +108,7 @@ knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/location_tag.png"
 
 <br>
 
-More specifically, we can see that the latitude and longitude of schools are found in an attributed called `href` in a tag `<a>`:
+At this point, I started browsing the tags in this part of code. To our surprise, we actually landed specifically where the coordinates are. We can see that the latitude and longitude of schools are found in an attributed called `href` in an `<a>` tag:
 
 <br>
 
@@ -108,20 +118,32 @@ knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/location_tag_zoom
 
 <br>
 
-Can you see the latitude and longitude fields in the text highlighted blue? It's hidden in-between words. That is precisely the type of information we're after. Extracting all `<a>` tags from the website (hint: XPath similar to `"//a"`) will yield hundreds of matches because `<a>` is a very common tag. Moreover, refining the search to `<a>` tags which have an `href` attribute will also yield hundreds of matches because `href` is the standard attribute to attach links within websites. We need to narrow down our search within the website.
+Can you see the latitude and longitude fields in the text highlighted blue? It's hidden in-between words. That is precisely the type of information we're after. The `href` attribute of the `<a>` tag contains the coordinates.
 
-One strategy is to find the 'father' or 'grandfather' node of this particular `<a>` tag and then match a node which has that same sequence of grandfather -> father -> child node. By looking at the structure of this small XML snippet from the right-most window, we see that the 'grandfather' of this `<a>` tag is `<p class="d-flex align-items-baseline g-mt-5'>` which has a particularly long attribute named `class`.
+Extracting all `<a>` tags from the website will yield hundreds of matches because `<a>` is a very common tag in HTML. Refining the search to `<a>` tags which have an `href` attribute will also yield hundreds of matches because `href` is the standard attribute to attach links within websites. We need to narrow down our search within the website.
+
+One strategy is to find the 'father' or 'grandfather' node of this particular `<a>` tag and match it. The strategy is too look for an ascendant tag that has a particular property that is unique enough to narrow down the search. For example, if the father of the `<a>` tag would be only a `<p>` tag, then that would return dozens of results. By looking at the structure of this small HTML snippet from the right-most window, we see that the 'father' of this `<a>` tag is `<p class="d-flex align-items-baseline g-mt-5'>` which has a particularly long attribute named `class`. That seems like a good candidate to use:
 
 <br>
 
 ```{r, echo = FALSE, out.width = "100%"}
-knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/location_tag_zoomed.png"))
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/father_p_tag.png"))
 ```
 
 <br>
 
-Don't be intimidated by these tag names and long attributes. I also don't know what any of these attributes mean. But what I do know is that this is the 'grandfather' of the `<a>` tag I'm interested in. So using our XPath skills, let's search for that `<p>` tag and see if we get only one match.
+The `<p>` tag is the father of both the `<i>` tag and the `<a>` tag we want to extract the coordinates from:
 
+
+```{r, echo = FALSE}
+library(ggdag)
+set.seed(51231)
+confounder_triangle(x = "<a> tag", y = "<i> tag", z = "<p> tag") %>%
+  ggdag(use_labels = "label") +
+  theme_dag()
+```
+
+It's important to not be intimidated by these tag names and long attributes. I also don't know what any of these attributes mean. But what I do know is that this is the 'father' of the `<a>` tag I'm interested in. So using our XPath skills, let's search for a `<p>` tag that has a class set to `'d-flex align-items-baseline g-mt-5'` and see if we get only one match. That would mean that we can identify that tag precisely:
 
 ```{r}
 # Search for all <p> tags with that class in the document
@@ -138,7 +160,7 @@ school_raw %>%
 
 ```
 
-There we go! We can see the specific `href` that contains the latitude and longitude data we're interested in. How do we extract the `href` attribute? Using `xml_attr` as we did before!
+There we go! We can see the specific `href` that contains the latitude and longitude data we're interested in. How do we extract the `href` attribute? `xml_attr` is the standard function to extract attributes out of tags:
 
 ```{r}
 location_str <-
@@ -149,28 +171,58 @@ location_str <-
 location_str
 ```
 
-Ok, now we need some regex skills to get only the latitude and longitude (regex expressions are used to search for patterns inside a string, such as for example a date. See [here](https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/) for some examples):
+### Data cleaning
+
+Ok, now we need some regular expression skills to get only the latitude and longitude. In the string with the coordinates we see that the first coordinate appears after the first `=`. Moreover, aside from the coordinates, there's a few words like `colegio` (this is just spanish for school) and `longitud` that are in the middle of the two coordinates. With this mind, we can write the regex:
+
+* `"=.+$"` which captures a `=` followed by any character (the `.`) repeated 1 or more times (`+`) until the end of the string (`$`). In layman terms: extract any text after the `=` until the end of the string.
+
+Let's apply that:
 
 ```{r}
 location <-
   location_str %>%
-  str_extract_all("=.+$") %>%
-  str_replace_all("=|colegio\\.longitud", "") %>%
+  str_extract_all("=.+$")
+
+location
+```
+
+The result is exactly what we wanted. Now we need to replaced everything that is not the coordinates. A regex for that would look like:
+
+* `"=|colegio\\.longitud"` which matches the `=` or `colegio.longitud` (remember that `|` stands for OR in regex). Why is the `.` preceded by two `\\`? As you saw in the previous regex that we used, the `.` in regular expressions means *any* character. To signal that we want this `.` to be matched literally we write it like `\\.`. In layman terms: match either `=` or `colegio.longitud`. Let's apply it:
+
+```{r}
+location <-
+  location %>%
+  str_replace_all("=|colegio\\.longitud", "")
+
+location
+```
+
+There we go. We replaced everything between the coordinates except the `&` in between. Why didn't we replace that? Because we'll split the two coordinates by `&` and have them both separate:
+
+```{r}
+location <-
+  location %>%
   str_split("&") %>%
   .[[1]]
 
 location
 ```
 
-Ok, so we got the information we needed for one single school. Let's turn that into a function so we can pass only the school's link and get the coordinates back.
+Alright, so that's the end of our data cleaning efforts. We managed to locate the specific HTML node that contained the school coordinates and extracted it using string manipulations. Now that we got that information for one single school, let's turn that into a function so we can pass only the school's link and get the coordinates back
 
-Before we do that, I will set something called my `User-Agent`. In short, the `User-Agent` is **who** you are. It is good practice to identify the person who is scraping the website because if you're causing any trouble on the website, the website can directly identify who is causing problems. You can figure out your user agent [here](https://www.google.com/search?client=ubuntu&channel=fs&q=what%27s+my+user+agent&ie=utf-8&oe=utf-8) and paste it in the string below. In addition, I will add a time sleep of 5 seconds to the function because we want to make sure we don't cause any troubles to the website we're scraping due to an overload of requests.
+TODO reference user agent chapter
+
+## Scaling the scraper to all schools
+
+When moving the code to scrape one single case to many cases, you'll want to move the code into a function to make it more compact, organized and easy to read. Let's move all our code into a function but also make sure to set your user agent as well add a time sleep of 5 seconds to the function because we want to make sure we don't cause any troubles to the website we're scraping due to an overload of requests:
 
 ```{r}
 # This sets your `User-Agent` globally so that all requests are
 # identified with this `User-Agent`
 set_config(
-  user_agent("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:70.0) Gecko/20100101 Firefox/70.0")
+  user_agent("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0")
 )
 
 # Collapse all of the code from above into one function called
@@ -203,20 +255,18 @@ school_grabber <- function(school_url) {
   )
 }
 
-
 school_grabber(school_url)
 ```
 
-Ok, so it's working. The only thing left is to extract this for many schools. As shown earlier, `scrapex` contains a list of 27 school links that we can automatically scrape. Let's loop over those, get the information of coordinates for each and collapse all of them into a data frame.
+We can see that it worked for a single school, so we can try on all schools. The only thing left is to extract this for many schools. As shown earlier, `scrapex` contains a list of 27 school links that we can automatically scrape. Let's loop over those, get the information of coordinates for each and collapse all of them into a data frame.
 
 ```{r, eval = FALSE}
-res <- map_dfr(school_links, school_grabber)
-res
+coordinates <- map_dfr(school_links, school_grabber)
+coordinates
 ```
 
 ```{r, echo = FALSE}
-
-res <- data.frame(
+coordinates <- data.frame(
     latitude = c(42.727787, 43.2443899, 38.9559234, 39.1865665, 40.382453,
                  40.2292912, 40.4385997, 40.3351393, 40.5054637, 40.6382608,
                  40.3854323, 37.7648471, 38.8274492, 40.994337, 40.994337,
@@ -230,13 +280,13 @@ res <- data.frame(
                  0.8199749, 0.5680564, 1.8203155, 1.8621546, 1.8383666, 2.0013628)
 )
 
-res
+coordinates
 ```
 
 So now that we have the locations of these schools, let's plot them:
 
 ```{r, spain-map-schools}
-res <- mutate_all(res, as.numeric)
+coordinates <- mutate_all(coordinates, as.numeric)
 
 sp_sf <-
   ne_countries(scale = "large", country = "Spain", returnclass = "sf") %>%
@@ -244,32 +294,388 @@ sp_sf <-
 
 ggplot(sp_sf) +
   geom_sf() +
-  geom_point(data = res, aes(x = longitude, y = latitude)) +
+  geom_point(data = coordinates, aes(x = longitude, y = latitude)) +
   coord_sf(xlim = c(-20, 10), ylim = c(25, 45)) +
   theme_minimal() +
   ggtitle("Sample of schools in Spain")
-
 ```
 
-There we go! We went from literally no information at the beginning of this tutorial to interpretable and summarized information only using web data. We can see some schools in Madrid (center) as well in other regions of Spain, including Catalonia and Galicia.
+There's it is! We managed to extract the coordinates of all the schools, clean them and plot them.
 
-This marks the end of our scraping adventure but before we finish, I want to mention some of the ethical guidelines for web scraping. Scraping is extremely useful for us but can give headaches to other people maintaining the website of interest. Here's a list of ethical guidelines you should always follow:
+## Scraping public/private school information
 
-* Read the terms and services: many websites prohibit web scraping and you could be in a breach of privacy by scraping the data. [One](https://fortune.com/2016/05/18/okcupid-data-research/) famous example.
+Suppose that working as a consultant for the ministry of economy, they task you with understanding whether public/private schools are correlated with income inequality at the neighborhood level. There's many public sources nowadays that can tell you the average income for a given neighborhood so we can find that data already cleaned and ready to use for us on the internet. However, it's difficult to find a list of all national schools of a country together with the information on whether they're public or private.
 
-* Check the `robots.txt` file. This is a file that most websites have (`www.buscocolegio.com` does **not**) which tell you which specific paths inside the website are scrapable and which are not. See [here](https://www.robotstxt.org/robotstxt.html) for an explanation of what robots.txt look like and where to find them.
+As we saw in `www.buscocolegio.com`, each school website has also information on whether a school is public or private. It's exactly here:
 
-* Some websites are supported by very big servers, which means you can send 4-5 website requests per second. Others, such as `www.buscocolegio.com` are not. It's good practice to always put a time sleep between your requests. In our example, I set it to 5 seconds because this is a small website and we don't want to crash their servers.
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/main_website_public_private.png"))
+```
 
-* When making requests, there are computational ways of identifying yourself. For example, every request (such as the one's we do) can have something called a `User-Agent`. It is good practice to include yourself in as the `User-Agent` (as we did in our code) because the admin of the server can directly identify if someone's causing problems due to their web scraping.
+"Centro Público" means Public Center. Ig we managed to build a scraper to extract this information we would know if a school is either public or private. Let's open up web developer tools and look specifically at the tag that is highlighted when clicking on "Centro Público":
 
-* Limit your scraping to non-busy hours such as overnight. This can help reduce the chances of collapsing the website since fewer people are visiting websites in the evening.
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/tag_public_private.png"))
+```
 
-You can read more about these ethical issues [here](http://robertorocha.info/on-the-ethics-of-web-scraping/).
+The public/private information we're interested is within a `<strong>` tag. This tag in HTML means that the text will be in bold (althought we don't care about what each tag does, it's handy to know). Searching simply for a `<strong>` tag will probably yield dozens of matches since `<strong>` is too generic. We need to find a more unique tag that identifies the entire box. At this point, I started looking at the father tags above `<strong>` and found the 1st ascendant of the `<strong>` tag:
 
-## Wrap up
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/father_tag_public_private.png"))
+```
 
-This tutorial introduced you to basic concepts in web scraping and applied them in a real-world setting. Web scraping is a vast field in computer science (you can find entire books on the subject such as [this](https://www.apress.com/gp/book/9781484235812)). We covered some basic techniques which I think can take you a long way but there's definitely more to learn. For those curious about where to turn, I'm looking forward to the upcoming book ["A Field Guide for Web Scraping and Accessing APIs with R"](https://rud.is/b/books/) by Bob Rudis, which should be released in the near future. Now go scrape some websites ethically!
+The `<div>` tag with class `'col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25'` seems unique enough to give it a try. Let's try:
 
+```{r}
+school_raw %>%
+  xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']")
+```
+
+Ok, this makes sense. It returns 10 nodes because this same `<div>` is present in all details of the bigger details box:
+
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/main_website_details_box.png"))
+```
+
+One strategy is to extract all `<strong>` tags within that tag and extract the text. If we find the "Centro Público" text in there, we can use some regex to extract it:
+
+```{r}
+text_boxes <-
+  school_raw %>%
+  xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']//strong") %>%
+  xml_text()
+
+text_boxes
+```
+
+We can see the type of school right there in slot 7 of the vector. Let's finalize this by detecting the string with a pattern and extracting it:
+
+```{r}
+single_public_private <-
+  text_boxes %>%
+  str_detect("Centro") %>%
+  text_boxes[.]
+
+single_public_private
+```
+
+There we go. We have the scaffold code to build a function and extract this for all schools. Let's move our code into a function that accepts one school url and loop over all schools:
+
+```{r, eval = FALSE}
+grab_public_private_school <- function(school_link) {
+  Sys.sleep(5)
+  school <- read_html(school_link)
+  text_boxes <-
+    school %>%
+    xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']//strong") %>%
+    xml_text()
+
+  single_public_private <-
+    text_boxes %>%
+    str_detect("Centro") %>%
+    text_boxes[.]
+
+
+  data.frame(
+    public_private = single_public_private,
+    stringsAsFactors = FALSE
+  )
+}
+
+public_private_schools <- map_dfr(school_links, grab_public_private_school)
+public_private_schools
+```
+
+
+```{r, echo = FALSE}
+grab_public_private_school <- function(school_link) {
+  school <- read_html(school_link)
+  text_boxes <-
+    school %>%
+    xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']//strong") %>%
+    xml_text()
+
+  single_public_private <-
+    text_boxes %>%
+    str_detect("Centro") %>%
+    text_boxes[.]
+
+
+  data.frame(
+    public_private = single_public_private,
+    stringsAsFactors = FALSE
+  )
+}
+
+public_private_schools <- map_dfr(school_links, grab_public_private_school)
+public_private_schools
+```
+
+With this info at hand we can merge it with the coordinates of the school and visualize public/private schools by location:
+
+```{r}
+# Let's translate the public/private names from Spanish to English
+lookup <- c("Centro Público" = "Public", "Centro Privado" = "Private")
+public_private_schools$public_private <- lookup[public_private_schools$public_private]
+
+# Merge it with the coordinates data
+all_schools <- cbind(coordinates, public_private_schools)
+
+# Plot private/public by coordinates
+ggplot(sp_sf) +
+  geom_sf() +
+  geom_point(data = all_schools, aes(x = longitude, y = latitude, color = public_private)) +
+  coord_sf(xlim = c(-20, 10), ylim = c(25, 45)) +
+  theme_minimal() +
+  ggtitle("Sample of schools in Spain by private/public")
+```
+
+## Extracting type of school
+
+One additional information that might also be useful to know is the type of each school: kindergarten, secondary school, primary school, etc. This information is just next to whether the school is private or public:
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/main_website_type_school.png"))
+```
+
+Now, you might think we can just copy the exact code from the previous extraction but this one is slightly different. The problem is that we don't know in advance what the type of school each school might be. That is, we can't use regex to search (like we did for the public/private) for something like "Primary" because it can be "Primary school" or many other types of school. What we have to do here is to search for the header of the box:
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/main_website_type_school_header.png"))
+```
+
+We recycle the first XPath from the public/private scraper and then find the exact `<div>` that belongs to the type of school:
+
+```{r}
+school <- read_html(school_link)
+text_boxes <-
+  school %>%
+  xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']")
+
+text_boxes
+```
+
+Those are the 10 nodes we saw before. Let's extract the text within each one and match to where is the keyword from the header "Tipo Centro":
+
+
+```{r}`
+selected_node <- text_boxes %>% xml_text() %>% str_detect("Tipo Centro")
+selected_node
+```
+
+The 7th node is the one we're looking for. Let's subset that node and from here on we can do as we did last time: extract the `strong` tag. Note that we'll use the XPath `.//strong`. `.//strong` means to find all `strong` tags but the `.` means to search for all tags *below* the current selection. If we would write instead `//strong`, it would search for all `strong` tags in the entire source code. The `.` in front tells XPath to search downwards from the current selection. Let's write that and confirmar that we get the correct text:
+
+```{r}
+single_type_school <-
+  text_boxes[selected_node] %>%
+  xml_find_all(".//strong") %>%
+  xml_text()
+
+single_type_school
+```
+
+Perfect, that's the type of school that is also on the website. "Colegio de Educación Infantil y Primaria" means "Pre-school and Primary School". With the code ready, we can wrap it all in a function and extract for all schools:
+
+```{r, eval = FALSE}
+grab_type_school <- function(school_link) {
+  Sys.sleep(5)
+  school <- read_html(school_link)
+
+  text_boxes <-
+    school %>%
+    xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']")
+
+  selected_node <-
+    text_boxes %>%
+    xml_text() %>%
+    str_detect("Tipo Centro")
+
+  single_type_school <-
+    text_boxes[selected_node] %>%
+    xml_find_all(".//strong") %>%
+    xml_text()
+
+
+  data.frame(
+    type_school = single_type_school,
+    stringsAsFactors = FALSE
+  )
+}
+
+all_type_schools <- map_dfr(school_links, grab_type_school)
+all_type_schools
+```
+
+
+```{r, echo = FALSE}
+grab_type_school <- function(school_link) {
+  school <- read_html(school_link)
+
+  text_boxes <-
+    school %>%
+    xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']")
+
+  selected_node <-
+    text_boxes %>%
+    xml_text() %>%
+    str_detect("Tipo Centro")
+
+  single_type_school <-
+    text_boxes[selected_node] %>%
+    xml_find_all(".//strong") %>%
+    xml_text()
+
+
+  data.frame(
+    type_school = single_type_school,
+    stringsAsFactors = FALSE
+  )
+}
+
+all_type_schools <- map_dfr(school_links, grab_type_school)
+all_type_schools
+```
+
+Let's merge it to the previous data on schools and visualize the points by both private/public as well as type of school:
+
+```{r}
+all_schools <- cbind(all_schools, all_type_schools)
+
+ggplot(sp_sf) +
+  geom_sf() +
+  geom_point(data = all_schools, aes(x = longitude, y = latitude, color = public_private)) +
+  coord_sf(xlim = c(-20, 10), ylim = c(25, 45)) +
+  facet_wrap(~ type_school) +
+  theme_minimal() +
+  ggtitle("Sample of schools in Spain")
+```
+
+As you might have seen from this chapter, webscraping is all about being creative. Finding somewhat unique tags that identify the data you're looking for is not a precise science and requires tricks using regular expressions, string manipulations and handy XPath knowledge. In the exercises below you'll need to be creative and find clever ways to extract additional data from the schools data.
 
 ## Exercises
+
+1. On the left menu click where it says "Enseñanzas" (teachings in english). I want you to extract the *unique* modality of the school. This is whether the school has remote or in-presence classes. You can find the information here:
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/school_modality.png"))
+```
+
+For this school, all classes are in-presence or "presencial" in Spanish. You result should be a data frame of one column with 27 rows (one for each school). You result should be like this but for the 27 schools:
+
+```{r, echo = FALSE}
+all_mode_schools <-
+  school_links %>%
+  lapply(function(x) {
+      x %>%
+        read_html() %>%
+        xml_find_all("//table[@class='table table-striped']//tbody//tr//td[4]") %>%
+        xml_text() %>%
+        unique()
+  }) %>%
+  as.character()
+
+mode_schools <- data.frame(mode_school = all_mode_schools)
+head(mode_schools)
+```
+
+**Hint: it might be handy to pick tags in XPath using indices such as `//tag[2]` to get the specific index you want.**
+
+
+2. On the left menu click where it says "Servicios" (services in English). I want you to extract all services that each school provides. In this example, the school provides "Comedor escolar" (school cafeteria) and "Transporte" (transportation):
+
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/services_school.png"))
+```
+
+
+You result should look something like this but for 27 schools:
+
+
+```{r, echo = FALSE}
+amenities <-
+  school_links %>%
+  lapply(function(x) {
+    x %>%
+      read_html() %>%
+      xml_find_all("//section[@id='pkg-servicios']//p[@class='mb-0']") %>%
+      xml_text() %>%
+      paste(collapse = ", ")
+  }) %>%
+  as.character() %>%
+  ifelse(. == "", NA, .)
+
+amenities <- data.frame(amenities = amenities)
+amenities[11:16, , drop = FALSE]
+```
+
+3. From the main school page, extract the address of the school. The information is here:
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/school_address_selection.png"))
+```
+
+Your result should be like this but for 27 schools:
+
+```{r, echo = FALSE}
+addresses <-
+  school_links %>%
+  lapply(function(x) {
+    x %>%
+      read_html() %>%
+      xml_find_all("//ul[@class='list-unstyled mb-0']") %>%
+      xml_children() %>%
+      xml_text() %>%
+      str_replace_all("\\r|\\n", "") %>%
+      str_trim() %>%
+      paste0(collapse = ", ")
+  }) %>%
+  as.character()
+
+addresses <- data.frame(addresses = addresses)
+head(addresses)
+```
+
+4. On the main page of the website, if you scroll down you'll find a part of the website like this:
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/other_schools_href.png"))
+```
+
+These are schools that other people visited when visiting this specific school. If you were doing some type of network analysis, you might want to analyze whether people visiting certain type of schools are interested in schools with certain properties. For that, you might need to actually go to the other school's websites and extract information. Right now we won't do that, but your task is to extract the other school's links in case you wanted to automatically scrape these schools as well. For each school, you'll have four links to other similar schools. Your result should be like this but for 27 schools:
+
+```{r, echo = FALSE}
+href_data <-
+  school_links %>%
+  lapply(function(x) {
+    all_href <-
+      x %>%
+      read_html() %>%
+      xml_find_all("//section[@id='otros-colegios']//div[@class='row no-gutters']") %>%
+      xml_find_all(".//h3[@class='text-uppercase g-font-weight-700 g-font-size-22 g-mb-25']") %>%
+      xml_children() %>%
+      xml_attr("href")
+
+    href_df <- data.frame(
+      school_one = all_href[1],
+      school_two = all_href[2],
+      school_three = all_href[3],
+      school_four = all_href[4]
+    )
+
+    href_df
+  }) %>%
+  do.call(rbind, .)
+
+as_tibble(href_data)
+```
+
+**Hint: you'll want to look for the hyperlink that leads to each school in the `href` tag.**
+
+5. Combine `all_schools` with the previous exercises into a final data frame for each school. Final result should like this but for 27 schools:
+
+```{r, echo = FALSE}
+final_df <- as_tibble(cbind(all_schools, mode_schools, amenities, addresses, href_data))
+final_df
+```

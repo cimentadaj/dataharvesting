@@ -2,4 +2,8 @@
 
 Primer on regular expressions
 
+See [here](https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/) for some examples
+
+https://www.gastonsanchez.com/intro2cwd/regex.html
+
 ## Exercises

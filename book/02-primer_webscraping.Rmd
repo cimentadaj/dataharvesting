@@ -51,6 +51,11 @@ knitr::include_graphics(file.path(main_dir, "elections_website.png"))
 
 On the bottom right you can see the plot that we'd like to generate. This plots has all political parties since 1978 up until the 2020 elections. The first step in webscraping is to 'read' the website into R. We can do that with the `read_html` function. We pass the website link (the typical https://en.wikipedia.org string) but since we already have the website locally, we just pass it the path to the local website:
 
+TODO: explain and set the user agent. Rewrite this paragraph to mix with the chapter.
+Before we do that, I will set something called my `User-Agent`. In short, the `User-Agent` is **who** you are. It is good practice to identify the person who is scraping the website because if you're causing any trouble on the website, the website can directly identify who is causing problems. You can figure out your user agent [here](https://www.google.com/search?client=ubuntu&channel=fs&q=what%27s+my+user+agent&ie=utf-8&oe=utf-8) and paste it in the string below. In addition, I will add a time sleep of 5 seconds to the function because we want to make sure we don't cause any troubles to the website we're scraping due to an overload of requests.
+
+
+
 
 ```{r}
 html_website <- link %>% read_html()

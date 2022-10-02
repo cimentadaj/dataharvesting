@@ -1,2 +1,21 @@
 # Ethical issues in Web Scraping
 
+
+* Time sleep
+
+* Read the terms and services: many websites prohibit web scraping and you could be in a breach of privacy by scraping the data. [One](https://fortune.com/2016/05/18/okcupid-data-research/) famous example.
+
+* Check the `robots.txt` file. This is a file that most websites have (`www.buscocolegio.com` does **not**) which tell you which specific paths inside the website are scrapable and which are not. See [here](https://www.robotstxt.org/robotstxt.html) for an explanation of what robots.txt look like and where to find them.
+
+* Some websites are supported by very big servers, which means you can send 4-5 website requests per second. Others, such as `www.buscocolegio.com` are not. It's good practice to always put a time sleep between your requests. In our example, I set it to 5 seconds because this is a small website and we don't want to crash their servers.
+
+* When making requests, there are computational ways of identifying yourself. For example, every request (such as the one's we do) can have something called a `User-Agent`. It is good practice to include yourself in as the `User-Agent` (as we did in our code) because the admin of the server can directly identify if someone's causing problems due to their web scraping.
+
+* Limit your scraping to non-busy hours such as overnight. This can help reduce the chances of collapsing the website since fewer people are visiting websites in the evening.
+
+You can read more about these ethical issues [here](http://robertorocha.info/on-the-ethics-of-web-scraping/).
+
+
+
+
+

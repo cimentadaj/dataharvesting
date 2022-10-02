@@ -5,3 +5,5 @@ Examples of nested JSON
 How they're parsed into R
 
 How they handle nested data frames in R
+
+https://www.gastonsanchez.com/intro2cwd/json.html
