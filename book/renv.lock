@@ -839,6 +839,30 @@
       "Hash": "7c89603d81793f0d5486d91ab1fc6f1d",
       "Requirements": []
     },
+    "future": {
+      "Package": "future",
+      "Version": "1.28.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f3e26a942d4ee32cec9403e1ddd7000b",
+      "Requirements": [
+        "digest",
+        "globals",
+        "listenv",
+        "parallelly"
+      ]
+    },
+    "future.apply": {
+      "Package": "future.apply",
+      "Version": "1.9.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "77dbef5c63aa92d1c319ad3b6c10eccb",
+      "Requirements": [
+        "future",
+        "globals"
+      ]
+    },
     "gargle": {
       "Package": "gargle",
       "Version": "1.2.0",
@@ -1039,6 +1063,16 @@
       "RemoteSha": "0.1.1",
       "Hash": "f3aefccc1cc50de6338146b62f115de8",
       "Requirements": []
+    },
+    "globals": {
+      "Package": "globals",
+      "Version": "0.16.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e14798793892c6bebdbe2f144aacf6e6",
+      "Requirements": [
+        "codetools"
+      ]
     },
     "glue": {
       "Package": "glue",
@@ -1399,6 +1433,14 @@
         "rlang"
       ]
     },
+    "listenv": {
+      "Package": "listenv",
+      "Version": "0.8.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "0bde42ee282efb18c7c4e63822f5b4f7",
+      "Requirements": []
+    },
     "lubridate": {
       "Package": "lubridate",
       "Version": "1.8.0",
@@ -1545,6 +1587,14 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "a39d952e8d1f652b6f31469a73efce39",
+      "Requirements": []
+    },
+    "parallelly": {
+      "Package": "parallelly",
+      "Version": "1.32.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "9e3d8d65cb9c5ca5966340a6bfec60b2",
       "Requirements": []
     },
     "pillar": {
@@ -1984,6 +2034,21 @@
         "sp"
       ]
     },
+    "robotstxt": {
+      "Package": "robotstxt",
+      "Version": "0.7.13",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b1807416d9ca0daeb7c88aeda94ccb94",
+      "Requirements": [
+        "future",
+        "future.apply",
+        "httr",
+        "magrittr",
+        "spiderbar",
+        "stringr"
+      ]
+    },
     "roxygen2": {
       "Package": "roxygen2",
       "Version": "7.2.0",
@@ -2152,8 +2217,8 @@
       "RemoteRepo": "scrapex",
       "RemoteUsername": "cimentadaj",
       "RemoteRef": "HEAD",
-      "RemoteSha": "61fe806889ba6512648c90f3a348e8ad937d7501",
-      "Hash": "1428e5ef0f7f539d6d0170b2832bddc7",
+      "RemoteSha": "52bba466a7ab765e1ae022fb76833cbc50b8f8d1",
+      "Hash": "7469fad0e3ecef23f13ff2ee7baf3c66",
       "Requirements": [
         "here",
         "xml2"
@@ -2249,6 +2314,16 @@
       "Repository": "CRAN",
       "Hash": "f27a078d834614513608da2c08031130",
       "Requirements": []
+    },
+    "spiderbar": {
+      "Package": "spiderbar",
+      "Version": "0.2.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "34800f71ccfda65b18e60124007d5c11",
+      "Requirements": [
+        "Rcpp"
+      ]
     },
     "stringi": {
       "Package": "stringi",
