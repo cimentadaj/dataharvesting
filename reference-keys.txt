@@ -13,7 +13,11 @@ conclusion
 exercises-1
 what-they-never-taught-you-about-regular-expressions
 exercises-2
-what-they-never-taught-you-about-xpath
+what-you-need-to-know-about-xpath
+finding-tags
+filter-by-attributes
+xpath-cookbook
+conclusion-1
 exercises-3
 case-study-scraping-spanish-school-locations-from-the-web
 building-a-scraper-for-one-school

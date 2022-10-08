@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>6 What you need to know about XPath | Data Harvesting with R</title>
+<meta name="author" content="Jorge Cimentada">
+<meta name="description" content="XPath (XML Path Language) is the language designed to identify the address of a single or several tags within HTML and XML. XPath allows us to find the address of a single node and extract data....">
+<meta name="generator" content="bookdown 0.26 with bs4_book()">
+<meta property="og:title" content="6 What you need to know about XPath | Data Harvesting with R">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/what-you-need-to-know-about-xpath.html">
+<meta property="og:description" content="XPath (XML Path Language) is the language designed to identify the address of a single or several tags within HTML and XML. XPath allows us to find the address of a single node and extract data....">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="6 What you need to know about XPath | Data Harvesting with R">
+<meta name="twitter:description" content="XPath (XML Path Language) is the language designed to identify the address of a single or several tags within HTML and XML. XPath allows us to find the address of a single node and extract data....">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
+<link href="libs/_Roboto%20Mono-0.4.1/font.css" rel="stylesheet">
+<link href="libs/_Montserrat-0.4.1/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  
+   ga('create', 'UA-99618359-1', 'auto');
+   ga('send', 'pageview');
+  
+  </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h2>
+        <a href="index.html" title="">Data Harvesting with R</a>
+      </h2>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
+<li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
+<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
+<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
+<li><a class="" href="what-they-never-taught-you-about-regular-expressions.html"><span class="header-section-number">5</span> What they never taught you about regular expressions</a></li>
+<li><a class="active" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">6</span> What you need to know about XPath</a></li>
+<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">8</span> Automating Web scraping scripts</a></li>
+<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
+<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
+<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
+<li><a class="" href="introduction-to-json.html"><span class="header-section-number">12</span> Introduction to JSON</a></li>
+<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">13</span> A primer on APIs</a></li>
+<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">14</span> What is a RESTful API?</a></li>
+<li><a class="" href="authentication-in-apis.html"><span class="header-section-number">15</span> Authentication in APIs</a></li>
+<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">16</span> Case Study: grabbing data from a public API</a></li>
+<li><a class="" href="why-automation-is-important.html"><span class="header-section-number">17</span> Why automation is important</a></li>
+<li><a class="" href="automating-data-collectiong-programs.html"><span class="header-section-number">18</span> Automating data collectiong programs</a></li>
+<li><a class="" href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">19</span> Insightful and robust data collection progams</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/cimentadaj/dataharvesting/tree/main/book">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="what-you-need-to-know-about-xpath" class="section level1">
+<h1>
+<span class="header-section-number">6</span> What you need to know about XPath<a class="anchor" aria-label="anchor" href="#what-you-need-to-know-about-xpath"><i class="fas fa-link"></i></a>
+</h1>
+<p>XPath (XML Path Language) is the language designed to identify the address of a single or several tags within HTML and XML. XPath allows us to find the address of a single node and extract data. For example, take a look at the XML below:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb59-1"><a href="what-you-need-to-know-about-xpath.html#cb59-1"></a><span class="kw">&lt;bookshelf&gt;</span></span>
+<span id="cb59-2"><a href="what-you-need-to-know-about-xpath.html#cb59-2"></a>  <span class="kw">&lt;dansimmons&gt;</span></span>
+<span id="cb59-3"><a href="what-you-need-to-know-about-xpath.html#cb59-3"></a>    <span class="kw">&lt;book&gt;</span></span>
+<span id="cb59-4"><a href="what-you-need-to-know-about-xpath.html#cb59-4"></a>      Hyperion Cantos</span>
+<span id="cb59-5"><a href="what-you-need-to-know-about-xpath.html#cb59-5"></a>    <span class="kw">&lt;/book&gt;</span></span>
+<span id="cb59-6"><a href="what-you-need-to-know-about-xpath.html#cb59-6"></a>  <span class="kw">&lt;/dansimmons&gt;</span></span>
+<span id="cb59-7"><a href="what-you-need-to-know-about-xpath.html#cb59-7"></a><span class="kw">&lt;/bookshelf&gt;</span></span></code></pre></div>
+<p>To extract the book of Dan Simmons, the simplest XPath you can use is <code>/bookshelf/dansimmons/book</code>. Let’s break that up to understand it better:</p>
+<ul>
+<li>The first node is bookshelf so we start with <code>/bookshelf</code>.</li>
+<li>The <em>child</em> of bookshelf is <code>&lt;dansimmons&gt;</code> so the XPath becomes <code>/bookshelf/dansimmons/</code>
+</li>
+<li>The <em>child</em> of dansimmons is <code>&lt;book&gt;</code> so we just add that to our XPath: <code>/bookshelf/dansimmons/book</code>
+</li>
+</ul>
+<p>That doesn’t look so hard, right? The problem is that for all your web scraping needs, having the exact address, node by node, will not by generalizable.</p>
+<div id="finding-tags" class="section level2">
+<h2>
+<span class="header-section-number">6.1</span> Finding tags<a class="anchor" aria-label="anchor" href="#finding-tags"><i class="fas fa-link"></i></a>
+</h2>
+<p>Before we read in the XPath let’s load the libraries we’ll need for this chapter.</p>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/">xml2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span></code></pre></div>
+<p>Let’s read in that XML to R and test our XPath:</p>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">raw_xml</span> <span class="op">&lt;-</span> <span class="st">"
+&lt;bookshelf&gt;
+  &lt;dansimmons&gt;
+    &lt;book&gt;
+      Hyperion Cantos
+    &lt;/book&gt;
+  &lt;/dansimmons&gt;
+&lt;/bookshelf&gt;"</span>
+
+<span class="va">book_xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_xml</a></span><span class="op">(</span><span class="va">raw_xml</span><span class="op">)</span></code></pre></div>
+<p>Let’s apply our XPath:</p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">direct_address</span> <span class="op">&lt;-</span> <span class="st">"/bookshelf/dansimmons/book"</span>
+
+<span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">direct_address</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "\n      Hyperion Cantos\n    "</code></pre>
+<p>It works as expected. Now you remember what I told you that this specific address was not generalizable? What if someone added the <code>authors</code> tag after bookshelf?</p>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">raw_xml</span> <span class="op">&lt;-</span> <span class="st">"
+&lt;bookshelf&gt;
+  &lt;authors&gt;
+    &lt;dansimmons&gt;
+      &lt;book&gt;
+        Hyperion Cantos
+      &lt;/book&gt;
+    &lt;/dansimmons&gt;
+  &lt;/authors&gt;
+&lt;/bookshelf&gt;"</span>
+
+
+<span class="va">book_xml</span> <span class="op">&lt;-</span> <span class="va">raw_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_xml</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">direct_address</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>## character(0)</code></pre>
+<p>It can’t find it. We know why, it’s because we should instead use the XPath <code>/bookshelf/authors/dansimmons/book</code>. But what if someone (that is, the developer behind the website you’re trying to scrape) continually changes the XML you’re trying to scrape? Can’t we build an XPath more general? XPath has some handy tricks that you can use to do that. For example, there’s one thing we know for the book <code>Hyperion Cantos</code>: it was written by Dan Simmons. You use XPath to extract only the <code>&lt;dansimmons&gt;</code> tag directly with <code>//dansimmons</code></p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//dansimmons"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "\n        Hyperion Cantos\n      "</code></pre>
+<p><code>//</code> is very handy, it means: search the entire document and bring me back all <code>&lt;dansimmons&gt;</code> tags. It doesn’t matter the depth of the <code>&lt;dansimmons&gt;</code> tag, it could be three or twenty times deep, <code>//</code> will return all occurrences of that tag. Let’s extend the example to include another Dan Simmons book and the release date:</p>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">raw_xml</span> <span class="op">&lt;-</span> <span class="st">"
+&lt;bookshelf&gt;
+  &lt;authors&gt;
+    &lt;dansimmons&gt;
+      &lt;book&gt;
+        Hyperion Cantos
+      &lt;/book&gt;
+      &lt;book&gt;
+        &lt;release_year&gt;
+         1996
+        &lt;/release_year&gt;
+        Endymion
+      &lt;/book&gt;
+    &lt;/dansimmons&gt;
+  &lt;/authors&gt;
+&lt;/bookshelf&gt;"</span>
+
+
+<span class="va">book_xml</span> <span class="op">&lt;-</span> <span class="va">raw_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_xml</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Can you predict what our XPath will return before running it? Let’s find out:</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//dansimmons"</span><span class="op">)</span></code></pre></div>
+<pre><code>## {xml_nodeset (1)}
+## [1] &lt;dansimmons&gt;\n  &lt;book&gt;\n        Hyperion Cantos\n      &lt;/book&gt;\n  &lt;book&gt;&lt; ...</code></pre>
+<p>It returns the <code>&lt;dansimmons&gt;</code> tag, which is what we expected. However, we want to extract the names of both books. We can reuse that idea of using <code>/</code> as before for the <code>book</code> tag. We do this because we know that <code>book</code> is the direct child of <code>dansimmons</code>:</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//dansimmons/book"</span><span class="op">)</span></code></pre></div>
+<pre><code>## {xml_nodeset (2)}
+## [1] &lt;book&gt;\n        Hyperion Cantos\n      &lt;/book&gt;
+## [2] &lt;book&gt;&lt;release_year&gt;\n         1996\n        &lt;/release_year&gt;\n        End ...</code></pre>
+<p>There we go, we get the two book nodes. If <code>book</code> would not be the direct child, <code>/</code> wouldn’t work. For example, if instead of <code>book</code> we searched for <code>release_year</code> (the new tag we added as well), it would return an empty node:</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//dansimmons/release_year"</span><span class="op">)</span></code></pre></div>
+<pre><code>## {xml_nodeset (0)}</code></pre>
+<p>That’s expected: <code>dansimmons</code> doesn’t have a direct child called <code>release_year</code>. However, we know that <code>//</code> will in the entire XML tree for what you request so we can instead request all <code>release_year</code> tags inside <code>dansimmons</code>:</p>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//dansimmons//release_year"</span><span class="op">)</span></code></pre></div>
+<pre><code>## {xml_nodeset (1)}
+## [1] &lt;release_year&gt;\n         1996\n        &lt;/release_year&gt;</code></pre>
+<p>At this point, it might be useful to know that <code>xml_path</code> can return the literal, direct address to a given node. Exactly like our first XPath from the chapter:</p>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//dansimmons//release_year"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_path.html">xml_path</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "/bookshelf/authors/dansimmons/book[2]/release_year"</code></pre>
+<p>For some concrete example, using a literal path such as this one might be much quicker than coming up with a single XPath that makes it more general. If you’re trying to scrape something as a one-off thing, manually navigating a HTML/XML tree (with functions such as <code>xml_child</code> or directly in the web developer tools) and copying it’s exact XPath location might be the better choice.</p>
+<p>Let’s recap so far:</p>
+<ul>
+<li>
+<code>/</code> links between two tags that have direct parent-child relationship</li>
+<li>
+<code>//</code> finds all tags in the HTML/XML tree regardless of depth</li>
+</ul>
+<p>These two rules can take you a long way when building XPath expressions.</p>
+</div>
+<div id="filter-by-attributes" class="section level2">
+<h2>
+<span class="header-section-number">6.2</span> Filter by attributes<a class="anchor" aria-label="anchor" href="#filter-by-attributes"><i class="fas fa-link"></i></a>
+</h2>
+<p>When parsing complicated websites, you’ll need additional flexibility to parse HTML/XML. XPath has a great property that allows to pick tags with specific attributes. Let’s update our XML example with more complexity:</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">raw_xml</span> <span class="op">&lt;-</span> <span class="st">"
+&lt;bookshelf&gt;
+  &lt;authors&gt;
+    &lt;dansimmons&gt;
+      &lt;book price='yes' topic='scifi'&gt;
+        Hyperion Cantos
+      &lt;/book&gt;
+      &lt;book topic='scifi'&gt;
+        &lt;release_year&gt;
+         1996
+        &lt;/release_year&gt;
+        Endymion
+      &lt;/book&gt;
+    &lt;/dansimmons&gt;
+    &lt;stephenking&gt;
+    &lt;book price='yes' topic='horror'&gt;
+     The Stand
+    &lt;/book&gt;
+    &lt;/stephenking&gt;
+  &lt;/authors&gt;
+&lt;/bookshelf&gt;"</span>
+
+
+<span class="va">book_xml</span> <span class="op">&lt;-</span> <span class="va">raw_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_xml</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Whenever we want our tags to match a specific attribute we can add two brackets at the end of the tag and specify what we want. Say we wanted to know all Dan Simmons book with a price, how would we write an XPath?</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//dansimmons//book[@price='yes']"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "\n        Hyperion Cantos\n      "</code></pre>
+<p>Our new XPath is saying: find all <code>&lt;book&gt;</code> tags that have an attribute of <code>price</code> set to <code>yes</code> that are descendants of the <code>&lt;dansimmons&gt;</code> tag. Quite interesting eh? This approach allows us to have a much flexible language for parsing HTML/XML documents. Everything inside <code>[]</code> serves to add additional filters/criteria that matches your XPath. With the help of the <code>and</code> keyword, you can alter the previous XPath to get all books with a price from the topic <code>horror</code>:</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//book[@price='yes' and @topic='horror']"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "\n     The Stand\n    "</code></pre>
+<p>Or grab only the books which have a <code>price</code> attribute (that’s different from having <code>price</code> set to <code>yes</code> or <code>no</code>):</p>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//book[@price]"</span><span class="op">)</span></code></pre></div>
+<pre><code>## {xml_nodeset (2)}
+## [1] &lt;book price="yes" topic="scifi"&gt;\n        Hyperion Cantos\n      &lt;/book&gt;
+## [2] &lt;book price="yes" topic="horror"&gt;\n     The Stand\n    &lt;/book&gt;</code></pre>
+<p>Or find all books which did not have a price:</p>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">book_xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//book[@price!='yes']"</span><span class="op">)</span></code></pre></div>
+<pre><code>## {xml_nodeset (0)}</code></pre>
+<p>This is correct because there is not attribute of price set to ‘no’. XPath also has an interesting set of functions that are useful for filtering. Some of the most common ones include:</p>
+<ul>
+<li><code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains()</a></code></li>
+<li><code>starts-with()</code></li>
+<li><code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code></li>
+<li><code><a href="https://magrittr.tidyverse.org/reference/aliases.html">not()</a></code></li>
+<li><code><a href="https://dplyr.tidyverse.org/reference/count.html">count()</a></code></li>
+</ul>
+<p>How do we use them? We always use these functions within the context of filtering (everything used inside <code>[]</code>) and you can reach a level of fine-grained filtering that can save your hours on the source code of a document. Let’s go over some cases where these functions are particularly handy but before hand, let’s load the example we’ll be working with.</p>
+<p>For the rest of the chapter and the exercises you’ll be working with the main page of the newspaper “El País”. I’ve saved the website locally for you to scrape in <code>scrapex</code>. We can load it from the function <code><a href="https://rdrr.io/pkg/scrapex/man/elpais_newspaper_ex.html">elpais_newspaper_ex()</a></code>:</p>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">newspaper_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/elpais_newspaper_ex.html">elpais_newspaper_ex</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">newspaper</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">newspaper_link</span><span class="op">)</span></code></pre></div>
+<p>Before we continue, let’s look at the website in our web browser:</p>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/browseURL.html">browseURL</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/prep_browser.html">prep_browser</a></span><span class="op">(</span><span class="va">newspaper_link</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="images/xpath/elpais_main.png" width="100%" style="display: block; margin: auto;"></div>
+<p>The website has news organized along the left, right and center of the website. If you scroll down you’ll see there are dozens more of news scattered throughout the website. Let’s continue our examples using a real world example.</p>
+<p>We’re interested in figuring out the hyperlink of each the sections of the newspaper to be able to scrape all news separately by section. In particular, you might be interested in first grabbing the ‘Science’ link as a first step. The section you want to explore is here:</p>
+<div class="inline-figure"><img src="images/xpath/elpais_science_main.png" width="100%" style="display: block; margin: auto;"></div>
+<p>More concretely, you can see on the source code that you want an <code>&lt;a&gt;</code> tag that is nested within a <code>&lt;section&gt;</code> tag (two tags above the <code>&lt;a&gt;</code> tag).</p>
+<div class="inline-figure"><img src="images/xpath/elpais_science_main_sourcecode.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Ok, with this information we can be creative and build and XPath that says: find all the <code>&lt;a&gt;</code> tags that have an <code>href</code> attribute containing the word ‘Science’ and also inherits from a <code>&lt;section&gt;</code> tag:</p>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section//a[contains(@href, 'science')]"</span><span class="op">)</span></code></pre></div>
+<pre><code>## {xml_nodeset (20)}
+##  [1] &lt;a href="https://english.elpais.com/science-tech/2022-10-07/is-climate-c ...
+##  [2] &lt;a href="https://english.elpais.com/science-tech/2022-10-07/worlds-top-m ...
+##  [3] &lt;a href="https://english.elpais.com/science-tech/" class="b_h_t _pr"&gt;Sci ...
+##  [4] &lt;a href="https://english.elpais.com/science-tech/2022-10-07/a-new-drug-t ...
+##  [5] &lt;a href="https://english.elpais.com/science-tech/2022-10-07/a-new-drug-t ...
+##  [6] &lt;a href="https://english.elpais.com/science-tech/2022-10-06/european-med ...
+##  [7] &lt;a href="https://english.elpais.com/science-tech/2022-10-06/european-med ...
+##  [8] &lt;a href="https://english.elpais.com/science-tech/2022-10-06/ophiuchus-th ...
+##  [9] &lt;a href="https://english.elpais.com/science-tech/2022-10-06/ophiuchus-th ...
+## [10] &lt;a href="https://english.elpais.com/science-tech/2022-09-17/one-girls-ge ...
+## [11] &lt;a href="https://english.elpais.com/science-tech/2022-09-17/one-girls-ge ...
+## [12] &lt;a href="https://english.elpais.com/science-tech/2022-10-06/global-warmi ...
+## [13] &lt;a href="https://english.elpais.com/science-tech/2022-10-06/global-warmi ...
+## [14] &lt;a href="https://english.elpais.com/science-tech/" class="b_h_t _pr"&gt;Sci ...
+## [15] &lt;a href="https://english.elpais.com/science-tech/2022-10-06/how-can-a-sm ...
+## [16] &lt;a href="https://english.elpais.com/science-tech/2022-10-06/how-can-a-sm ...
+## [17] &lt;a href="https://english.elpais.com/science-tech/2022-10-04/the-orbit-of ...
+## [18] &lt;a href="https://english.elpais.com/science-tech/2022-10-06/european-med ...
+## [19] &lt;a href="https://english.elpais.com/science-tech/2022-10-01/rare-diamond ...
+## [20] &lt;a href="https://english.elpais.com/science-tech/2022-09-30/carole-hoove ...</code></pre>
+<p>Hmm, the XPath seems right but the output returns too many tags. We were expecting one link that is the general science section (something like <code>https://english.elpais.com/science-tech/</code>). We know that between our <code>&lt;a&gt;</code> tag and <code>&lt;section&gt;</code> tag there are two additional tags but these two exact tags might not be the same for all remaining sections. For the sake of making it as general as possible, let’s use the wildcard <code>*</code>:</p>
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section/*/*/a[contains(@href, 'science')]"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attr</a></span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "https://english.elpais.com/science-tech/"</code></pre>
+<p>That’s the one we were looking for but let’s explain the final XPath before:</p>
+<ul>
+<li>
+<code>//section</code> means to search for all sections throughout the HTML tree</li>
+<li>
+<code>//section/*/*</code> means to search for two <em>direct</em> children of <code>&lt;section&gt;</code> (regardless of what these tags are</li>
+<li>
+<code>a[contains(@href, 'science')]</code> finds the <code>&lt;a&gt;</code> tags for which the <code>@href</code> attribute contains the text ‘science’.</li>
+</ul>
+<p>The function <code>contains</code> searches for text in an attribute. However can you also use it with the function <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> which refers to the actual text of the tag. We could rewrite the previous XPath to make it even more precise:</p>
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section/*/*/a[contains(text(), 'Science, Tech &amp; Health')]"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attr</a></span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "https://english.elpais.com/science-tech/"</code></pre>
+<p>Instead, this XPath grabs all <code>&lt;a&gt;</code> tags which contain the text ‘Science, Tech &amp; Health’. As you might expect, the function <code>start-with()</code> does the same job as <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains()</a></code> but matching whether an attribute/text starts with some provided text.</p>
+<p>The function <code><a href="https://magrittr.tidyverse.org/reference/aliases.html">not()</a></code> is also useful for filtering. It negates everything inside a filter expression. With out previous example, using <code><a href="https://magrittr.tidyverse.org/reference/aliases.html">not()</a></code> will return all sections which are not the ones containing the text ‘Science, Tech &amp; Health’:</p>
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section/*/*/a[not(contains(text(), 'Science, Tech &amp; Health'))]"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attr</a></span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span></code></pre></div>
+<pre><code>##  [1] "https://english.elpais.com/economy-and-business/"                                                                                               
+##  [2] "https://english.elpais.com/opinion/the-global-observer/"                                                                                        
+##  [3] "https://english.elpais.com/international/"                                                                                                      
+##  [4] "https://english.elpais.com/culture/"                                                                                                            
+##  [5] "https://english.elpais.com/science-tech/"                                                                                                       
+##  [6] "https://english.elpais.com/society/"                                                                                                            
+##  [7] "https://elpais.com/archivo/#?prm=hemeroteca_pie_ep"                                                                                             
+##  [8] "https://elpais.com/archivo/#?prm=hemeroteca_pie_ep"                                                                                             
+##  [9] "https://play.google.com/store/apps/details?id=com.elpais.elpais&amp;hl=es&amp;gl=US"                                                                    
+## [10] "https://apps.apple.com/es/app/el-pa%C3%ADs/id301049096"                                                                                         
+## [11] "https://elpais.com/suscripciones/#/campaign#?prod=SUSDIGCRART&amp;o=susdig_camp&amp;prm=pw_suscrip_cta_pie_eng&amp;backURL=https%3A%2F%2Fenglish.elpais.com"</code></pre>
+<p>We see the links to all other sections such as <code>economy-and-business</code> and <code>international</code>. Finally, the function <code><a href="https://dplyr.tidyverse.org/reference/count.html">count()</a></code> allows you to use conditionals based on counting something. How many sections have over three articles?</p>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section[count(.//article)&gt;3]"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attr</a></span><span class="op">(</span><span class="st">"data-dtm-region"</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "portada_apertura"                          
+## [2] "portada_tematicos_science,-tech-&amp;-health"  
+## [3] "portada_arrevistada_culture"               
+## [4] "portada_tematicos_celebrities,-movies-&amp;-tv"
+## [5] "portada_tematicos_our-selection"</code></pre>
+<p>Five sections. Although that XPath was very short, it contains things you might not now. Let’s explain it:</p>
+<ul>
+<li>
+<code>//section</code> find all section tags in the XML document</li>
+<li>
+<code>[count(.//article])]</code> counts all articles <em>but</em> all articles below the current tag. That’s why we write <code>.//article</code> because the dot (<code>.</code>) signals that we will search for all articles below the current position. If instead we wrote <code>//article</code> it would search for <em>all</em> articles in the entire HTML tree.</li>
+<li>
+<code>[count(.//article])]&gt;3</code> counts all sections that have more than three articles</li>
+</ul>
+</div>
+<div id="xpath-cookbook" class="section level2">
+<h2>
+<span class="header-section-number">6.3</span> XPath cookbook<a class="anchor" aria-label="anchor" href="#xpath-cookbook"><i class="fas fa-link"></i></a>
+</h2>
+<p>I’ve written down a set of cookbook commands that you might find useful when doing webscraping using XPath:</p>
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Find all sections</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section"</span><span class="op">)</span>
+
+<span class="co"># Return all divs below all sections</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section//div"</span><span class="op">)</span>
+
+<span class="co"># Return all sections which a div as a child</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section/div"</span><span class="op">)</span>
+
+
+<span class="co"># Return the child (any, because of *) of all sections</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section/*"</span><span class="op">)</span>
+
+<span class="co"># Return all a tags of all section tags which have two nodes in between</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section/*/*/a"</span><span class="op">)</span>
+
+<span class="co"># Return all a tags below all section tags without a class attribute</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section//a[not(@class)]"</span><span class="op">)</span>
+
+<span class="co"># Return all a tags below all section tags that contain a class attribute</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section//a[@class]"</span><span class="op">)</span>
+
+<span class="co"># Return all a tags of all section tags which have two nodes in between</span>
+<span class="co"># and contain some text in the a tag.</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section/*/*/a[contains(text(), 'Science')]"</span><span class="op">)</span>
+
+<span class="co"># Return all span tags in the document with a specific class</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//span[@class='c_a_l']"</span><span class="op">)</span>
+
+<span class="co"># Return all span tags in the document that don't have a specific class</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//span[@class!='c_a_l']"</span><span class="op">)</span>
+
+<span class="co"># Return all a tags where an attribute starts with something</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//a[starts-with(@href, 'https://')]"</span><span class="op">)</span>
+
+<span class="co"># Return all a tags where an attribute contains some text</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//a[contains(@href, 'science-tech')]"</span><span class="op">)</span>
+
+<span class="co"># Return all section tags which have tag *descendants (because of the .//)* that have a class attribute</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section[.//a[@class]]"</span><span class="op">)</span>
+
+<span class="co"># Return all section tags which have &lt;td&gt; children</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section[td]"</span><span class="op">)</span>
+
+<span class="co"># Return the first ocurrence of a section tag</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"(//section)[1]"</span><span class="op">)</span>
+
+<span class="co"># Return the last ocurrence of a section tag</span>
+<span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"(//section)[last()]"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="conclusion-1" class="section level2">
+<h2>
+<span class="header-section-number">6.4</span> Conclusion<a class="anchor" aria-label="anchor" href="#conclusion-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>XPath is a very rich language with over 20 years of development. I’ve covered some basics as well as intermediate parts of the language but there’s much more to be learned. I encourage you to look at examples online and to check out additional resources. Below I leave you with some of the best resources that have worked for me:</p>
+<ul>
+<li><a href="https://devhints.io/xpath">XPath Cheetsheet</a></li>
+<li><a href="https://www.lambdatest.com/blog/most-exhaustive-xpath-locators-cheat-sheet/">Extensive XPath Cheetsheet</a></li>
+<li><a href="https://www.w3schools.com/xml/xpath_intro.asp">XPath tutorial</a></li>
+</ul>
+</div>
+<div id="exercises-3" class="section level2">
+<h2>
+<span class="header-section-number">6.5</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-3"><i class="fas fa-link"></i></a>
+</h2>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="what-they-never-taught-you-about-regular-expressions.html"><span class="header-section-number">5</span> What they never taught you about regular expressions</a></div>
+<div class="next"><a href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#what-you-need-to-know-about-xpath"><span class="header-section-number">6</span> What you need to know about XPath</a></li>
+<li><a class="nav-link" href="#finding-tags"><span class="header-section-number">6.1</span> Finding tags</a></li>
+<li><a class="nav-link" href="#filter-by-attributes"><span class="header-section-number">6.2</span> Filter by attributes</a></li>
+<li><a class="nav-link" href="#xpath-cookbook"><span class="header-section-number">6.3</span> XPath cookbook</a></li>
+<li><a class="nav-link" href="#conclusion-1"><span class="header-section-number">6.4</span> Conclusion</a></li>
+<li><a class="nav-link" href="#exercises-3"><span class="header-section-number">6.5</span> Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/blob/main/05-xpath.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/edit/main/05-xpath.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-10-08.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
