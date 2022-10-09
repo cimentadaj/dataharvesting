@@ -14,7 +14,7 @@ exercises-1
 what-they-never-taught-you-about-regular-expressions
 exercises-2
 what-you-need-to-know-about-xpath
-finding-tags
+finding-tags-with-xpath
 filter-by-attributes
 xpath-cookbook
 conclusion-1
