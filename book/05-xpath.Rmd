@@ -400,7 +400,6 @@ newspaper %>%
 newspaper %>%
   xml_find_all("//section/div")
 
-
 # Return the child (any, because of *) of all sections
 newspaper %>%
   xml_find_all("//section/*")
