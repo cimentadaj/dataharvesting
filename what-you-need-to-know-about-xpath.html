@@ -451,7 +451,6 @@
 <span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section/div"</span><span class="op">)</span>
 
-
 <span class="co"># Return the child (any, because of *) of all sections</span>
 <span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section/*"</span><span class="op">)</span>
@@ -520,6 +519,14 @@
 <h2>
 <span class="header-section-number">6.5</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-3"><i class="fas fa-link"></i></a>
 </h2>
+<ul>
+<li><p>How many <code>jpg</code> and <code>png</code> images are there in the website? (Hint: look at the source code and figure out which tag and <em>attribute</em> contains the links to the images).</p></li>
+<li><p>How many articles are there in the entire website?</p></li>
+<li><p>Out of all the headlines (by headlines I mean the bold text that each article begins with), how many contain the word ‘climate’?</p></li>
+<li><p>What is the city with more reporters?</p></li>
+<li><p>What is the headline of the article with the most words in the description? (Hint: remember that <code>.//</code> searcher for all tags but <em>only below</em> the current tag. <code>//</code> will search for all tags in the document, regardless of whether it’s above the current selected node) The text you’ll want to measure the amount of letters is below the bold headline of each news article:</p></li>
+</ul>
+<div class="inline-figure"><img src="images/xpath/description_text.png" width="100%" style="display: block; margin: auto;"></div>
 
 </div>
 </div>
