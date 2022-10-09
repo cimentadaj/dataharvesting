@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 
 # What you need to know about XPath
 
-XPath (XML Path Language) is the language designed to identify the address of a single or several tags within HTML and XML. XPath allows us to find the address of a single node and extract data. For example, take a look at the XML below:
+XPath (XML Path Language) is the language designed to identify the address of one or several tags within an HTML or XML document. With that address, XPath allows us to extract the data under those tags. For example, take a look at the XML below:
 
 ```{html}
 <bookshelf>
@@ -24,17 +24,17 @@ XPath (XML Path Language) is the language designed to identify the address of a 
 </bookshelf>
 ```
 
-To extract the book of Dan Simmons, the simplest XPath you can use is `/bookshelf/dansimmons/book`. Let's break that up to understand it better:
+To extract the book 'Hyperion Cantos' of Dan Simmons, the simplest XPath you can use is `/bookshelf/dansimmons/book`. Let's break that up to understand it better:
 
 * The first node is bookshelf so we start with `/bookshelf`.
 * The *child* of bookshelf is `<dansimmons>` so the XPath becomes `/bookshelf/dansimmons/`
-* The *child* of dansimmons is `<book>` so we just add that to our XPath: `/bookshelf/dansimmons/book`
+* The *child* of `<dansimmons>` is `<book>` so we just add that to our XPath: `/bookshelf/dansimmons/book`
 
 That doesn't look so hard, right? The problem is that for all your web scraping needs, having the exact address, node by node, will not by generalizable.
 
-## Finding tags
+## Finding tags with XPath
 
-Before we read in the XPath let's load the libraries we'll need for this chapter.
+Before we read in that previous XPath let's load the libraries we'll need for this chapter.
 
 ```{r}
 library(xml2)
@@ -42,7 +42,7 @@ library(magrittr)
 library(scrapex)
 ```
 
-Let's read in that XML to R and test our XPath:
+Let's read in that XML to R and test our initial XPath:
 
 ```{r}
 raw_xml <- "
@@ -55,21 +55,16 @@ raw_xml <- "
 </bookshelf>"
 
 book_xml <- read_xml(raw_xml)
-```
-
-Let's apply our XPath:
-
-```{r}
 direct_address <- "/bookshelf/dansimmons/book"
 
 book_xml %>%
-  xml_find_all(direct_address) %>%
-  xml_text()
+  xml_find_all(direct_address)
 ```
 
 It works as expected. Now you remember what I told you that this specific address was not generalizable? What if someone added the `authors` tag after bookshelf?
 
 ```{r}
+# Note the new `<authors>` tag, a child of `<bookshelf>`.
 raw_xml <- "
 <bookshelf>
   <authors>
@@ -81,26 +76,23 @@ raw_xml <- "
   </authors>
 </bookshelf>"
 
-
 book_xml <- raw_xml %>% read_xml()
 
 book_xml %>%
-  xml_find_all(direct_address) %>%
-  xml_text()
-
+  xml_find_all(direct_address)
 ```
 
-It can't find it. We know why, it's because we should instead use the XPath `/bookshelf/authors/dansimmons/book`. But what if someone (that is, the developer behind the website you're trying to scrape) continually changes the XML you're trying to scrape? Can't we build an XPath more general? XPath has some handy tricks that you can use to do that. For example, there's one thing we know for the book `Hyperion Cantos`: it was written by Dan Simmons. You use XPath to extract only the `<dansimmons>` tag directly with `//dansimmons`
+It can't find it using our previous XPath expression. We know why, it's because we should instead use the XPath `/bookshelf/authors/dansimmons/book`. But what if someone (that is, the developer behind the website you're trying to scrape) continually changes the XML? Can't we build a more general expression? XPath has some handy tricks that you can use to do that. For example, there's one thing we know for the book `Hyperion Cantos`: it was written by Dan Simmons. Instead, you can extract only the `<dansimmons>` tag directly with `//dansimmons`. That will return all `<dansimmons>` tags of the entire XML document. However, since we know there's only one `<dansimmons>` tag, we know we'll be grabbing the one we're after:
 
 ```{r}
 book_xml %>%
-  xml_find_all("//dansimmons") %>%
-  xml_text()
+  xml_find_all("//dansimmons")
 ```
 
-`//` is very handy, it means: search the entire document and bring me back all `<dansimmons>` tags. It doesn't matter the depth of the `<dansimmons>` tag, it could be three or twenty times deep, `//` will return all occurrences of that tag. Let's extend the example to include another Dan Simmons book and the release date:
+`//` is very handy, it means: search the entire document and bring me back all `<dansimmons>` tags. It doesn't matter the depth of the `<dansimmons>` tag, it could be three or twenty times deep, `//` will return all occurrences of that tag. Let's extend the example to include another Dan Simmons book and its release date:
 
 ```{r}
+# Note the new `<release_year>` tag below the second (also new) `<book>` tag
 raw_xml <- "
 <bookshelf>
   <authors>
@@ -118,7 +110,6 @@ raw_xml <- "
   </authors>
 </bookshelf>"
 
-
 book_xml <- raw_xml %>% read_xml()
 ```
 
@@ -129,21 +120,21 @@ book_xml %>%
   xml_find_all("//dansimmons")
 ```
 
-It returns the `<dansimmons>` tag, which is what we expected. However, we want to extract the names of both books. We can reuse that idea of using `/` as before for the `book` tag. We do this because we know that `book` is the direct child of `dansimmons`:
+It returns the `<dansimmons>` tag, which is what we expected. Within `<dansimmons>` there should be two `<book>` tags but we can't see the result of these two tags directly from the output. What we want is to extract the names of both books. We can reuse that idea of using `/` as before for the `book` tag. We do this because we know that `book` is the direct child of `dansimmons`:
 
 ```{r}
 book_xml %>%
   xml_find_all("//dansimmons/book")
 ```
 
-There we go, we get the two book nodes. If `book` would not be the direct child, `/` wouldn't work. For example, if instead of `book` we searched for `release_year` (the new tag we added as well), it would return an empty node:
+There we go, we get the two book nodes. If `book` would not be the direct child of `<dansimmons>`, `/` wouldn't work. For example, if instead of `book` we searched for `release_year` (the new tag we added as well), it would return an empty node:
 
 ```{r}
 book_xml %>%
   xml_find_all("//dansimmons/release_year")
 ```
 
-That's expected: `dansimmons` doesn't have a direct child called `release_year`. However, we know that `//` will in the entire XML tree for what you request so we can instead request all `release_year` tags inside `dansimmons`:
+That's expected: `dansimmons` doesn't have a direct child called `release_year` (it has a *grandchild* `<release_year>`. However, we know that `//` will search for tags in the entire XML tree so we can instead request all `release_year` tags inside `dansimmons`:
 
 ```{r}
 book_xml %>%
@@ -158,20 +149,55 @@ book_xml %>%
   xml_path()
 ```
 
-For some concrete example, using a literal path such as this one might be much quicker than coming up with a single XPath that makes it more general. If you're trying to scrape something as a one-off thing, manually navigating a HTML/XML tree (with functions such as `xml_child` or directly in the web developer tools) and copying it's exact XPath location might be the better choice.
+For some concrete cases, using a literal path such as this one might be much quicker than coming up with a single XPath that makes it more general. If you're trying to scrape something as a one-off thing, manually navigating a HTML/XML tree (with functions such as `xml_child` or directly in the web developer tools of your browser) and copying it's exact XPath location might be the better choice.
+
+XPath also allows to hand pick nodes by position. Within the `dansimmons` tag there are two book tags. What would an XPath expression look like to subset only the 2nd `<book>` tag of `dansimmons`? We can tell XPath the position of the tag we want using `[number]`, where number is replaced with the position:
+
+```{r}
+book_xml %>%
+  xml_find_all("//dansimmons/book[2]")
+```
+
+You can supply the position of any node. As expected, this will return empty if the position doesn't exist:
+
+```{r}
+book_xml %>%
+  xml_find_all("//dansimmons/book[8]")
+```
+
+However, throughout all of these examples we had to be very specific in supplying the exact address of some child node with respect to it's parent. `//dansimmons` will return all `dansimmons` tags but we won't be able to see its children. We would need to know which specific book tags are children of `dansimmons`, if there are any. XPath introduces the `*` as a wildcard pattern to return all children of current parent tag. For example:
+
+```{r}
+book_xml %>%
+  xml_find_all("//dansimmons/*")
+```
+
+The result is not the `dansimmons` tag but all it's children, regardless of whether they are `<book>` tags or any other tag. This strategy is useful if you're unsure which nodes are below a certain parent and you want to extract all of them: this is in fact very generalizable because you can extract all children of a tag and then pick the one you're after with some string manipulation.
+
+Similarly, `*` can be used to fill out a tag which you don't know the name of. You know that each author has `<book>` tags but you don't know the name of all authors. You could extract all book tags like this:
+
+```{r}
+book_xml %>%
+  xml_find_all("/*/*/*/book")
+```
+
+In other words, this XPath is saying: extract all book tags which have three tags above it, it doesn't matter *which* tags they are. As we'll see later in this chapter, this is quite a nice trick for more complex HTML/XML structures.
 
 Let's recap so far:
 
 * `/` links between two tags that have direct parent-child relationship
 * `//` finds all tags in the HTML/XML tree regardless of depth
+* Use `[number]` to subset the position of a node. For example: `//a[8]` will return the 8th `<a>` tag.
+* `*` is a wildcard that allows to signal nodes without specifying which nodes.
 
-These two rules can take you a long way when building XPath expressions.
+These rules can take you a long way when building XPath expressions but the real flexibility comes when you're available to filter through attributes of a given node.
 
 ## Filter by attributes
 
-When parsing complicated websites, you'll need additional flexibility to parse HTML/XML. XPath has a great property that allows to pick tags with specific attributes. Let's update our XML example with more complexity:
+When parsing complicated websites, you'll need additional flexibility to parse HTML/XML. XPath has a great property that allows to pick tags with specific attributes. Let's update our XML example to include a new author tag `<stephenking>`, one of it's books and some additional attributes for some books:
 
 ```{r}
+# Note the new <stephenking> tag with it's book 'The Stand' and all <book> tags have some attributes
 raw_xml <- "
 <bookshelf>
   <authors>
@@ -194,11 +220,10 @@ raw_xml <- "
   </authors>
 </bookshelf>"
 
-
 book_xml <- raw_xml %>% read_xml()
 ```
 
-Whenever we want our tags to match a specific attribute we can add two brackets at the end of the tag and specify what we want. Say we wanted to know all Dan Simmons book with a price, how would we write an XPath?
+The power of XPath comes in when we can filter tags by attributes. Perhaps we'd like to extract all book tags that had a price, regardless of author. Or catch all books of a certain topic. Whenever we want our tags to match a specific attribute we can add two brackets at the end of the tag and match the attribute to what we're after. Say we wanted to know all Dan Simmons book with a price, how would that XPath look like?
 
 ```{r}
 book_xml %>%
@@ -206,7 +231,7 @@ book_xml %>%
   xml_text()
 ```
 
-Our new XPath is saying: find all `<book>` tags that have an attribute of `price` set to `yes` that are descendants of the `<dansimmons>` tag. Quite interesting eh? This approach allows us to have a much flexible language for parsing HTML/XML documents. Everything inside `[]` serves to add additional filters/criteria that matches your XPath. With the help of the `and` keyword, you can alter the previous XPath to get all books with a price from the topic `horror`:
+Our new XPath is saying: find all `<book>` tags that have an attribute of `price` set to `yes` that are *descendants* (but not necessarily direct child, because of the `//`) of the `<dansimmons>` tag. Quite interesting eh? This approach allows us to have a much flexible language for parsing HTML/XML documents. Everything inside `[]` serves to add additional filters/criteria that matches your XPath. With the help of the `and` keyword, you can alter the previous XPath to get all books with a price from the topic `horror`:
 
 ```{r}
 book_xml %>%
@@ -228,7 +253,15 @@ book_xml %>%
   xml_find_all("//book[@price!='yes']")
 ```
 
-This is correct because there is not attribute of price set to 'no'. XPath also has an interesting set of functions that are useful for filtering. Some of the most common ones include:
+This is correct because there is not attribute of price set to 'no'. You can also use the keyword `or` to match certain properties:
+
+```{r}
+book_xml %>%
+  xml_find_all("//book[@price='yes' or @topic='scifi']") %>%
+  xml_text()
+```
+
+XPath has all the goodies to perform basic filtering (`and`, `or`, `=`, `!=`) but also has additional functions that are useful for filtering. Some of the most common ones include:
 
 * `contains()`
 * `starts-with()`
@@ -236,16 +269,16 @@ This is correct because there is not attribute of price set to 'no'. XPath also 
 * `not()`
 * `count()`
 
-How do we use them? We always use these functions within the context of filtering (everything used inside `[]`) and you can reach a level of fine-grained filtering that can save your hours on the source code of a document. Let's go over some cases where these functions are particularly handy but before hand, let's load the example we'll be working with.
+How do we use them? We always use these functions within the context of filtering (everything used inside `[]`). With these you can reach a level of fine-grained filtering that can save you hours searching on the source code of an XML/HTML document. Before we go over some of the cases where these functions are useful, let's load a new example from the `scrapex` package.
 
-For the rest of the chapter and the exercises you'll be working with the main page of the newspaper "El País". I've saved the website locally for you to scrape in `scrapex`. We can load it from the function `elpais_newspaper_ex()`:
+For the rest of the chapter and the exercises you'll be working with the main page of the newspaper "El País". "El País" is an international daily newspaper. It is the among the most circulated newspapers in Spain and has a very rich website that we'll be scraping. We can load it from the function `elpais_newspaper_ex()`:
 
 ```{r}
 newspaper_link <- elpais_newspaper_ex()
 newspaper <- read_html(newspaper_link)
 ```
 
-Before we continue, let's look at the website in our web browser:
+Let's look at the website in our web browser:
 
 ```{r, eval = FALSE}
 browseURL(prep_browser(newspaper_link))
@@ -255,43 +288,50 @@ browseURL(prep_browser(newspaper_link))
 knitr::include_graphics(file.path(main_dir, "elpais_main.png"))
 ```
 
-The website has news organized along the left, right and center of the website. If you scroll down you'll see there are dozens more of news scattered throughout the website. Let's continue our examples using a real world example.
+The website has news organized along the left, right and center of the website. If you scroll down you'll see there are dozens more news snippets scattered throughout the website. These news are organized through sections such as 'Culture', 'Sports' and 'Business'.
 
-We're interested in figuring out the hyperlink of each the sections of the newspaper to be able to scrape all news separately by section. In particular, you might be interested in first grabbing the 'Science' link as a first step. The section you want to explore is here:
+Let's say we're interested in figuring out the links to all sections of the newspaper to be able to scrape all news separately by area. To avoid complexity, we'll start by first grabbing the 'Science' section link as a first step. The section you want to explore is here:
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir, "elpais_science_main.png"))
 ```
 
-More concretely, you can see on the source code that you want an `<a>` tag that is nested within a `<section>` tag (two tags above the `<a>` tag).
+On the left you can see the section 'Science, Tech & Health' and the articles that belong to that section. The words 'Science, Tech & Health' in bold contain a hyperlink to that main page on science articles. That's what we want to access. On the right, you'll see that I opened the web developer tools from the browser. After clicking manually on 'Science, Tech & Health' on the right, the source code highlights in blue where the hyperlink is.
+
+More concretely, you can see on the source code that you want an `<a>` tag that is nested within a `<section>` tag (two tags above the `<a>` tag). That `<a>` tag has an attribute `href` that contains the link:
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir, "elpais_science_main_sourcecode.png"))
 ```
 
-Ok, with this information we can be creative and build and XPath that says: find all the `<a>` tags that have an `href` attribute containing the word 'Science' and also inherits from a `<section>` tag:
+Ok, with this information we can be creative and build an XPath expressions that says: find all the `<a>` tags that have an `href` attribute containing the word 'Science' and also inherits from a `<section>` tag:
 
 ```{r}
 newspaper %>%
   xml_find_all("//section//a[contains(@href, 'science')]")
 ```
 
-Hmm, the XPath seems right but the output returns too many tags. We were expecting one link that is the general science section (something like `https://english.elpais.com/science-tech/`). We know that between our `<a>` tag and `<section>` tag there are two additional tags but these two exact tags might not be the same for all remaining sections. For the sake of making it as general as possible, let's use the wildcard `*`:
+Hmm, the XPath seems right but the output returns too many tags. We were expecting one link that is the general science section (something like `https://english.elpais.com/science-tech/`). We know that between our `<a>` tag and `<section>` tag there are two additional `<header>` and `<div>` tags:
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir, "elpais_science_main_sourcecode.png"))
+```
+
+These two exact tags might not be the same for all other sections but we can try specifying two wild cards tags in between `<section>` and `<a>`. For example:
 
 ```{r}
 newspaper %>%
-  xml_find_all("//section/*/*/a[contains(@href, 'science')]") %>%
-  xml_attr("href") %>%
-  unique()
+  xml_find_all("//section/*/*/a[contains(@href, 'science')]")
 ```
 
-That's the one we were looking for but let's explain the final XPath before:
+That's the one we were looking for. Let's explain the XPath expression:
 
 * `//section` means to search for all sections throughout the HTML tree
-* `//section/*/*` means to search for two *direct* children of `<section>` (regardless of what these tags are
+* `//section/*/*` means to search for two *direct* children of `<section>` (regardless of what these tags are)
 * `a[contains(@href, 'science')]` finds the `<a>` tags for which the `@href` attribute contains the text 'science'.
+* The final expression says: finds all `<a>` tags for which the `@href` attribute contains the text 'science' which are descendant of the `<section>` tag with two tags in between.
 
-The function `contains` searches for text in an attribute. However can you also use it with the function `text()` which refers to the actual text of the tag. We could rewrite the previous XPath to make it even more precise:
+As it might become evident, the function `contains` searches for text in an attribute. It matches that the supplied text is contained in the attribute that you want. Kinda like in regular expressions. However you can also use it with the function `text()` which points to the actual text of the tag. We could rewrite the previous XPath to make it even more precise:
 
 ```{r}
 newspaper %>%
@@ -299,7 +339,15 @@ newspaper %>%
   xml_attr("href")
 ```
 
-Instead, this XPath grabs all `<a>` tags which contain the text 'Science, Tech & Health'. As you might expect, the function `start-with()` does the same job as `contains()` but matching whether an attribute/text starts with some provided text.
+Instead, this XPath grabs all `<a>` tags which contain the text 'Science, Tech & Health'. In fact, we could make it even shorter. Since probably no `<a>` tag contains the text 'Science, Tech & Health', we can remove the wildcards `*` for the tags:
+
+```{r}
+newspaper %>%
+  xml_find_all("//section//a[contains(text(), 'Science, Tech & Health')]") %>%
+  xml_attr("href")
+```
+
+This final expression asks for all `<a>` tags which are descendants of the `<section>` tags that contains the specific science text. These functions (`text`, `contains`) make the filtering much more precise and easy to understand. Other functions such as `start-with()` perform the same job as `contains()` but matching whether an attribute/text starts with some provided text.
 
 The function `not()` is also useful for filtering. It negates everything inside a filter expression. With out previous example, using `not()` will return all sections which are not the ones containing the text 'Science, Tech & Health':
 
@@ -309,7 +357,14 @@ newspaper %>%
   xml_attr("href")
 ```
 
-We see the links to all other sections such as `economy-and-business` and `international`. Finally, the function `count()` allows you to use conditionals based on counting something. How many sections have over three articles?
+We see the links to all other sections such as `economy-and-business` and `international`. Finally, the function `count()` allows you to use conditionals based on counting something. One interesting question is how many sections have over three articles. You might be interested in scraping newspaper sites to measure whether there is any bias in the amount of news published in certain sections. An XPath that directly tackles this might be like this:
+
+```{r}
+newspaper %>%
+  xml_find_all("//section[count(.//article)>3]")
+```
+
+By looking at the result we see that the attribute `data-dtm-region` contains some information about the name of the section (see the word culture in the third node). Let's extract it:
 
 ```{r}
 newspaper %>%
@@ -317,12 +372,15 @@ newspaper %>%
   xml_attr("data-dtm-region")
 ```
 
-Five sections. Although that XPath was very short, it contains things you might not now. Let's explain it:
+Five sections, mostly entertainment related except for the first one which is the front page ('aperatura' is something like 'opening'). Although that XPath was very short, it contains things you might not now. Let's explain it:
+
 
 * `//section` find all section tags in the XML document
 * `[count(.//article])]` counts all articles *but* all articles below the current tag. That's why we write `.//article` because the dot (`.`) signals that we will search for all articles below the current position. If instead we wrote `//article` it would search for *all* articles in the entire HTML tree.
 * `[count(.//article])]>3` counts all sections that have more than three articles
 
+
+These XPath filtering rules can take you a long way in building precise expressions. This chapter covers a somewhat beginner/intermediate introduction to XPath but one that can take you very far. Trust me when I tell you that these XPath rules can fulfill a vast percentage of your webscraping needs, if you start easy. Once you start building scraping programs that are supposed to run on frequent intervals or work with a bigger team of developers that is dependent on your scraped data, you might need to be more careful in how you build your XPath expressions to avoid breaking the scraper frequently. However, this is a fairly good start to achieving most of the scraping needs as a beginner.
 
 ## XPath cookbook
 
@@ -388,11 +446,11 @@ newspaper %>%
 newspaper %>%
   xml_find_all("//section[td]")
 
-# Return the first ocurrence of a section tag
+# Return the first occurrence of a section tag
 newspaper %>%
   xml_find_all("(//section)[1]")
 
-# Return the last ocurrence of a section tag
+# Return the last occurrence of a section tag
 newspaper %>%
   xml_find_all("(//section)[last()]")
 ```
