@@ -1,8 +1,10 @@
-# What they never taught you about regular expressions
+# What you need to know about regular expressions
 
 Primer on regular expressions
 
 See [here](https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/) for some examples
+
+https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions
 
 https://www.gastonsanchez.com/intro2cwd/regex.html
 
