@@ -35,6 +35,10 @@ exercises-5
 scraping-javascript-based-website
 exercises-6
 ethical-issues-in-web-scraping
+make-your-scraper-sleep
+terms-of-services
+copying-information
+identifying-yourself
 introduction-to-rest-apis
 introduction-to-json
 a-primer-on-apis

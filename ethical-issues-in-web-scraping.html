@@ -6,15 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>10 Ethical issues in Web Scraping | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
-<meta name="description" content="Time sleep Read the terms and services: many websites prohibit web scraping and you could be in a breach of privacy by scraping the data. One famous example. Check the robots.txt file. This is a...">
+<meta name="description" content="Although quick to get up and running, web scraping is a delicate issue. It’s delicate because it involves grabbing information that is not yours and using it for your own purposes. In some...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
 <meta property="og:title" content="10 Ethical issues in Web Scraping | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/ethical-issues-in-web-scraping.html">
-<meta property="og:description" content="Time sleep Read the terms and services: many websites prohibit web scraping and you could be in a breach of privacy by scraping the data. One famous example. Check the robots.txt file. This is a...">
+<meta property="og:description" content="Although quick to get up and running, web scraping is a delicate issue. It’s delicate because it involves grabbing information that is not yours and using it for your own purposes. In some...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="10 Ethical issues in Web Scraping | Data Harvesting with R">
-<meta name="twitter:description" content="Time sleep Read the terms and services: many websites prohibit web scraping and you could be in a breach of privacy by scraping the data. One famous example. Check the robots.txt file. This is a...">
+<meta name="twitter:description" content="Although quick to get up and running, web scraping is a delicate issue. It’s delicate because it involves grabbing information that is not yours and using it for your own purposes. In some...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
@@ -84,23 +84,97 @@
 <h1>
 <span class="header-section-number">10</span> Ethical issues in Web Scraping<a class="anchor" aria-label="anchor" href="#ethical-issues-in-web-scraping"><i class="fas fa-link"></i></a>
 </h1>
-<ul>
-<li><p>Time sleep</p></li>
-<li><p>Read the terms and services: many websites prohibit web scraping and you could be in a breach of privacy by scraping the data. <a href="https://fortune.com/2016/05/18/okcupid-data-research/">One</a> famous example.</p></li>
-<li><p>Check the <code>robots.txt</code> file. This is a file that most websites have (<code>www.buscocolegio.com</code> does <strong>not</strong>) which tell you which specific paths inside the website are scrapable and which are not. See <a href="https://www.robotstxt.org/robotstxt.html">here</a> for an explanation of what robots.txt look like and where to find them.</p></li>
-<li><p>Some websites are supported by very big servers, which means you can send 4-5 website requests per second. Others, such as <code>www.buscocolegio.com</code> are not. It’s good practice to always put a time sleep between your requests. In our example, I set it to 5 seconds because this is a small website and we don’t want to crash their servers.</p></li>
-<li><p>When making requests, there are computational ways of identifying yourself. For example, every request (such as the one’s we do) can have something called a <code>User-Agent</code>. It is good practice to include yourself in as the <code>User-Agent</code> (as we did in our code) because the admin of the server can directly identify if someone’s causing problems due to their web scraping.</p></li>
-<li><p>Limit your scraping to non-busy hours such as overnight. This can help reduce the chances of collapsing the website since fewer people are visiting websites in the evening.</p></li>
-</ul>
-<p>You can read more about these ethical issues <a href="http://robertorocha.info/on-the-ethics-of-web-scraping/">here</a>.</p>
+<p>Although quick to get up and running, web scraping is a delicate issue. It’s delicate because it involves grabbing information that is not yours and using it for your own purposes. In some respects that might be even contrary to the terms and conditions of the website. It also involves <em>cluttering</em> the servers of the website with potentially many requests, making the functioning of the website less optimal. In this chapter we’ll describe how you affect a website when you scrape it, how you can avoid problems with the website owners and how to figure out if indeed the website <em>allows</em> you to scrape that information.</p>
+<div id="make-your-scraper-sleep" class="section level2">
+<h2>
+<span class="header-section-number">10.1</span> Make your scraper sleep<a class="anchor" aria-label="anchor" href="#make-your-scraper-sleep"><i class="fas fa-link"></i></a>
+</h2>
+<p>Whenever you run a scraping script, your program makes a <em>request</em> to the website. A request means that you <em>ask</em> the servers behind the website to send you information. When I learned that scraping worked like that, I was completely shocked. I thought scraping was more like copying the content of the website into my local computer. Nothing harmless in that, right?</p>
+<p>Well, to my surprise, I was making that request many times every day without knowing it. Scraping is the same as entering a website through a browser. That moment between when you hit enter to go to a website and when the information is actually displayed is the time it takes for the server behind the website to return all the content. That operation is important for a website. It involves requesting information, waiting for the server to return it and rendering it in your browser. A human is slow enough for a server to handle the requests it needs but imagine a human the tried to enter a website 5 times per second continuously for 48 hours. That amounts to 864,000 requests. That’s a lot.</p>
+<p>Big websites such as Google or Amazon have enough servers and throttle to handle millions of requests per second but most of the content on the internet does not. For that reason, it’s important that whenever you make a request to a website (calling <code>read_html</code> or <code>read_xml</code>), you add a <em>system sleep</em> to your scraper. In R you can do that with <code>Sys.sleep(amount_of_seconds)</code> where <code>amount_of_seconds</code> is the amount of seconds you want to sleep before making a request.</p>
+<p>If we were scraping a website only once, making only a single request, adding a system sleep should not matter. What we want to avoid is making <em>many</em> requests in shorts amount of time. So for example, in our example in chapter <em>TODO</em> Spanish school we scraped information for several different schools. Each school that we scraped, meant making a request to the website. That’s a perfect example where want to sleep before making a request. So in R code, the skeleton code would look something like this with the system sleep:</p>
+<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
 
+<span class="va">school_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/spanish_schools_ex.html">spanish_schools_ex</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">all_schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">single_school_scraper</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">single_link</span><span class="op">)</span> <span class="op">{</span>
+  <span class="co"># Before making a request, sleep 5 seconds</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>
+
+  <span class="co"># Perform some scraping</span>
+<span class="op">}</span>
+
+<span class="kw">for</span> <span class="op">(</span><span class="va">single_link</span> <span class="kw">in</span> <span class="va">school_links</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">all_schools</span><span class="op">[[</span><span class="va">single_link</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">single_school_scraper</span><span class="op">(</span><span class="va">single_link</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<p>We create a single function that works well for scraping a single school. Before we launch that to scrape all different schools, we add <code>Sys.sleep(5)</code> before scraping each school. This way, before making a new request, we’ll let the servers rest and avoid too many requests in such a short amount of time.</p>
+<p>How many seconds should you wait? There’s not real estimate. Depending on how many requests you make you’ll want to lower the number of seconds to 2 or 3. Multiplying the total number of websites you’ll scrape by the number of seconds you’ll sleep will give you a rough estimate of how much time your program will last.</p>
+<p>As a rule of thumb, it’s always a good idea to limit your scraping to non-working hours such as over the evening. This can help reduce the chances of collapsing the website since fewer people are visiting websites in the evening.</p>
+</div>
+<div id="terms-of-services" class="section level2">
+<h2>
+<span class="header-section-number">10.2</span> Terms of services<a class="anchor" aria-label="anchor" href="#terms-of-services"><i class="fas fa-link"></i></a>
+</h2>
+<p>When the General Data Protection Regulation (GDPR) came in effect in Europe, all websites needed to make sure every user agreed to their terms of services. These terms of services are lengthy and contain a lot of information for what the website can do with your data. However, it also contains information on what <em>you</em> can do with their data. For most internet users, this simply doesn’t matter. If you’re building a scraping program, however, this is <a href="https://12ft.io/proxy?q=http://fortune.com/2016/05/18/okcupid-data-research">important</a>.</p>
+<p>Whenever you intend to scrape a website, make sure to read the terms of services. If a website clearly states that web scraping is not allowed, you must respect that. For example, Facebook has a clause specifically on automated data collection:</p>
+<blockquote>
+<p>You will not collect users’ content or information, or otherwise access Facebook, using automated means (such as harvesting bots, robots, spiders or scrapers) without our prior permission.</p>
+</blockquote>
+<p>If a website explicitly prohibits you from scraping, you should not it. <strong>Let me make that clear again: if the terms of services forbids you of scraping their website, you should not do it. It can have legal consequences.</strong></p>
+<p>If it’s not clear from the terms of services, contact the website and receive written confirmation from the website.</p>
+</div>
+<div id="copying-information" class="section level2">
+<h2>
+<span class="header-section-number">10.3</span> Copying information<a class="anchor" aria-label="anchor" href="#copying-information"><i class="fas fa-link"></i></a>
+</h2>
+<p>If the website allows a user to scrape its contents, we should also check <em>what</em> sections of the website are scrapable. For that there’s a standard file called <code>robots.txt</code> on nearly all website on the internet which tells you want parts of the website can be scraped. The <code>robots.txt</code> is just a convenient form for a website to tell you which URLs you can scrape. It will not enforce anything nor block you in any way. <strong>In all cases, you should follow the guidelines of the <code>robots.txt</code></strong>.</p>
+<p>The <code>robots.txt</code> file of Google can be found in <a href="google.com/robots.txt">google.com/robots.txt</a> and looks like this:</p>
+<div class="inline-figure"><img src="images/ethics/google_robots.png" width="30%" style="display: block; margin: auto;"></div>
+<p>It documents each URL of the Google website and it explicitly tells you which ones are allowed or disallowed. In this section we’ll use the <code>robotstxt</code> R package which makes it very easy to tell whether a website can be scrapable. For example, we can figure out if we can scrape the landing page of Wikipedia with this:</p>
+<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/robotstxt/">robotstxt</a></span><span class="op">)</span>
+<span class="fu"><a href="https://docs.ropensci.org/robotstxt/reference/paths_allowed.html">paths_allowed</a></span><span class="op">(</span><span class="st">"https://wikipedia.org"</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>The <code>TRUE</code> statement tell us we can do it. Let’s see if we can scrape the Facebook homepage:</p>
+<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://docs.ropensci.org/robotstxt/reference/paths_allowed.html">paths_allowed</a></span><span class="op">(</span><span class="st">"https://facebook.com"</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>Using <code>paths_allowed</code> you can provide any link to a website and it’ll automatically extract the <code>robots.txt</code> and figure out if you can scrape it.</p>
+<p>Before scraping any website, you should check whether the URL you want to scrape is allowed.</p>
+</div>
+<div id="identifying-yourself" class="section level2">
+<h2>
+<span class="header-section-number">10.4</span> Identifying yourself<a class="anchor" aria-label="anchor" href="#identifying-yourself"><i class="fas fa-link"></i></a>
+</h2>
+<p>Even if the website allows you to scrape the URL that you’re after, you need to be extra careful and identify by yourself. That means that you need to give the website a clear identification of who is making those many requests. This way the website can contact you or directly block. Remember at all times: we’re scraping data that is not ours and we should be polite when grabbing that data. If the owner of the data considers that they don’t want to give you the data, they’re in their right to do so.</p>
+<p>To identify ourselves we need something called a “User-Agent”. A User-Agent contains information about our computer and our browser. You can find your user agent googling “what is my user agent?”. Google will directly tell you what it is:</p>
+<div class="inline-figure"><img src="images/ethics/google_useragent.png" width="100%" style="display: block; margin: auto;"></div>
+<p>With that in hand, we just need to tell our scraper to incorporate that in each request. How do we do that? With the <code>httr</code> package. Below is the code to do it:</p>
+<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr.r-lib.org/">httr</a></span><span class="op">)</span>
+
+<span class="fu"><a href="https://httr.r-lib.org/reference/set_config.html">set_config</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://httr.r-lib.org/reference/user_agent.html">user_agent</a></span><span class="op">(</span><span class="st">"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0; Jorge Cimentada / cimentadaj@gmail.com"</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
+<p>Notice how I added my name / email to the user agent? I often do that so websites can contact me in case they believe I’m breaking any of their terms of services or they want to know the purpose of my scraper. In any case, it’s just a way of being polite. In R the user agent can be set once at the top of the script. No need to include it anywhere else inside the scraper or inside a loop that scrapes many websites; the user agent is set globally and reused in all requests.</p>
+
+</div>
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></div>
 <div class="next"><a href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#ethical-issues-in-web-scraping"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ethical-issues-in-web-scraping"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
+<li><a class="nav-link" href="#make-your-scraper-sleep"><span class="header-section-number">10.1</span> Make your scraper sleep</a></li>
+<li><a class="nav-link" href="#terms-of-services"><span class="header-section-number">10.2</span> Terms of services</a></li>
+<li><a class="nav-link" href="#copying-information"><span class="header-section-number">10.3</span> Copying information</a></li>
+<li><a class="nav-link" href="#identifying-yourself"><span class="header-section-number">10.4</span> Identifying yourself</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
