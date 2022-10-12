@@ -28,7 +28,9 @@ extracting-type-of-school
 exercises-4
 automating-web-scraping-scripts
 the-scraping-program
+the-terminal
 cron-your-scheduling-friend
+conclusion-2
 exercises-5
 scraping-javascript-based-website
 exercises-6
