@@ -4,17 +4,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>5 What they never taught you about regular expressions | Data Harvesting with R</title>
+<title>5 What you need to know about regular expressions | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
-<meta name="description" content="Primer on regular expressions See here for some examples https://www.gastonsanchez.com/intro2cwd/regex.html  5.1 Exercises">
+<meta name="description" content="Primer on regular expressions See here for some examples https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions https://www.gastonsanchez.com/intro2cwd/regex.html  5.1...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
-<meta property="og:title" content="5 What they never taught you about regular expressions | Data Harvesting with R">
+<meta property="og:title" content="5 What you need to know about regular expressions | Data Harvesting with R">
 <meta property="og:type" content="book">
-<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/what-they-never-taught-you-about-regular-expressions.html">
-<meta property="og:description" content="Primer on regular expressions See here for some examples https://www.gastonsanchez.com/intro2cwd/regex.html  5.1 Exercises">
+<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/what-you-need-to-know-about-regular-expressions.html">
+<meta property="og:description" content="Primer on regular expressions See here for some examples https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions https://www.gastonsanchez.com/intro2cwd/regex.html  5.1...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="5 What they never taught you about regular expressions | Data Harvesting with R">
-<meta name="twitter:description" content="Primer on regular expressions See here for some examples https://www.gastonsanchez.com/intro2cwd/regex.html  5.1 Exercises">
+<meta name="twitter:title" content="5 What you need to know about regular expressions | Data Harvesting with R">
+<meta name="twitter:description" content="Primer on regular expressions See here for some examples https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions https://www.gastonsanchez.com/intro2cwd/regex.html  5.1...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
@@ -58,10 +58,10 @@
 <li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
 <li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
 <li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
-<li><a class="active" href="what-they-never-taught-you-about-regular-expressions.html"><span class="header-section-number">5</span> What they never taught you about regular expressions</a></li>
+<li><a class="active" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">5</span> What you need to know about regular expressions</a></li>
 <li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">6</span> What you need to know about XPath</a></li>
 <li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">8</span> Automating Web scraping scripts</a></li>
+<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">8</span> Automating Web Scraping Scripts</a></li>
 <li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
 <li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
 <li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
@@ -80,12 +80,13 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="what-they-never-taught-you-about-regular-expressions" class="section level1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="what-you-need-to-know-about-regular-expressions" class="section level1">
 <h1>
-<span class="header-section-number">5</span> What they never taught you about regular expressions<a class="anchor" aria-label="anchor" href="#what-they-never-taught-you-about-regular-expressions"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5</span> What you need to know about regular expressions<a class="anchor" aria-label="anchor" href="#what-you-need-to-know-about-regular-expressions"><i class="fas fa-link"></i></a>
 </h1>
 <p>Primer on regular expressions</p>
 <p>See <a href="https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/">here</a> for some examples</p>
+<p><a href="https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions" class="uri">https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions</a></p>
 <p><a href="https://www.gastonsanchez.com/intro2cwd/regex.html" class="uri">https://www.gastonsanchez.com/intro2cwd/regex.html</a></p>
 <div id="exercises-2" class="section level2">
 <h2>
@@ -100,7 +101,7 @@
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#what-they-never-taught-you-about-regular-expressions"><span class="header-section-number">5</span> What they never taught you about regular expressions</a></li>
+<li><a class="nav-link" href="#what-you-need-to-know-about-regular-expressions"><span class="header-section-number">5</span> What you need to know about regular expressions</a></li>
 <li><a class="nav-link" href="#exercises-2"><span class="header-section-number">5.1</span> Exercises</a></li>
 </ul>
 
@@ -119,7 +120,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-10-09.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-10-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

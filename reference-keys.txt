@@ -11,7 +11,7 @@ a-primer-on-xml-and-html
 tag-attributes
 conclusion
 exercises-1
-what-they-never-taught-you-about-regular-expressions
+what-you-need-to-know-about-regular-expressions
 exercises-2
 what-you-need-to-know-about-xpath
 finding-tags-with-xpath
@@ -27,8 +27,11 @@ scraping-publicprivate-school-information
 extracting-type-of-school
 exercises-4
 automating-web-scraping-scripts
-scraping-javascript-based-website
+the-scraping-program
+cron-your-scheduling-friend
 exercises-5
+scraping-javascript-based-website
+exercises-6
 ethical-issues-in-web-scraping
 introduction-to-rest-apis
 introduction-to-json

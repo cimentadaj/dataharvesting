@@ -4,17 +4,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>8 Automating Web scraping scripts | Data Harvesting with R</title>
+<title>8 Automating Web Scraping Scripts | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
-<meta name="description" content="You’re still unsure whether this is too much info for the students. This involves renting a server and stuff like that. Moreover, it assumes that they’re using Linux for using cron stuff when they...">
+<meta name="description" content="There are two types of webscraping: one-off scrapings or frequent scrapings. For the first one, all of the material of the book until this chapter should be enough. However, for the second we need...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
-<meta property="og:title" content="8 Automating Web scraping scripts | Data Harvesting with R">
+<meta property="og:title" content="8 Automating Web Scraping Scripts | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/automating-web-scraping-scripts.html">
-<meta property="og:description" content="You’re still unsure whether this is too much info for the students. This involves renting a server and stuff like that. Moreover, it assumes that they’re using Linux for using cron stuff when they...">
+<meta property="og:description" content="There are two types of webscraping: one-off scrapings or frequent scrapings. For the first one, all of the material of the book until this chapter should be enough. However, for the second we need...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="8 Automating Web scraping scripts | Data Harvesting with R">
-<meta name="twitter:description" content="You’re still unsure whether this is too much info for the students. This involves renting a server and stuff like that. Moreover, it assumes that they’re using Linux for using cron stuff when they...">
+<meta name="twitter:title" content="8 Automating Web Scraping Scripts | Data Harvesting with R">
+<meta name="twitter:description" content="There are two types of webscraping: one-off scrapings or frequent scrapings. For the first one, all of the material of the book until this chapter should be enough. However, for the second we need...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
@@ -58,10 +58,10 @@
 <li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
 <li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
 <li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
-<li><a class="" href="what-they-never-taught-you-about-regular-expressions.html"><span class="header-section-number">5</span> What they never taught you about regular expressions</a></li>
+<li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">5</span> What you need to know about regular expressions</a></li>
 <li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">6</span> What you need to know about XPath</a></li>
 <li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="active" href="automating-web-scraping-scripts.html"><span class="header-section-number">8</span> Automating Web scraping scripts</a></li>
+<li><a class="active" href="automating-web-scraping-scripts.html"><span class="header-section-number">8</span> Automating Web Scraping Scripts</a></li>
 <li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
 <li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
 <li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
@@ -82,17 +82,181 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="automating-web-scraping-scripts" class="section level1">
 <h1>
-<span class="header-section-number">8</span> Automating Web scraping scripts<a class="anchor" aria-label="anchor" href="#automating-web-scraping-scripts"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8</span> Automating Web Scraping Scripts<a class="anchor" aria-label="anchor" href="#automating-web-scraping-scripts"><i class="fas fa-link"></i></a>
 </h1>
-<p>You’re still unsure whether this is too much info for the students. This involves renting a server and stuff like that. Moreover, it assumes that they’re using Linux for using cron stuff when they might be using mac or windows. I also don’t think they might benefit from this from the start since they are probably gonna to scrape simpler things.</p>
+<p>There are two types of webscraping: one-off scrapings or frequent scrapings. For the first one, all of the material of the book until this chapter should be enough. However, for the second we need new tools and strategies. Have you asked yourself how can you automate a script? By automating I mean, for example, run that script every Thursday at 08:00 PM. This chapter focuses on scheduling programs to run whenever you want. You might need this to collect data on a website that is changing constantly or to request data from an API on frequent intervals (the topic of API’s is the second part of this book) but in any of those two cases you don’t want to be manually running to your house at 3 in the morning to run the program. This chapter will make sure you don’t have to do that.</p>
+<div class="rmdnote">
+<p><br>
+Scheduling scripts is very different between operating systems. This chapter will focus solely on scheduling scripts for Linux and MacOS.</p>
+</div>
+<div id="the-scraping-program" class="section level2">
+<h2>
+<span class="header-section-number">8.1</span> The Scraping Program<a class="anchor" aria-label="anchor" href="#the-scraping-program"><i class="fas fa-link"></i></a>
+</h2>
+<p>First things first, we need a scraping program. Let’s build a one recycled from previous chapters. Let’s count the number of articles for each section of the newspaper “El País”. The R script will parse the website, extract the number of articles and collect everything in a data frame. Here’s how it would look like:</p>
+<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/">xml2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>
 
+<span class="co"># If this were being done on the real website of the newspaper, you'd want to replace the line below with the real link of the website.</span>
+<span class="va">newspaper_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/elpais_newspaper_ex.html">elpais_newspaper_ex</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">newspaper</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">newspaper_link</span><span class="op">)</span>
+
+<span class="va">all_sections</span> <span class="op">&lt;-</span>
+  <span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section[.//article][@data-dtm-region]"</span><span class="op">)</span>
+
+<span class="va">final_df</span> <span class="op">&lt;-</span>
+  <span class="va">all_sections</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">.x</span>, <span class="st">".//article"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://magrittr.tidyverse.org/reference/aliases.html">set_names</a></span><span class="op">(</span><span class="va">all_sections</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attr</a></span><span class="op">(</span><span class="st">"data-dtm-region"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"sections"</span>, value <span class="op">=</span> <span class="st">"num_articles"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">num_articles</span><span class="op">)</span>
+
+<span class="va">final_df</span></code></pre></div>
+<pre><code>## # A tibble: 11 × 2
+##    sections                                   num_articles
+##    &lt;chr&gt;                                             &lt;int&gt;
+##  1 portada_apertura                                      5
+##  2 portada_arrevistada                                   1
+##  3 portada_tematicos_science,-tech-&amp;-health              5
+##  4 portada_tematicos_business-&amp;-economy                  2
+##  5 portada_tematicos_undefined                           1
+##  6 portada_branded_                                      2
+##  7 portada_arrevistada_culture                           5
+##  8 portada_tematicos_work-&amp;-lifestyle                    3
+##  9 portada_arrevistada                                   1
+## 10 portada_tematicos_celebrities,-movies-&amp;-tv            4
+## 11 portada_tematicos_our-selection                       4</code></pre>
+<p>We see there are 11 sections each one with their respective number of articles. For a personal research project of yours, you’re interested in collecting these counts every day at three different times of the day. Your idea is to try to map how newspapers shift their efforts in different areas over time. To do that, we should also add a new section in the code to save our results on a CSV file with the time stamp of the current date. That way we can filter our results by date and collect historical date on this. Let’s add a section to save our data:</p>
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/">xml2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>
+
+<span class="va">newspaper_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/elpais_newspaper_ex.html">elpais_newspaper_ex</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">all_sections</span> <span class="op">&lt;-</span>
+  <span class="va">newspaper_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//section[.//article][@data-dtm-region]"</span><span class="op">)</span>
+
+<span class="va">final_df</span> <span class="op">&lt;-</span>
+  <span class="va">all_sections</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">.x</span>, <span class="st">".//article"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://magrittr.tidyverse.org/reference/aliases.html">set_names</a></span><span class="op">(</span><span class="va">all_sections</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attr</a></span><span class="op">(</span><span class="st">"data-dtm-region"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"sections"</span>, value <span class="op">=</span> <span class="st">"num_articles"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">num_articles</span><span class="op">)</span>
+
+<span class="co"># Save the date time as a column</span>
+<span class="va">final_df</span><span class="op">$</span><span class="va">date_saved</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y-%m-%d %H:%M"</span><span class="op">)</span>
+
+<span class="va">file_path</span> <span class="op">&lt;-</span> <span class="st">"~/newspaper/newspaper_section_counter.csv"</span>
+
+<span class="co"># *Try* reading the file. If the file doesn't exist, this will silently save an error</span>
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span><span class="op">(</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="va">file_path</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html">inherits</a></span><span class="op">(</span><span class="va">res</span>, <span class="st">"try-error"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="co"># If the file doesn't exist, save the data frame as is</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"File doesn't exist; Creating it"</span><span class="op">)</span>
+  <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">final_df</span>, <span class="va">file_path</span><span class="op">)</span>
+<span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
+  <span class="co"># If the file was read, append the new rows and save the file again</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">res</span>, <span class="va">final_df</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">file_path</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<p>This script will read the website of El País, count the number of sections and save the results as a CSV file at <code>~/newspaper/newspaper_section_counter.csv</code>. That directory still doesn’t exist, so we’ll create it first.</p>
+<p>At this point, you need to open your terminal. In Linux, you can do it by pressing the keys CTRL + ALT + t together. For MacOS click the Launchpad icon in the Dock, type Terminal in the search field, then click Terminal. For both operating systems you should see a window like this (not exactly, but similar) one pop up:</p>
+<div class="inline-figure"><img src="images/automating_scripts/basic_terminal_ubuntu.png" width="100%" style="display: block; margin: auto;"></div>
+<p>This is the terminal. It allows you to run commands just as you would do in your computer but typing code. Let’s create the directory where we’ll save the CSV file and the R script that performs the scraping. To create the directory, we use the command <code>mkdir</code> which stands for <code>m</code>a<code>k</code>e<code>dir</code>ectory. Let’s create it with <code>mkdir ~/newspaper/</code>:</p>
+<div class="inline-figure"><img src="images/automating_scripts/create_newspaper_dir.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Great, that directory is created. Before we continue, you should copy the R script we wrote down above and save it in <code>~/newspaper/</code>. Save it as <code>newspaper_scraper.R</code>. So far you should have only an R file within <code>~/newspaper/</code> called <code>newspaper_scraper.R</code>. Let’s switch our ‘directory’ to <code>~/newspaper/</code> in the terminal. In the terminal you can change directories with the <code>cd</code> command, which stands for <code>c</code>hange<code>d</code>irectory, followed by the path where you want to switch to. For our case, this would be <code>cd ~/newspaper/</code>:</p>
+<div class="inline-figure"><img src="images/automating_scripts/cd_newspaper.png" width="100%" style="display: block; margin: auto;"></div>
+<p>As you can see in the third line of the image, there now appears <code>~/newspaper</code> in blue, denoting that I am at the directory right now. To execute an R script from the terminal you can do it with the <code>Rscript</code> command followed by the file name. For our case it should be <code>Rscript newspaper_scraper.R</code>. Let’s run it:</p>
+<div class="inline-figure"><img src="images/automating_scripts/running_scraper_once.png" width="100%" style="display: block; margin: auto;"></div>
+<p>The first few lines show the printing of package loading but we finally see the print statement we added when the file doesn’t exit: <code>File doesn't exist; Creating it</code>. If you opened the CSV in your computer you should see the a sheet like this one:</p>
+<div class="inline-figure"><img src="images/automating_scripts/newspaper_scraping_excel.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Great, our scraper works! We have about half the job done. Now we need to come up with a way to execute this <code>Rscript ~/newspaper/newspaper_scraper.R</code> on a schedule.</p>
+</div>
+<div id="cron-your-scheduling-friend" class="section level2">
+<h2>
+<span class="header-section-number">8.2</span> cron, your scheduling friend<a class="anchor" aria-label="anchor" href="#cron-your-scheduling-friend"><i class="fas fa-link"></i></a>
+</h2>
+<p>Luckily for you, such a program already exists. It’s called <code>cron</code> and it allows you to run your script on a very specific schedule. For Ubuntu, you can install <code>cron</code> with:</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb163-1"><a href="automating-web-scraping-scripts.html#cb163-1"></a><span class="fu">sudo</span> apt-get update</span>
+<span id="cb163-2"><a href="automating-web-scraping-scripts.html#cb163-2"></a><span class="fu">sudo</span> apt-get install cron</span></code></pre></div>
+<p>For MacOS you can install it with:</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb164-1"><a href="automating-web-scraping-scripts.html#cb164-1"></a><span class="ex">brew</span> install --cask cron</span></code></pre></div>
+<p>In both cases, after the install is successful, you should be able to confirm that it works with <code>crontab -l</code>:</p>
+<div class="inline-figure"><img src="images/automating_scripts/crontab_list.png" width="100%" style="display: block; margin: auto;"></div>
+<p>This means you have no scheduled scripts in your computer. To schedule a script with <code>cron</code> you need two things: the command to execute and the schedule. The command we already know, it’s <code>Rscript ~/newspaper/newspaper_scraper.R</code>. For specifying schedules, <code>cron</code> has a particular syntax. Let’s take a look:</p>
+<div class="inline-figure"><img src="images/automating_scripts/crontab_syntax.png" width="100%" style="display: block; margin: auto;"></div>
+<p>This chapter on automating scripts with <code>cron</code> is aimed at being an introduction to get it up and running. As with XPath and regular expressions, <code>cron</code> is very flexible and can have a complicated syntax for achieving complex schedule. Here we’ll explore the basics on how to create simple scheduled scrapers.</p>
+<p><code>cron</code> syntax specifies the each possible date parameter and gives you a placeholder <code>*</code> to signal that whenever there is a <code>*</code> it means it will be repeated at each instance of the place holder. Complicated? Look at this example:</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb165-1"><a href="automating-web-scraping-scripts.html#cb165-1"></a><span class="ex">*</span> * * * *</span></code></pre></div>
+<p>From the plot above we know that each <code>*</code> corresponds to minutes, hours, day of month, month an day of week. So by writing <code>* * * * *</code>, we’re scheduling the program to run at every minute, of every hour, of every day of the month, for every month. Say we changed the schedule to run every half an hour, how would it look like? We know the first slot is for minutes so we can write <code>30</code> in the first slot:</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb166-1"><a href="automating-web-scraping-scripts.html#cb166-1"></a><span class="ex">30</span> * * * *</span></code></pre></div>
+<p>We’re effectively scheduling something to run at minute 30 of each hour, each day, each month. You might’ve noticed that the last slot is for day of week. That might clash with the third slot which is day of month. You can specify any of the two to make interesting schedules. Wednesdays are the third day of the week (if we start counting on Monday), so we can run a schedule every 30 minutes but <em>only</em> on Wednesdays:</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb167-1"><a href="automating-web-scraping-scripts.html#cb167-1"></a><span class="ex">30</span> * * * 3</span></code></pre></div>
+<p>Or you might want to run your scraper at 05:30 AM only on Saturday and Sunday:</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb168-1"><a href="automating-web-scraping-scripts.html#cb168-1"></a><span class="ex">30</span> 5 * * 6,7</span></code></pre></div>
+<p>The expression reads like this: run on the 30th minute at 5 AM every month but on Saturday and Sunday (6th and 7th day of the week). Let’s say we wanted to run our newspaper scraper every 4 hours, every day, how would it look like? That sounds a bit different to what we’ve done. What the syntax we’ve discussed, we have to specifically write down the day / hour / minute we want to the scraper to do. For that <code>cron</code> has additional tricks. If we wanted to run a scraper every every 4 hours we would write it like this:</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb169-1"><a href="automating-web-scraping-scripts.html#cb169-1"></a><span class="ex">*</span> */4 * * *</span></code></pre></div>
+<p>You take the slot you want to me recurrent and add <code>/</code> by the frequency you want. If instead you wanted to run the scraper every 4 hours, every 2 days, you would write something like this:</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb170-1"><a href="automating-web-scraping-scripts.html#cb170-1"></a><span class="ex">*</span> */4 * * */2</span></code></pre></div>
+<p>With the theory out of the way, let’s get our example running. Let’s schedule our newspaper scraper to run every minute, just to make sure it works. This will get messy because it’ll append the same results in the CSV file continuously but it will give you proof that your script is running on a schedule. If we want this to run every minute, our cron expression should be this <code>* * * * *</code>, a the simplest expression.</p>
+<p>To save the cron expression type <code>crontab -e</code> in your terminal. If this is your first time using <code>crontab</code> you should see something like this:</p>
+<div class="inline-figure"><img src="images/automating_scripts/crontab_choose_editor.png" width="100%" style="display: block; margin: auto;"></div>
+<p>This will allow you to pick the editor you want to use for editing your cron schedule. Pick whichever of the options points to <code>nano</code>, the easiest one. That should open a new file like this one:</p>
+<div class="inline-figure"><img src="images/automating_scripts/crontab_schedule_file.png" width="100%" style="display: block; margin: auto;"></div>
+<p>This is the file where you write the schedule and command that you want <code>cron</code> to run. Either scroll down with your mouse or hit the scroll down key at the bottom right of your computer to go the last line of the editor. There we need to write our cron expression. Let’s write the cron expression and our command:</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb171-1"><a href="automating-web-scraping-scripts.html#cb171-1"></a><span class="ex">*</span> * * * * Rscript ~/newspaper/newspaper_scraper.R</span></code></pre></div>
+<p>Your terminal should look something like this:</p>
+<div class="inline-figure"><img src="images/automating_scripts/crontab_newspaper_scraper.png" width="100%" style="display: block; margin: auto;"></div>
+<p>To save this file, follow these steps:</p>
+<ul>
+<li>Hit <code>CTRL</code> and <code>X</code>
+</li>
+<li>It will prompt you to save the file by hitting <code>Y</code>
+</li>
+<li>Hit <code>enter</code> for the file name</li>
+</ul>
+<p>After you do this, you should be back at the terminal and you cron job should be saved. Wait two or three minutes and open your excel file again. We should find the same records duplicated but with a different time stamp:</p>
+<div class="inline-figure"><img src="images/automating_scripts/newspaper_results_crontab.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Our crontab worked as expected as you can see from the time stamp column. There are three different dates, each 1 minute apart, meaning that our cron executed the command every minute. This framework of building a scraper, testing it and then scheduling it to run on frequent intervals is very powerful. With these commands you can automate any program (in fact, not only R but any programming language or program). However, this approach has a limitation. Your computer needs to be turned on all the time in order for your <code>cron</code> schedule to run. If you’re doing a school project and it’s possible, you might get around with only using your computer. However, for more demanding scrapings (lots of data, frequent intervals) it’s almost always a better idea to run your scraper on a server.</p>
+<p>Launching a server and running a scraper is out of the scope of this chapter but keep that in mind when building scrapers for your work.</p>
+<p>As mentioned throughout the chapter, <code>cron</code> can become complex if your schedule patterns are difficult. There’s a bunch of resources that can help you on the internet. Here are some that worked for me:</p>
+<ul>
+<li><a href="https://crontab.guru/">Crontab Guru</a></li>
+<li><a href="https://linuxhint.com/cron_jobs_complete_beginners_tutorial/">Cron tutorial</a></li>
+</ul>
+</div>
+<div id="exercises-5" class="section level2">
+<h2>
+<span class="header-section-number">8.3</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-5"><i class="fas fa-link"></i></a>
+</h2>
+
+</div>
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></div>
 <div class="next"><a href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#automating-web-scraping-scripts"><span class="header-section-number">8</span> Automating Web scraping scripts</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#automating-web-scraping-scripts"><span class="header-section-number">8</span> Automating Web Scraping Scripts</a></li>
+<li><a class="nav-link" href="#the-scraping-program"><span class="header-section-number">8.1</span> The Scraping Program</a></li>
+<li><a class="nav-link" href="#cron-your-scheduling-friend"><span class="header-section-number">8.2</span> cron, your scheduling friend</a></li>
+<li><a class="nav-link" href="#exercises-5"><span class="header-section-number">8.3</span> Exercises</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -109,7 +273,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-10-09.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-10-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
