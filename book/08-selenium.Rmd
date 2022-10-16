@@ -13,12 +13,19 @@ knitr::opts_chunk$set(
 ```
 
 
+```{r}
+library(RSelenium)
+library(scrapex)
+
+
+remDr <- rsDriver(port = 4444L, browser = "firefox")
+remDr$client$navigate(prep_browser(gelman_blog_ex()))
+
+
+```
 
 
 ```{r, eval = FALSE}
-## sudo docker pull selenium/standalone-firefox:2.53.0
-## docker run -d -p 4445:4444 selenium/standalone-firefox:2.53.0
-
 library(RSelenium)
 library(rvest)
 library(glue)
@@ -27,9 +34,9 @@ library(tibble)
 library(stringr)
 library(tidyr)
 library(dplyr)
+library(scrapex)
 
-remDr <- remoteDriver(port = 4445L)
-remDr$open()
+remDr <- rsDriver(port = 4445L, browser = "firefox")
 
 clickForm <- function(driver, id_val, type_val) {
   driver$findElement(value = glue("//*[@id='{id_val}']"))$clickElement()
@@ -40,7 +47,7 @@ clickForm <- function(driver, id_val, type_val) {
   driver
 }
 
-remDr$navigate("https://www.educacion.gob.es/centros/selectaut.do;jsessionid=D1599759162212D625E129FAB8584742")
+remDr$client$navigate(scrapex::prep_browser(scrapex::elpais_newspaper_ex()))
 
 sleep <- 3
 val <- "/html/body/div[2]/div[2]/form/div/fieldset/div[2]/ul/li[1]/a"

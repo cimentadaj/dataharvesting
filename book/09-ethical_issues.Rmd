@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 
 # Ethical issues in Web Scraping
 
-Although quick to get up and running, web scraping is a delicate issue. It's delicate because it involves grabbing information that is not yours and using it for your own purposes. In some respects that might be even contrary to the terms and conditions of the website. It also involves *cluttering* the servers of the website with potentially many requests, making the functioning of the website less optimal. In this chapter we'll describe how you affect a website when you scrape it, how you can avoid problems with the website owners and how to figure out if indeed the website *allows* you to scrape that information.
+Although quick to get up and running, web scraping is a delicate issue. It's delicate because it involves grabbing information that is not yours and using it for your own purposes. In some respects that might be even contrary to the terms of services of the website. It also involves *cluttering* the servers of the website with potentially many requests, making the functioning of the website less optimal. In this chapter we'll describe how you affect a website when you scrape it, how you can avoid problems with the website owners and how to figure out if indeed the website *allows* you to scrape that information.
 
 
 ## Make your scraper sleep
@@ -29,8 +29,10 @@ If we were scraping a website only once, making only a single request, adding a 
 ```{r, eval = FALSE}
 library(scrapex)
 
+# List of links to make a request
 school_links <- spanish_schools_ex()
 
+# List where we will save the information for each link
 all_schools <- list()
 
 single_school_scraper <- function(single_link) {
@@ -40,14 +42,16 @@ single_school_scraper <- function(single_link) {
   # Perform some scraping
 }
 
+# Loop over each link to make a request
 for (single_link in school_links) {
+  # Save results in a list
   all_schools[[single_link]] <- single_school_scraper(single_link)
 }
 ```
 
 We create a single function that works well for scraping a single school. Before we launch that to scrape all different schools, we add `Sys.sleep(5)` before scraping each school. This way, before making a new request, we'll let the servers rest and avoid too many requests in such a short amount of time.
 
-How many seconds should you wait? There's not real estimate. Depending on how many requests you make you'll want to lower the number of seconds to 2 or 3. Multiplying the total number of websites you'll scrape by the number of seconds you'll sleep will give you a rough estimate of how much time your program will last. 
+How many seconds should you wait? Sometimes the `robotstxt` file (see the section below) will tell you how many seconds per scrape you should wait. Other than that, there's no real estimate. Depending on how many requests you make you'll want to lower the number of seconds to 2 or 3. Multiplying the total number of websites you'll scrape by the number of seconds you'll sleep will give you a rough estimate of how much time your program will last. 
 
 As a rule of thumb, it's always a good idea to limit your scraping to non-working hours such as over the evening. This can help reduce the chances of collapsing the website since fewer people are visiting websites in the evening.
 
@@ -59,15 +63,15 @@ Whenever you intend to scrape a website, make sure to read the terms of services
 
 >  You will not collect users' content or information, or otherwise access Facebook, using automated means (such as harvesting bots, robots, spiders or scrapers) without our prior permission.
 
-If a website explicitly prohibits you from scraping, you should not it. **Let me make that clear again: if the terms of services forbids you of scraping their website, you should not do it. It can have legal consequences.**
+If a website explicitly prohibits you from scraping, you should not do it. **Let me make that clear again: if the terms of services forbids you from scraping their website, you should not do it. It can have legal consequences.**
 
 If it's not clear from the terms of services, contact the website and receive written confirmation from the website.
 
 ## Copying information
 
-If the website allows a user to scrape its contents, we should also check *what* sections of the website are scrapable. For that there's a standard file called `robots.txt` on nearly all website on the internet which tells you want parts of the website can be scraped. The `robots.txt` is just a convenient form for a website to tell you which URLs you can scrape. It will not enforce anything nor block you in any way. **In all cases, you should follow the guidelines of the `robots.txt`**.
+Even if a website allows a user to scrape its contents, they might have some preferences on *which* sections of the website you can scrape and which are forbidden. For that there's a standard file called `robots.txt` on nearly all website on the internet which tells you want parts of the website can be scraped. The `robots.txt` is just a convenient form for a website to tell you which URLs you can scrape; it will not enforce anything nor block you in any way. **In all cases, you should follow the guidelines of the `robots.txt`**.
 
-The `robots.txt` file of Google can be found in [google.com/robots.txt](google.com/robots.txt) and looks like this:
+The `robots.txt` file of most websites is located in the main URL. So for example, the `robots.txt` of Facebook is at `www.facebook.com/robots.txt`. Similarly, the `robots.txt` of Google can be found in [google.com/robots.txt](google.com/robots.txt) and looks like this:
 
 ```{r, echo = FALSE, out.width = "30%"}
 knitr::include_graphics(file.path(main_dir, "google_robots.png"))
@@ -86,13 +90,13 @@ The `TRUE` statement tell us we can do it. Let's see if we can scrape the Facebo
 paths_allowed("https://facebook.com")
 ```
 
-Using `paths_allowed` you can provide any link to a website and it'll automatically extract the `robots.txt` and figure out if you can scrape it.
+Using `paths_allowed` you can provide any link to a website and it'll automatically extract the `robots.txt` and figure out if you can scrape it. Before scraping any website, you should check whether the URL you want to scrape is allowed.
 
-Before scraping any website, you should check whether the URL you want to scrape is allowed.
+Another thing to be aware of is that `robotstxt` files often contain a field for `Crawl-delay`, suggesting the time you should wait between requests. You should keep that in mind for when you `Sys.sleep` in between requests.
 
 ## Identifying yourself
 
-Even if the website allows you to scrape the URL that you're after, you need to be extra careful and identify by yourself. That means that you need to give the website a clear identification of who is making those many requests. This way the website can contact you or directly block. Remember at all times: we're scraping data that is not ours and we should be polite when grabbing that data. If the owner of the data considers that they don't want to give you the data, they're in their right to do so.
+Even if the website allows you to scrape the URL that you're after, you need to be extra careful and identify yourself. That means that you need to give the website a clear identification of who is making those requests. This way the website can contact you if they find there's something wrong with your requests, or even directly block you. Remember at all times: we're scraping data that is not ours and we should be polite when grabbing that data. If the owner of the data considers that they don't want to give you the data, they're in their right to do so.
 
 To identify ourselves we need something called a "User-Agent". A User-Agent contains information about our computer and our browser. You can find your user agent googling "what is my user agent?". Google will directly tell you what it is:
 

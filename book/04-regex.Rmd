@@ -1,11 +1,114 @@
 # What you need to know about regular expressions
 
-Primer on regular expressions
+  Before I set out to write this chapter I was hesitant to do it. I don't consider myself an expert on regular expressions nor do I think I would be able to take you from beginner to expert on such a complicated topic. On top of that, there are dozens of excelent tutorial on regular expressions out there that would do the topic more justice that I would be able to. With that said, you cannot do web scraping without knowing *some* regular expression techniques. Most of the data you'll extract from the web will need some type of massaging. Other times you'll find the data you need as a string, joined with other stuff. You'll need to know that there are tools to clean this string and extract just what you need.
 
-See [here](https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/) for some examples
+For that reason, I decided I wanted to write this chapter but focusing only on what I think are the key things to know in regex with respect to web scraping. This means that I'll give you a very incomplete picture of what regex can do but enough to get you up and running in a very short of amount of time. If the reader is interested in the topic (as I am), I refer the reader to the chapter on [strings](https://r4ds.had.co.nz/strings.html) from the book R For Data Science. That chapter will give you a more thorough introduction into the topic with more general applications. Without further adue, let's begin.
 
-https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions
+## Matching strings
 
-https://www.gastonsanchez.com/intro2cwd/regex.html
+Throughout this chapter we'll use exclusively the `stringr` package. That package will cover all of your string manipulation needs. Let's load it:
+
+```{r}
+library(stringr)
+library(scrapex)
+library(rvest)
+```
+
+Regular expressions (regex from now on) are a way for you to find patterns within strings. If you find the pattern, you can extract it or replace it in the original string. Let's take a famous quote by Jorge Luis Borges and find all the "a" letters in the quote:
+
+```{r}
+borges <- "I like hourglasses, maps, eighteenth century  typography."
+str_view_all(borges, "eighteenth", match = TRUE)
+```
+
+That's one of the simplest regex I can think of. That's a regular expression right there: you're matching only the word "eighteenth". `stringr` has two functions which will be at the backbone of using regex in R: `str_replace_all` and `str_extract_all`. The first one will replace a string with another string. For example:
+
+```{r}
+str_replace_all(borges, "eighteenth", "[DATE]")
+```
+
+In webscraping you'll need to replace a lot of thing
+
+```{r}
+str_view_all(borges, ".")
+```
+
+
+```{r}
+str_view_all(borges, "\\.")
+```
+
+```{r}
+str_view_all(borges, "maps, . century")
+```
+
+```{r}
+str_view_all(borges, "maps, .+ century")
+```
+
+
+```{r}
+res <- str_extract_all(borges, "maps, .+ century")[[1]]
+res %>% str_replace_all("maps, | century", "")
+```
+
+```{r}
+str_view_all(borges, " ")
+```
+
+```{r}
+str_view_all(borges, ",")
+```
+
+```{r}
+str_view_all(borges, "a|e|i")
+```
+
+```{r}
+str_view_all(str_to_lower(borges), "i")
+```
+
+```{r}
+str_view_all(borges, "I[ ]")
+```
+
+```{r}
+retirement <- read_html(retirement_age_europe_ex()) %>% html_table() %>% .[[2]]
+str_view_all(retirement$Men, "[:digit:]")
+```
+
+```{r}
+str_view_all(retirement$Men, "\\s$")
+```
+
+```{r}
+str_view_all(retirement$Men, "\\s.+$")
+```
+
+```{r}
+as.numeric(str_replace_all(retirement$Men, "\\s.+$", ""))
+```
+
+
+```{r}
+str_view_all(retirement$Notes, "gradually.+[:digit:]{2,2} years")
+```
+
+```{r}
+regex <- gradually <- "(gradually|reach).+[:digit:]{2,2} years"
+str_view_all(retirement$Notes, regex)
+```
+
+
+
+
+
+
+
+
+* The `.`, the `+`, the `^` and `$`
+* The `\\.` and other characters such as `[`.
+
+
 
 ## Exercises
