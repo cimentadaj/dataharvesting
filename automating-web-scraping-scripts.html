@@ -21,7 +21,8 @@
 <link href="libs/_Roboto%20Mono-0.4.1/font.css" rel="stylesheet">
 <link href="libs/_Montserrat-0.4.1/font.css" rel="stylesheet">
 <script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+<script src="libs/str_view-binding-1.4.0/str_view.js"></script><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 <script>
    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -94,7 +95,7 @@
 <span class="header-section-number">8.1</span> The Scraping Program<a class="anchor" aria-label="anchor" href="#the-scraping-program"><i class="fas fa-link"></i></a>
 </h2>
 <p>The first thing we need is a scraping program. Let’s recycle one from chapter <em>TODO</em> xpath which loaded an example from the newspaper “El País”. Our scraper will count the number of articles for each of the sections available in the newspaper “El País”. The R script will parse the “El País” website, extract the number of articles per section and collect everything in a data frame. Here’s how it would look like:</p>
-<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load all our libraries</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/">xml2</a></span><span class="op">)</span>
@@ -148,7 +149,7 @@
 <li>If the CSV with the count of section exists, open the CSV file and append the newest data with the current time stamp</li>
 </ol>
 <p>This approach will add rows with new counts every time the scraper is run. By plotting the time stamp and the count of sections you’ll be able to visualize how these counts change over time. To do that, we should add a new section in the code to save our results on a CSV file with the time stamp of the current date. Let’s add a section to save our data:</p>
-<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/">xml2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
@@ -202,8 +203,8 @@
 <p>This is the terminal. It allows you to do things like create directories and files just as you would do in your computer but through code. Let’s create the directory where we’ll save the CSV file and the R script that performs the scraping. To create the directory, we use the command <code>mkdir</code> which stands for <code>m</code>a<code>k</code>e<code>dir</code>ectory. Let’s create it with <code>mkdir ~/newspaper/</code>:</p>
 <div class="inline-figure"><img src="images/automating_scripts/create_newspaper_dir.png" width="100%" style="display: block; margin: auto;"></div>
 <p>Great, the directory was created. Now you should copy the R script we wrote down above and save it in <code>~/newspaper/</code>. Save it as <code>newspaper_scraper.R</code>. You should have only an R file within <code>~/newspaper/</code> called <code>newspaper_scraper.R</code>. You can confirm this by typing <code>ls ~/newspaper/</code> which will list all files/directories inside <code>~/newspaper</code>/. You should see an output like this one:</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb163-1"><a href="automating-web-scraping-scripts.html#cb163-1"></a><span class="fu">ls</span> ~/newspaper/</span>
-<span id="cb163-2"><a href="automating-web-scraping-scripts.html#cb163-2"></a><span class="co"># newspaper_scraper.R</span></span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb185-1"><a href="automating-web-scraping-scripts.html#cb185-1"></a><span class="fu">ls</span> ~/newspaper/</span>
+<span id="cb185-2"><a href="automating-web-scraping-scripts.html#cb185-2"></a><span class="co"># newspaper_scraper.R</span></span></code></pre></div>
 <p>Your script was saved successfully inside our directory. Let’s switch our ‘directory’ to <code>~/newspaper/</code> in the terminal. In the terminal you can change directories with the <code>cd</code> command, which stands for <code>c</code>hange<code>d</code>irectory, followed by the path where you want to switch to. For our case, this would be <code>cd ~/newspaper/</code>:</p>
 <div class="inline-figure"><img src="images/automating_scripts/cd_newspaper.png" width="100%" style="display: block; margin: auto;"></div>
 <p>As you can see in the third line of the image, there now appears <code>~/newspaper</code> in blue, denoting that I am at the directory right now. To execute an R script from the terminal you can do it with the <code>Rscript</code> command followed by the file name. For our case it should be <code>Rscript newspaper_scraper.R</code>. Let’s run it:</p>
@@ -217,10 +218,10 @@
 <span class="header-section-number">8.3</span> cron, your scheduling friend<a class="anchor" aria-label="anchor" href="#cron-your-scheduling-friend"><i class="fas fa-link"></i></a>
 </h2>
 <p>Luckily for you, such a program already exists. It’s called <code>cron</code> and it allows you to run your script on a schedule. For Ubuntu, you can install <code>cron</code> with:</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb164-1"><a href="automating-web-scraping-scripts.html#cb164-1"></a><span class="fu">sudo</span> apt-get update</span>
-<span id="cb164-2"><a href="automating-web-scraping-scripts.html#cb164-2"></a><span class="fu">sudo</span> apt-get install cron</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb186-1"><a href="automating-web-scraping-scripts.html#cb186-1"></a><span class="fu">sudo</span> apt-get update</span>
+<span id="cb186-2"><a href="automating-web-scraping-scripts.html#cb186-2"></a><span class="fu">sudo</span> apt-get install cron</span></code></pre></div>
 <p>For MacOS you can install it with:</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb165-1"><a href="automating-web-scraping-scripts.html#cb165-1"></a><span class="ex">brew</span> install --cask cron</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb187-1"><a href="automating-web-scraping-scripts.html#cb187-1"></a><span class="ex">brew</span> install --cask cron</span></code></pre></div>
 <p>In both cases, after the install is successful, you should be able to confirm that it works with <code>crontab -l</code>:</p>
 <div class="inline-figure"><img src="images/automating_scripts/crontab_list.png" width="100%" style="display: block; margin: auto;"></div>
 <p>The output means you have no scheduled scripts in your computer. To schedule a script with <code>cron</code> you need two things: the command to execute and the schedule. The command to execute we already know, it’s <code>Rscript ~/newspaper/newspaper_scraper.R</code>. For specifying schedules, <code>cron</code> has a particular syntax. How does it work? Let’s take a look:</p>
@@ -247,7 +248,7 @@ How would such a schedule look like? We know the first slot is for minutes so we
 <p>This will allow you to pick the editor you want to use for editing your cron schedule. Pick whichever of the options points to <code>nano</code>, the easiest one. After choosing the editor (if it prompted you to pick the editor), it should continue to open a new file like this one:</p>
 <div class="inline-figure"><img src="images/automating_scripts/crontab_schedule_file.png" width="100%" style="display: block; margin: auto;"></div>
 <p>This is the file where you write the schedule and command that you want <code>cron</code> to run. Either scroll down with your mouse or hit the scroll down key at the bottom right of your keyboard to go to the last line of the editor. In the last line, we need to write our <code>cron</code> schedule expression and the command we want to execute:</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb172-1"><a href="automating-web-scraping-scripts.html#cb172-1"></a><span class="ex">*</span> * * * * Rscript ~/newspaper/newspaper_scraper.R</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb194-1"><a href="automating-web-scraping-scripts.html#cb194-1"></a><span class="ex">*</span> * * * * Rscript ~/newspaper/newspaper_scraper.R</span></code></pre></div>
 <p>When you finish writing that, your terminal should look something like this:</p>
 <div class="inline-figure"><img src="images/automating_scripts/crontab_newspaper_scraper.png" width="100%" style="display: block; margin: auto;"></div>
 <p>To exit the <code>cron</code> interface, <strong>follow these steps</strong>:</p>
@@ -312,7 +313,7 @@ How would such a schedule look like? We know the first slot is for minutes so we
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-10-12.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-10-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -12,6 +12,7 @@ tag-attributes
 conclusion
 exercises-1
 what-you-need-to-know-about-regular-expressions
+matching-strings
 exercises-2
 what-you-need-to-know-about-xpath
 finding-tags-with-xpath
@@ -33,6 +34,11 @@ cron-your-scheduling-friend
 conclusion-2
 exercises-5
 scraping-javascript-based-website
+introduction-to-rselenium
+navigating-a-website-in-rselenium
+bringing-the-source-code
+scaling-rselenium-to-many-websites
+posting-a-comment
 exercises-6
 ethical-issues-in-web-scraping
 make-your-scraper-sleep
