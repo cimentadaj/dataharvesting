@@ -6,122 +6,403 @@ knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
   warning = FALSE,
+  eval = FALSE,
   fig.align = "center",
   fig.path = paste0(main_dir, "/automatic_rmarkdown/"),
   fig.asp = 0.618
 )
 ```
 
+Even with all the techniques we've covered in this book, some websites can't be scraped in the traditional way. What does this mean? Some websites have their content hidden behind JavaScript code that can't be seen by simply reading the HTML code. The website is built for interactivity, meaning that some parts of the website will *only* be revealed when you interact with it. When you read the HTML of that website, you won't be able to see the data that you want. As usual, let's motivate this chapter with an example.
+
+The European Social Survey (ESS) is an academically driven cross-national survey that has been conducted across Europe since its establishment in 2001. Every two years, face-to-face interviews are conducted with newly selected, cross-sectional samples. The survey measures the attitudes, beliefs and behavior patterns of diverse populations in more than thirty nations. In their website they have a 'Data Portal' that allows you to pick variables they asked in their questionnaire, pick the country/years of data you want and download that custom data set for yourself. You can find the data portal [here](https://ess-search.nsd.no/CDW/ConceptVariables). This is how it looks like:
+
+```{r, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics(file.path(main_dir, "ess_data_portal.png"))
+```
+
+With the developer's tools (CTRL-SHIT-C), we can see the HTML code behind the website. Let's say that you want to extract all variable names associated with a category of questions. Under 'Media use and trust' there are several question names and labels that belong to that category:
+
+```{r, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics(file.path(main_dir, "list_variables_ess_data_portal.png"))
+```
+
+However, unless you *click* on the drop down menu, those questions won't be displayed on the code behind the website. That is, if right now you spent 10 minutes searching the source code from the developer's tools on the right, you won't find the names of those variables anywhere:
+
+```{r, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics(file.path(main_dir, "list_variables_source_code.png"))
+```
+
+Those variable names won't be found anywhere. You might think, well that's easy to solve: I'll click on the drop down menu and use the new generated link (with all data displayed) to read it withn `read_html`. The issue is that the URL of the website will be the same whether you click or not the drop down menu:
+
+```{r, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics(file.path(main_dir, "list_displayed_same_link.png"))
+```
+
+Same URL, even if the data is displayed. This means that whenever you use `read_html` on that link, the variable labels won't be displayed and you won't be able to gather that data. That's when people thought of Selenium.
+
+## Introduction to RSelenium
+
+Selenium is a software program that you use to 'mimick' a human. Yes, that's right. All Selenium does is literally open a browser and click on parts of the page as if you were a human. Once you've clicked on certain parts of the website, you can use your knowledge on XPath, HTML and `xml2` to extract the data you need.
+
+The example we'll use for this chapter is the blog of the statistician [Andrew Gelman](https://statmodeling.stat.columbia.edu/). According to [Rohan Alexander](https://rohanalexander.com/posts/2021-09-17-andrew-gelman-dsi-intro/):
+
+> Gelman’s blog—Statistical Modeling, Causal Inference, and Social Science—launched in 2004—is the go-to place for a fun mix of somewhat-nerdy statistics-focused content. The very first post promised to ‘…report on recent research and ongoing half-baked ideas, including … Bayesian statistics, multilevel modeling, causal inference, and political science.’ 17 years on, the site has very much kept its promise.
+
+We'll use this blog to explore the topics that have been discussed in the world of statistics over the last 17 years. This website **does not** need to be scraped using Selenium and can be scraped by just reading the HTML code. However, websites which **do** need to use Selenium can't be saved locally and are doomed to change over time, which entails a risk of making this chapter unusable in the future. For that reason we are going to perform all our scraping using a traditional example but highlighting it as if it were a JavaScript based website.
+
+Let's load the packages we'll use and our example:
+
+```{r, eval = TRUE}
+library(RSelenium)
+library(scrapex)
+library(xml2)
+library(magrittr)
+library(lubridate)
+library(dplyr)
+library(tidyr)
+
+blog_link <- gelman_blog_ex()
+```
+
+As described before, Selenium tries to mimick a human. This literally means that we need to open a browser. In `RSelenium` we do that with the `rsDriver` function. This function initializes the browser and opens it for us:
+
+```{r, echo = FALSE}
+remDr <- rsDriver(port = 4447L, browser = "firefox")
+```
 
 ```{r}
-library(RSelenium)
-library(scrapex)
+remDr <- rsDriver(port = 4441L)
+```
+```
+## checking Selenium Server versions:
+## BEGIN: PREDOWNLOAD
+## BEGIN: DOWNLOAD
+## BEGIN: POSTDOWNLOAD
+## checking chromedriver versions:
+## BEGIN: PREDOWNLOAD
+## BEGIN: DOWNLOAD
+## BEGIN: POSTDOWNLOAD
+## checking geckodriver versions:
+## BEGIN: PREDOWNLOAD
+## BEGIN: DOWNLOAD
+## BEGIN: POSTDOWNLOAD
+## checking phantomjs versions:
+## BEGIN: PREDOWNLOAD
+## BEGIN: DOWNLOAD
+## BEGIN: POSTDOWNLOAD
+## [1] "Connecting to remote server"
+## $acceptInsecureCerts
+## [1] FALSE
+
+## $browserName
+## [1] "firefox"
+
+## $browserVersion
+## [1] "106.0"
+
+## $`moz:accessibilityChecks`
+## [1] FALSE
+
+## $`moz:buildID`
+## [1] "20221010110315"
+
+## $`moz:geckodriverVersion`
+## [1] "0.32.0"
+
+## $`moz:headless`
+## [1] FALSE
+
+## $`moz:platformVersion`
+## [1] "5.4.0-39-generic"
+
+## $`moz:processID`
+## [1] 271886
+
+## $`moz:profile`
+## [1] "/tmp/rust_mozprofile5ANm8J"
+
+## $`moz:shutdownTimeout`
+## [1] 60000
+
+## $`moz:useNonSpecCompliantPointerOrigin`
+## [1] FALSE
+
+## $`moz:webdriverClick`
+## [1] TRUE
+
+## $`moz:windowless`
+## [1] FALSE
+
+## $pageLoadStrategy
+## [1] "normal"
+
+## $platformName
+## [1] "linux"
+
+## $proxy
+## named list()
+
+## $setWindowRect
+## [1] TRUE
+
+## $strictFileInteractability
+## [1] FALSE
+
+## $timeouts
+## $timeouts$implicit
+## [1] 0
+
+## $timeouts$pageLoad
+## [1] 300000
+
+## $timeouts$script
+## [1] 30000
 
 
-remDr <- rsDriver(port = 4444L, browser = "firefox")
-remDr$client$navigate(prep_browser(gelman_blog_ex()))
+## $unhandledPromptBehavior
+## [1] "dismiss and notify"
 
+## $webdriver.remote.sessionid
+## [1] "a3585bf8-9c4a-462e-a74d-b9d6b35daff7"
 
+## $id
+## [1] "a3585bf8-9c4a-462e-a74d-b9d6b35daff7"
 ```
 
+After the last line that starts with`BEGIN` we'll see all the options from our browser. For example, the `browserName` and the `browserVersion`. The important thing here is that, aside from this output, you should see a browser the opened in your computer completely empty:
 
-```{r, eval = FALSE}
-library(RSelenium)
-library(rvest)
-library(glue)
-library(stringr)
-library(tibble)
-library(stringr)
-library(tidyr)
-library(dplyr)
-library(scrapex)
-
-remDr <- rsDriver(port = 4445L, browser = "firefox")
-
-clickForm <- function(driver, id_val, type_val) {
-  driver$findElement(value = glue("//*[@id='{id_val}']"))$clickElement()
-  Sys.sleep(2)
-  driver$findElement(value = glue("//*[@id='{id_val}']"))$sendKeysToElement(list(type_val))
-  Sys.sleep(2)
-  driver$findElement(value = glue("//*[@id='{id_val}']"))$clickElement()
-  driver
-}
-
-remDr$client$navigate(scrapex::prep_browser(scrapex::elpais_newspaper_ex()))
-
-sleep <- 3
-val <- "/html/body/div[2]/div[2]/form/div/fieldset/div[2]/ul/li[1]/a"
-remDr$findElement(value = val)$clickElement()
-
-# Fill all forms
-Sys.sleep(3)
-remDr <- clickForm(remDr, "comboniv", "Formación Profesional")
-Sys.sleep(1)
-remDr <- clickForm(remDr, "ssel_natur", "Centro privado")
-Sys.sleep(3)
-remDr <- clickForm(remDr, "tipocentro", "Centro Privado de Formación Profesional Especifica")
-Sys.sleep(1)
-
-# Click enter to see all schools
-remDr$findElement(value = "//*[@id='idGhost']")$clickElement()
-Sys.sleep(sleep)
-
-html_all <- remDr$getPageSource()[[1]] %>% read_html()
-
-all_properties <-
-  html_all %>%
-  html_elements(xpath = "//ul") %>%
-  html_elements(xpath = ".//li") %>%
-  html_text()
-
-schools <- all_properties[str_detect(all_properties, "Centros seleccionados")]
-schools <- as.numeric(str_replace(schools, "Centros seleccionados: ", ""))
-number_schools <- glue("/html/body/div[2]/div[2]/div/form/table/tbody/tr[{seq_len(schools)}]/td[5]/a")
-
-all_dfs <- list()
-
-for (i in seq_along(number_schools)) {
-  print(glue("School {i}"))
-  remDr$findElement(value = number_schools[i])$clickElement()
-
-  ## Sys.sleep(sleep)
-  html <- remDr$getPageSource()[[1]] %>% read_html()
-
-  ensenanzas_table <-
-    html %>%
-    html_table() %>%
-    .[[1]]
-
-  all_properties <-
-    html %>%
-    html_elements(xpath = "//div[@id='formulario']") %>%
-    html_elements(xpath = ".//li") %>%
-    html_text()
-
-  all_properties <- gsub("http://", "", all_properties)
-
-  all_fields <- gsub("\\n|\\t", "", all_properties)
-  matrix_fields <- str_split(all_fields, pattern = ":", simplify = TRUE)
-
-  column_names <- str_trim(matrix_fields[, 1])
-  values <- str_trim(matrix_fields[, 2])
-
-  names(values) <- column_names
-
-  property_df <-
-    values %>%
-    enframe() %>%
-    pivot_wider()
-
-  final_df <- bind_cols(property_df, ensenanzas_table)
-
-  all_dfs[[i]] <- final_df
-
-  remDr$goBack()
-}
-
-
-complete_dfs <- bind_rows(all_dfs)
+```{r, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics(file.path(main_dir, "empty_firefox.png"))
 ```
+
+`RSelenium` opened a browser which you **don't need to touch**. Everything you do on this browser will be performed using the object `remDr`, where the browser was initiated. `remDr` has a property called `client` from where you can `navigate` to a website. Let's open Andrew Gelman's blog on this browser:
+
+```{r}
+remDr$client$navigate(prep_browser(blog_link))
+```
+
+Have a look at the browser and you should see the blog opened there:
+
+```{r, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics(file.path(main_dir, "selenium_blog_main.png"))
+```
+
+The most effective way to navigate in `RSelenium` is to use XPath to find parts of the website that you want perform an action and then use some of the methods to click, send or submit something on the website. For example, suppose we wanted to perform some natural language processing on all posts over the last 17 years of blog posts. The first we'd like to do is to click on the blog post name and extract all the text.
+
+## Navigating a website in RSelenium
+
+Let's focus on the first blog post. Let's find the XPath expression that will return the position of the first blog post name. We're looking for this `<a>` tag which would be the equivalent of 'clicking' on the blog post. We know it's that because it contains the text with the blog name:
+
+```{r, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics(file.path(main_dir, "blog_first_entry.png"))
+```
+
+To validate our XPath nothing prevents us from reading the source code and trying it out. At this point I read it with `read_html` and tried several XPath until I managed to land on the one we're interested in:
+
+```{r, eval = TRUE}
+blog_link %>%
+  read_html() %>%
+  xml_find_all("(//h1[@class='entry-title']//a)[1]")
+```
+
+Let's explain it. If you look at the source from the image above, you'll see that above our `<a>` tag there's an `h1` tag which has a very distinctive class `entry-title`. So I came up with the following XPath:
+
+* In the entire document (`//`)
+* Find all `h1` tags with class `entry-title`
+* Then find all `<a>` tags below that `h1` tag
+* Wrap everything in `()` to collect the result
+* Keep only the first results `[1]`
+
+We now know this XPath is validated so we need to locate it in `RSelenium` and click on it. Everything you do on `RSelenium` is done using the property `client`, which has many methods associated with the browser. The main methods we'll be using is `findElement` and `clickElement`. `findElement` is used to position the pointer of the browser exactly where you want and `clickElement` will click on it. Let's use our XPath to move the pointer to the blog post and click on it:
+
+```{r}
+# Since we'll use the client a lot let's save it on a separate object
+driver <- remDr$client
+driver$findElement(value = "(//h1[@class='entry-title']//a)[1]")$clickElement()
+```
+
+Now look at your browser:
+
+```{r, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics(file.path(main_dir, "first_entry_main_page.png"))
+```
+
+If you scroll down you'll see there are comments:
+
+```{r, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics(file.path(main_dir, "first_entry_comments.png"))
+```
+
+We clicked on the first entry and the browser entered that post. Great! This simple strategy of `findElement` and `clickElement` can be reused for most of you needs. The strategy is simple:
+
+1. Find the XPath where you want to click
+2. Use the XPath in `findElement`
+3. Use `clickElement` to click it
+
+One natural follow up question is how do we actually extract the HTML code to extract stuff for us to analyze. After all, we've only opened a browser and clicked on something. The actual fun is to extract data to do stuff with it. `RSelenium` has the property `getPageSource()`. This property returns a list so we need to extract the first slot:
+
+```{r}
+page_source <- driver$getPageSource()[[1]]
+```
+
+## Bringing the source code
+
+With the HTML code as a **string** we're on familiar ground. We can use `read_html` to read it, find the XPath of the categories of the text and extract them:
+
+```{r}
+html_code <-
+  page_source %>%
+  read_html()
+
+categories_first_post <-
+  html_code %>%
+  xml_find_all("//footer[@class='entry-meta']//a[contains(@href, 'category')]") %>%
+  xml_text()
+
+categories_first_post
+```
+```
+## [1] "Bayesian Statistics" "Economics"           "Political Science"
+## [4] "Sociology"
+```
+
+This post was about Bayesian Statistics and Social Sciences. Let's extract the date as well
+
+Let's also extract the date in order to have a timestamp of which categories are used over time:
+
+```{r}
+entry_date <-
+  html_code %>%
+  xml_find_all("//time[@class='entry-date']") %>%
+  xml_text() %>%
+  parse_date_time("%B %d, %Y %I:%M %p")
+
+entry_date
+```
+
+Note of the use of `parse_date_time` and the time format (all the `%` symbols) to convert the string of date/time into R. With that information we can create a clean data frame of entry dates with their respective categories in a list column:
+
+```{r}
+final_res <- tibble(entry_date = entry_date, categories = list(categories_first_post))
+final_res
+```
+```
+## # A tibble: 1 × 2
+##   entry_date          categories
+##   <dttm>              <list>
+## 1 2022-10-15 09:08:00 <chr [4]>
+```
+
+Great, we have all our information clean and ready to recycle all of our code into a function and loop it over each of the blog posts. Before we do that, we need to do one final thing: go **back** to the main page of the blog. Don't forget that the browser is still open and whatever new moves you make using our browser will be starting from where you left it off. Luckily, `RSelenium` makes it very simple: the `goBack` attribute. Let's go back:
+
+```{r}
+driver$goBack()
+```
+
+Your browser should now be back at the main page:
+
+```{r, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics(file.path(main_dir, "selenium_blog_main.png"))
+```
+
+## Scaling RSelenium to many websites
+
+With that ready, we can move all our code into a function and loop it over all blog posts in this page:
+
+```{r}
+collect_categories <- function(page_source) {
+  # Read source code of blog psot
+  html_code <-
+    page_source %>%
+    read_html()
+
+  # Extract categories
+  categories_first_post <-
+    html_code %>%
+    xml_find_all("//footer[@class='entry-meta']//a[contains(@href, 'category')]") %>%
+    xml_text()
+
+  # Extract entry date
+  entry_date <-
+    html_code %>%
+    xml_find_all("//time[@class='entry-date']") %>%
+    xml_text() %>%
+    parse_date_time("%B %d, %Y %I:%M %p")
+
+  # Collect everything in a data frame
+  final_res <- tibble(entry_date = entry_date, categories = list(categories_first_post))
+  final_res
+}
+
+# Get all number of blog posts on this page
+num_blogs <-
+  blog_link %>%
+  read_html() %>%
+  xml_find_all("//h1[@class='entry-title']//a") %>%
+  length()
+
+blog_posts <- list()
+
+for (i in seq_len(num_blogs)) {
+  print(i)
+  # Go to the next blog post
+  xpath <- paste0("(//h1[@class='entry-title']//a)[", i, "]")
+  Sys.sleep(2)
+  driver$findElement(value = xpath)$clickElement()
+
+  # Get the source code
+  page_source <- driver$getPageSource()[[1]]
+
+  # Grab all categories
+  blog_posts[[i]] <- collect_categories(page_source)
+
+  # Go back to the main page before next iteration
+  driver$goBack()
+}
+```
+
+While your code runs, open the browser and enjoy the show. Your browser will start working it self as if a ghost were scrolling down and clicking on each blog post. When it finishes, we'll have a list of all categories in the last 20 blog posts. Let's combine those and get a count of the most used categories:
+
+```{r}
+combined_df <- bind_rows(blog_posts)
+
+combined_df %>%
+  unnest(categories) %>%
+  count(categories) %>%
+  arrange(-n)
+```
+```
+## # A tibble: 16 × 2
+##    categories                   n
+##    <chr>                    <int>
+##  1 Bayesian Statistics          7
+##  2 Zombies                      7
+##  3 Miscellaneous Statistics     5
+##  4 Political Science            5
+##  5 Teaching                     5
+##  6 Sociology                    4
+##  7 Statistical computing        4
+##  8 Causal Inference             3
+##  9 Economics                    3
+## 10 Sports                       3
+## 11 Miscellaneous Science        2
+## 12 Stan                         2
+## 13 Art                          1
+## 14 Decision Theory              1
+## 15 Jobs                         1
+## 16 Public Health                1
+```
+
+## Posting a comment
+
+Just as a way to show that you can click button and fill out forms. This should only be done when you scrape all posts locally into scrapex (which might not be possible).
+
 
 ## Exercises
+
+1. Building on our 'extract categories of posts' example, extend it to extract all blog posts of the last 20 pages of blog posts. You'll need to click 'Older posts' to see the previous page of blog posts:
+
+```{r, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics(file.path(main_dir, "older_posts.png"))
+```
