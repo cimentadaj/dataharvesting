@@ -38,7 +38,8 @@ introduction-to-rselenium
 navigating-a-website-in-rselenium
 bringing-the-source-code
 scaling-rselenium-to-many-websites
-posting-a-comment
+filling-out-forms
+summary
 exercises-6
 ethical-issues-in-web-scraping
 make-your-scraper-sleep

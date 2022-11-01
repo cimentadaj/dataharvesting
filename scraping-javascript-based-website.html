@@ -85,21 +85,21 @@
 <h1>
 <span class="header-section-number">9</span> Scraping JavaScript based website<a class="anchor" aria-label="anchor" href="#scraping-javascript-based-website"><i class="fas fa-link"></i></a>
 </h1>
-<p>Even with all the techniques we’ve covered in this book, some websites can’t be scraped in the traditional way. What does this mean? Some websites have their content hidden behind JavaScript code that can’t be seen by simply reading the HTML code. The website is built for interactivity, meaning that some parts of the website will <em>only</em> be revealed when you interact with it. When you read the HTML of that website, you won’t be able to see the data that you want. As usual, let’s motivate this chapter with an example.</p>
+<p>Even with all the techniques we’ve covered in this book, some websites can’t be scraped in the traditional way. What does this mean? Some websites have their content hidden behind JavaScript code that can’t be seen by simply reading the HTML code. These website are built for interactivity, meaning that some parts will <em>only</em> be revealed when you interact with it. When you read the HTML of that website, you won’t be able to see the data that you want. As usual, let’s motivate this chapter with an example.</p>
 <p>The European Social Survey (ESS) is an academically driven cross-national survey that has been conducted across Europe since its establishment in 2001. Every two years, face-to-face interviews are conducted with newly selected, cross-sectional samples. The survey measures the attitudes, beliefs and behavior patterns of diverse populations in more than thirty nations. In their website they have a ‘Data Portal’ that allows you to pick variables they asked in their questionnaire, pick the country/years of data you want and download that custom data set for yourself. You can find the data portal <a href="https://ess-search.nsd.no/CDW/ConceptVariables">here</a>. This is how it looks like:</p>
 <div class="inline-figure"><img src="images/selenium_javascript/ess_data_portal.png" width="100%" style="display: block; margin: auto;"></div>
 <p>With the developer’s tools (CTRL-SHIT-C), we can see the HTML code behind the website. Let’s say that you want to extract all variable names associated with a category of questions. Under ‘Media use and trust’ there are several question names and labels that belong to that category:</p>
 <div class="inline-figure"><img src="images/selenium_javascript/list_variables_ess_data_portal.png" width="100%" style="display: block; margin: auto;"></div>
-<p>However, unless you <em>click</em> on the drop down menu, those questions won’t be displayed on the code behind the website. That is, if right now you spent 10 minutes searching the source code from the developer’s tools on the right, you won’t find the names of those variables anywhere:</p>
+<p>However, unless you <em>click</em> on the drop down menu, those questions won’t be displayed on the source code of the website. That is, if right now you spent 10 minutes searching the source code from the developer’s tools on the right, you won’t find the names of those variables anywhere:</p>
 <div class="inline-figure"><img src="images/selenium_javascript/list_variables_source_code.png" width="100%" style="display: block; margin: auto;"></div>
-<p>Those variable names won’t be found anywhere. You might think, well that’s easy to solve: I’ll click on the drop down menu and use the new generated link (with all data displayed) to read it withn <code>read_html</code>. The issue is that the URL of the website will be the same whether you click or not the drop down menu:</p>
+<p>Those variable names won’t be found anywhere. You might think, well that’s easy to solve: I’ll click on the drop down menu and use the new generated link (with all data displayed) to read it with <code>read_html</code>. The issue is that the URL of the website will be the same whether you click or not the drop down menu:</p>
 <div class="inline-figure"><img src="images/selenium_javascript/list_displayed_same_link.png" width="100%" style="display: block; margin: auto;"></div>
-<p>Same URL, even if the data is displayed. This means that whenever you use <code>read_html</code> on that link, the variable labels won’t be displayed and you won’t be able to gather that data. That’s when people thought of Selenium.</p>
+<p>Same URL, despite that I clicked on ‘Media use and trust’ and all variable names are displayed. This means that whenever you use <code>read_html</code> on that link, the variable labels won’t be displayed and you won’t be able to gather that data. That’s the motivation behind Selenium. It’s objective is to be able to scrape websites that are dynamic and interactive and are impossible to do so using traditional URLs and the source.</p>
 <div id="introduction-to-rselenium" class="section level2">
 <h2>
 <span class="header-section-number">9.1</span> Introduction to RSelenium<a class="anchor" aria-label="anchor" href="#introduction-to-rselenium"><i class="fas fa-link"></i></a>
 </h2>
-<p>Selenium is a software program that you use to ‘mimick’ a human. Yes, that’s right. All Selenium does is literally open a browser and click on parts of the page as if you were a human. Once you’ve clicked on certain parts of the website, you can use your knowledge on XPath, HTML and <code>xml2</code> to extract the data you need.</p>
+<p>Selenium is a software program that you use to ‘mimic’ a human. Yes, that’s right. All Selenium does is literally open a browser and click on parts of the page as if you were a human. Once you’ve clicked on certain parts of the website, you can use your knowledge on XPath, HTML and <code>xml2</code> to extract the data you need.</p>
 <p>The example we’ll use for this chapter is the blog of the statistician <a href="https://statmodeling.stat.columbia.edu/">Andrew Gelman</a>. According to <a href="https://rohanalexander.com/posts/2021-09-17-andrew-gelman-dsi-intro/">Rohan Alexander</a>:</p>
 <blockquote>
 <p>Gelman’s blog—Statistical Modeling, Causal Inference, and Social Science—launched in 2004—is the go-to place for a fun mix of somewhat-nerdy statistics-focused content. The very first post promised to ‘…report on recent research and ongoing half-baked ideas, including … Bayesian statistics, multilevel modeling, causal inference, and political science.’ 17 years on, the site has very much kept its promise.</p>
@@ -116,9 +116,9 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
 
 <span class="va">blog_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/gelman_blog_ex.html">gelman_blog_ex</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>As described before, Selenium tries to mimick a human. This literally means that we need to open a browser. In <code>RSelenium</code> we do that with the <code>rsDriver</code> function. This function initializes the browser and opens it for us:</p>
+<p>As described before, Selenium tries to mimic a human. This literally means that we need to open a browser. In <code>RSelenium</code> we do that with the <code>rsDriver</code> function. This function initializes the browser and opens it for us:</p>
 <div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">remDr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/RSelenium/reference/rsDriver.html">rsDriver</a></span><span class="op">(</span>port <span class="op">=</span> <span class="fl">4441L</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">remDr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/RSelenium/reference/rsDriver.html">rsDriver</a></span><span class="op">(</span>port <span class="op">=</span> <span class="fl">4445L</span><span class="op">)</span></code></pre></div>
 <pre><code>## checking Selenium Server versions:
 ## BEGIN: PREDOWNLOAD
 ## BEGIN: DOWNLOAD
@@ -212,7 +212,7 @@
 
 ## $id
 ## [1] "a3585bf8-9c4a-462e-a74d-b9d6b35daff7"</code></pre>
-<p>After the last line that starts with<code>BEGIN</code> we’ll see all the options from our browser. For example, the <code>browserName</code> and the <code>browserVersion</code>. The important thing here is that, aside from this output, you should see a browser the opened in your computer completely empty:</p>
+<p>After the last line that starts with<code>BEGIN</code> we’ll see all the options from our browser. For example, the <code>browserName</code> and the <code>browserVersion</code>. The important thing here is that, aside from this output, you should see a browser that opened in your computer completely empty:</p>
 <div class="inline-figure"><img src="images/selenium_javascript/empty_firefox.png" width="100%" style="display: block; margin: auto;"></div>
 <p><code>RSelenium</code> opened a browser which you <strong>don’t need to touch</strong>. Everything you do on this browser will be performed using the object <code>remDr</code>, where the browser was initiated. <code>remDr</code> has a property called <code>client</code> from where you can <code>navigate</code> to a website. Let’s open Andrew Gelman’s blog on this browser:</p>
 <div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
@@ -241,7 +241,7 @@
 </li>
 <li>Then find all <code>&lt;a&gt;</code> tags below that <code>h1</code> tag</li>
 <li>Wrap everything in <code>()</code> to collect the result</li>
-<li>Keep only the first results <code>[1]</code>
+<li>Keep only the first result <code>[1]</code>
 </li>
 </ul>
 <p>We now know this XPath is validated so we need to locate it in <code>RSelenium</code> and click on it. Everything you do on <code>RSelenium</code> is done using the property <code>client</code>, which has many methods associated with the browser. The main methods we’ll be using is <code>findElement</code> and <code>clickElement</code>. <code>findElement</code> is used to position the pointer of the browser exactly where you want and <code>clickElement</code> will click on it. Let’s use our XPath to move the pointer to the blog post and click on it:</p>
@@ -263,28 +263,41 @@
 <p>One natural follow up question is how do we actually extract the HTML code to extract stuff for us to analyze. After all, we’ve only opened a browser and clicked on something. The actual fun is to extract data to do stuff with it. <code>RSelenium</code> has the property <code>getPageSource()</code>. This property returns a list so we need to extract the first slot:</p>
 <div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">page_source</span> <span class="op">&lt;-</span> <span class="va">driver</span><span class="op">$</span><span class="fu">getPageSource</span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
+<p><code>getPageSource</code> returns a list so that’s why we use the subsetting characters <code>[[1]]</code> to extract the first slot. <code>page_source</code> is a string that contains all the HTML source code of the website.</p>
 </div>
 <div id="bringing-the-source-code" class="section level2">
 <h2>
 <span class="header-section-number">9.3</span> Bringing the source code<a class="anchor" aria-label="anchor" href="#bringing-the-source-code"><i class="fas fa-link"></i></a>
 </h2>
-<p>With the HTML code as a <strong>string</strong> we’re on familiar ground. We can use <code>read_html</code> to read it, find the XPath of the categories of the text and extract them:</p>
+<p>With the HTML code as a <strong>string</strong>, we’re on familiar ground. We can use <code>read_html</code> to read it.</p>
 <div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html_code</span> <span class="op">&lt;-</span>
   <span class="va">page_source</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="va">categories_first_post</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Let’s assume we want to find all categories that are associated with this post. The categories are in the bottom of the post:</p>
+<div class="inline-figure"><img src="images/selenium_javascript/gelman_categories_blog.png" width="100%" style="display: block; margin: auto;"></div>
+<p>You’ll see on the right that the categories of each post are under a <code>&lt;footer&gt;</code> tag that has a class <code>entry-meta</code>. The actual categories are in a <code>&lt;a&gt;</code> tag that has an <code>href</code> attribute with the word category. We can build an XPath to extract it like this:</p>
+<ul>
+<li>
+<code>//</code> in the entire document</li>
+<li>Find the footer tag with a class entry-meta: <code>footer[@class='entry-meta']</code>
+</li>
+<li>And below it <code>//</code>
+</li>
+<li>Find all a tags that contain the word category: <code>a[contains(@href, 'category')]</code>
+</li>
+</ul>
+<p>Let’s extract the categories using this XPath:</p>
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">categories_first_post</span> <span class="op">&lt;-</span>
   <span class="va">html_code</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//footer[@class='entry-meta']//a[contains(@href, 'category')]"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">categories_first_post</span></code></pre></div>
-<pre><code>## [1] "Bayesian Statistics" "Economics"           "Political Science"
-## [4] "Sociology"</code></pre>
-<p>This post was about Bayesian Statistics and Social Sciences. Let’s extract the date as well</p>
-<p>Let’s also extract the date in order to have a timestamp of which categories are used over time:</p>
-<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
+<pre><code>## [1] "Zombies"</code></pre>
+<p>This post was about Zombies. Let’s also extract the date in order to have a time stamp of which categories are used over time:</p>
+<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">entry_date</span> <span class="op">&lt;-</span>
   <span class="va">html_code</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//time[@class='entry-date']"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -292,16 +305,17 @@
   <span class="fu"><a href="https://lubridate.tidyverse.org/reference/parse_date_time.html">parse_date_time</a></span><span class="op">(</span><span class="st">"%B %d, %Y %I:%M %p"</span><span class="op">)</span>
 
 <span class="va">entry_date</span></code></pre></div>
+<pre><code>## [1] "2022-10-16 09:31:00"</code></pre>
 <p>Note of the use of <code>parse_date_time</code> and the time format (all the <code>%</code> symbols) to convert the string of date/time into R. With that information we can create a clean data frame of entry dates with their respective categories in a list column:</p>
-<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">final_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>entry_date <span class="op">=</span> <span class="va">entry_date</span>, categories <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">categories_first_post</span><span class="op">)</span><span class="op">)</span>
 <span class="va">final_res</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 2
 ##   entry_date          categories
 ##   &lt;dttm&gt;              &lt;list&gt;
-## 1 2022-10-15 09:08:00 &lt;chr [4]&gt;</code></pre>
+## 1 2022-10-16 09:31:00 &lt;chr [1]&gt;</code></pre>
 <p>Great, we have all our information clean and ready to recycle all of our code into a function and loop it over each of the blog posts. Before we do that, we need to do one final thing: go <strong>back</strong> to the main page of the blog. Don’t forget that the browser is still open and whatever new moves you make using our browser will be starting from where you left it off. Luckily, <code>RSelenium</code> makes it very simple: the <code>goBack</code> attribute. Let’s go back:</p>
-<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">driver</span><span class="op">$</span><span class="fu">goBack</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Your browser should now be back at the main page:</p>
 <div class="inline-figure"><img src="images/selenium_javascript/selenium_blog_main.png" width="100%" style="display: block; margin: auto;"></div>
@@ -311,9 +325,9 @@
 <span class="header-section-number">9.4</span> Scaling RSelenium to many websites<a class="anchor" aria-label="anchor" href="#scaling-rselenium-to-many-websites"><i class="fas fa-link"></i></a>
 </h2>
 <p>With that ready, we can move all our code into a function and loop it over all blog posts in this page:</p>
-<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">collect_categories</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">page_source</span><span class="op">)</span> <span class="op">{</span>
-  <span class="co"># Read source code of blog psot</span>
+  <span class="co"># Read source code of blog post</span>
   <span class="va">html_code</span> <span class="op">&lt;-</span>
     <span class="va">page_source</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="op">)</span>
@@ -345,6 +359,7 @@
 
 <span class="va">blog_posts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>
 
+<span class="co"># Loop over each post, extract the categories and go back to the main page</span>
 <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="va">num_blogs</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span>
   <span class="co"># Go to the next blog post</span>
@@ -362,7 +377,7 @@
   <span class="va">driver</span><span class="op">$</span><span class="fu">goBack</span><span class="op">(</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <p>While your code runs, open the browser and enjoy the show. Your browser will start working it self as if a ghost were scrolling down and clicking on each blog post. When it finishes, we’ll have a list of all categories in the last 20 blog posts. Let’s combine those and get a count of the most used categories:</p>
-<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">combined_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">blog_posts</span><span class="op">)</span>
 
 <span class="va">combined_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -389,21 +404,113 @@
 ## 15 Jobs                         1
 ## 16 Public Health                1</code></pre>
 </div>
-<div id="posting-a-comment" class="section level2">
+<div id="filling-out-forms" class="section level2">
 <h2>
-<span class="header-section-number">9.5</span> Posting a comment<a class="anchor" aria-label="anchor" href="#posting-a-comment"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.5</span> Filling out forms<a class="anchor" aria-label="anchor" href="#filling-out-forms"><i class="fas fa-link"></i></a>
 </h2>
-<p>Just as a way to show that you can click button and fill out forms. This should only be done when you scrape all posts locally into scrapex (which might not be possible).</p>
+<p><code>RSelenium</code> allows you to do much more than just click on links; pretty much anything you can do on a browser you can do on <code>RSelenium</code>. Have a look at some of the methods we have in our <code>driver</code>:</p>
+<div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">driver</span><span class="op">$</span><span class="fu">Navigate</span><span class="op">(</span><span class="st">"http://somewhere.com"</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">goBack</span><span class="op">(</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">goForward</span><span class="op">(</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">refresh</span><span class="op">(</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">getTitle</span><span class="op">(</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">getCurrentUrl</span><span class="op">(</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">getStatus</span><span class="op">(</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">screenshot</span><span class="op">(</span>display <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">getAllCookies</span><span class="op">(</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">deleteCookieNamed</span><span class="op">(</span><span class="st">"PREF"</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">switchToFrame</span><span class="op">(</span><span class="st">"string|number|null|WebElement"</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">getWindowHandles</span><span class="op">(</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">getCurrentWindowHandle</span><span class="op">(</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">switchToWindow</span><span class="op">(</span><span class="st">"windowId"</span><span class="op">)</span></code></pre></div>
+<p>You can do all sorts of things like taking a screenshot of the website, grabbing the URL, delete cookies and so much more. We can’t cover everything that <code>RSelenium</code> can do but we can focus on the most common ones.</p>
+<p>One common thing you’ll also want to do is to learn how to fill out a form. It’s common for a website to ask you information before showing you a website or fill out a search bar (like in any eCommerce website such as Amazon) to obtain results. For these tasks you have to manually type content into a form-like box.</p>
+<p>Our blog example contains one nice example we can recycle for filling out forms. Whenever you want to post a comment on the blog’s posts you need to fill out a form with the comment text, the author name, email and author’s website before you’re allowed to publish. To see this, we need to go into a blog post and scroll down. Let’s go to the first post:</p>
+<div class="sourceCode" id="cb215"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>value <span class="op">=</span> <span class="st">"(//h1[@class='entry-title']//a)[1]"</span><span class="op">)</span><span class="op">$</span><span class="fu">clickElement</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>And scroll down see the comments section:</p>
+<div class="inline-figure"><img src="images/selenium_javascript/first_entry_comments_form.png" width="100%" style="display: block; margin: auto;"></div>
+<p>On the left you’ll see the form. Each of those text areas has a corresponding tag on the right. The one for the author form has been highlighted on the right. You’ll see that the <code>id</code> attribute is <code>author</code>. Similarly, if you see a tiny bit below, the email input has the <code>id</code> set to <code>email</code>. Using our traditional XPath syntax we can probably navigate the browser to that specific tag. However, <code>RSelenium</code> has some nice tricks that can make it even easier for us. <code>findElement</code> assumes that you’ll be using XPath, as we did previously, but it also allows to specify certain attributes without using XPath. If we wanted to go the tag that has an <code>id</code> set to <code>author</code>, we could do it like this:</p>
+<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>using <span class="op">=</span> <span class="st">"id"</span>, <span class="st">"author"</span><span class="op">)</span></code></pre></div>
+<p><code>RSelenium</code> also supports other attributes such as ‘name’, ‘tag name’, ‘class name’, ‘link text’ and even ‘partial link text’. The code above will leave us at the author form. Here we could use something like <code>$clickElement()</code> but we want to input text. For that we use <code>$sendKeysToElement()</code> which sends the text you provide inside the <code>()</code> as input:</p>
+<div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>using <span class="op">=</span> <span class="st">"id"</span>, <span class="st">"author"</span><span class="op">)</span><span class="op">$</span><span class="fu">sendKeysToElement</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Data Harvesting Bot"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>If you look at your browser you’ll see that the author form is now filled with “Data Harvesting Bot”:</p>
+<div class="inline-figure"><img src="images/selenium_javascript/first_entry_author_filled.png" width="100%" style="display: block; margin: auto;"></div>
+<p>We can do the same thing for the <code>email</code> id:</p>
+<div class="sourceCode" id="cb218"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>using <span class="op">=</span> <span class="st">"id"</span>, <span class="st">"email"</span><span class="op">)</span><span class="op">$</span><span class="fu">sendKeysToElement</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"fake-email@gmail.com"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>And find that the email form has been filled:</p>
+<div class="inline-figure"><img src="images/selenium_javascript/first_entry_email_filled.png" width="100%" style="display: block; margin: auto;"></div>
+<p>At this point, we need to fill out the text of the comment but we don’t want to actually send a comment to the website. Instead, I’ll show you how to click on the ‘Post Comment’ button (since we haven’t provided the comment text, clicking on the post comment button won’t publish the comment). The <code>id</code> tag of the submit button is set to <code>submit</code> on the source code so we can click it with:</p>
+<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>using <span class="op">=</span> <span class="st">"id"</span>, <span class="st">"submit"</span><span class="op">)</span><span class="op">$</span><span class="fu">clickElement</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>The post won’t be published, instead you’ll see a pop up saying “Please fill out this field”, saying you need to provide a comment to the post behind publishing it:</p>
+<div class="inline-figure"><img src="images/selenium_javascript/first_entry_click_post.png" width="100%" style="display: block; margin: auto;"></div>
+<p>This is just an example on how to fill out text forms and click on them. This should only be done when you scrape all posts locally into scrapex (which might not be possible).</p>
+</div>
+<div id="summary" class="section level2">
+<h2>
+<span class="header-section-number">9.6</span> Summary<a class="anchor" aria-label="anchor" href="#summary"><i class="fas fa-link"></i></a>
+</h2>
+<p>We could find all sorts of examples that extract data using <code>RSelenium</code> but nearly all your scraping needs will be solved by combining some of the functions we’ve used above. Here is a summary of the tools we’ve covered and that you’ll need for most of your Selenium scraping.</p>
+<ul>
+<li>Connect and open a browser</li>
+</ul>
+<div class="sourceCode" id="cb220"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">remDr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/RSelenium/reference/rsDriver.html">rsDriver</a></span><span class="op">(</span>port <span class="op">=</span> <span class="fl">4445L</span><span class="op">)</span>
+<span class="va">driver</span> <span class="op">&lt;-</span> <span class="va">remDr</span><span class="op">$</span><span class="va">client</span></code></pre></div>
+<ul>
+<li>Navigate to a website, refresh it and go back to the previous website:</li>
+</ul>
+<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">driver</span><span class="op">$</span><span class="fu">navigate</span><span class="op">(</span><span class="st">"somewebsite.com"</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">refresh</span><span class="op">(</span><span class="op">)</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">goBack</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<ul>
+<li>Find a part of a website using XPath and click on it:</li>
+</ul>
+<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># With XPath</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>value <span class="op">=</span> <span class="st">"(//h1[@class='entry-title']//a)[1]"</span><span class="op">)</span><span class="op">$</span><span class="fu">clickElement</span><span class="op">(</span><span class="op">)</span>
+
+<span class="co"># Or attribute=value instead of XPath</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>using <span class="op">=</span> <span class="st">"id"</span>, <span class="st">"submit"</span><span class="op">)</span><span class="op">$</span><span class="fu">clickElement</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<ul>
+<li>Extract HTML source of the current website</li>
+</ul>
+<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">driver</span><span class="op">$</span><span class="fu">getPageSource</span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
+<ul>
+<li>Fill text at point</li>
+</ul>
+<div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># With XPath</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>value <span class="op">=</span> <span class="st">"(//h1[@class='entry-title']//a)[1]"</span><span class="op">)</span><span class="op">$</span><span class="fu">sendKeysToElement</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Data Harvesting Bot"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># With attribut=value</span>
+<span class="va">driver</span><span class="op">$</span><span class="fu">findElement</span><span class="op">(</span>using <span class="op">=</span> <span class="st">"id"</span>, <span class="st">"author"</span><span class="op">)</span><span class="op">$</span><span class="fu">sendKeysToElement</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Data Harvesting Bot"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<ul>
+<li>Close browser and server</li>
+</ul>
+<div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">driver</span><span class="op">$</span><span class="fu">close</span><span class="op">(</span><span class="op">)</span>
+<span class="va">remDr</span><span class="op">$</span><span class="va">server</span><span class="op">$</span><span class="kw">stop</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="exercises-6" class="section level2">
 <h2>
-<span class="header-section-number">9.6</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-6"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.7</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-6"><i class="fas fa-link"></i></a>
 </h2>
 <ol style="list-style-type: decimal">
 <li>Building on our ‘extract categories of posts’ example, extend it to extract all blog posts of the last 20 pages of blog posts. You’ll need to click ‘Older posts’ to see the previous page of blog posts:</li>
 </ol>
 <div class="inline-figure"><img src="images/selenium_javascript/older_posts.png" width="100%" style="display: block; margin: auto;"></div>
-
+<ol start="2" style="list-style-type: decimal">
+<li><p>Has the use of images grown over time in the blog? It’s up to you to decide how many posts in the past you want to go back. Hint: count the number of <code>&lt;img&gt;</code> tags for each post.</p></li>
+<li><p>Gelman is a big proponent of using Bayesian methods over Frequentist methods in statistics. Can you plot the frequency usage of the word “Bayesian” over time? Is there a peak moment in the history of the blog?</p></li>
+</ol>
 </div>
 </div>
   <div class="chapter-nav">
@@ -417,8 +524,9 @@
 <li><a class="nav-link" href="#navigating-a-website-in-rselenium"><span class="header-section-number">9.2</span> Navigating a website in RSelenium</a></li>
 <li><a class="nav-link" href="#bringing-the-source-code"><span class="header-section-number">9.3</span> Bringing the source code</a></li>
 <li><a class="nav-link" href="#scaling-rselenium-to-many-websites"><span class="header-section-number">9.4</span> Scaling RSelenium to many websites</a></li>
-<li><a class="nav-link" href="#posting-a-comment"><span class="header-section-number">9.5</span> Posting a comment</a></li>
-<li><a class="nav-link" href="#exercises-6"><span class="header-section-number">9.6</span> Exercises</a></li>
+<li><a class="nav-link" href="#filling-out-forms"><span class="header-section-number">9.5</span> Filling out forms</a></li>
+<li><a class="nav-link" href="#summary"><span class="header-section-number">9.6</span> Summary</a></li>
+<li><a class="nav-link" href="#exercises-6"><span class="header-section-number">9.7</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">
@@ -436,7 +544,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-10-18.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-11-01.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
