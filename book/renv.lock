@@ -146,6 +146,54 @@
         "sys"
       ]
     },
+    "assertive.base": {
+      "Package": "assertive.base",
+      "Version": "0.0-9",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "assertive.base",
+      "RemoteRef": "assertive.base",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.0-9",
+      "Hash": "b13489d382536049f19cd7b205fbc12a",
+      "Requirements": []
+    },
+    "assertive.properties": {
+      "Package": "assertive.properties",
+      "Version": "0.0-5",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "assertive.properties",
+      "RemoteRef": "assertive.properties",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.0-5",
+      "Hash": "78281e9da959f070ee617331ba876fde",
+      "Requirements": [
+        "assertive.base"
+      ]
+    },
+    "assertive.types": {
+      "Package": "assertive.types",
+      "Version": "0.0-3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "assertive.types",
+      "RemoteRef": "assertive.types",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.0-3",
+      "Hash": "c4837a5ed530b4327914b54a2644990e",
+      "Requirements": [
+        "assertive.base",
+        "assertive.properties",
+        "codetools"
+      ]
+    },
     "assertthat": {
       "Package": "assertthat",
       "Version": "0.2.1",
@@ -554,6 +602,25 @@
         "jsonlite",
         "openssl",
         "sys"
+      ]
+    },
+    "crosstalk": {
+      "Package": "crosstalk",
+      "Version": "1.2.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "crosstalk",
+      "RemoteRef": "crosstalk",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.2.0",
+      "Hash": "6aa54f69598c32177e920eb3402e8293",
+      "Requirements": [
+        "R6",
+        "htmltools",
+        "jsonlite",
+        "lazyeval"
       ]
     },
     "curl": {
@@ -1474,6 +1541,20 @@
       "Hash": "b64cdbb2b340437c4ee047a1f4c4377b",
       "Requirements": []
     },
+    "lazyeval": {
+      "Package": "lazyeval",
+      "Version": "0.2.2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "lazyeval",
+      "RemoteRef": "lazyeval",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.2.2",
+      "Hash": "d908914ae53b04d4c0c0fd72ecc35370",
+      "Requirements": []
+    },
     "lifecycle": {
       "Package": "lifecycle",
       "Version": "1.0.1",
@@ -1736,6 +1817,42 @@
         "rprojroot",
         "rstudioapi",
         "withr"
+      ]
+    },
+    "plotly": {
+      "Package": "plotly",
+      "Version": "4.10.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "plotly",
+      "RemoteRef": "plotly",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "4.10.0",
+      "Hash": "fbb11e44d057996ca5fe40d959cacfb0",
+      "Requirements": [
+        "RColorBrewer",
+        "base64enc",
+        "crosstalk",
+        "data.table",
+        "digest",
+        "dplyr",
+        "ggplot2",
+        "htmltools",
+        "htmlwidgets",
+        "httr",
+        "jsonlite",
+        "lazyeval",
+        "magrittr",
+        "promises",
+        "purrr",
+        "rlang",
+        "scales",
+        "tibble",
+        "tidyr",
+        "vctrs",
+        "viridisLite"
       ]
     },
     "polyclip": {
@@ -2275,8 +2392,8 @@
       "RemoteRepo": "scrapex",
       "RemoteUsername": "cimentadaj",
       "RemoteRef": "HEAD",
-      "RemoteSha": "6ef640dc19183f32de3d37377d61598a9f730a26",
-      "Hash": "6361e4136f22ccc75aefb83dbfada352",
+      "RemoteSha": "533d047785f712199f611dd0fd041454d5c1324f",
+      "Hash": "a1b21b35271fc20aa4989030b1ce49a3",
       "Requirements": [
         "here",
         "xml2"
@@ -2775,6 +2892,21 @@
       "RemoteSha": "0.4.0",
       "Hash": "55e157e2aa88161bdb0754218470d204",
       "Requirements": []
+    },
+    "vistime": {
+      "Package": "vistime",
+      "Version": "1.2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8a4970b59cf5885c8dcb27cbb5cb791a",
+      "Requirements": [
+        "RColorBrewer",
+        "assertive.types",
+        "ggplot2",
+        "ggrepel",
+        "plotly",
+        "rlang"
+      ]
     },
     "vroom": {
       "Package": "vroom",
