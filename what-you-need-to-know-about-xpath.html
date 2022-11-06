@@ -21,19 +21,19 @@
 <link href="libs/_Roboto%20Mono-0.4.1/font.css" rel="stylesheet">
 <link href="libs/_Montserrat-0.4.1/font.css" rel="stylesheet">
 <script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
 <script src="libs/str_view-binding-1.4.0/str_view.js"></script><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 <script>
-   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  
-   ga('create', 'UA-99618359-1', 'auto');
-   ga('send', 'pageview');
-  
-  </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
+     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-99618359-1', 'auto');
+     ga('send', 'pageview');
+
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -81,18 +81,18 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="what-you-need-to-know-about-xpath" class="section level1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="what-you-need-to-know-about-xpath" class="section level1" number="6">
 <h1>
 <span class="header-section-number">6</span> What you need to know about XPath<a class="anchor" aria-label="anchor" href="#what-you-need-to-know-about-xpath"><i class="fas fa-link"></i></a>
 </h1>
 <p>XPath (XML Path Language) is the language designed to identify the address of one or several tags within an HTML or XML document. With that address, XPath allows us to extract the data under those tags. For example, take a look at the XML below:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb124-1"><a href="what-you-need-to-know-about-xpath.html#cb124-1"></a><span class="kw">&lt;bookshelf&gt;</span></span>
-<span id="cb124-2"><a href="what-you-need-to-know-about-xpath.html#cb124-2"></a>  <span class="kw">&lt;dansimmons&gt;</span></span>
-<span id="cb124-3"><a href="what-you-need-to-know-about-xpath.html#cb124-3"></a>    <span class="kw">&lt;book&gt;</span></span>
-<span id="cb124-4"><a href="what-you-need-to-know-about-xpath.html#cb124-4"></a>      Hyperion Cantos</span>
-<span id="cb124-5"><a href="what-you-need-to-know-about-xpath.html#cb124-5"></a>    <span class="kw">&lt;/book&gt;</span></span>
-<span id="cb124-6"><a href="what-you-need-to-know-about-xpath.html#cb124-6"></a>  <span class="kw">&lt;/dansimmons&gt;</span></span>
-<span id="cb124-7"><a href="what-you-need-to-know-about-xpath.html#cb124-7"></a><span class="kw">&lt;/bookshelf&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb124-1"><a href="what-you-need-to-know-about-xpath.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;bookshelf&gt;</span></span>
+<span id="cb124-2"><a href="what-you-need-to-know-about-xpath.html#cb124-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;dansimmons&gt;</span></span>
+<span id="cb124-3"><a href="what-you-need-to-know-about-xpath.html#cb124-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;book&gt;</span></span>
+<span id="cb124-4"><a href="what-you-need-to-know-about-xpath.html#cb124-4" aria-hidden="true" tabindex="-1"></a>      Hyperion Cantos</span>
+<span id="cb124-5"><a href="what-you-need-to-know-about-xpath.html#cb124-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/book&gt;</span></span>
+<span id="cb124-6"><a href="what-you-need-to-know-about-xpath.html#cb124-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/dansimmons&gt;</span></span>
+<span id="cb124-7"><a href="what-you-need-to-know-about-xpath.html#cb124-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/bookshelf&gt;</span></span></code></pre></div>
 <p>To extract the book ‘Hyperion Cantos’ of Dan Simmons, the simplest XPath you can use is <code>/bookshelf/dansimmons/book</code>. Let’s break that up to understand it better:</p>
 <ul>
 <li>The first node is bookshelf so we start with <code>/bookshelf</code>.</li>
@@ -102,7 +102,7 @@
 </li>
 </ul>
 <p>That doesn’t look so hard, right? The problem is that for all your web scraping needs, having the exact address, node by node, will not by generalizable.</p>
-<div id="finding-tags-with-xpath" class="section level2">
+<div id="finding-tags-with-xpath" class="section level2" number="6.1">
 <h2>
 <span class="header-section-number">6.1</span> Finding tags with XPath<a class="anchor" aria-label="anchor" href="#finding-tags-with-xpath"><i class="fas fa-link"></i></a>
 </h2>
@@ -245,7 +245,7 @@
 </ul>
 <p>These rules can take you a long way when building XPath expressions but the real flexibility comes when you’re available to filter through attributes of a given node.</p>
 </div>
-<div id="filter-by-attributes" class="section level2">
+<div id="filter-by-attributes" class="section level2" number="6.2">
 <h2>
 <span class="header-section-number">6.2</span> Filter by attributes<a class="anchor" aria-label="anchor" href="#filter-by-attributes"><i class="fas fa-link"></i></a>
 </h2>
@@ -434,7 +434,7 @@
 </ul>
 <p>These XPath filtering rules can take you a long way in building precise expressions. This chapter covers a somewhat beginner/intermediate introduction to XPath but one that can take you very far. Trust me when I tell you that these XPath rules can fulfill a vast percentage of your webscraping needs, if you start easy. Once you start building scraping programs that are supposed to run on frequent intervals or work with a bigger team of developers that is dependent on your scraped data, you might need to be more careful in how you build your XPath expressions to avoid breaking the scraper frequently. However, this is a fairly good start to achieving most of the scraping needs as a beginner.</p>
 </div>
-<div id="xpath-cookbook" class="section level2">
+<div id="xpath-cookbook" class="section level2" number="6.3">
 <h2>
 <span class="header-section-number">6.3</span> XPath cookbook<a class="anchor" aria-label="anchor" href="#xpath-cookbook"><i class="fas fa-link"></i></a>
 </h2>
@@ -505,7 +505,7 @@
 <span class="va">newspaper</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"(//section)[last()]"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="conclusion-1" class="section level2">
+<div id="conclusion-1" class="section level2" number="6.4">
 <h2>
 <span class="header-section-number">6.4</span> Conclusion<a class="anchor" aria-label="anchor" href="#conclusion-1"><i class="fas fa-link"></i></a>
 </h2>
@@ -516,7 +516,7 @@
 <li><a href="https://www.w3schools.com/xml/xpath_intro.asp">XPath tutorial</a></li>
 </ul>
 </div>
-<div id="exercises-3" class="section level2">
+<div id="exercises-3" class="section level2" number="6.5">
 <h2>
 <span class="header-section-number">6.5</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-3"><i class="fas fa-link"></i></a>
 </h2>

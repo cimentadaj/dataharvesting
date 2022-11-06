@@ -21,19 +21,19 @@
 <link href="libs/_Roboto%20Mono-0.4.1/font.css" rel="stylesheet">
 <link href="libs/_Montserrat-0.4.1/font.css" rel="stylesheet">
 <script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
 <script src="libs/str_view-binding-1.4.0/str_view.js"></script><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 <script>
-   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  
-   ga('create', 'UA-99618359-1', 'auto');
-   ga('send', 'pageview');
-  
-  </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
+     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-99618359-1', 'auto');
+     ga('send', 'pageview');
+
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -81,12 +81,12 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ethical-issues-in-web-scraping" class="section level1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ethical-issues-in-web-scraping" class="section level1" number="10">
 <h1>
 <span class="header-section-number">10</span> Ethical issues in Web Scraping<a class="anchor" aria-label="anchor" href="#ethical-issues-in-web-scraping"><i class="fas fa-link"></i></a>
 </h1>
 <p>Although quick to get up and running, web scraping is a delicate issue. It’s delicate because it involves grabbing information that is not yours and using it for your own purposes. In some respects that might be even contrary to the terms of services of the website. It also involves <em>cluttering</em> the servers of the website with potentially many requests, making the functioning of the website less optimal. In this chapter we’ll describe how you affect a website when you scrape it, how you can avoid problems with the website owners and how to figure out if indeed the website <em>allows</em> you to scrape that information.</p>
-<div id="make-your-scraper-sleep" class="section level2">
+<div id="make-your-scraper-sleep" class="section level2" number="10.1">
 <h2>
 <span class="header-section-number">10.1</span> Make your scraper sleep<a class="anchor" aria-label="anchor" href="#make-your-scraper-sleep"><i class="fas fa-link"></i></a>
 </h2>
@@ -119,7 +119,7 @@
 <p>How many seconds should you wait? Sometimes the <code>robotstxt</code> file (see the section below) will tell you how many seconds per scrape you should wait. Other than that, there’s no real estimate. Depending on how many requests you make you’ll want to lower the number of seconds to 2 or 3. Multiplying the total number of websites you’ll scrape by the number of seconds you’ll sleep will give you a rough estimate of how much time your program will last.</p>
 <p>As a rule of thumb, it’s always a good idea to limit your scraping to non-working hours such as over the evening. This can help reduce the chances of collapsing the website since fewer people are visiting websites in the evening.</p>
 </div>
-<div id="terms-of-services" class="section level2">
+<div id="terms-of-services" class="section level2" number="10.2">
 <h2>
 <span class="header-section-number">10.2</span> Terms of services<a class="anchor" aria-label="anchor" href="#terms-of-services"><i class="fas fa-link"></i></a>
 </h2>
@@ -131,7 +131,7 @@
 <p>If a website explicitly prohibits you from scraping, you should not do it. <strong>Let me make that clear again: if the terms of services forbids you from scraping their website, you should not do it. It can have legal consequences.</strong></p>
 <p>If it’s not clear from the terms of services, contact the website and receive written confirmation from the website.</p>
 </div>
-<div id="copying-information" class="section level2">
+<div id="copying-information" class="section level2" number="10.3">
 <h2>
 <span class="header-section-number">10.3</span> Copying information<a class="anchor" aria-label="anchor" href="#copying-information"><i class="fas fa-link"></i></a>
 </h2>
@@ -147,7 +147,7 @@
 <p>Using <code>paths_allowed</code> you can provide any link to a website and it’ll automatically extract the <code>robots.txt</code> and figure out if you can scrape it. Before scraping any website, you should check whether the URL you want to scrape is allowed.</p>
 <p>Another thing to be aware of is that <code>robotstxt</code> files often contain a field for <code>Crawl-delay</code>, suggesting the time you should wait between requests. You should keep that in mind for when you <code>Sys.sleep</code> in between requests.</p>
 </div>
-<div id="identifying-yourself" class="section level2">
+<div id="identifying-yourself" class="section level2" number="10.4">
 <h2>
 <span class="header-section-number">10.4</span> Identifying yourself<a class="anchor" aria-label="anchor" href="#identifying-yourself"><i class="fas fa-link"></i></a>
 </h2>

@@ -21,19 +21,19 @@
 <link href="libs/_Roboto%20Mono-0.4.1/font.css" rel="stylesheet">
 <link href="libs/_Montserrat-0.4.1/font.css" rel="stylesheet">
 <script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
 <script src="libs/str_view-binding-1.4.0/str_view.js"></script><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 <script>
-   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  
-   ga('create', 'UA-99618359-1', 'auto');
-   ga('send', 'pageview');
-  
-  </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
+     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-99618359-1', 'auto');
+     ga('send', 'pageview');
+
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -81,7 +81,7 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="case-study-scraping-spanish-school-locations-from-the-web" class="section level1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="case-study-scraping-spanish-school-locations-from-the-web" class="section level1" number="7">
 <h1>
 <span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web<a class="anchor" aria-label="anchor" href="#case-study-scraping-spanish-school-locations-from-the-web"><i class="fas fa-link"></i></a>
 </h1>
@@ -96,7 +96,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearth">rnaturalearth</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span></code></pre></div>
-<div id="building-a-scraper-for-one-school" class="section level2">
+<div id="building-a-scraper-for-one-school" class="section level2" number="7.1">
 <h2>
 <span class="header-section-number">7.1</span> Building a scraper for one school<a class="anchor" aria-label="anchor" href="#building-a-scraper-for-one-school"><i class="fas fa-link"></i></a>
 </h2>
@@ -193,7 +193,7 @@
 
 <span class="va">location_str</span></code></pre></div>
 <pre><code>## [1] "/Colegio/buscar-colegios-cercanos.action?colegio.latitud=38.8274492&amp;colegio.longitud=0.0221681"</code></pre>
-<div id="data-cleaning-1" class="section level3">
+<div id="data-cleaning-1" class="section level3" number="7.1.1">
 <h3>
 <span class="header-section-number">7.1.1</span> Data cleaning<a class="anchor" aria-label="anchor" href="#data-cleaning-1"><i class="fas fa-link"></i></a>
 </h3>
@@ -236,7 +236,7 @@
 <p>TODO reference user agent chapter</p>
 </div>
 </div>
-<div id="scaling-the-scraper-to-all-schools" class="section level2">
+<div id="scaling-the-scraper-to-all-schools" class="section level2" number="7.2">
 <h2>
 <span class="header-section-number">7.2</span> Scaling the scraper to all schools<a class="anchor" aria-label="anchor" href="#scaling-the-scraper-to-all-schools"><i class="fas fa-link"></i></a>
 </h2>
@@ -330,7 +330,7 @@
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/automatic_rmarkdown/spain-map-schools-1.png" width="672" style="display: block; margin: auto;"></div>
 <p>There’s it is! We managed to extract the coordinates of all the schools, clean them and plot them.</p>
 </div>
-<div id="scraping-publicprivate-school-information" class="section level2">
+<div id="scraping-publicprivate-school-information" class="section level2" number="7.3">
 <h2>
 <span class="header-section-number">7.3</span> Scraping public/private school information<a class="anchor" aria-label="anchor" href="#scraping-publicprivate-school-information"><i class="fas fa-link"></i></a>
 </h2>
@@ -455,7 +455,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Sample of schools in Spain by private/public"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/automatic_rmarkdown/unnamed-chunk-174-1.png" width="672" style="display: block; margin: auto;"></div>
 </div>
-<div id="extracting-type-of-school" class="section level2">
+<div id="extracting-type-of-school" class="section level2" number="7.4">
 <h2>
 <span class="header-section-number">7.4</span> Extracting type of school<a class="anchor" aria-label="anchor" href="#extracting-type-of-school"><i class="fas fa-link"></i></a>
 </h2>
@@ -566,7 +566,7 @@
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/automatic_rmarkdown/unnamed-chunk-182-1.png" width="672" style="display: block; margin: auto;"></div>
 <p>As you might have seen from this chapter, webscraping is all about being creative. Finding somewhat unique tags that identify the data you’re looking for is not a precise science and requires tricks using regular expressions, string manipulations and handy XPath knowledge. In the exercises below you’ll need to be creative and find clever ways to extract additional data from the schools data.</p>
 </div>
-<div id="exercises-4" class="section level2">
+<div id="exercises-4" class="section level2" number="7.5">
 <h2>
 <span class="header-section-number">7.5</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-4"><i class="fas fa-link"></i></a>
 </h2>

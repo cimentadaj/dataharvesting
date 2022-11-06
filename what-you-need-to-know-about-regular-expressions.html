@@ -21,19 +21,19 @@
 <link href="libs/_Roboto%20Mono-0.4.1/font.css" rel="stylesheet">
 <link href="libs/_Montserrat-0.4.1/font.css" rel="stylesheet">
 <script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
 <script src="libs/str_view-binding-1.4.0/str_view.js"></script><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 <script>
-   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  
-   ga('create', 'UA-99618359-1', 'auto');
-   ga('send', 'pageview');
-  
-  </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
+     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-99618359-1', 'auto');
+     ga('send', 'pageview');
+
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -81,13 +81,13 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="what-you-need-to-know-about-regular-expressions" class="section level1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="what-you-need-to-know-about-regular-expressions" class="section level1" number="5">
 <h1>
 <span class="header-section-number">5</span> What you need to know about regular expressions<a class="anchor" aria-label="anchor" href="#what-you-need-to-know-about-regular-expressions"><i class="fas fa-link"></i></a>
 </h1>
 <p>Before I set out to write this chapter I was hesitant to do it. I don’t consider myself an expert on regular expressions nor do I think I would be able to take you from beginner to expert on such a complicated topic. On top of that, there are dozens of excellent tutorials on regular expressions out there that would do the topic more justice that I would be able to. With that said, you cannot do web scraping without knowing <em>some</em> regular expression techniques. Most of the data you’ll extract from the web will need some type of massaging. Other times you’ll find the data you need will be a string, combined with other stuff. You’ll need to know that there are tools to clean this string and extract just what you need.</p>
 <p>For that reason, I decided I wanted to write this chapter but focusing only on what I think are the the basics in regexp. Moreover, I wanted the chapter to use webscraping examples as soon as you had the basics in mind. These basics are the bare minimum you’ll need to clean the usual web scraping strings you’ll extract. This means that I’ll give you a very incomplete picture of what regexp can do but enough to get you up and running in a very short of amount of time. If the reader is interested in the topic, I refer them to the chapter on <a href="https://r4ds.had.co.nz/strings.html">strings</a> from the book R For Data Science. That chapter will give you a more thorough introduction into the topic with more general applications. Without further a due, let’s begin.</p>
-<div id="basic-matches" class="section level2">
+<div id="basic-matches" class="section level2" number="5.1">
 <h2>
 <span class="header-section-number">5.1</span> Basic matches<a class="anchor" aria-label="anchor" href="#basic-matches"><i class="fas fa-link"></i></a>
 </h2>
@@ -104,8 +104,8 @@
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses, maps, eighteenth century typography."</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"eighteenth"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-92407e2d2aebd04969d9" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-92407e2d2aebd04969d9">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>That’s one of the simplest regexp I can think of. That’s a regular expression right there: you’re matching only the word “eighteenth”. <code>stringr</code> has two functions which will be at the backbone of using regexp in R: <code>str_replace_all</code> and <code>str_extract_all</code>. The first one will replace a string with another string. For example:</p>
+<div id="htmlwidget-64295b7e5de681ec46b1" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-64295b7e5de681ec46b1">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>That’s one of the simplest regexp I can think of. That’s a regular expression right there: you’re matching only the word “eighteenth”. <code>stringr</code> has two functions which will be at the backbone of using regexp in R: <code>str_replace_all</code> and <code>str_extract_all</code>. The first one will replace a string with another string. For example:</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"eighteenth"</span>, <span class="st">"[DATE]"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "I like hourglasses, maps, [DATE] century typography."</code></pre>
@@ -117,7 +117,7 @@
 ## [1] "eighteenth"</code></pre>
 <p>However, that’s not very handy since you know the word you want to match exactly. You’ll see the power of this later on.</p>
 </div>
-<div id="the-.-placeholder" class="section level2">
+<div id="the-.-placeholder" class="section level2" number="5.2">
 <h2>
 <span class="header-section-number">5.2</span> The <code>.</code> placeholder<a class="anchor" aria-label="anchor" href="#the-.-placeholder"><i class="fas fa-link"></i></a>
 </h2>
@@ -125,15 +125,15 @@
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses, maps, eighteenth Eighteenth century typography."</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">".ighteenth"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-72d10f2190cb09ece58a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-72d10f2190cb09ece58a">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> <span class='match'>Eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>The regexp I used is <code>.ighteenth</code> meaning that I want to match <em>any character</em> (<code>.</code>) followed directly by <code>ighteenth</code>. It matches both the capital letter word as well the lower case word. However, it would also match <em>any other</em> character, even empty spaces:</p>
+<div id="htmlwidget-520fbd50b9bd31ced458" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-520fbd50b9bd31ced458">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> <span class='match'>Eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>The regexp I used is <code>.ighteenth</code> meaning that I want to match <em>any character</em> (<code>.</code>) followed directly by <code>ighteenth</code>. It matches both the capital letter word as well the lower case word. However, it would also match <em>any other</em> character, even empty spaces:</p>
 <div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses, maps, ighteenth century typography."</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">".ighteenth"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-c065e791d8d7d2f9b225" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c065e791d8d7d2f9b225">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps,<span class='match'> ighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1aa4b8451956861fc8cb" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1aa4b8451956861fc8cb">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps,<span class='match'> ighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="quantifiers" class="section level2">
+<div id="quantifiers" class="section level2" number="5.3">
 <h2>
 <span class="header-section-number">5.3</span> Quantifiers<a class="anchor" aria-label="anchor" href="#quantifiers"><i class="fas fa-link"></i></a>
 </h2>
@@ -145,14 +145,14 @@
 <span class="op">)</span>
 
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_two_phrase</span>, <span class="st">"maps, . century"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-b030f157d29b2b6bc61e" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b030f157d29b2b6bc61e">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, eighteenth century typography.<\/li>\n  <li>I like hourglasses, maps, seventeenth century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Nothing was matched. Why? Because we’re saying we want to match something like this: <code>maps, [a] century.</code>. Replace <code>[a]</code> with whatever character you want and that’s what your matching. Of course, that doesn’t have a match anywhere in the string. What we want instead is this:</p>
+<div id="htmlwidget-37b95f62aac8246067b0" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-37b95f62aac8246067b0">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, eighteenth century typography.<\/li>\n  <li>I like hourglasses, maps, seventeenth century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Nothing was matched. Why? Because we’re saying we want to match something like this: <code>maps, [a] century.</code>. Replace <code>[a]</code> with whatever character you want and that’s what your matching. Of course, that doesn’t have a match anywhere in the string. What we want instead is this:</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_two_phrase</span>, <span class="st">"maps, .+ century"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-9d6aefd2e958024d92f4" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9d6aefd2e958024d92f4">{"x":{"html":"<ul>\n  <li>I like hourglasses, <span class='match'>maps, eighteenth century<\/span> typography.<\/li>\n  <li>I like hourglasses, <span class='match'>maps, seventeenth century<\/span> typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This is saying: match the part <code>maps,</code> followed by <em>any character</em> (<code>.</code>) repeated one or more times (<code>+</code>) which is followed by <code>century</code>.</p>
+<div id="htmlwidget-6a4fd79527ddd2b16c6c" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6a4fd79527ddd2b16c6c">{"x":{"html":"<ul>\n  <li>I like hourglasses, <span class='match'>maps, eighteenth century<\/span> typography.<\/li>\n  <li>I like hourglasses, <span class='match'>maps, seventeenth century<\/span> typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This is saying: match the part <code>maps,</code> followed by <em>any character</em> (<code>.</code>) repeated one or more times (<code>+</code>) which is followed by <code>century</code>.</p>
 </div>
-<div id="escaping-." class="section level2">
+<div id="escaping-." class="section level2" number="5.4">
 <h2>
 <span class="header-section-number">5.4</span> Escaping <code>.</code><a class="anchor" aria-label="anchor" href="#escaping-."><i class="fas fa-link"></i></a>
 </h2>
@@ -160,8 +160,8 @@
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses. I also like maps, eighteenth century typography"</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"I like .+"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-16d7ae699a0f4caf9559" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-16d7ae699a0f4caf9559">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses. I also like maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p><code>I like .+</code> is almost there. It says: match the phrase <code>I like</code> followed by any character repeated one or more times. However, that matches the entire phrase because it doesn’t know we want it stop at the first <code>.</code>, right after hourglasses. To match a literal <code>.</code> you need to append it with two <code>\\</code>. It would look like this: <code>I like .+\\.</code>. This reads like this:</p>
+<div id="htmlwidget-f46ba3e818a45307d63e" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f46ba3e818a45307d63e">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses. I also like maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p><code>I like .+</code> is almost there. It says: match the phrase <code>I like</code> followed by any character repeated one or more times. However, that matches the entire phrase because it doesn’t know we want it stop at the first <code>.</code>, right after hourglasses. To match a literal <code>.</code> you need to append it with two <code>\\</code>. It would look like this: <code>I like .+\\.</code>. This reads like this:</p>
 <ul>
 <li>Match the phrase <code>I like</code>
 </li>
@@ -171,10 +171,10 @@
 <p>Let’s apply it:</p>
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"I like .+\\."</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-6a0bfba0ea12b380307d" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6a0bfba0ea12b380307d">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses.<\/span> I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Be aware that you need to append <code>\\</code> in front of <strong>any</strong> special character in regexp. For example, if you wanted to match the quantifier <code>+</code> literally, you’ll need to do it like this: <code>\\+</code>. There’s a bunch of special character in regexp but you’ll just need to know a few like <code>(</code>, <code>)</code>, <code>+</code>, <code>.</code>, <code>$</code>, <code>^</code> or <code>|</code>.</p>
+<div id="htmlwidget-b0c6724bf8136089bed8" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b0c6724bf8136089bed8">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses.<\/span> I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Be aware that you need to append <code>\\</code> in front of <strong>any</strong> special character in regexp. For example, if you wanted to match the quantifier <code>+</code> literally, you’ll need to do it like this: <code>\\+</code>. There’s a bunch of special character in regexp but you’ll just need to know a few like <code>(</code>, <code>)</code>, <code>+</code>, <code>.</code>, <code>$</code>, <code>^</code> or <code>|</code>.</p>
 </div>
-<div id="the-or-operator" class="section level2">
+<div id="the-or-operator" class="section level2" number="5.5">
 <h2>
 <span class="header-section-number">5.5</span> The OR (<code>|</code>) operator<a class="anchor" aria-label="anchor" href="#the-or-operator"><i class="fas fa-link"></i></a>
 </h2>
@@ -197,7 +197,7 @@
 <code class="sourceCode R"><span class="va">res</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="st">"maps, | century"</span>, <span class="st">""</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "eighteenth"  "seventeenth"</code></pre>
 </div>
-<div id="anchors" class="section level2">
+<div id="anchors" class="section level2" number="5.6">
 <h2>
 <span class="header-section-number">5.6</span> Anchors<a class="anchor" aria-label="anchor" href="#anchors"><i class="fas fa-link"></i></a>
 </h2>
@@ -205,12 +205,12 @@
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses. I also like maps, eighteenth century typography"</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"^."</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-ad172363ca91df8091b0" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ad172363ca91df8091b0">{"x":{"html":"<ul>\n  <li><span class='match'>I<\/span> like hourglasses. I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Conversely, to match the last letter of a string:</p>
+<div id="htmlwidget-48eddb9fc48f88c35d79" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-48eddb9fc48f88c35d79">{"x":{"html":"<ul>\n  <li><span class='match'>I<\/span> like hourglasses. I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Conversely, to match the last letter of a string:</p>
 <div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">".$"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-9bcf9ec1899c8c49d769" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9bcf9ec1899c8c49d769">{"x":{"html":"<ul>\n  <li>I like hourglasses. I also like maps, eighteenth century typograph<span class='match'>y<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This might seem like something which doesn’t have much use but it’s actually very handy. Take this text as an example:</p>
+<div id="htmlwidget-ad2cd21626fc4e3bf005" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ad2cd21626fc4e3bf005">{"x":{"html":"<ul>\n  <li>I like hourglasses. I also like maps, eighteenth century typograph<span class='match'>y<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This might seem like something which doesn’t have much use but it’s actually very handy. Take this text as an example:</p>
 <div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"I like cars. I like hourglasses, maps, eighteenth century typography"</span>,
@@ -219,27 +219,27 @@
 <p>Both phrases have “I like” at the beginning but also have “I like” after the end of the first sentence. Using what we know until now won’t be enough:</p>
 <div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_long</span>, <span class="st">"^I like .+"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-40e44a89bfc53d035dde" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-40e44a89bfc53d035dde">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n  <li><span class='match'>I like computers. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>To achieve what we want we could use the trick to match literal dot and add the anchor of the beginning:</p>
+<div id="htmlwidget-8e61148391889b8acdf0" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8e61148391889b8acdf0">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n  <li><span class='match'>I like computers. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>To achieve what we want we could use the trick to match literal dot and add the anchor of the beginning:</p>
 <div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_long</span>, <span class="st">"^I like .+\\."</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-09b1e38d60b814d736ad" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-09b1e38d60b814d736ad">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n  <li><span class='match'>I like computers.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f3bcc2c3ca12433d724a" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f3bcc2c3ca12433d724a">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n  <li><span class='match'>I like computers.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="matching-spaces" class="section level2">
+<div id="matching-spaces" class="section level2" number="5.7">
 <h2>
 <span class="header-section-number">5.7</span> Matching spaces<a class="anchor" aria-label="anchor" href="#matching-spaces"><i class="fas fa-link"></i></a>
 </h2>
 <p>You can also match spaces in regexp and replace them:</p>
 <div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">" "</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-401bb5737f62690f31a6" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-401bb5737f62690f31a6">{"x":{"html":"<ul>\n  <li>I<span class='match'> <\/span>like<span class='match'> <\/span>hourglasses.<span class='match'> <\/span>I<span class='match'> <\/span>also<span class='match'> <\/span>like<span class='match'> <\/span>maps,<span class='match'> <\/span>eighteenth<span class='match'> <\/span>century<span class='match'> <\/span>typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Since spaces come in different ways (new lines or a tabs), you can also use the special character <code>\\s</code>:</p>
+<div id="htmlwidget-61ede0b5f8416b8553e0" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-61ede0b5f8416b8553e0">{"x":{"html":"<ul>\n  <li>I<span class='match'> <\/span>like<span class='match'> <\/span>hourglasses.<span class='match'> <\/span>I<span class='match'> <\/span>also<span class='match'> <\/span>like<span class='match'> <\/span>maps,<span class='match'> <\/span>eighteenth<span class='match'> <\/span>century<span class='match'> <\/span>typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Since spaces come in different ways (new lines or a tabs), you can also use the special character <code>\\s</code>:</p>
 <div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"\\s"</span>, <span class="st">""</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Ilikehourglasses.Ialsolikemaps,eighteenthcenturytypography"</code></pre>
 </div>
-<div id="special-classes" class="section level2">
+<div id="special-classes" class="section level2" number="5.8">
 <h2>
 <span class="header-section-number">5.8</span> Special classes<a class="anchor" aria-label="anchor" href="#special-classes"><i class="fas fa-link"></i></a>
 </h2>
@@ -260,22 +260,22 @@
 <p>The keyword <code>\\d</code> will match a single digit. So for example, if we wanted to match the age of a child in a string (<code>Angel is 8 years old)</code>, writing a regexp like <code>\\d</code> will match that <code>8</code>. For example:</p>
 <div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="st">"Angel is 8 years old"</span>, <span class="st">"\\d"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-9d3bef413ec767b528d3" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9d3bef413ec767b528d3">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>If we matched instead someone older, <code>\\d</code> will match each digit <em>separately</em>:</p>
+<div id="htmlwidget-69be1508b6cf92783e58" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-69be1508b6cf92783e58">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>If we matched instead someone older, <code>\\d</code> will match each digit <em>separately</em>:</p>
 <div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Angel is 8 years old"</span>, <span class="st">"Martha is 56 years old"</span><span class="op">)</span>,
   <span class="st">"\\d"</span>
 <span class="op">)</span></code></pre></div>
-<div id="htmlwidget-d16a3a560c11810c4db4" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d16a3a560c11810c4db4">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>5<\/span><span class='match'>6<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>If you pay close attention, the regexp matched <code>56</code> but each digit separately. However, we could combine this with the quantifier <code>+</code> to match <em>one or more</em> digits. For example:</p>
+<div id="htmlwidget-73d985c12515c88a5af2" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-73d985c12515c88a5af2">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>5<\/span><span class='match'>6<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>If you pay close attention, the regexp matched <code>56</code> but each digit separately. However, we could combine this with the quantifier <code>+</code> to match <em>one or more</em> digits. For example:</p>
 <div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Angel is 8 years old"</span>, <span class="st">"Martha is 56 years old"</span><span class="op">)</span>,
   <span class="st">"\\d+"</span>
 <span class="op">)</span></code></pre></div>
-<div id="htmlwidget-3ec8ce1b1e8e40782708" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3ec8ce1b1e8e40782708">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>56<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Going back to our <code>gdp</code> example, we can extract the GDP of every country with the regexp <code>\\d+</code>, meaning “extract any number that is repeated one or more times”:</p>
+<div id="htmlwidget-6f8291ef2a7f417369f9" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6f8291ef2a7f417369f9">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>56<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Going back to our <code>gdp</code> example, we can extract the GDP of every country with the regexp <code>\\d+</code>, meaning “extract any number that is repeated one or more times”:</p>
 <div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gdp_chr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="va">gdp</span>, <span class="st">"\\d+"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">gdp_chr</span>, <span class="va">as.numeric</span><span class="op">)</span></code></pre></div>
@@ -324,12 +324,12 @@
 <p>One way is to explicitly use <code>|</code> to match all ages like this: <code>(67|68|69)</code>. Instead, using brackets (<code>[]</code>), regexp will match everything inside as if it were <code>|</code>. So for example:</p>
 <div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"6[789]"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-d0daaf2e9267064973eb" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d0daaf2e9267064973eb">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63 (and 4 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 9 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65 (and 7 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>66<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 6 months)<\/li>\n  <li>65<\/li>\n  <li>63 (and 10 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>64<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>60 (and 5 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This regexp will match the number <code>6</code> followed either by <code>7</code>, <code>8</code>, or <code>9</code>. If these numbers are sequential (as it is now) it has additional shortcuts to make it simpler:</p>
+<div id="htmlwidget-e09877cb63fedf296377" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e09877cb63fedf296377">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63 (and 4 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 9 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65 (and 7 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>66<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 6 months)<\/li>\n  <li>65<\/li>\n  <li>63 (and 10 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>64<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>60 (and 5 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This regexp will match the number <code>6</code> followed either by <code>7</code>, <code>8</code>, or <code>9</code>. If these numbers are sequential (as it is now) it has additional shortcuts to make it simpler:</p>
 <div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"6[7-9]"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-6e419e1a895fd2f247b2" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6e419e1a895fd2f247b2">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63 (and 4 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 9 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65 (and 7 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>66<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 6 months)<\/li>\n  <li>65<\/li>\n  <li>63 (and 10 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>64<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>60 (and 5 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Note that <code>[]</code> works the same way for anything: numbers, letters, punctuation, spaces, etc..</p>
+<div id="htmlwidget-e9c673a85ad59ae18d1b" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e9c673a85ad59ae18d1b">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63 (and 4 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 9 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65 (and 7 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>66<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 6 months)<\/li>\n  <li>65<\/li>\n  <li>63 (and 10 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>64<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>60 (and 5 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Note that <code>[]</code> works the same way for anything: numbers, letters, punctuation, spaces, etc..</p>
 <ul>
 <li>
 <code>[^abc]</code>: matches anything except a, b, or c.</li>
@@ -337,10 +337,10 @@
 <p>Similarly to the previous example <code>[abc]</code>, <code>[^abc]</code> will match anything except these letters. So recycling our previous retirement example, if we wanted to match all ages except those after 65, the regexp would be like this:</p>
 <div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"6[^5-9]"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-b627f8515fa5376a72d4" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b627f8515fa5376a72d4">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span>.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>64<\/span> (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>63<\/span> (and 4 months)<\/li>\n  <li>67<\/li>\n  <li><span class='match'>63<\/span> (and 9 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>65 (and 7 months)<\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>67<\/li>\n  <li>66<\/li>\n  <li>67<\/li>\n  <li><span class='match'>63<\/span> (and <span class='match'>6 <\/span>months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>63<\/span> (and 10 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li><span class='match'>63<\/span><\/li>\n  <li>66<\/li>\n  <li>6<span class='match'>6 <\/span>(and 4 months)<\/li>\n  <li><span class='match'>64<\/span><\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>6<span class='match'>6 <\/span>(and 4 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>60<\/span> (and 5 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>All ages which are below 65 will be matched.</p>
+<div id="htmlwidget-330d168a42b024ab38d7" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-330d168a42b024ab38d7">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span>.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>64<\/span> (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>63<\/span> (and 4 months)<\/li>\n  <li>67<\/li>\n  <li><span class='match'>63<\/span> (and 9 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>65 (and 7 months)<\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>67<\/li>\n  <li>66<\/li>\n  <li>67<\/li>\n  <li><span class='match'>63<\/span> (and <span class='match'>6 <\/span>months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>63<\/span> (and 10 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li><span class='match'>63<\/span><\/li>\n  <li>66<\/li>\n  <li>6<span class='match'>6 <\/span>(and 4 months)<\/li>\n  <li><span class='match'>64<\/span><\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>6<span class='match'>6 <\/span>(and 4 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>60<\/span> (and 5 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>All ages which are below 65 will be matched.</p>
 </div>
-<div id="case-study-mapping-the-kings-of-france" class="section level2">
+<div id="case-study-mapping-the-kings-of-france" class="section level2" number="5.9">
 <h2>
 <span class="header-section-number">5.9</span> Case study: mapping the kings of France<a class="anchor" aria-label="anchor" href="#case-study-mapping-the-kings-of-france"><i class="fas fa-link"></i></a>
 </h2>
@@ -676,7 +676,7 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 <code class="sourceCode R"><span class="fu"><a href="https://shosaco.github.io/vistime/reference/gg_vistime.html">gg_vistime</a></span><span class="op">(</span><span class="va">final_kings</span>, col.group <span class="op">=</span> <span class="st">"event"</span>, show_labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="images/intro_regex/automatic_rmarkdown/unnamed-chunk-96-1.png" width="672" style="display: block; margin: auto;"></div>
 </div>
-<div id="exercises-2" class="section level2">
+<div id="exercises-2" class="section level2" number="5.10">
 <h2>
 <span class="header-section-number">5.10</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-2"><i class="fas fa-link"></i></a>
 </h2>
