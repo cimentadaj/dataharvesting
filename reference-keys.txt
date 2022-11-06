@@ -12,7 +12,15 @@ tag-attributes
 conclusion
 exercises-1
 what-you-need-to-know-about-regular-expressions
-matching-strings
+basic-matches
+the-.-placeholder
+quantifiers
+escaping-.
+the-or-operator
+anchors
+matching-spaces
+special-classes
+case-study-mapping-the-kings-of-france
 exercises-2
 what-you-need-to-know-about-xpath
 finding-tags-with-xpath

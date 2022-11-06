@@ -85,90 +85,625 @@
 <h1>
 <span class="header-section-number">5</span> What you need to know about regular expressions<a class="anchor" aria-label="anchor" href="#what-you-need-to-know-about-regular-expressions"><i class="fas fa-link"></i></a>
 </h1>
-<p>Before I set out to write this chapter I was hesitant to do it. I don’t consider myself an expert on regular expressions nor do I think I would be able to take you from beginner to expert on such a complicated topic. On top of that, there are dozens of excelent tutorial on regular expressions out there that would do the topic more justice that I would be able to. With that said, you cannot do web scraping without knowing <em>some</em> regular expression techniques. Most of the data you’ll extract from the web will need some type of massaging. Other times you’ll find the data you need as a string, joined with other stuff. You’ll need to know that there are tools to clean this string and extract just what you need.</p>
-<p>For that reason, I decided I wanted to write this chapter but focusing only on what I think are the key things to know in regex with respect to web scraping. This means that I’ll give you a very incomplete picture of what regex can do but enough to get you up and running in a very short of amount of time. If the reader is interested in the topic (as I am), I refer the reader to the chapter on <a href="https://r4ds.had.co.nz/strings.html">strings</a> from the book R For Data Science. That chapter will give you a more thorough introduction into the topic with more general applications. Without further adue, let’s begin.</p>
-<div id="matching-strings" class="section level2">
+<p>Before I set out to write this chapter I was hesitant to do it. I don’t consider myself an expert on regular expressions nor do I think I would be able to take you from beginner to expert on such a complicated topic. On top of that, there are dozens of excellent tutorials on regular expressions out there that would do the topic more justice that I would be able to. With that said, you cannot do web scraping without knowing <em>some</em> regular expression techniques. Most of the data you’ll extract from the web will need some type of massaging. Other times you’ll find the data you need will be a string, combined with other stuff. You’ll need to know that there are tools to clean this string and extract just what you need.</p>
+<p>For that reason, I decided I wanted to write this chapter but focusing only on what I think are the the basics in regexp. Moreover, I wanted the chapter to use webscraping examples as soon as you had the basics in mind. These basics are the bare minimum you’ll need to clean the usual web scraping strings you’ll extract. This means that I’ll give you a very incomplete picture of what regexp can do but enough to get you up and running in a very short of amount of time. If the reader is interested in the topic, I refer them to the chapter on <a href="https://r4ds.had.co.nz/strings.html">strings</a> from the book R For Data Science. That chapter will give you a more thorough introduction into the topic with more general applications. Without further a due, let’s begin.</p>
+<div id="basic-matches" class="section level2">
 <h2>
-<span class="header-section-number">5.1</span> Matching strings<a class="anchor" aria-label="anchor" href="#matching-strings"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1</span> Basic matches<a class="anchor" aria-label="anchor" href="#basic-matches"><i class="fas fa-link"></i></a>
 </h2>
-<p>Throughout this chapter we’ll use exclusively the <code>stringr</code> package. That package will cover all of your string manipulation needs. Let’s load it:</p>
+<p>Let’s load all the packages we’ll use in the chapter. Most of them are related t webscraping or data cleaning. <code>stringr</code> will be the package we’ll use for doing regular expressions. You’ll see that all of the functions of this package begin with <code>str_</code>, denoting that they are related to <code>str</code>ings:</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://stringr.tidyverse.org">stringr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></code></pre></div>
-<p>Regular expressions (regex from now on) are a way for you to find patterns within strings. If you find the pattern, you can extract it or replace it in the original string. Let’s take a famous quote by Jorge Luis Borges and find all the “a” letters in the quote:</p>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/">xml2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://shosaco.github.io/vistime/">vistime</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></code></pre></div>
+<p>Regular expressions (regexp from now on) are a way for you to find patterns within strings. If you find the pattern, you can extract it or replace it in the original string. Let’s take a famous quote by Jorge Luis Borges and find the word “eighteenth” in the quote:</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses, maps, eighteenth century  typography."</span>
+<code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses, maps, eighteenth century typography."</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"eighteenth"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-8bf1761822377594c246" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8bf1761822377594c246">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> century  typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>That’s one of the simplest regex I can think of. That’s a regular expression right there: you’re matching only the word “eighteenth”. <code>stringr</code> has two functions which will be at the backbone of using regex in R: <code>str_replace_all</code> and <code>str_extract_all</code>. The first one will replace a string with another string. For example:</p>
+<div id="htmlwidget-92407e2d2aebd04969d9" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-92407e2d2aebd04969d9">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>That’s one of the simplest regexp I can think of. That’s a regular expression right there: you’re matching only the word “eighteenth”. <code>stringr</code> has two functions which will be at the backbone of using regexp in R: <code>str_replace_all</code> and <code>str_extract_all</code>. The first one will replace a string with another string. For example:</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"eighteenth"</span>, <span class="st">"[DATE]"</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "I like hourglasses, maps, [DATE] century  typography."</code></pre>
-<p>In webscraping you’ll need to replace a lot of thing</p>
+<pre><code>## [1] "I like hourglasses, maps, [DATE] century typography."</code></pre>
+<p>It replaces the word <code>eighteenth</code> with <code>[DATE]</code>.</p>
+<p><code>str_extract_all</code> will extract the portion of the string which had a match</p>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"."</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-69abe94a2f3377d8386a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-69abe94a2f3377d8386a">{"x":{"html":"<ul>\n  <li><span class='match'>I<\/span><span class='match'> <\/span><span class='match'>l<\/span><span class='match'>i<\/span><span class='match'>k<\/span><span class='match'>e<\/span><span class='match'> <\/span><span class='match'>h<\/span><span class='match'>o<\/span><span class='match'>u<\/span><span class='match'>r<\/span><span class='match'>g<\/span><span class='match'>l<\/span><span class='match'>a<\/span><span class='match'>s<\/span><span class='match'>s<\/span><span class='match'>e<\/span><span class='match'>s<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>m<\/span><span class='match'>a<\/span><span class='match'>p<\/span><span class='match'>s<\/span><span class='match'>,<\/span><span class='match'> <\/span><span class='match'>e<\/span><span class='match'>i<\/span><span class='match'>g<\/span><span class='match'>h<\/span><span class='match'>t<\/span><span class='match'>e<\/span><span class='match'>e<\/span><span class='match'>n<\/span><span class='match'>t<\/span><span class='match'>h<\/span><span class='match'> <\/span><span class='match'>c<\/span><span class='match'>e<\/span><span class='match'>n<\/span><span class='match'>t<\/span><span class='match'>u<\/span><span class='match'>r<\/span><span class='match'>y<\/span><span class='match'> <\/span><span class='match'> <\/span><span class='match'>t<\/span><span class='match'>y<\/span><span class='match'>p<\/span><span class='match'>o<\/span><span class='match'>g<\/span><span class='match'>r<\/span><span class='match'>a<\/span><span class='match'>p<\/span><span class='match'>h<\/span><span class='match'>y<\/span><span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"\\."</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-f2dc90d54ef6f3c3f753" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f2dc90d54ef6f3c3f753">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, eighteenth century  typography<span class='match'>.<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"maps, . century"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-c0839e7e205580a6063b" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c0839e7e205580a6063b">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, eighteenth century  typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"maps, .+ century"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-c27bf3bc43725d2d8105" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c27bf3bc43725d2d8105">{"x":{"html":"<ul>\n  <li>I like hourglasses, <span class='match'>maps, eighteenth century<\/span>  typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"maps, .+ century"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-<span class="va">res</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="st">"maps, | century"</span>, <span class="st">""</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "eighteenth"</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"eighteenth"</span><span class="op">)</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] "eighteenth"</code></pre>
+<p>However, that’s not very handy since you know the word you want to match exactly. You’ll see the power of this later on.</p>
+</div>
+<div id="the-.-placeholder" class="section level2">
+<h2>
+<span class="header-section-number">5.2</span> The <code>.</code> placeholder<a class="anchor" aria-label="anchor" href="#the-.-placeholder"><i class="fas fa-link"></i></a>
+</h2>
+<p>If I asked you to match all occurrences of <code>eighteenth</code> or <code>Eighteenth</code> how would you do it? In regexp there’s a placeholder <code>.</code> that matches any letter, number or any type of character. For example:</p>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses, maps, eighteenth Eighteenth century typography."</span>
+<span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">".ighteenth"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-72d10f2190cb09ece58a" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-72d10f2190cb09ece58a">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> <span class='match'>Eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>The regexp I used is <code>.ighteenth</code> meaning that I want to match <em>any character</em> (<code>.</code>) followed directly by <code>ighteenth</code>. It matches both the capital letter word as well the lower case word. However, it would also match <em>any other</em> character, even empty spaces:</p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses, maps, ighteenth century typography."</span>
+<span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">".ighteenth"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-c065e791d8d7d2f9b225" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c065e791d8d7d2f9b225">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps,<span class='match'> ighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="quantifiers" class="section level2">
+<h2>
+<span class="header-section-number">5.3</span> Quantifiers<a class="anchor" aria-label="anchor" href="#quantifiers"><i class="fas fa-link"></i></a>
+</h2>
+<p>The <code>.</code> in regexp is very handy but also can be imprecise. The <code>.</code> is often used with <code>+</code> which means that the character <code>.</code> needs to be repeated one or more times. For example, say you want to extract the century from the phrase <code>maps, [some century] century</code>. In our example it’s easy because you know exactly the century. However, you might want to make it generic to extract any word between <code>maps</code> and <code>century</code>. You could try something like this:</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">borges_two_phrase</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+  <span class="st">"I like hourglasses, maps, eighteenth century typography."</span>,
+  <span class="st">"I like hourglasses, maps, seventeenth century typography."</span>
+<span class="op">)</span>
+
+<span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_two_phrase</span>, <span class="st">"maps, . century"</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-b030f157d29b2b6bc61e" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b030f157d29b2b6bc61e">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, eighteenth century typography.<\/li>\n  <li>I like hourglasses, maps, seventeenth century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Nothing was matched. Why? Because we’re saying we want to match something like this: <code>maps, [a] century.</code>. Replace <code>[a]</code> with whatever character you want and that’s what your matching. Of course, that doesn’t have a match anywhere in the string. What we want instead is this:</p>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_two_phrase</span>, <span class="st">"maps, .+ century"</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-9d6aefd2e958024d92f4" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9d6aefd2e958024d92f4">{"x":{"html":"<ul>\n  <li>I like hourglasses, <span class='match'>maps, eighteenth century<\/span> typography.<\/li>\n  <li>I like hourglasses, <span class='match'>maps, seventeenth century<\/span> typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This is saying: match the part <code>maps,</code> followed by <em>any character</em> (<code>.</code>) repeated one or more times (<code>+</code>) which is followed by <code>century</code>.</p>
+</div>
+<div id="escaping-." class="section level2">
+<h2>
+<span class="header-section-number">5.4</span> Escaping <code>.</code><a class="anchor" aria-label="anchor" href="#escaping-."><i class="fas fa-link"></i></a>
+</h2>
+<p><code>.</code> is useful because it can be used as a general placeholder. However, what if you want to match a literal <code>.</code>? If I asked you to match the first sentence of this phrase without specifying “hourglasses”, what regexp could you use?</p>
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">" "</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-01771b7c6974e73a2f4b" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-01771b7c6974e73a2f4b">{"x":{"html":"<ul>\n  <li>I<span class='match'> <\/span>like<span class='match'> <\/span>hourglasses,<span class='match'> <\/span>maps,<span class='match'> <\/span>eighteenth<span class='match'> <\/span>century<span class='match'> <\/span><span class='match'> <\/span>typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">","</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-0de0867e2223178ee79e" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0de0867e2223178ee79e">{"x":{"html":"<ul>\n  <li>I like hourglasses<span class='match'>,<\/span> maps<span class='match'>,<\/span> eighteenth century  typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"a|e|i"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-ddb57589de8508421b8a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ddb57589de8508421b8a">{"x":{"html":"<ul>\n  <li>I l<span class='match'>i<\/span>k<span class='match'>e<\/span> hourgl<span class='match'>a<\/span>ss<span class='match'>e<\/span>s, m<span class='match'>a<\/span>ps, <span class='match'>e<\/span><span class='match'>i<\/span>ght<span class='match'>e<\/span><span class='match'>e<\/span>nth c<span class='match'>e<\/span>ntury  typogr<span class='match'>a<\/span>phy.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/case.html">str_to_lower</a></span><span class="op">(</span><span class="va">borges</span><span class="op">)</span>, <span class="st">"i"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-158e16dc3fc297833f60" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-158e16dc3fc297833f60">{"x":{"html":"<ul>\n  <li><span class='match'>i<\/span> l<span class='match'>i<\/span>ke hourglasses, maps, e<span class='match'>i<\/span>ghteenth century  typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"I[ ]"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-14150b8b70656e72a051" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-14150b8b70656e72a051">{"x":{"html":"<ul>\n  <li><span class='match'>I <\/span>like hourglasses, maps, eighteenth century  typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">retirement</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/retirement_age_europe_ex.html">retirement_age_europe_ex</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="va">.</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>
-<span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"[:digit:]"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-6f1b6043423bc87b2c3c" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6f1b6043423bc87b2c3c">{"x":{"html":"<ul>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>2<\/span>.<span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>4<\/span> (and <span class='match'>4<\/span> months)<\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>3<\/span> (and <span class='match'>4<\/span> months)<\/li>\n  <li><span class='match'>6<\/span><span class='match'>7<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>3<\/span> (and <span class='match'>9<\/span> months)<\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>2<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span> (and <span class='match'>7<\/span> months)<\/li>\n  <li><span class='match'>6<\/span><span class='match'>7<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>7<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>6<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>7<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>3<\/span> (and <span class='match'>6<\/span> months)<\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>3<\/span> (and <span class='match'>1<\/span><span class='match'>0<\/span> months)<\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>2<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>3<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>6<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>6<\/span> (and <span class='match'>4<\/span> months)<\/li>\n  <li><span class='match'>6<\/span><span class='match'>4<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>7<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>6<\/span> (and <span class='match'>4<\/span> months)<\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>0<\/span> (and <span class='match'>5<\/span> months)<\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>2<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span> (and <span class='match'>3<\/span> months)<\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>5<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>2<\/span><\/li>\n  <li><span class='match'>6<\/span><span class='match'>6<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"\\s$"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-cbeaeeb2f86590892014" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-cbeaeeb2f86590892014">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63 (and 4 months)<\/li>\n  <li>67<\/li>\n  <li>63 (and 9 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65 (and 7 months)<\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>67<\/li>\n  <li>66<\/li>\n  <li>67<\/li>\n  <li>63 (and 6 months)<\/li>\n  <li>65<\/li>\n  <li>63 (and 10 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>64<\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>60 (and 5 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"\\s.+$"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-d1696ee6d51fc98e01e0" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d1696ee6d51fc98e01e0">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64<span class='match'> (and 4 months)<\/span><\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63<span class='match'> (and 4 months)<\/span><\/li>\n  <li>67<\/li>\n  <li>63<span class='match'> (and 9 months)<\/span><\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<span class='match'> (and 7 months)<\/span><\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>67<\/li>\n  <li>66<\/li>\n  <li>67<\/li>\n  <li>63<span class='match'> (and 6 months)<\/span><\/li>\n  <li>65<\/li>\n  <li>63<span class='match'> (and 10 months)<\/span><\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66<span class='match'> (and 4 months)<\/span><\/li>\n  <li>64<\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>66<span class='match'> (and 4 months)<\/span><\/li>\n  <li>65<\/li>\n  <li>60<span class='match'> (and 5 months)<\/span><\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65<span class='match'> (and 3 months)<\/span><\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"\\s.+$"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] 65.0 65.0 62.5 65.0 65.0 64.0 65.0 65.0 63.0 67.0 63.0 65.0 62.0 65.0 67.0
-## [16] 65.0 67.0 66.0 67.0 63.0 65.0 63.0 65.0 62.0 63.0 66.0 66.0 64.0 67.0 65.0
-## [31] 66.0 65.0 60.0 65.0 62.0 65.0 65.0 65.0 65.0 62.0 66.0</code></pre>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Notes</span>, <span class="st">"gradually.+[:digit:]{2,2} years"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-ea03b3c2f3b68ebaf0c4" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ea03b3c2f3b68ebaf0c4">{"x":{"html":"<ul>\n  <li><\/li>\n  <li>In Austria the retirement age for women is to be equalized to the retirement age for men (65) by 2033.[2]<\/li>\n  <li>By 2022, the age will be 63 for men and 58 for women.[4]<\/li>\n  <li>In Belgium the retirement age is to be increased <span class='match'>gradually to 67 years<\/span> by 2030.[2]<\/li>\n  <li><\/li>\n  <li>In Bulgaria the retirement age for women is to be equalized to the retirement age for men (65) by 2037.<\/li>\n  <li>By 2038 there will be an equal age for women and men set at 67. (Women's age will reach 65 in 2030 and 67 in 2038).[2]<\/li>\n  <li><\/li>\n  <li>In the Czech Republic, in the year 2015, men had the retirement age of 62 years and 10 months and women had it between 58 and 62, depending on number of children.[6][7] In Czech Republic, the retirement age is in the process of being increased, and therefore depends on year of birth (for individuals born after 1977 it may exceed even 67. e.g. a person born in year 1995 must be at least 70 years old.[8]) For women the retirement age depends on the number of raised children as well.[9] For people born in 1975, the retirement age will be the same (66y8m) regardless of sex and number of children raised; and this age will reach 67 for people born in 1977.<\/li>\n  <li>In Denmark, the retirement age will be increased <span class='match'>gradually to reach 67 years<\/span> by 2022. From 2030 onwards, it will be increased a maximum of one year every five years depending on increases in average lifespan.[10][11] See also: Pensions in Denmark.<\/li>\n  <li>In Estonia the retirement age is to be increased <span class='match'>gradually to 65 years<\/span> by 2026.[12] After 2026 it will be linked to the average life expectancy.<\/li>\n  <li><\/li>\n  <li><\/li>\n  <li>In Germany the retirement age is to be increased <span class='match'>gradually and reach 67 years<\/span> by 2029. See also: Pensions in Germany.<\/li>\n  <li><\/li>\n  <li>Women with 40 years of insurance can retire at any age.[2]<\/li>\n  <li><\/li>\n  <li>In Ireland the retirement age is to be increased <span class='match'>gradually and reach 68 years<\/span> by 2028.[2]<\/li>\n  <li>Must have paid contributions for at least 20 years.\nThose who have paid contributions for at least 38 years can retire at 62.\nThose who have paid contributions for at least 41 years and 10 months (women) or 42 years and 10 months (men) can retire regardless of age.<\/li>\n  <li>The age will be 65 by 2025.[2]<\/li>\n  <li><\/li>\n  <li>In Lithuania, the retirement age will be 65 for both men and women by 2026.[2]<\/li>\n  <li><\/li>\n  <li>In Malta the retirement age is to be increased <span class='match'>gradually to 65 years<\/span> by 2027.[2]<\/li>\n  <li>Retirement age for women is increasing every 6 months until it reaches 63 years in 2028.<\/li>\n  <li><\/li>\n  <li>In the Netherlands the retirement age is 68 years old. The state pension for all elderly is to be increased <span class='match'>gradually to reach 67 years<\/span> and 9 months by 2022.[15] After 2022 it will be linked to the average life expectancy.<\/li>\n  <li><\/li>\n  <li>See also: Pensions in Norway\nThe general retirement age is currently set to age 67, however, given sufficient pension contributions it is possible to retire as early as at age 62. The longer an individual postpones withdrawing a pension, the greater the government pension provision becomes.<\/li>\n  <li><\/li>\n  <li><\/li>\n  <li>The age for women is being increased gradually. It will reach 63 by 2030.[18]<\/li>\n  <li>The age is to be increased <span class='match'>gradually to 65 years for men and 60 years<\/span> for women by 2028<\/li>\n  <li>By the year of 2032 retirement age for women will equalize with men and reach 65.\nAlso it is possible to gain pension after 45 years of labor of that happen prior to 65th year of life for men or 61st and 6 months for women. It would be at least at age of 60 for both men and women, considering the fact that person is legally labor eligible from the age of 15 in Serbia.[22]<\/li>\n  <li><\/li>\n  <li><\/li>\n  <li>The age will be 67 by 2027.[2] See also: Pensions in Spain.<\/li>\n  <li>By 2023 the retirement age will be 66 and by 2026 it will be 67, with options age 64-69.<\/li>\n  <li><\/li>\n  <li><\/li>\n  <li>The retirement age is due to be increased to 67 by 2028 and 68 by 2046. See also: Pensions in the United Kingdom.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">regex</span> <span class="op">&lt;-</span> <span class="va">gradually</span> <span class="op">&lt;-</span> <span class="st">"(gradually|reach).+[:digit:]{2,2} years"</span>
-<span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Notes</span>, <span class="va">regex</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-bf779a0d489164ddc7e3" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-bf779a0d489164ddc7e3">{"x":{"html":"<ul>\n  <li><\/li>\n  <li>In Austria the retirement age for women is to be equalized to the retirement age for men (65) by 2033.[2]<\/li>\n  <li>By 2022, the age will be 63 for men and 58 for women.[4]<\/li>\n  <li>In Belgium the retirement age is to be increased <span class='match'>gradually to 67 years<\/span> by 2030.[2]<\/li>\n  <li><\/li>\n  <li>In Bulgaria the retirement age for women is to be equalized to the retirement age for men (65) by 2037.<\/li>\n  <li>By 2038 there will be an equal age for women and men set at 67. (Women's age will reach 65 in 2030 and 67 in 2038).[2]<\/li>\n  <li><\/li>\n  <li>In the Czech Republic, in the year 2015, men had the retirement age of 62 years and 10 months and women had it between 58 and 62, depending on number of children.[6][7] In Czech Republic, the retirement age is in the process of being increased, and therefore depends on year of birth (for individuals born after 1977 it may exceed even 67. e.g. a person born in year 1995 must be at least 70 years old.[8]) For women the retirement age depends on the number of raised children as well.[9] For people born in 1975, the retirement age will be the same (66y8m) regardless of sex and number of children raised; and this age will reach 67 for people born in 1977.<\/li>\n  <li>In Denmark, the retirement age will be increased <span class='match'>gradually to reach 67 years<\/span> by 2022. From 2030 onwards, it will be increased a maximum of one year every five years depending on increases in average lifespan.[10][11] See also: Pensions in Denmark.<\/li>\n  <li>In Estonia the retirement age is to be increased <span class='match'>gradually to 65 years<\/span> by 2026.[12] After 2026 it will be linked to the average life expectancy.<\/li>\n  <li><\/li>\n  <li><\/li>\n  <li>In Germany the retirement age is to be increased <span class='match'>gradually and reach 67 years<\/span> by 2029. See also: Pensions in Germany.<\/li>\n  <li><\/li>\n  <li>Women with 40 years of insurance can retire at any age.[2]<\/li>\n  <li><\/li>\n  <li>In Ireland the retirement age is to be increased <span class='match'>gradually and reach 68 years<\/span> by 2028.[2]<\/li>\n  <li>Must have paid contributions for at least 20 years.\nThose who have paid contributions for at least 38 years can retire at 62.\nThose who have paid contributions for at least 41 years and 10 months (women) or 42 years and 10 months (men) can retire regardless of age.<\/li>\n  <li>The age will be 65 by 2025.[2]<\/li>\n  <li><\/li>\n  <li>In Lithuania, the retirement age will be 65 for both men and women by 2026.[2]<\/li>\n  <li><\/li>\n  <li>In Malta the retirement age is to be increased <span class='match'>gradually to 65 years<\/span> by 2027.[2]<\/li>\n  <li>Retirement age for women is increasing every 6 months until it <span class='match'>reaches 63 years<\/span> in 2028.<\/li>\n  <li><\/li>\n  <li>In the Netherlands the retirement age is 68 years old. The state pension for all elderly is to be increased <span class='match'>gradually to reach 67 years<\/span> and 9 months by 2022.[15] After 2022 it will be linked to the average life expectancy.<\/li>\n  <li><\/li>\n  <li>See also: Pensions in Norway\nThe general retirement age is currently set to age 67, however, given sufficient pension contributions it is possible to retire as early as at age 62. The longer an individual postpones withdrawing a pension, the greater the government pension provision becomes.<\/li>\n  <li><\/li>\n  <li><\/li>\n  <li>The age for women is being increased gradually. It will reach 63 by 2030.[18]<\/li>\n  <li>The age is to be increased <span class='match'>gradually to 65 years for men and 60 years<\/span> for women by 2028<\/li>\n  <li>By the year of 2032 retirement age for women will equalize with men and reach 65.\nAlso it is possible to gain pension after 45 years of labor of that happen prior to 65th year of life for men or 61st and 6 months for women. It would be at least at age of 60 for both men and women, considering the fact that person is legally labor eligible from the age of 15 in Serbia.[22]<\/li>\n  <li><\/li>\n  <li><\/li>\n  <li>The age will be 67 by 2027.[2] See also: Pensions in Spain.<\/li>\n  <li>By 2023 the retirement age will be 66 and by 2026 it will be 67, with options age 64-69.<\/li>\n  <li><\/li>\n  <li><\/li>\n  <li>The retirement age is due to be increased to 67 by 2028 and 68 by 2046. See also: Pensions in the United Kingdom.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><ul>
-<li>The <code>.</code>, the <code>+</code>, the <code>^</code> and <code>$</code>
+<code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses. I also like maps, eighteenth century typography"</span>
+<span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"I like .+"</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-16d7ae699a0f4caf9559" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-16d7ae699a0f4caf9559">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses. I also like maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p><code>I like .+</code> is almost there. It says: match the phrase <code>I like</code> followed by any character repeated one or more times. However, that matches the entire phrase because it doesn’t know we want it stop at the first <code>.</code>, right after hourglasses. To match a literal <code>.</code> you need to append it with two <code>\\</code>. It would look like this: <code>I like .+\\.</code>. This reads like this:</p>
+<ul>
+<li>Match the phrase <code>I like</code>
 </li>
-<li>The <code>\\.</code> and other characters such as <code>[</code>.</li>
+<li>Followed be any character that is repeated one or more times (<code>.+</code>)</li>
+<li>Until there is a literal dot (<code>\\.</code>)</li>
 </ul>
+<p>Let’s apply it:</p>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"I like .+\\."</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-6a0bfba0ea12b380307d" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6a0bfba0ea12b380307d">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses.<\/span> I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Be aware that you need to append <code>\\</code> in front of <strong>any</strong> special character in regexp. For example, if you wanted to match the quantifier <code>+</code> literally, you’ll need to do it like this: <code>\\+</code>. There’s a bunch of special character in regexp but you’ll just need to know a few like <code>(</code>, <code>)</code>, <code>+</code>, <code>.</code>, <code>$</code>, <code>^</code> or <code>|</code>.</p>
+</div>
+<div id="the-or-operator" class="section level2">
+<h2>
+<span class="header-section-number">5.5</span> The OR (<code>|</code>) operator<a class="anchor" aria-label="anchor" href="#the-or-operator"><i class="fas fa-link"></i></a>
+</h2>
+<p>To make your regexp generic, you’ll often want to match either one regexp or another. The <code>|</code> allows you to do it very succintly. Suppose we want to extract the century from the vector below. We can do it like this:</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">borges_two_phrase</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+  <span class="st">"I like hourglasses, maps, eighteenth century typography."</span>,
+  <span class="st">"I like hourglasses, maps, seventeenth century typography."</span>
+<span class="op">)</span>
+
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="va">borges_two_phrase</span>, <span class="st">"maps, .+ century"</span><span class="op">)</span>
+<span class="va">res</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] "maps, eighteenth century"
+## 
+## [[2]]
+## [1] "maps, seventeenth century"</code></pre>
+<p>However, we want to extract only the actual century and replace <code>maps,</code> and <code>century</code>. We can use a regexp to say: replace either <code>maps,</code> or <code>century</code> with an empty space, which will give you only the actual century. In our case the regexp would be like this: <code>maps, | century</code>. Using <code>str_replace_all</code> we can match that expression and replace it with empty space:</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="st">"maps, | century"</span>, <span class="st">""</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "eighteenth"  "seventeenth"</code></pre>
+</div>
+<div id="anchors" class="section level2">
+<h2>
+<span class="header-section-number">5.6</span> Anchors<a class="anchor" aria-label="anchor" href="#anchors"><i class="fas fa-link"></i></a>
+</h2>
+<p>Anchors are also another feature of regexp. <code>^</code> is used to match the start of the string and <code>$</code> to match the end of the string. For example, to match the first letter of the entire text you could use:</p>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses. I also like maps, eighteenth century typography"</span>
+<span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"^."</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-ad172363ca91df8091b0" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ad172363ca91df8091b0">{"x":{"html":"<ul>\n  <li><span class='match'>I<\/span> like hourglasses. I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Conversely, to match the last letter of a string:</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">".$"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-9bcf9ec1899c8c49d769" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9bcf9ec1899c8c49d769">{"x":{"html":"<ul>\n  <li>I like hourglasses. I also like maps, eighteenth century typograph<span class='match'>y<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This might seem like something which doesn’t have much use but it’s actually very handy. Take this text as an example:</p>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">borges_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+  <span class="st">"I like cars. I like hourglasses, maps, eighteenth century typography"</span>,
+  <span class="st">"I like computers. I like hourglasses, maps, eighteenth century typography"</span>
+<span class="op">)</span></code></pre></div>
+<p>Both phrases have “I like” at the beginning but also have “I like” after the end of the first sentence. Using what we know until now won’t be enough:</p>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_long</span>, <span class="st">"^I like .+"</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-40e44a89bfc53d035dde" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-40e44a89bfc53d035dde">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n  <li><span class='match'>I like computers. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>To achieve what we want we could use the trick to match literal dot and add the anchor of the beginning:</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_long</span>, <span class="st">"^I like .+\\."</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-09b1e38d60b814d736ad" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-09b1e38d60b814d736ad">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n  <li><span class='match'>I like computers.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="matching-spaces" class="section level2">
+<h2>
+<span class="header-section-number">5.7</span> Matching spaces<a class="anchor" aria-label="anchor" href="#matching-spaces"><i class="fas fa-link"></i></a>
+</h2>
+<p>You can also match spaces in regexp and replace them:</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">" "</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-401bb5737f62690f31a6" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-401bb5737f62690f31a6">{"x":{"html":"<ul>\n  <li>I<span class='match'> <\/span>like<span class='match'> <\/span>hourglasses.<span class='match'> <\/span>I<span class='match'> <\/span>also<span class='match'> <\/span>like<span class='match'> <\/span>maps,<span class='match'> <\/span>eighteenth<span class='match'> <\/span>century<span class='match'> <\/span>typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Since spaces come in different ways (new lines or a tabs), you can also use the special character <code>\\s</code>:</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"\\s"</span>, <span class="st">""</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "Ilikehourglasses.Ialsolikemaps,eighteenthcenturytypography"</code></pre>
+</div>
+<div id="special-classes" class="section level2">
+<h2>
+<span class="header-section-number">5.8</span> Special classes<a class="anchor" aria-label="anchor" href="#special-classes"><i class="fas fa-link"></i></a>
+</h2>
+<p>Aside from the magic of <code>.</code>, regexp has a set of special tools for matching general patterns. Let’s touch upon three of these.</p>
+<ul>
+<li>
+<code>\\d</code>: matches digits</li>
+</ul>
+<p>Suppose you’re scraping a list of countries and their GDP. After scraping that data you end up with this:</p>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gdp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+  <span class="st">"Afghanistan 516 US dollars"</span>,
+  <span class="st">"Albania 6494 US dollars"</span>,
+  <span class="st">"Algeria 3765 US dollars"</span>,
+  <span class="st">"American Samoa 12844 US dollars"</span>,
+  <span class="st">"Andorra 43047 US dollars"</span>
+<span class="op">)</span></code></pre></div>
+<p>The keyword <code>\\d</code> will match a single digit. So for example, if we wanted to match the age of a child in a string (<code>Angel is 8 years old)</code>, writing a regexp like <code>\\d</code> will match that <code>8</code>. For example:</p>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="st">"Angel is 8 years old"</span>, <span class="st">"\\d"</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-9d3bef413ec767b528d3" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9d3bef413ec767b528d3">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>If we matched instead someone older, <code>\\d</code> will match each digit <em>separately</em>:</p>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Angel is 8 years old"</span>, <span class="st">"Martha is 56 years old"</span><span class="op">)</span>,
+  <span class="st">"\\d"</span>
+<span class="op">)</span></code></pre></div>
+<div id="htmlwidget-d16a3a560c11810c4db4" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d16a3a560c11810c4db4">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>5<\/span><span class='match'>6<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>If you pay close attention, the regexp matched <code>56</code> but each digit separately. However, we could combine this with the quantifier <code>+</code> to match <em>one or more</em> digits. For example:</p>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Angel is 8 years old"</span>, <span class="st">"Martha is 56 years old"</span><span class="op">)</span>,
+  <span class="st">"\\d+"</span>
+<span class="op">)</span></code></pre></div>
+<div id="htmlwidget-3ec8ce1b1e8e40782708" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3ec8ce1b1e8e40782708">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>56<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Going back to our <code>gdp</code> example, we can extract the GDP of every country with the regexp <code>\\d+</code>, meaning “extract any number that is repeated one or more times”:</p>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gdp_chr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="va">gdp</span>, <span class="st">"\\d+"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">gdp_chr</span>, <span class="va">as.numeric</span><span class="op">)</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] 516
+## 
+## [[2]]
+## [1] 6494
+## 
+## [[3]]
+## [1] 3765
+## 
+## [[4]]
+## [1] 12844
+## 
+## [[5]]
+## [1] 43047</code></pre>
+<ul>
+<li>
+<code>[abc]</code>: matches a, b, or c.</li>
+</ul>
+<p>Regexps also has a cool shortcut to extend the regexp <code>|</code> (or) and make it more flexible. For example, say we wanted to match all retirement ages of men in Europe that are between 67 and 69:</p>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">retirement</span> <span class="op">&lt;-</span>
+  <span class="co"># Read in our scrapex example with retirement ages</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/retirement_age_europe_ex.html">retirement_age_europe_ex</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="va">.</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>
+
+<span class="va">retirement</span></code></pre></div>
+<pre><code>## # A tibble: 41 × 6
+##    Country                Men               Women         Year  Notes References
+##    &lt;chr&gt;                  &lt;chr&gt;             &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     
+##  1 Albania                65                61            2020  ""    [1]       
+##  2 Austria                65                60            2018  "In … [1][3]    
+##  3 Belarus                62.5              57.5          2021  "By … [5]       
+##  4 Belgium                65                65            2018  "In … [5]       
+##  5 Bosnia and Herzegovina 65                65            2011  ""    [1]       
+##  6 Bulgaria               64 (and 4 months) 61 (and 8 mo… 2021  "In … [2]       
+##  7 Croatia                65                62            2018  "By … [2]       
+##  8 Cyprus                 65                65            2018  ""    [1][3]    
+##  9 Czech Republic         63 (and 4 months) 58 (and 8 mo… 2018  "In … [7]       
+## 10 Denmark                67                67            2022  "In … [3][5]    
+## # … with 31 more rows</code></pre>
+<p>One way is to explicitly use <code>|</code> to match all ages like this: <code>(67|68|69)</code>. Instead, using brackets (<code>[]</code>), regexp will match everything inside as if it were <code>|</code>. So for example:</p>
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"6[789]"</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-d0daaf2e9267064973eb" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d0daaf2e9267064973eb">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63 (and 4 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 9 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65 (and 7 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>66<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 6 months)<\/li>\n  <li>65<\/li>\n  <li>63 (and 10 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>64<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>60 (and 5 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This regexp will match the number <code>6</code> followed either by <code>7</code>, <code>8</code>, or <code>9</code>. If these numbers are sequential (as it is now) it has additional shortcuts to make it simpler:</p>
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"6[7-9]"</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-6e419e1a895fd2f247b2" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6e419e1a895fd2f247b2">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63 (and 4 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 9 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65 (and 7 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>66<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 6 months)<\/li>\n  <li>65<\/li>\n  <li>63 (and 10 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>64<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>60 (and 5 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Note that <code>[]</code> works the same way for anything: numbers, letters, punctuation, spaces, etc..</p>
+<ul>
+<li>
+<code>[^abc]</code>: matches anything except a, b, or c.</li>
+</ul>
+<p>Similarly to the previous example <code>[abc]</code>, <code>[^abc]</code> will match anything except these letters. So recycling our previous retirement example, if we wanted to match all ages except those after 65, the regexp would be like this:</p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"6[^5-9]"</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-b627f8515fa5376a72d4" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b627f8515fa5376a72d4">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span>.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>64<\/span> (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>63<\/span> (and 4 months)<\/li>\n  <li>67<\/li>\n  <li><span class='match'>63<\/span> (and 9 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>65 (and 7 months)<\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>67<\/li>\n  <li>66<\/li>\n  <li>67<\/li>\n  <li><span class='match'>63<\/span> (and <span class='match'>6 <\/span>months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>63<\/span> (and 10 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li><span class='match'>63<\/span><\/li>\n  <li>66<\/li>\n  <li>6<span class='match'>6 <\/span>(and 4 months)<\/li>\n  <li><span class='match'>64<\/span><\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>6<span class='match'>6 <\/span>(and 4 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>60<\/span> (and 5 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>All ages which are below 65 will be matched.</p>
+</div>
+<div id="case-study-mapping-the-kings-of-france" class="section level2">
+<h2>
+<span class="header-section-number">5.9</span> Case study: mapping the kings of France<a class="anchor" aria-label="anchor" href="#case-study-mapping-the-kings-of-france"><i class="fas fa-link"></i></a>
+</h2>
+<p><code>scrapex</code> contains a copy of the Wikipedia page “History of France”. Throughout all of the historical details, this website has several sections where it outlines all kings/queens of France and the years they were in power. In this case study we’ll plot a timeline plot, where we’ll be able to visualize the length of the kingdom of each king.</p>
+<p>Let’s load and read the website:</p>
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">history_france_html</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/history_france_ex.html">history_france_ex</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">history_france</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">history_france_html</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/browseURL.html">browseURL</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/prep_browser.html">prep_browser</a></span><span class="op">(</span><span class="va">history_france_html</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>This website is your standard Wikipedia webpage: it has dozens of sections and a lengthy description of historical facts of France.</p>
+<div class="inline-figure">
+<img src="images/intro_regex/history_fr_main.png" width="100%" style="display: block; margin: auto;">
+If you scroll down to the section “Early Modern France (1453 - 1789)” you’ll find that there’s the history of all kings/queens during that period:</div>
+<div class="inline-figure"><img src="images/intro_regex/kings_timeline_wk.png" width="100%" style="display: block; margin: auto;"></div>
+<p>We want to extract the names of each one and their corresponding years of kingdomship. Let’s open up the developer tools in that specific chunk of the website:</p>
+<div class="inline-figure"><img src="images/intro_regex/kings_timeline_wk_developertools.png" width="100%" style="display: block; margin: auto;"></div>
+<p>More specifically, all the text we’re interested in is inside this <code>ul</code> tag:</p>
+<div class="inline-figure"><img src="images/intro_regex/kings_timeline_wk_dev.png" width="100%" style="display: block; margin: auto;"></div>
+<p>However, <code>ul</code> tags are very common and subsetting only for <code>ul</code> tags will bring many matches. Instead what we want is something like: bring me all the <code>ul</code> tags that have an <code>a</code> tag that has a title that contains the phrase “House of Valois”. Let’s break it down and write it:</p>
+<ul>
+<li>
+<code>//ul</code>: bring all <code>ul</code> tags from the document</li>
+<li>
+<code>[.//a]</code>: subset all <code>a</code> tags that are <em>below</em> all <code>ul</code> tags (notice the <code>.</code>)</li>
+<li>
+<code>[contains(@title, "House of Valois")]</code>: where this <code>a</code> tag needs to have a <code>title</code> attribute that contains “House of Valois”.</li>
+</ul>
+<p>Let’s put it all together and see if it worked:</p>
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">history_france</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//ul[.//a[contains(@title, 'House of Valois')]]"</span><span class="op">)</span></code></pre></div>
+<pre><code>## {xml_nodeset (2)}
+## [1] &lt;ul&gt;\n&lt;li&gt;\n&lt;a href="https://en.wikipedia.org/wiki/Capetian_Dynasty" clas ...
+## [2] &lt;ul&gt;\n&lt;li&gt;\n&lt;a href="https://en.wikipedia.org/wiki/House_of_Valois" title ...</code></pre>
+<p>There we are! The second slot contains the <code>ul</code> tag we want (because we can see the Valois right in the <code>href</code>). We can redo the previous XPath to pick only the second node and we should be done:</p>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_txt</span> <span class="op">&lt;-</span>
+  <span class="va">history_france</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//ul[.//a[contains(@title, 'House of Valois')]][2]"</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">all_txt</span></code></pre></div>
+<pre><code>## [1] "House of Valois\nLouis XI the Prudent, 1461–83\nCharles VIII the Affable, 1483–98\nLouis XII, 1498–1515\nFrancis I, 1515–47\nHenry II, 1547–59\nFrancis II, 1559–60\nCharles IX, 1560–74 (1560–63 under regency of Catherine de' Medici)\nHenry III, 1574–89\nHouse of Bourbon\nHenry IV the Great, 1589–1610\nthe Regency of Marie de Medici, 1610–17\nLouis XIII the Just and his minister Cardinal Richelieu, 1610–43\nthe Regency of Anne of Austria and her minister Cardinal Mazarin, 1643–51\nLouis XIV the Sun King and his minister Jean-Baptiste Colbert, 1643–1715\nthe Régence, a period of regency under Philip II of Orléans, 1715–23\nLouis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74\nLouis XVI, 1774–92"</code></pre>
+<p>The text is pretty dirty as all the text is concatenated into one single string but it contains all the kings/queens and their period of kingdomship. Let’s clean it up. First thing we want to do is split the string based on the character <code>\n</code>. If you take a close look at the string all the names of each person are separated by <code>\n</code>. Let’s apply it as see how it looks:</p>
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_txt</span> <span class="op">&lt;-</span>
+  <span class="va">all_txt</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split</a></span><span class="op">(</span><span class="st">"\n"</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+
+<span class="va">all_txt</span></code></pre></div>
+<pre><code>##  [1] "House of Valois"                                                                
+##  [2] "Louis XI the Prudent, 1461–83"                                                  
+##  [3] "Charles VIII the Affable, 1483–98"                                              
+##  [4] "Louis XII, 1498–1515"                                                           
+##  [5] "Francis I, 1515–47"                                                             
+##  [6] "Henry II, 1547–59"                                                              
+##  [7] "Francis II, 1559–60"                                                            
+##  [8] "Charles IX, 1560–74 (1560–63 under regency of Catherine de' Medici)"            
+##  [9] "Henry III, 1574–89"                                                             
+## [10] "House of Bourbon"                                                               
+## [11] "Henry IV the Great, 1589–1610"                                                  
+## [12] "the Regency of Marie de Medici, 1610–17"                                        
+## [13] "Louis XIII the Just and his minister Cardinal Richelieu, 1610–43"               
+## [14] "the Regency of Anne of Austria and her minister Cardinal Mazarin, 1643–51"      
+## [15] "Louis XIV the Sun King and his minister Jean-Baptiste Colbert, 1643–1715"       
+## [16] "the Régence, a period of regency under Philip II of Orléans, 1715–23"           
+## [17] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74"
+## [18] "Louis XVI, 1774–92"</code></pre>
+<p>Better. We have 16 kings/queens but there are two slots that separated them by houses. House of Valois and House of Bourbon. We probably want to remove these two strings from the vector because we’re not interested in distinguishing them for now. For that we’ll use the regexp <code>^House</code> which matches any string that begins with <code>House</code>. We’ll combine it with <code>str_detect</code> which returns <code>TRUE</code> or <code>FALSE</code> if there’s a match. We’ll use that to exclude these two strings from the vector:</p>
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_txt</span> <span class="op">&lt;-</span> <span class="va">all_txt</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">all_txt</span>, <span class="st">"^House"</span><span class="op">)</span><span class="op">]</span>
+<span class="va">all_txt</span></code></pre></div>
+<pre><code>##  [1] "Louis XI the Prudent, 1461–83"                                                  
+##  [2] "Charles VIII the Affable, 1483–98"                                              
+##  [3] "Louis XII, 1498–1515"                                                           
+##  [4] "Francis I, 1515–47"                                                             
+##  [5] "Henry II, 1547–59"                                                              
+##  [6] "Francis II, 1559–60"                                                            
+##  [7] "Charles IX, 1560–74 (1560–63 under regency of Catherine de' Medici)"            
+##  [8] "Henry III, 1574–89"                                                             
+##  [9] "Henry IV the Great, 1589–1610"                                                  
+## [10] "the Regency of Marie de Medici, 1610–17"                                        
+## [11] "Louis XIII the Just and his minister Cardinal Richelieu, 1610–43"               
+## [12] "the Regency of Anne of Austria and her minister Cardinal Mazarin, 1643–51"      
+## [13] "Louis XIV the Sun King and his minister Jean-Baptiste Colbert, 1643–1715"       
+## [14] "the Régence, a period of regency under Philip II of Orléans, 1715–23"           
+## [15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74"
+## [16] "Louis XVI, 1774–92"</code></pre>
+<p>There we go, 16 names and their corresponding period. The task we’re after is to extract two things from this vector. The years they were in power and their names. Let’s first extract the years. We could do that with the regexp <code>\\d+</code> that will extract all digits from each of the strings. However, this will also extract the extra years for Charles IX inside the parenthesis:</p>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_txt</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span></code></pre></div>
+<pre><code>## [1] "Charles IX, 1560–74 (1560–63 under regency of Catherine de' Medici)"</code></pre>
+<p>Since these years are just a clarification, we can remove the parenthesis and everything inside it to just keep the first period next to his name. Let’s think of how a regexp like this can be:</p>
+<ul>
+<li>Parenthesis are special characters in regexp so to match them we have to escape them like this: <code>\\(</code> or <code>\\)</code>
+</li>
+<li>We don’t care what text is inside the parenthesis so we can just use the <code>.</code> placeholder with <code>+</code> to match as many character are needed</li>
+</ul>
+<p>The final regexp can be something like this: <code>\\(.+\\)</code>. Match any parenthesis (literal) that have any text inside. Let’s replace it with an empty character</p>
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_txt</span> <span class="op">&lt;-</span>
+  <span class="va">all_txt</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"\\(.+\\)"</span>, replacement <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
+
+<span class="va">all_txt</span></code></pre></div>
+<pre><code>##  [1] "Louis XI the Prudent, 1461–83"                                                  
+##  [2] "Charles VIII the Affable, 1483–98"                                              
+##  [3] "Louis XII, 1498–1515"                                                           
+##  [4] "Francis I, 1515–47"                                                             
+##  [5] "Henry II, 1547–59"                                                              
+##  [6] "Francis II, 1559–60"                                                            
+##  [7] "Charles IX, 1560–74 "                                                           
+##  [8] "Henry III, 1574–89"                                                             
+##  [9] "Henry IV the Great, 1589–1610"                                                  
+## [10] "the Regency of Marie de Medici, 1610–17"                                        
+## [11] "Louis XIII the Just and his minister Cardinal Richelieu, 1610–43"               
+## [12] "the Regency of Anne of Austria and her minister Cardinal Mazarin, 1643–51"      
+## [13] "Louis XIV the Sun King and his minister Jean-Baptiste Colbert, 1643–1715"       
+## [14] "the Régence, a period of regency under Philip II of Orléans, 1715–23"           
+## [15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74"
+## [16] "Louis XVI, 1774–92"</code></pre>
+<p>Perfect, we removed the extra parenthesis so we can now extract all years:</p>
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span>
+  <span class="va">all_txt</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="st">"\\d+"</span><span class="op">)</span>
+
+<span class="va">res</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] "1461" "83"  
+## 
+## [[2]]
+## [1] "1483" "98"  
+## 
+## [[3]]
+## [1] "1498" "1515"
+## 
+## [[4]]
+## [1] "1515" "47"  
+## 
+## [[5]]
+## [1] "1547" "59"  
+## 
+## [[6]]
+## [1] "1559" "60"  
+## 
+## [[7]]
+## [1] "1560" "74"  
+## 
+## [[8]]
+## [1] "1574" "89"  
+## 
+## [[9]]
+## [1] "1589" "1610"
+## 
+## [[10]]
+## [1] "1610" "17"  
+## 
+## [[11]]
+## [1] "1610" "43"  
+## 
+## [[12]]
+## [1] "1643" "51"  
+## 
+## [[13]]
+## [1] "1643" "1715"
+## 
+## [[14]]
+## [1] "1715" "23"  
+## 
+## [[15]]
+## [1] "1715" "74"  
+## 
+## [[16]]
+## [1] "1774" "92"</code></pre>
+<p>Great, the regexp worked but there are additional problems. For kings/queens which reigned in a single century, the end period only has the last two years. For those whose kingship lasted between two centuries, the two years are written explicitly in format YYYY. We have to correct this manually. One way to do it would be like this:</p>
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">convert_time_period</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">start_year</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+  <span class="va">end_year</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
+  <span class="co"># If end year has only 2 digits</span>
+  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span><span class="op">(</span><span class="va">end_year</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">{</span>
+    <span class="co"># Extract the first two years from the start year</span>
+    <span class="va">end_year_prefix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span><span class="op">(</span><span class="va">start_year</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>
+    <span class="co"># Paste together the correct year for the end year</span>
+    <span class="va">end_year</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">end_year_prefix</span>, <span class="va">end_year</span><span class="op">)</span>
+  <span class="op">}</span>
+  <span class="co"># Replace correct end year</span>
+  <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">end_year</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<p>This function accepts the character vector of length two containing both the start and end year of period where they reigned. The function checks if the number of character of the <em>end</em> year has only two years, and if it does, it subsets the first two years from the <em>start</em> year and pastes them together. Let’s apply the function in a loop for each of the years:</p>
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sequence_kings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">res</span>, <span class="va">convert_time_period</span><span class="op">)</span>
+<span class="va">sequence_kings</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] 1461 1483
+## 
+## [[2]]
+## [1] 1483 1498
+## 
+## [[3]]
+## [1] 1498 1515
+## 
+## [[4]]
+## [1] 1515 1547
+## 
+## [[5]]
+## [1] 1547 1559
+## 
+## [[6]]
+## [1] 1559 1560
+## 
+## [[7]]
+## [1] 1560 1574
+## 
+## [[8]]
+## [1] 1574 1589
+## 
+## [[9]]
+## [1] 1589 1610
+## 
+## [[10]]
+## [1] 1610 1617
+## 
+## [[11]]
+## [1] 1610 1643
+## 
+## [[12]]
+## [1] 1643 1651
+## 
+## [[13]]
+## [1] 1643 1715
+## 
+## [[14]]
+## [1] 1715 1723
+## 
+## [[15]]
+## [1] 1715 1774
+## 
+## [[16]]
+## [1] 1774 1792</code></pre>
+<p>Perfect, it worked. All the kings/queens have their corresponding start/end years in the correct format. Next thing we need is to extract all the names. Since all names follow the same pattern where the name of the king/queen is first, then a comma and then the year, we can come up with a regexp to extract it. Here’s one approach:</p>
+<ul>
+<li>
+<code>^</code>: from the beginning of the string</li>
+<li>
+<code>.+</code>: match all characters repeated one or more times</li>
+<li>
+<code>,</code>: until the first comma</li>
+</ul>
+<p>Let’s try it out:</p>
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_txt</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="st">"^.+,"</span><span class="op">)</span></code></pre></div>
+<pre><code>##  [1] "Louis XI the Prudent,"                                                  
+##  [2] "Charles VIII the Affable,"                                              
+##  [3] "Louis XII,"                                                             
+##  [4] "Francis I,"                                                             
+##  [5] "Henry II,"                                                              
+##  [6] "Francis II,"                                                            
+##  [7] "Charles IX,"                                                            
+##  [8] "Henry III,"                                                             
+##  [9] "Henry IV the Great,"                                                    
+## [10] "the Regency of Marie de Medici,"                                        
+## [11] "Louis XIII the Just and his minister Cardinal Richelieu,"               
+## [12] "the Regency of Anne of Austria and her minister Cardinal Mazarin,"      
+## [13] "Louis XIV the Sun King and his minister Jean-Baptiste Colbert,"         
+## [14] "the Régence, a period of regency under Philip II of Orléans,"           
+## [15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury,"
+## [16] "Louis XVI,"</code></pre>
+<p>Great, all names we matched correctly. We just have to replace the comma with an empty space to make it cleaner:</p>
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">names_kings</span> <span class="op">&lt;-</span>
+  <span class="va">all_txt</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="st">"^.+,"</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="st">","</span>, <span class="st">""</span><span class="op">)</span>
+
+<span class="va">names_kings</span></code></pre></div>
+<pre><code>##  [1] "Louis XI the Prudent"                                                  
+##  [2] "Charles VIII the Affable"                                              
+##  [3] "Louis XII"                                                             
+##  [4] "Francis I"                                                             
+##  [5] "Henry II"                                                              
+##  [6] "Francis II"                                                            
+##  [7] "Charles IX"                                                            
+##  [8] "Henry III"                                                             
+##  [9] "Henry IV the Great"                                                    
+## [10] "the Regency of Marie de Medici"                                        
+## [11] "Louis XIII the Just and his minister Cardinal Richelieu"               
+## [12] "the Regency of Anne of Austria and her minister Cardinal Mazarin"      
+## [13] "Louis XIV the Sun King and his minister Jean-Baptiste Colbert"         
+## [14] "the Régence a period of regency under Philip II of Orléans"            
+## [15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury"
+## [16] "Louis XVI"</code></pre>
+<p>Alright, with that out of the way, the rest is combining the years and names together into a data frame. Let’s look over <code>sequence_kings</code> and convert them into data frames. Combine all of them with the king names and convert all dates into <code>date</code> objects in R:</p>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Combine into data frames</span>
+<span class="va">sequence_kings_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">sequence_kings</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>start <span class="op">=</span> <span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, end <span class="op">=</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
+<span class="va">final_kings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">sequence_kings_df</span><span class="op">)</span>
+
+<span class="co"># Add king names</span>
+<span class="va">final_kings</span><span class="op">$</span><span class="va">event</span> <span class="op">&lt;-</span> <span class="va">names_kings</span>
+<span class="va">final_kings</span><span class="op">$</span><span class="va">start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/make_datetime.html">make_date</a></span><span class="op">(</span><span class="va">final_kings</span><span class="op">$</span><span class="va">start</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>
+<span class="va">final_kings</span><span class="op">$</span><span class="va">end</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/make_datetime.html">make_date</a></span><span class="op">(</span><span class="va">final_kings</span><span class="op">$</span><span class="va">end</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>
+
+<span class="co"># Final data frame</span>
+<span class="va">final_kings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">final_kings</span><span class="op">)</span>
+<span class="va">final_kings</span></code></pre></div>
+<pre><code>## # A tibble: 16 × 3
+##    start      end        event                                                  
+##    &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;                                                  
+##  1 1461-01-01 1483-01-01 Louis XI the Prudent                                   
+##  2 1483-01-01 1498-01-01 Charles VIII the Affable                               
+##  3 1498-01-01 1515-01-01 Louis XII                                              
+##  4 1515-01-01 1547-01-01 Francis I                                              
+##  5 1547-01-01 1559-01-01 Henry II                                               
+##  6 1559-01-01 1560-01-01 Francis II                                             
+##  7 1560-01-01 1574-01-01 Charles IX                                             
+##  8 1574-01-01 1589-01-01 Henry III                                              
+##  9 1589-01-01 1610-01-01 Henry IV the Great                                     
+## 10 1610-01-01 1617-01-01 the Regency of Marie de Medici                         
+## 11 1610-01-01 1643-01-01 Louis XIII the Just and his minister Cardinal Richelieu
+## 12 1643-01-01 1651-01-01 the Regency of Anne of Austria and her minister Cardin…
+## 13 1643-01-01 1715-01-01 Louis XIV the Sun King and his minister Jean-Baptiste …
+## 14 1715-01-01 1723-01-01 the Régence a period of regency under Philip II of Orl…
+## 15 1715-01-01 1774-01-01 Louis XV the Beloved and his minister Cardinal André-H…
+## 16 1774-01-01 1792-01-01 Louis XVI</code></pre>
+<p>Great job, that’s our final data frame. We can feed it into the <code>gg_vistime</code> function from the package <code>vistime</code> to visualize the timeline:</p>
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://shosaco.github.io/vistime/reference/gg_vistime.html">gg_vistime</a></span><span class="op">(</span><span class="va">final_kings</span>, col.group <span class="op">=</span> <span class="st">"event"</span>, show_labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="images/intro_regex/automatic_rmarkdown/unnamed-chunk-96-1.png" width="672" style="display: block; margin: auto;"></div>
 </div>
 <div id="exercises-2" class="section level2">
 <h2>
-<span class="header-section-number">5.2</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.10</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-2"><i class="fas fa-link"></i></a>
 </h2>
+<ol style="list-style-type: decimal">
+<li>Extend our case study to the period “State building into the Kingdom of France (987–1453)”:</li>
+</ol>
+<div class="inline-figure"><img src="images/intro_regex/kings_timeline_wk_earlier_period.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Note that this will require you to change some of our previous code and think of slightly different regexp strategies. When done, merge it with our results of the case study to produce the complete lineage of France’s history of monarchy.</p>
+<div class="inline-figure"><img src="images/intro_regex/automatic_rmarkdown/unnamed-chunk-98-1.png" width="672" style="display: block; margin: auto;"></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Take a look at this regexp: <code>I like .+\\.</code>. It says: match the phrase <code>I like</code> followed by any character (<code>.</code>) repeated one or more times (<code>+</code>) until you find a dot (<code>\\.</code>). When applied to the string below it extracts the entire string:</li>
+</ol>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">text</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses. I also like maps, eighteenth century typography."</span>
+<span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="va">text</span>, <span class="st">"I like .+\\."</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
+<pre><code>## [1] "I like hourglasses. I also like maps, eighteenth century typography."</code></pre>
+<p>Instead, what we want is:</p>
+<pre><code>## [1] "I like hourglasses."</code></pre>
+<p>Look up what <code>?</code> does in regexp and come up a way to fix the regexp to obtain what we want.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Can you extract all unique royal houses from the Wikipedia document? That is, produce a vector like this one:</li>
+</ol>
+<pre><code>##  [1] "House of Capet"        "House of Valois"       "House of Plantagenet" 
+##  [4] "House of Bourbon"      "House of Guise"        "House of Toulouse"    
+##  [7] "House of Hohenstaufen" "House of Welf"         "House of Brandenburg" 
+## [10] "House of Lancaster"    "House of Bonaparte"    "House of Orléans"</code></pre>
+<p>Hint: No need to use any XPath, <code><a href="http://xml2.r-lib.org/reference/xml_text.html">xml_text()</a></code> the entire document to extract all of the text of the website and apply regexp to grab the houses. You’ll need to use <code>?</code> and also figure out what <code>[:punct:]</code> does in regexp.</p>
 
 </div>
 </div>
@@ -179,8 +714,16 @@
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#what-you-need-to-know-about-regular-expressions"><span class="header-section-number">5</span> What you need to know about regular expressions</a></li>
-<li><a class="nav-link" href="#matching-strings"><span class="header-section-number">5.1</span> Matching strings</a></li>
-<li><a class="nav-link" href="#exercises-2"><span class="header-section-number">5.2</span> Exercises</a></li>
+<li><a class="nav-link" href="#basic-matches"><span class="header-section-number">5.1</span> Basic matches</a></li>
+<li><a class="nav-link" href="#the-.-placeholder"><span class="header-section-number">5.2</span> The . placeholder</a></li>
+<li><a class="nav-link" href="#quantifiers"><span class="header-section-number">5.3</span> Quantifiers</a></li>
+<li><a class="nav-link" href="#escaping-."><span class="header-section-number">5.4</span> Escaping .</a></li>
+<li><a class="nav-link" href="#the-or-operator"><span class="header-section-number">5.5</span> The OR (|) operator</a></li>
+<li><a class="nav-link" href="#anchors"><span class="header-section-number">5.6</span> Anchors</a></li>
+<li><a class="nav-link" href="#matching-spaces"><span class="header-section-number">5.7</span> Matching spaces</a></li>
+<li><a class="nav-link" href="#special-classes"><span class="header-section-number">5.8</span> Special classes</a></li>
+<li><a class="nav-link" href="#case-study-mapping-the-kings-of-france"><span class="header-section-number">5.9</span> Case study: mapping the kings of France</a></li>
+<li><a class="nav-link" href="#exercises-2"><span class="header-section-number">5.10</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">
@@ -198,7 +741,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-11-01.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-11-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

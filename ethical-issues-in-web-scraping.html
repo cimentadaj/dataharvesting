@@ -94,7 +94,7 @@
 <p>Well, to my surprise, I was making that request many times every day without knowing it. Scraping is the same as entering a website through a browser. That moment between when you hit enter to go to a website and when the information is actually displayed is the time it takes for the server behind the website to return all the content. That operation is important for a website. It involves requesting information, waiting for the server to return it and rendering it in your browser. A human is slow enough for a server to handle the requests it needs but imagine a human the tried to enter a website 5 times per second continuously for 48 hours. That amounts to 864,000 requests. That’s a lot.</p>
 <p>Big websites such as Google or Amazon have enough servers and throttle to handle millions of requests per second but most of the content on the internet does not. For that reason, it’s important that whenever you make a request to a website (calling <code>read_html</code> or <code>read_xml</code>), you add a <em>system sleep</em> to your scraper. In R you can do that with <code>Sys.sleep(amount_of_seconds)</code> where <code>amount_of_seconds</code> is the amount of seconds you want to sleep before making a request.</p>
 <p>If we were scraping a website only once, making only a single request, adding a system sleep should not matter. What we want to avoid is making <em>many</em> requests in shorts amount of time. So for example, in our example in chapter <em>TODO</em> Spanish school we scraped information for several different schools. Each school that we scraped, meant making a request to the website. That’s a perfect example where want to sleep before making a request. So in R code, the skeleton code would look something like this with the system sleep:</p>
-<div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb269"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
 
 <span class="co"># List of links to make a request</span>
@@ -138,11 +138,11 @@
 <p>Even if a website allows a user to scrape its contents, they might have some preferences on <em>which</em> sections of the website you can scrape and which are forbidden. For that there’s a standard file called <code>robots.txt</code> on nearly all website on the internet which tells you want parts of the website can be scraped. The <code>robots.txt</code> is just a convenient form for a website to tell you which URLs you can scrape; it will not enforce anything nor block you in any way. <strong>In all cases, you should follow the guidelines of the <code>robots.txt</code></strong>.</p>
 <p>The <code>robots.txt</code> file of most websites is located in the main URL. So for example, the <code>robots.txt</code> of Facebook is at <code>www.facebook.com/robots.txt</code>. Similarly, the <code>robots.txt</code> of Google can be found in <a href="google.com/robots.txt">google.com/robots.txt</a> and looks like this:</p>
 <p>It documents each URL of the Google website and it explicitly tells you which ones are allowed or disallowed. In this section we’ll use the <code>robotstxt</code> R package which makes it very easy to tell whether a website can be scrapable. For example, we can figure out if we can scrape the landing page of Wikipedia with this:</p>
-<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb270"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/robotstxt/">robotstxt</a></span><span class="op">)</span>
 <span class="fu"><a href="https://docs.ropensci.org/robotstxt/reference/paths_allowed.html">paths_allowed</a></span><span class="op">(</span><span class="st">"https://wikipedia.org"</span><span class="op">)</span></code></pre></div>
 <p>The <code>TRUE</code> statement tell us we can do it. Let’s see if we can scrape the Facebook homepage:</p>
-<div class="sourceCode" id="cb228"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb271"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://docs.ropensci.org/robotstxt/reference/paths_allowed.html">paths_allowed</a></span><span class="op">(</span><span class="st">"https://facebook.com"</span><span class="op">)</span></code></pre></div>
 <p>Using <code>paths_allowed</code> you can provide any link to a website and it’ll automatically extract the <code>robots.txt</code> and figure out if you can scrape it. Before scraping any website, you should check whether the URL you want to scrape is allowed.</p>
 <p>Another thing to be aware of is that <code>robotstxt</code> files often contain a field for <code>Crawl-delay</code>, suggesting the time you should wait between requests. You should keep that in mind for when you <code>Sys.sleep</code> in between requests.</p>
@@ -154,7 +154,7 @@
 <p>Even if the website allows you to scrape the URL that you’re after, you need to be extra careful and identify yourself. That means that you need to give the website a clear identification of who is making those requests. This way the website can contact you if they find there’s something wrong with your requests, or even directly block you. Remember at all times: we’re scraping data that is not ours and we should be polite when grabbing that data. If the owner of the data considers that they don’t want to give you the data, they’re in their right to do so.</p>
 <p>To identify ourselves we need something called a “User-Agent”. A User-Agent contains information about our computer and our browser. You can find your user agent googling “what is my user agent?”. Google will directly tell you what it is:</p>
 <p>With that in hand, we just need to tell our scraper to incorporate that in each request. How do we do that? With the <code>httr</code> package. Below is the code to do it:</p>
-<div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb272"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr.r-lib.org/">httr</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://httr.r-lib.org/reference/set_config.html">set_config</a></span><span class="op">(</span>
@@ -192,7 +192,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-11-01.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-11-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
