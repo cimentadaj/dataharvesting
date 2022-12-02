@@ -1,1 +1,0 @@
-# Case Study: grabbing data from a public API

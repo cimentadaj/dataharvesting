@@ -112,6 +112,14 @@
         "Rcpp"
       ]
     },
+    "SnowballC": {
+      "Package": "SnowballC",
+      "Version": "0.7.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "bc26e07c0d747fd287c370fe355e7b85",
+      "Requirements": []
+    },
     "V8": {
       "Package": "V8",
       "Version": "4.2.1",
@@ -982,6 +990,25 @@
       "Hash": "177475892cf4a55865868527654a7741",
       "Requirements": []
     },
+    "genius": {
+      "Package": "genius",
+      "Version": "2.2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "39529089773dcfa30f4337a14ec6cf00",
+      "Requirements": [
+        "dplyr",
+        "magrittr",
+        "purrr",
+        "reshape2",
+        "rlang",
+        "rvest",
+        "stringr",
+        "tibble",
+        "tidyr",
+        "tidytext"
+      ]
+    },
     "gert": {
       "Package": "gert",
       "Version": "1.6.0",
@@ -1109,6 +1136,18 @@
         "ggplot2",
         "rlang",
         "scales"
+      ]
+    },
+    "ggridges": {
+      "Package": "ggridges",
+      "Version": "0.5.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c76ee8fe60939384b9726128e38caea0",
+      "Requirements": [
+        "ggplot2",
+        "scales",
+        "withr"
       ]
     },
     "gh": {
@@ -1404,6 +1443,17 @@
         "withr"
       ]
     },
+    "hunspell": {
+      "Package": "hunspell",
+      "Version": "3.0.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "656219b6f3f605499d7cdbe208656639",
+      "Requirements": [
+        "Rcpp",
+        "digest"
+      ]
+    },
     "ids": {
       "Package": "ids",
       "Version": "1.0.1",
@@ -1461,6 +1511,34 @@
       "RemoteSha": "0.2.5",
       "Hash": "7ab57a6de7f48a8dc84910d1eca42883",
       "Requirements": []
+    },
+    "janeaustenr": {
+      "Package": "janeaustenr",
+      "Version": "1.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "26f391e42073877818f2d4f0470dca24",
+      "Requirements": []
+    },
+    "janitor": {
+      "Package": "janitor",
+      "Version": "2.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "6de84a8c67fb247e721166049c84695f",
+      "Requirements": [
+        "dplyr",
+        "lifecycle",
+        "lubridate",
+        "magrittr",
+        "purrr",
+        "rlang",
+        "snakecase",
+        "stringi",
+        "stringr",
+        "tidyr",
+        "tidyselect"
+      ]
     },
     "jquerylib": {
       "Package": "jquerylib",
@@ -1650,6 +1728,14 @@
         "tidyselect",
         "vctrs"
       ]
+    },
+    "mosaicData": {
+      "Package": "mosaicData",
+      "Version": "0.20.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "160b07a985d207f1888b016178aededf",
+      "Requirements": []
     },
     "munsell": {
       "Package": "munsell",
@@ -1857,6 +1943,16 @@
         "stringi",
         "swagger",
         "webutils"
+      ]
+    },
+    "plyr": {
+      "Package": "plyr",
+      "Version": "1.8.8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "d744387aef9047b0b48be2933d78e862",
+      "Requirements": [
+        "Rcpp"
       ]
     },
     "polyclip": {
@@ -2141,6 +2237,18 @@
         "withr"
       ]
     },
+    "reshape2": {
+      "Package": "reshape2",
+      "Version": "1.4.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "bb5996d0bd962d214a11140d77589917",
+      "Requirements": [
+        "Rcpp",
+        "plyr",
+        "stringr"
+      ]
+    },
     "rlang": {
       "Package": "rlang",
       "Version": "1.0.6",
@@ -2384,8 +2492,8 @@
       "RemoteRepo": "scrapex",
       "RemoteUsername": "cimentadaj",
       "RemoteRef": "HEAD",
-      "RemoteSha": "2a93645863965a526344de3576415147b2050c0f",
-      "Hash": "03020aa00537464cd0f98eeb083269c1",
+      "RemoteSha": "4635358adc35d8bb30cfc9d926ca79461225b998",
+      "Hash": "5170524a8b9ec2fcf3c3ecfdb16740e0",
       "Requirements": [
         "callr",
         "here",
@@ -2472,6 +2580,17 @@
         "units"
       ]
     },
+    "snakecase": {
+      "Package": "snakecase",
+      "Version": "0.11.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "4079070fc210c7901c0832a3aeab894f",
+      "Requirements": [
+        "stringi",
+        "stringr"
+      ]
+    },
     "sodium": {
       "Package": "sodium",
       "Version": "1.2.1",
@@ -2512,6 +2631,32 @@
       "Hash": "34800f71ccfda65b18e60124007d5c11",
       "Requirements": [
         "Rcpp"
+      ]
+    },
+    "spotifyr": {
+      "Package": "spotifyr",
+      "Version": "2.2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "aa273fd4f5a22688f98e5530d028b3e3",
+      "Requirements": [
+        "assertthat",
+        "dplyr",
+        "genius",
+        "ggridges",
+        "httr",
+        "janitor",
+        "jsonlite",
+        "lubridate",
+        "magrittr",
+        "purrr",
+        "readr",
+        "rlang",
+        "rvest",
+        "stringr",
+        "tibble",
+        "tidyr",
+        "xml2"
       ]
     },
     "stringi": {
@@ -2698,6 +2843,27 @@
         "vctrs"
       ]
     },
+    "tidytext": {
+      "Package": "tidytext",
+      "Version": "0.3.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "baf783b244a36fe5d11069b53f32a136",
+      "Requirements": [
+        "Matrix",
+        "dplyr",
+        "generics",
+        "hunspell",
+        "janeaustenr",
+        "lifecycle",
+        "purrr",
+        "rlang",
+        "stringr",
+        "tibble",
+        "tokenizers",
+        "vctrs"
+      ]
+    },
     "tidyverse": {
       "Package": "tidyverse",
       "Version": "1.3.1",
@@ -2750,6 +2916,18 @@
       "Hash": "29f67ab15405b390b90e56ff22198ead",
       "Requirements": [
         "xfun"
+      ]
+    },
+    "tokenizers": {
+      "Package": "tokenizers",
+      "Version": "0.2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a365153df5ef1a2955cc1d3a9020914a",
+      "Requirements": [
+        "Rcpp",
+        "SnowballC",
+        "stringi"
       ]
     },
     "tweenr": {

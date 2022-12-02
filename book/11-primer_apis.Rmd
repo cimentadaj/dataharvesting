@@ -14,7 +14,7 @@ req <- request(api_web)
 
 req_res <-
   req %>%
-  req_url_query(region = "New York State", sex = "p") %>%
+  req_url_query(region = "New York State", sex = "m") %>%
   req_perform()
 
 cali_data <-
@@ -25,6 +25,4 @@ cali_data <-
   tidyr::unnest()
 
 cali_data
-
 ```
-

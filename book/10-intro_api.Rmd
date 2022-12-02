@@ -1,5 +1,8 @@
 # Introduction to REST APIs
 
 
-What is an API
-Fundamentals of API communication
+- Overall summary of talking to rest APIs (server - client interactions)
+- Reasons to have an API (too many requests)
+- APIs are a way to control webscrapings under rate limiting
+
+Really quick chapter, jump right into primer APIs
