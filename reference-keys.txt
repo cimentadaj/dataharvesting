@@ -55,11 +55,11 @@ terms-of-services
 copying-information
 identifying-yourself
 introduction-to-rest-apis
-introduction-to-json
+summary-1
+exercises-7
 a-primer-on-apis
 what-is-a-restful-api
-authentication-in-apis
+introduction-to-json
 case-study-grabbing-data-from-a-public-api
 why-automation-is-important
-automating-data-collectiong-programs
 insightful-and-robust-data-collection-progams

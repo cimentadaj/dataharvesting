@@ -4,17 +4,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>17 Why automation is important | Data Harvesting with R</title>
+<title>16 Why automation is important | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
-<meta name="description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times">
+<meta name="description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times library(scrapex) library(httr2) library(dplyr) library(tidyr) library(purrr) parse_data &lt;- function(req) {  req %&gt;%  ...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
-<meta property="og:title" content="17 Why automation is important | Data Harvesting with R">
+<meta property="og:title" content="16 Why automation is important | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/why-automation-is-important.html">
-<meta property="og:description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times">
+<meta property="og:description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times library(scrapex) library(httr2) library(dplyr) library(tidyr) library(purrr) parse_data &lt;- function(req) {  req %&gt;%  ...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="17 Why automation is important | Data Harvesting with R">
-<meta name="twitter:description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times">
+<meta name="twitter:title" content="16 Why automation is important | Data Harvesting with R">
+<meta name="twitter:description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times library(scrapex) library(httr2) library(dplyr) library(tidyr) library(purrr) parse_data &lt;- function(req) {  req %&gt;%  ...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
@@ -66,14 +66,12 @@
 <li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
 <li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
 <li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
-<li><a class="" href="introduction-to-json.html"><span class="header-section-number">12</span> Introduction to JSON</a></li>
-<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">13</span> A primer on APIs</a></li>
-<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">14</span> What is a RESTful API?</a></li>
-<li><a class="" href="authentication-in-apis.html"><span class="header-section-number">15</span> Authentication in APIs</a></li>
-<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">16</span> Case Study: grabbing data from a public API</a></li>
-<li><a class="active" href="why-automation-is-important.html"><span class="header-section-number">17</span> Why automation is important</a></li>
-<li><a class="" href="automating-data-collectiong-programs.html"><span class="header-section-number">18</span> Automating data collectiong programs</a></li>
-<li><a class="" href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">19</span> Insightful and robust data collection progams</a></li>
+<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">12</span> A primer on APIs</a></li>
+<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">13</span> What is a RESTful API?</a></li>
+<li><a class="" href="introduction-to-json.html"><span class="header-section-number">14</span> Introduction to JSON</a></li>
+<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></li>
+<li><a class="active" href="why-automation-is-important.html"><span class="header-section-number">16</span> Why automation is important</a></li>
+<li><a class="" href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">17</span> Insightful and robust data collection progams</a></li>
 </ul>
 
         <div class="book-extra">
@@ -81,25 +79,62 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="why-automation-is-important" class="section level1" number="17">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="why-automation-is-important" class="section level1" number="16">
 <h1>
-<span class="header-section-number">17</span> Why automation is important<a class="anchor" aria-label="anchor" href="#why-automation-is-important"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16</span> Why automation is important<a class="anchor" aria-label="anchor" href="#why-automation-is-important"><i class="fas fa-link"></i></a>
 </h1>
 <p>Examples where data is lost (bycicle)
 Lack of time to scrape at all times</p>
+<div class="sourceCode" id="cb277"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr2.r-lib.org">httr2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
+
+<span class="va">parse_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">req</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">req</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html">resp_body_json</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://purrr.tidyverse.org/reference/transpose.html">transpose</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="va">api</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/api_bicing.html">api_bicing</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">api_authors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">api</span><span class="op">$</span><span class="va">api_web</span>, <span class="st">"/api/v1/real_time_bicycles"</span><span class="op">)</span>
+
+<span class="co"># Show docs</span>
+<span class="va">req</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="https://httr2.r-lib.org/reference/request.html">request</a></span><span class="op">(</span><span class="va">api_authors</span><span class="op">)</span>
+
+<span class="va">bicing</span> <span class="op">&lt;-</span>
+  <span class="va">req</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://httr2.r-lib.org/reference/req_perform.html">req_perform</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">parse_data</span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">bicing</span>
+
+
+<span class="va">bicing</span> <span class="op">&lt;-</span>
+  <span class="va">req</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://httr2.r-lib.org/reference/req_perform.html">req_perform</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">parse_data</span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">bicing</span></code></pre></div>
 
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">16</span> Case Study: grabbing data from a public API</a></div>
-<div class="next"><a href="automating-data-collectiong-programs.html"><span class="header-section-number">18</span> Automating data collectiong programs</a></div>
+<div class="prev"><a href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></div>
+<div class="next"><a href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">17</span> Insightful and robust data collection progams</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#why-automation-is-important"><span class="header-section-number">17</span> Why automation is important</a></li></ul>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#why-automation-is-important"><span class="header-section-number">16</span> Why automation is important</a></li></ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/blob/main/16-why_automation.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/edit/main/16-why_automation.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/blob/main/15-why_automation.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/edit/main/15-why_automation.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -111,7 +146,7 @@ Lack of time to scrape at all times</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-11-06.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-12-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

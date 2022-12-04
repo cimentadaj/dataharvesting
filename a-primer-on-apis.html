@@ -4,17 +4,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>13 A primer on APIs | Data Harvesting with R</title>
+<title>12 A primer on APIs | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
-<meta name="description" content="This is a book about webscraping and talking to APIs with R.">
+<meta name="description" content='## library(scrapex) ## library(httr2) ## library(purrr) ## library(tidyr) ## res &lt;- api_coveragedb() ## api_web &lt;- paste0(res$api_web, "/api/v1/covid_cases") ## req &lt;- request(api_web) ## req_res...'>
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
-<meta property="og:title" content="13 A primer on APIs | Data Harvesting with R">
+<meta property="og:title" content="12 A primer on APIs | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/a-primer-on-apis.html">
-<meta property="og:description" content="This is a book about webscraping and talking to APIs with R.">
+<meta property="og:description" content='## library(scrapex) ## library(httr2) ## library(purrr) ## library(tidyr) ## res &lt;- api_coveragedb() ## api_web &lt;- paste0(res$api_web, "/api/v1/covid_cases") ## req &lt;- request(api_web) ## req_res...'>
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="13 A primer on APIs | Data Harvesting with R">
-<meta name="twitter:description" content="This is a book about webscraping and talking to APIs with R.">
+<meta name="twitter:title" content="12 A primer on APIs | Data Harvesting with R">
+<meta name="twitter:description" content='## library(scrapex) ## library(httr2) ## library(purrr) ## library(tidyr) ## res &lt;- api_coveragedb() ## api_web &lt;- paste0(res$api_web, "/api/v1/covid_cases") ## req &lt;- request(api_web) ## req_res...'>
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
@@ -66,14 +66,12 @@
 <li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
 <li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
 <li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
-<li><a class="" href="introduction-to-json.html"><span class="header-section-number">12</span> Introduction to JSON</a></li>
-<li><a class="active" href="a-primer-on-apis.html"><span class="header-section-number">13</span> A primer on APIs</a></li>
-<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">14</span> What is a RESTful API?</a></li>
-<li><a class="" href="authentication-in-apis.html"><span class="header-section-number">15</span> Authentication in APIs</a></li>
-<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">16</span> Case Study: grabbing data from a public API</a></li>
-<li><a class="" href="why-automation-is-important.html"><span class="header-section-number">17</span> Why automation is important</a></li>
-<li><a class="" href="automating-data-collectiong-programs.html"><span class="header-section-number">18</span> Automating data collectiong programs</a></li>
-<li><a class="" href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">19</span> Insightful and robust data collection progams</a></li>
+<li><a class="active" href="a-primer-on-apis.html"><span class="header-section-number">12</span> A primer on APIs</a></li>
+<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">13</span> What is a RESTful API?</a></li>
+<li><a class="" href="introduction-to-json.html"><span class="header-section-number">14</span> Introduction to JSON</a></li>
+<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></li>
+<li><a class="" href="why-automation-is-important.html"><span class="header-section-number">16</span> Why automation is important</a></li>
+<li><a class="" href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">17</span> Insightful and robust data collection progams</a></li>
 </ul>
 
         <div class="book-extra">
@@ -81,23 +79,48 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="a-primer-on-apis" class="section level1" number="13">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="a-primer-on-apis" class="section level1" number="12">
 <h1>
-<span class="header-section-number">13</span> A primer on APIs<a class="anchor" aria-label="anchor" href="#a-primer-on-apis"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12</span> A primer on APIs<a class="anchor" aria-label="anchor" href="#a-primer-on-apis"><i class="fas fa-link"></i></a>
 </h1>
+<div class="sourceCode" id="cb275"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## library(scrapex)</span>
+<span class="co">## library(httr2)</span>
+<span class="co">## library(purrr)</span>
+<span class="co">## library(tidyr)</span>
+
+<span class="co">## res &lt;- api_coveragedb()</span>
+
+<span class="co">## api_web &lt;- paste0(res$api_web, "/api/v1/covid_cases")</span>
+
+<span class="co">## req &lt;- request(api_web)</span>
+
+<span class="co">## req_res &lt;-</span>
+<span class="co">##   req %&gt;%</span>
+<span class="co">##   req_url_query(region = "New York State", sex = "m") %&gt;%</span>
+<span class="co">##   req_perform()</span>
+
+<span class="co">## cali_data &lt;-</span>
+<span class="co">##   req_res %&gt;%</span>
+<span class="co">##   resp_body_json() %&gt;%</span>
+<span class="co">##   purrr::transpose() %&gt;%</span>
+<span class="co">##   as_tibble() %&gt;%</span>
+<span class="co">##   tidyr::unnest()</span>
+
+<span class="co">## cali_data</span></code></pre></div>
 
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="introduction-to-json.html"><span class="header-section-number">12</span> Introduction to JSON</a></div>
-<div class="next"><a href="what-is-a-restful-api.html"><span class="header-section-number">14</span> What is a RESTful API?</a></div>
+<div class="prev"><a href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></div>
+<div class="next"><a href="what-is-a-restful-api.html"><span class="header-section-number">13</span> What is a RESTful API?</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#a-primer-on-apis"><span class="header-section-number">13</span> A primer on APIs</a></li></ul>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#a-primer-on-apis"><span class="header-section-number">12</span> A primer on APIs</a></li></ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/blob/main/12-primer_webscraping.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/edit/main/12-primer_webscraping.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/blob/main/11-primer_apis.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/edit/main/11-primer_apis.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -109,7 +132,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-11-06.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-12-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -6,15 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>11 Introduction to REST APIs | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
-<meta name="description" content="What is an API Fundamentals of API communication">
+<meta name="description" content="So far in the book we’ve covered the subtle art of web scraping. This art is weird in the sense that it’s not structured. To scrape some stuff you have to come up with unusual tricks to gather...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
 <meta property="og:title" content="11 Introduction to REST APIs | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/introduction-to-rest-apis.html">
-<meta property="og:description" content="What is an API Fundamentals of API communication">
+<meta property="og:description" content="So far in the book we’ve covered the subtle art of web scraping. This art is weird in the sense that it’s not structured. To scrape some stuff you have to come up with unusual tricks to gather...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="11 Introduction to REST APIs | Data Harvesting with R">
-<meta name="twitter:description" content="What is an API Fundamentals of API communication">
+<meta name="twitter:description" content="So far in the book we’ve covered the subtle art of web scraping. This art is weird in the sense that it’s not structured. To scrape some stuff you have to come up with unusual tricks to gather...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
@@ -66,14 +66,12 @@
 <li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
 <li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
 <li><a class="active" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
-<li><a class="" href="introduction-to-json.html"><span class="header-section-number">12</span> Introduction to JSON</a></li>
-<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">13</span> A primer on APIs</a></li>
-<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">14</span> What is a RESTful API?</a></li>
-<li><a class="" href="authentication-in-apis.html"><span class="header-section-number">15</span> Authentication in APIs</a></li>
-<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">16</span> Case Study: grabbing data from a public API</a></li>
-<li><a class="" href="why-automation-is-important.html"><span class="header-section-number">17</span> Why automation is important</a></li>
-<li><a class="" href="automating-data-collectiong-programs.html"><span class="header-section-number">18</span> Automating data collectiong programs</a></li>
-<li><a class="" href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">19</span> Insightful and robust data collection progams</a></li>
+<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">12</span> A primer on APIs</a></li>
+<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">13</span> What is a RESTful API?</a></li>
+<li><a class="" href="introduction-to-json.html"><span class="header-section-number">14</span> Introduction to JSON</a></li>
+<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></li>
+<li><a class="" href="why-automation-is-important.html"><span class="header-section-number">16</span> Why automation is important</a></li>
+<li><a class="" href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">17</span> Insightful and robust data collection progams</a></li>
 </ul>
 
         <div class="book-extra">
@@ -85,16 +83,85 @@
 <h1>
 <span class="header-section-number">11</span> Introduction to REST APIs<a class="anchor" aria-label="anchor" href="#introduction-to-rest-apis"><i class="fas fa-link"></i></a>
 </h1>
-<p>What is an API
-Fundamentals of API communication</p>
-
+<p>So far in the book we’ve covered the subtle art of web scraping. This art is weird in the sense that it’s not structured. To scrape some stuff you have to come up with unusual tricks to gather data from websites. You also have to be careful not to do it too often because it might impact the latency of the website due too excessive requests. Moreover, when you do gather the data, you need to apply some ninja-style tricks to clean the results. Overall, a complicated process because this data (on the website) is not meant for you to scrape it.</p>
+<p>If it were for websites, they would love to prevent scrapers from scraping their website: in nearly all cases, that will bring negative impact to their website either through excessive requests and a possible slow down of their internal servers to reusing <em>their</em> data for your own economic benefit.</p>
+<p>All of these steps start to hint towards a unilateral effort from the web scraper. You as the scrape master are the only one interested in doing this and that’s why the effort of scraping seems more like traveling through a jungle of obstacles rather than a walk in the park.</p>
+<p>This is when REST APIs come in. As web scraping is somewhat like an ambush to a website, REST APIs are more of a two party contract. REST Application Programming Interfaces (API) are just a fancy name for a more structured way for users to gather data from the internal servers of the website (as they would do in web scraping) but in a controlled environment where the user agrees to rules that don’t affect negatively the data or the performance of the servers of the company.</p>
+<div class="rmdnote">
+<p>Users should be careful distinguishing between APIs and REST APIs. APIs are the interface of any program: for example, for the package <code>dplyr</code>, the way decisions where taken on how each function accepts arguments, which functions are exported, how these functions interact with each other so on (the general design of how the package works) is called the API of a package, or the programming <em>interface</em>. In contrast, a REST API is a data transfer design for users to share data over the internet. In this chapter we’ll be discussing exclusively REST APIs.</p>
+</div>
+<p>REST APIs are a natural answer for companies once they figured out web scraping was affecting their business negatively. Companies decided to create a custom ‘portal’ where a user, after authenticating and accepting the agreements of using this ‘portal’, can access much of the data they can see on a companies website (but not necessarily what you’re looking for, it is their prerogative). However, this ‘portal’ is not a website where you can go in and download the data through drop down menus and clicking buttons: it’s a series of URLs that you will need to consult programmatically.</p>
+<p>So you might ask yourself, well, how do we access a REST API? Can you show me one? Yes! The <code>scrapex</code> package contains several REST APIs designed specifically for educational purposes in the this book. First, let’s launch the REST API locally:</p>
+<div class="sourceCode" id="cb273"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/api_amazon.html">api_amazon</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>[1] "Visit your REST API at http://localhost:28723"
+[1] "Documentation is at http://localhost:28723/__docs__/"</code></pre>
+<div class="rmdnote">
+<p>Do you see the print out with the local URL to the <code>__docs__</code> of the REST API? This <em>my</em> local URL. This won’t work on your computer, so don’t try to go to that website: you’ll get that the URL doesn’t exit. You need to install the <code>scrapex</code> package and run the <code><a href="https://rdrr.io/pkg/scrapex/man/api_amazon.html">api_amazon()</a></code> function, copy <em>your</em> local API path onto your web browser and then you’ll see the same thing as I do.</p>
+</div>
+<p>Since the philosophy of the <code>scrapex</code> package is to create both websites and REST APIs that can be reproduced in the long term, the REST APIs you’ll see in this book are <em>fake</em>. This means they contain made up data and are deployed locally in your computer behind the scenes.</p>
+<p>In the real world, you’ll go to the website of a company and search for their API documentation (for example, google “Spotify Web API” and you’ll be directed to the documentation of Spotify’s REST API). Browsing the documentation or looking at online tutorials you’ll be able to figure out how their API works, what data they share and how to authenticate. Just beware that the previous step of calling <code>api_amazon</code> is something that you won’t need to do when accessing APIs of companies; this is just our way of deploying our locally developed APIs on your computer to make the examples in this book as real as possible.</p>
+<p>The REST API for this example is a fake database of Amazon’s books / users / products database. This means that we can access all sorts of information on the books that Amazon has on their catalogue together with their author’s details, the users that read those books and other products that these users bought on their platform. Let’s go explore it.</p>
+<p>I’ll assume that you ran your part of loading <code>scrapex</code> and ran the <code>api_amazon</code> function. That should return your local version of the URL <code>http://localhost:28723/__docs__/</code> with a different number for the part <code>28723</code>. Let’s paste that URL in our browser and you should see this:</p>
+<p>This is the documentation of the API. Normally, company APIs will have something like this in their website (it will be different but the gist of the content will be very similar). You can see the different <em>endpoints</em> with their description. The first one, for example, is named <code>/api/v1/amazon/authors</code>. The <em>base path</em> of the API is <code>http://localhost:28723</code> and each <em>endpoint</em> is a different URL from that website that will return different types of data.</p>
+<p>Let’s check out the data in the <code>authors</code> endpoint. We can usually try this API endpoint directly in the documentation to get a grasp of how it works. Let’s click on this endpoint and see what’s inside:</p>
+<p>Here we can see several things from this endpoint:</p>
+<ol style="list-style-type: decimal">
+<li><p>It does not need any parameters. Endpoints often need parameters to filter data. For example, say you were requesting all the books from an author. Probably the endpoint would need to specify the author from which to return data from. This endpoint returns all available authors in the Amazon Book Store so it does not need any parameters. In other endpoints in this REST API you’ll see that you will need to specify parameters.</p></li>
+<li><p>It allows you to try out this endpoint with a button that says <code>"Try it out"</code>.</p></li>
+<li><p>REST APIs have codes that signal the status of your request. Below <code>Responses</code>, it says that this endpoint has two codes: <code>200</code> which means that everything is OK and <code>500</code> which means that something wrong happened when you requested data. Note that <em>whenever</em> you request data, one of these codes will be returned. If everything was alright, <code>200</code> will be return together with the data that you wanted. If something went wrong, the code <code>500</code> will be returned. Note that these are the possible values that it can return, not what is currently being returned: remember that we haven’t made yet a request.</p></li>
+<li><p>Right below <code>Media type</code>, we can figure out the formats that this endpoint returns. It says this endpoint returns a <code>JSON</code> string, a typical format used for sharing data over the web (we’ll talk about the JSON format in chapter #TODO).</p></li>
+</ol>
+<p>Finally, and this is irrespective of any particular endpoint, many REST APIs require that you authenticate before requesting any data. Normally, you’ll need to follow the instructions for authenticating for the REST API you’re after and in return they’ll give you some sort of token.</p>
+<p>As this is a fake REST API from Amazon, you can use the code fmcQoAZnnU to authenticate. To do this, click on the top right button <code>Authorize</code>, input that <em>token</em>, click on authorize and close the window:</p>
+<p>With that out of the way, click on “Try it out” and then on the button “Execute” to perform an example request of data from this endpoint:</p>
+<p>Alright, so right now we performed a request to the <code>/api/v1/amazon/authors</code> endpoint. Let’s discuss what happened:</p>
+<p>Behind the scenes, we joined the base path of the REST API (<code>http://localhost:28723</code>) with the <code>authors</code> endpoint (<code>/api/v1/amazon/authors</code>) to get the path <code>http://localhost:28723/api/v1/amazon/authors</code>. You can see this path under <code>Request URL</code> in the image above. That’s the complete URL that returns the data for authors. Try copying <em>your</em> URL of that endpoint (remember that it has a different port number in the website) and pasting it on a website:</p>
+<p>It says we didn’t provide a token and that’s correct. The long explanation on how to provide a token <strong>in a browser</strong> is too tedious so the short explanation is that REST APIs are not meant to be used constantly through a browser. They’re aimed at being used programmatically and that’s how we’ll use APIs in the next chapters. For now, we’ll continue to make requests in the user interface of the <code>__docs__</code> website.</p>
+<p>Going back to the results of the request, let’s explain the actual data that it returned:</p>
+<p>Under <code>Server response</code> you’ll see that this request returned a <code>200</code> code as the response. This means that the request of data was successful and all was good. The <code>Response body</code> contains the actual results. Here we can see that the Amazon database has five authors and each author has only written in one genre. The way the data is organized is a <code>JSON</code>. Later on we’ll see how to read this into a data frame in R.</p>
+<p>Finally, the response also contains other stuff, aside from the data. This is important for REST APIs. When making a request to an endpoint, REST APIs accept something called <code>Headers</code>. Let’s reason about this with an analogy using an R list:</p>
+<p>When you make a request, you have something like the list above. You make a request to that endpoint but you also add somewhat like an <em>attachment</em> that has extra information. This is the headers. Some APIs might require you to specify certain parameters in the headers or they might be optional with default values. For many APIs this header must contain the authentication token that you got from the website for using their REST API.</p>
+<p>In this analogy, you see that that we specify the authorization token in the headers as well as that it must accept only data structured in JSON format. Similarly, when you perform a request to an endpoint, the resulting <em>response</em> will also contain a headers attachment with information. Following on our analogy using an R list, the response might look something like this:</p>
+<p>This list has three slots: <code>status_code</code>, <code>response_headers</code> and <code>response_body</code>. The first two are somewhat like <em>attachments</em> containing information while the third contains the most important part of the request: the data. The response headers (as contrary to the headers you submitted when you did the hypothetical request) has extra information such as the encoding of the response, the date and the transfer encoding. In any case, you won’t be paying too much attention to the response headers. Instead you’ll be submitting headers in the request and look at the <code>status_code</code> to make sure that your request was successfully. If not, then you’ll want to look into which status code was returned and look up on the internet the source of the error.</p>
+<p>Coming back to our <code>authors</code> example, you can see see that all the information we saw in the R list analogy is in the user interface of the example request:</p>
+<p>And that’s pretty much it for the very basics. You performed your first API request and learned the basics of what to expect as input and return values of an API response.</p>
+<div id="summary-1" class="section level2" number="11.1">
+<h2>
+<span class="header-section-number">11.1</span> Summary<a class="anchor" aria-label="anchor" href="#summary-1"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p>REST APIs have a base path. Normally that’s something like <code>https://api.spotify.com/v1/</code>.</p></li>
+<li><p>REST APIs are structured around endpoints. These are specific URLs that return different types of data. For example <code>https://api.spotify.com/v1/artists</code> is an endpoint related to artist data while <code>https://api.spotify.com/v1/tracks</code> returns data related to tracks.</p></li>
+<li><p>Endpoints might not or might have parameters to filter data.</p></li>
+<li><p>The docs of the REST API documents what each endpoint does and which parameters are needed to use to query data.</p></li>
+<li><p>Many REST APIs need authentication tokens for making requests.</p></li>
+<li><p>REST APIs response always return status codes and headers describing whether the request was successful or something went bad.</p></li>
+</ul>
+</div>
+<div id="exercises-7" class="section level2" number="11.2">
+<h2>
+<span class="header-section-number">11.2</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-7"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li><p>Using the same interface we used in this chapter for making requests, can you make a request to the <code>countries</code> endpoint and tell me if the country <code>Venezuela</code> is in the Amazon country list?</p></li>
+<li><p>Using the <code>users/</code> endpoint, can you tell me how many Amazon users are in China?</p></li>
+<li><p>Can you breakdown the <code>Request URL</code> that you performed in the previous exercises? That is, what do you see differently in a request that needs parameters in contrast to the requests we did to the <code>authors</code> endpoint?</p></li>
+<li><p>Using the <code>users/</code> endpoint again, make request using both a customer id (use <code>2131</code>) and a country (<code>China</code> is fine). What status code do you get? What does the response body says? Can you do anything to fix it? Look on the web for the status code.</p></li>
+</ol>
+</div>
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></div>
-<div class="next"><a href="introduction-to-json.html"><span class="header-section-number">12</span> Introduction to JSON</a></div>
+<div class="next"><a href="a-primer-on-apis.html"><span class="header-section-number">12</span> A primer on APIs</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#introduction-to-rest-apis"><span class="header-section-number">11</span> Introduction to REST APIs</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#introduction-to-rest-apis"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
+<li><a class="nav-link" href="#summary-1"><span class="header-section-number">11.1</span> Summary</a></li>
+<li><a class="nav-link" href="#exercises-7"><span class="header-section-number">11.2</span> Exercises</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -111,7 +178,7 @@ Fundamentals of API communication</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-11-06.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-12-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
