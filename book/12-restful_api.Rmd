@@ -3,3 +3,5 @@
 https://www.gastonsanchez.com/intro2cwd/http.html
 
 https://www.gastonsanchez.com/intro2cwd/apis.html
+
+* TAlk about all methods (GET / POST / PATCH / DELETE)

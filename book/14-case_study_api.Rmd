@@ -3,114 +3,114 @@
 
 ```{r}
 
-library(scrapex)
-library(httr2)
-library(dplyr)
-library(tidyr)
-library(purrr)
+## library(scrapex)
+## library(httr2)
+## library(dplyr)
+## library(tidyr)
+## library(purrr)
 
-parse_data <- function(req) {
-  req %>%
-    resp_body_json() %>%
-    transpose() %>%
-    as_tibble() %>%
-    unnest()
-}
+## parse_data <- function(req) {
+##   req %>%
+##     resp_body_json() %>%
+##     transpose() %>%
+##     as_tibble() %>%
+##     unnest()
+## }
 
-api <- api_amazon()
+## api <- api_amazon()
 
-api_authors <- paste0(api$api_web, "/api/v1/amazon/")
+## api_authors <- paste0(api$api_web, "/api/v1/amazon/")
 
-# Show docs
-token <- paste0("Bearer ", amazon_bearer_tokens())
-req <-
-  request(api_authors) %>%
-  req_headers(Authorization = token)
+## # Show docs
+## token <- paste0("Bearer ", amazon_bearer_tokens())
+## req <-
+##   request(api_authors) %>%
+##   req_headers(Authorization = token)
 
-req_res <-
-  req %>%
-  req_url_path_append("authors") %>%
-  req_perform()
+## req_res <-
+##   req %>%
+##   req_url_path_append("authors") %>%
+##   req_perform()
 
-parse_data(req_res)
+## parse_data(req_res)
 
-req_res <-
-  req %>%
-  req_url_path_append("texts") %>%
-  req_url_query(author = "Stuart Armstrong") %>%
-  req_perform()
+## req_res <-
+##   req %>%
+##   req_url_path_append("texts") %>%
+##   req_url_query(author = "Stuart Armstrong") %>%
+##   req_perform()
 
-parse_data(req_res)
+## parse_data(req_res)
 
-req_res <-
-  req %>%
-  req_url_path_append("books") %>%
-  req_url_query(author = "Stuart Armstrong", genre = "Sunt") %>%
-  req_perform()
+## req_res <-
+##   req %>%
+##   req_url_path_append("books") %>%
+##   req_url_query(author = "Stuart Armstrong", genre = "Sunt") %>%
+##   req_perform()
 
-req_res %>%
-  parse_data() %>%
-  select(-user_id) %>%
-  distinct()
+## req_res %>%
+##   parse_data() %>%
+##   select(-user_id) %>%
+##   distinct()
 
-req_res %>%
-  parse_data()
+## req_res %>%
+##   parse_data()
 
-req_res <-
-  req %>%
-  req_url_path_append("countries") %>%
-  req_perform()
+## req_res <-
+##   req %>%
+##   req_url_path_append("countries") %>%
+##   req_perform()
 
-parse_data(req_res)
+## parse_data(req_res)
 
-req_res <-
-  req %>%
-  req_url_path_append("users") %>%
-  req_url_query(user_id = 319) %>%
-  req_perform()
+## req_res <-
+##   req %>%
+##   req_url_path_append("users") %>%
+##   req_url_query(user_id = 319) %>%
+##   req_perform()
 
-parse_data(req_res)
+## parse_data(req_res)
 
-req_res <-
-  req %>%
-  req_url_path_append("users") %>%
-  req_url_query(country = "Germany") %>%
-  req_perform()
+## req_res <-
+##   req %>%
+##   req_url_path_append("users") %>%
+##   req_url_query(country = "Germany") %>%
+##   req_perform()
 
-parse_data(req_res)
+## parse_data(req_res)
 
-# What does the status code mean?
-req_res <-
-  req %>%
-  req_url_path_append("users") %>%
-  req_url_query(user_id = 319, country = "Germany") %>%
-  req_perform()
+## # What does the status code mean?
+## req_res <-
+##   req %>%
+##   req_url_path_append("users") %>%
+##   req_url_query(user_id = 319, country = "Germany") %>%
+##   req_perform()
 
-req_res <-
-  req %>%
-  req_url_path_append("products_users") %>%
-  req_url_query(user_id = 319) %>%
-  req_perform()
+## req_res <-
+##   req %>%
+##   req_url_path_append("products_users") %>%
+##   req_url_query(user_id = 319) %>%
+##   req_perform()
 
-# Exercise for images
-req_res %>%
-  resp_body_json() %>%
-  transpose() %>%
-  as_tibble() %>%
-  select(-tags) %>%
-  unnest() %>%
-  unnest()
+## # Exercise for images
+## req_res %>%
+##   resp_body_json() %>%
+##   transpose() %>%
+##   as_tibble() %>%
+##   select(-tags) %>%
+##   unnest() %>%
+##   unnest()
 
-req_res <-
-  req %>%
-  req_url_path_append("products") %>%
-  req_url_query(product_id = 74) %>%
-  req_perform()
+## req_res <-
+##   req %>%
+##   req_url_path_append("products") %>%
+##   req_url_query(product_id = 74) %>%
+##   req_perform()
 
-req_res %>%
-  resp_body_json() %>%
-  transpose() %>%
-  as_tibble() %>%
-  unnest()
+## req_res %>%
+##   resp_body_json() %>%
+##   transpose() %>%
+##   as_tibble() %>%
+##   unnest()
 
 ```

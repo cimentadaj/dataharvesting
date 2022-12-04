@@ -1,28 +1,28 @@
 # A primer on APIs
 
 ```{r}
-library(scrapex)
-library(httr2)
-library(purrr)
-library(tidyr)
+## library(scrapex)
+## library(httr2)
+## library(purrr)
+## library(tidyr)
 
-res <- api_coveragedb()
+## res <- api_coveragedb()
 
-api_web <- paste0(res$api_web, "/api/v1/covid_cases")
+## api_web <- paste0(res$api_web, "/api/v1/covid_cases")
 
-req <- request(api_web)
+## req <- request(api_web)
 
-req_res <-
-  req %>%
-  req_url_query(region = "New York State", sex = "m") %>%
-  req_perform()
+## req_res <-
+##   req %>%
+##   req_url_query(region = "New York State", sex = "m") %>%
+##   req_perform()
 
-cali_data <-
-  req_res %>%
-  resp_body_json() %>%
-  purrr::transpose() %>%
-  as_tibble() %>%
-  tidyr::unnest()
+## cali_data <-
+##   req_res %>%
+##   resp_body_json() %>%
+##   purrr::transpose() %>%
+##   as_tibble() %>%
+##   tidyr::unnest()
 
-cali_data
+## cali_data
 ```
