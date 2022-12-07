@@ -466,7 +466,7 @@ XPath is a very rich language with over 20 years of development. I've covered so
 
 ## Exercises
 
-* How many `jpg` and `png` images are there in the website? (Hint: look at the source code and figure out which tag and *attribute* contains the links to the images).
+1. How many `jpg` and `png` images are there in the website? (Hint: look at the source code and figure out which tag and *attribute* contains the links to the images).
 
 ```{r, eval = FALSE, echo = FALSE}
 newspaper %>%
@@ -479,7 +479,7 @@ newspaper %>%
 ```
 
 
-* How many articles are there in the entire website?
+2. How many articles are there in the entire website?
 
 ```{r, eval = FALSE, echo = FALSE}
 newspaper %>%
@@ -487,14 +487,14 @@ newspaper %>%
   length()
 ```
 
-* Out of all the headlines (by headlines I mean the bold text that each article begins with), how many contain the word 'climate'?
+3. Out of all the headlines (by headlines I mean the bold text that each article begins with), how many contain the word 'climate'?
 
 ```{r, eval = FALSE, echo = FALSE}
 newspaper %>%
   xml_find_all("//h2[@class='c_t ']/a[contains(text(), 'climate')]")
 ```
 
-* What is the city with more reporters?
+4. What is the city with more reporters?
 
 ```{r, eval = FALSE, echo = FALSE}
 library(stringr)
@@ -509,7 +509,7 @@ newspaper %>%
   table()
 ```
 
-* What is the headline of the article with the most words in the description? (Hint: remember that `.//` searcher for all tags but *only below* the current tag. `//` will search for all tags in the document, regardless of whether it's above the current selected node) The text you'll want to measure the amount of letters is below the bold headline of each news article:
+5. What is the headline of the article with the most words in the description? (Hint: remember that `.//` searcher for all tags but *only below* the current tag. `//` will search for all tags in the document, regardless of whether it's above the current selected node) The text you'll want to measure the amount of letters is below the bold headline of each news article:
 
 
 ```{r, echo = FALSE, out.width = "100%"}

@@ -1,15 +1,14 @@
-```{r intro-api-setup, include=FALSE}
-main_dir <- "./images/intro_api"
+```{r intro-api-setup, echo=FALSE, eval = TRUE}
+main_dir_api <- "./images/intro_api"
 
 knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
   warning = FALSE,
   fig.align = "center",
-  fig.path = paste0(main_dir, "/automatic_rmarkdown/"),
+  fig.path = paste0(main_dir_api, "/automatic_rmarkdown/"),
   fig.asp = 0.618
 )
-
 ```
 
 # Introduction to REST APIs
@@ -51,16 +50,16 @@ The REST API for this example is a fake database of Amazon's books / users / pro
 
 I'll assume that you ran your part of loading `scrapex` and ran the `api_amazon` function. That should return your local version of the URL `http://localhost:28723/__docs__/` with a different number for the part `28723`. Let's paste that URL in our browser and you should see this:
 
-```{r, echo = FALSE, out.width = "100%"}
-knitr::include_graphics(file.path(main_dir, "main_amazon_docs.png"))
+```{r, echo = FALSE, eval = TRUE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir_api, "main_amazon_docs.png"))
 ```
 
 This is the documentation of the API. Normally, company APIs will have something like this in their website (it will be different but the gist of the content will be very similar). You can see the different *endpoints* with their description. The first one, for example, is named `/api/v1/amazon/authors`. The *base path* of the API is `http://localhost:28723` and each *endpoint* is a different URL from that website that will return different types of data.
 
 Let's check out the data in the `authors` endpoint. We can usually try this API endpoint directly in the documentation to get a grasp of how it works. Let's click on this endpoint and see what's inside:
 
-```{r, echo = FALSE, out.width = "100%"}
-knitr::include_graphics(file.path(main_dir, "authors_amazon_docs.png"))
+```{r, echo = FALSE, eval = TRUE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir_api, "authors_amazon_docs.png"))
 ```
 
 Here we can see several things from this endpoint:
@@ -77,34 +76,34 @@ Finally, and this is irrespective of any particular endpoint, many REST APIs req
 
 As this is a fake REST API from Amazon, you can use the code `r scrapex::amazon_bearer_tokens()` to authenticate. To do this, click on the top right button `Authorize`, input that *token*, click on authorize and close the window:
 
-```{r, echo = FALSE, out.width = "100%"}
-knitr::include_graphics(file.path(main_dir, "authorize_amazon.png"))
+```{r, echo = FALSE, eval = TRUE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir_api, "authorize_amazon.png"))
 ```
 
 With that out of the way, click on "Try it out" and then on the button "Execute" to perform an example request of data from this endpoint:
 
-```{r, echo = FALSE, out.width = "100%"}
-knitr::include_graphics(file.path(main_dir, "authors_amazon_request.png"))
+```{r, echo = FALSE, eval = TRUE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir_api, "authors_amazon_request.png"))
 ```
 
 Alright, so right now we performed a request to the `/api/v1/amazon/authors` endpoint. Let's discuss what happened:
 
-```{r, echo = FALSE, out.width = "100%"}
-knitr::include_graphics(file.path(main_dir, "authors_amazon_request_result.png"))
+```{r, echo = FALSE, eval = TRUE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir_api, "authors_amazon_request_result.png"))
 ```
 
 Behind the scenes, we joined the base path of the REST API (`http://localhost:28723`) with the `authors` endpoint (`/api/v1/amazon/authors`) to get the path `http://localhost:28723/api/v1/amazon/authors`. You can see this path under `Request URL` in the image above. That's the complete URL that returns the data for authors. Try copying *your* URL of that endpoint (remember that it has a different port number in the website) and pasting it on a website:
 
 ```{r, echo = FALSE, out.width = "100%"}
-knitr::include_graphics(file.path(main_dir, "no_token_error_json.png"))
+knitr::include_graphics(file.path(main_dir_api, "no_token_error_json.png"))
 ```
 
 It says we didn't provide a token and that's correct. The long explanation on how to provide a token **in a browser** is too tedious so the short explanation is that REST APIs are not meant to be used constantly through a browser. They're aimed at being used programmatically and that's how we'll use APIs in the next chapters. For now, we'll continue to make requests in the user interface of the `__docs__` website.
 
 Going back to the results of the request, let's explain the actual data that it returned:
 
-```{r, echo = FALSE, out.width = "100%"}
-knitr::include_graphics(file.path(main_dir, "authors_amazon_request_result.png"))
+```{r, echo = FALSE, eval = TRUE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir_api, "authors_amazon_request_result.png"))
 ```
 
 Under `Server response` you'll see that this request returned a `200` code as the response. This means that the request of data was successful and all was good. The `Response body` contains the actual results. Here we can see that the Amazon database has five authors and each author has only written in one genre. The way the data is organized is a `JSON`. Later on we'll see how to read this into a data frame in R.
@@ -163,8 +162,8 @@ This list has three slots: `status_code`, `response_headers` and `response_body`
 
 Coming back to our `authors` example, you can see see that all the information we saw in the R list analogy is in the user interface of the example request:
 
-```{r, echo = FALSE, out.width = "100%"}
-knitr::include_graphics(file.path(main_dir, "authors_amazon_request_result.png"))
+```{r, echo = FALSE, eval = TRUE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir_api, "authors_amazon_request_result.png"))
 ```
 
 

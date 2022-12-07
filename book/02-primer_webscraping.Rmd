@@ -217,7 +217,7 @@ So there you have it. This primer gave you a very direct experience on what webs
 
 ## Exercises
 
-1. Europe has an ageing problem and the mandatory retirement age is being constantly revised. In the `scrapex` package there's a copy of the "Retirement in Europe" wikipedia website [https://en.wikipedia.org/wiki/Retirement_in_Europe](https://en.wikipedia.org/wiki/Retirement_in_Europe). You can find the local link in the function `retirement_age_europe_ex()`. Can you inspect the website, parse the table and replicate the plot below? (Hint, you might the function `str_sub` from `stringr`).
+1. Europe has an ageing problem and the mandatory retirement age is being constantly revised. In the `scrapex` package there's a copy of the "Retirement in Europe" wikipedia website [https://en.wikipedia.org/wiki/Retirement_in_Europe](https://en.wikipedia.org/wiki/Retirement_in_Europe). You can find the local link in the function `retirement_age_europe_ex()`. Can you inspect the website, parse the table and replicate the plot below? (Hint: you might need the function `str_sub` from the `stringr` package).
 
 ```{r, echo = FALSE}
 library(scrapex)
