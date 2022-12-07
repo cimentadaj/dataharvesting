@@ -1,4 +1,4 @@
-```{r intro-api-setup, echo=FALSE, eval = TRUE}
+```{r intro-api-setup, echo = FALSE, eval = TRUE}
 main_dir_api <- "./images/intro_api"
 
 knitr::opts_chunk$set(
