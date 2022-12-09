@@ -6,15 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>16 Why automation is important | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
-<meta name="description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times library(scrapex) library(httr2) library(dplyr) library(tidyr) library(purrr) parse_data &lt;- function(req) {  req %&gt;%  ...">
+<meta name="description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times ## library(scrapex) ## library(httr2) ## library(dplyr) ## library(tidyr) ## library(purrr) ## parse_data &lt;- function(req)...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
 <meta property="og:title" content="16 Why automation is important | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/why-automation-is-important.html">
-<meta property="og:description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times library(scrapex) library(httr2) library(dplyr) library(tidyr) library(purrr) parse_data &lt;- function(req) {  req %&gt;%  ...">
+<meta property="og:description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times ## library(scrapex) ## library(httr2) ## library(dplyr) ## library(tidyr) ## library(purrr) ## parse_data &lt;- function(req)...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="16 Why automation is important | Data Harvesting with R">
-<meta name="twitter:description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times library(scrapex) library(httr2) library(dplyr) library(tidyr) library(purrr) parse_data &lt;- function(req) {  req %&gt;%  ...">
+<meta name="twitter:description" content="Examples where data is lost (bycicle) Lack of time to scrape at all times ## library(scrapex) ## library(httr2) ## library(dplyr) ## library(tidyr) ## library(purrr) ## parse_data &lt;- function(req)...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
@@ -85,43 +85,43 @@
 </h1>
 <p>Examples where data is lost (bycicle)
 Lack of time to scrape at all times</p>
-<div class="sourceCode" id="cb277"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr2.r-lib.org">httr2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb286"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## library(scrapex)</span>
+<span class="co">## library(httr2)</span>
+<span class="co">## library(dplyr)</span>
+<span class="co">## library(tidyr)</span>
+<span class="co">## library(purrr)</span>
 
-<span class="va">parse_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">req</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">req</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html">resp_body_json</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://purrr.tidyverse.org/reference/transpose.html">transpose</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">}</span>
+<span class="co">## parse_data &lt;- function(req) {</span>
+<span class="co">##   req %&gt;%</span>
+<span class="co">##     resp_body_json() %&gt;%</span>
+<span class="co">##     transpose() %&gt;%</span>
+<span class="co">##     as_tibble() %&gt;%</span>
+<span class="co">##     unnest()</span>
+<span class="co">## }</span>
 
-<span class="va">api</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/api_bicing.html">api_bicing</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">## api &lt;- api_bicing()</span>
 
-<span class="va">api_authors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">api</span><span class="op">$</span><span class="va">api_web</span>, <span class="st">"/api/v1/real_time_bicycles"</span><span class="op">)</span>
+<span class="co">## api_authors &lt;- paste0(api$api_web, "/api/v1/real_time_bicycles")</span>
 
-<span class="co"># Show docs</span>
-<span class="va">req</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://httr2.r-lib.org/reference/request.html">request</a></span><span class="op">(</span><span class="va">api_authors</span><span class="op">)</span>
+<span class="co">## # Show docs</span>
+<span class="co">## req &lt;-</span>
+<span class="co">##   request(api_authors)</span>
 
-<span class="va">bicing</span> <span class="op">&lt;-</span>
-  <span class="va">req</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://httr2.r-lib.org/reference/req_perform.html">req_perform</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">parse_data</span><span class="op">(</span><span class="op">)</span>
+<span class="co">## bicing &lt;-</span>
+<span class="co">##   req %&gt;%</span>
+<span class="co">##   req_perform() %&gt;%</span>
+<span class="co">##   parse_data()</span>
 
-<span class="va">bicing</span>
+<span class="co">## bicing</span>
 
 
-<span class="va">bicing</span> <span class="op">&lt;-</span>
-  <span class="va">req</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://httr2.r-lib.org/reference/req_perform.html">req_perform</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">parse_data</span><span class="op">(</span><span class="op">)</span>
+<span class="co">## bicing &lt;-</span>
+<span class="co">##   req %&gt;%</span>
+<span class="co">##   req_perform() %&gt;%</span>
+<span class="co">##   parse_data()</span>
 
-<span class="va">bicing</span></code></pre></div>
+<span class="co">## bicing</span></code></pre></div>
 
 </div>
   <div class="chapter-nav">
@@ -146,7 +146,7 @@ Lack of time to scrape at all times</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-12-07.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-12-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
