@@ -34,7 +34,7 @@ library(tidyr)
 As usual, we'll be using the `scrapex` package. This package contains an internal API that wraps the ![COVerAGE-DB](https://www.coverage-db.org/) database. COVerAGE-DB is an open-access database including cumulative counts of confirmed COVID-19 cases, deaths, tests, and vaccines by age and sex. For more information, visit their website at ![https://www.coverage-db.org/](https://www.coverage-db.org/).
 
 ```{r}
-api_covid <- api_coveragedb(port = 35907)
+api_covid <- api_coveragedb()
 api_covid
 ```
 
@@ -45,8 +45,6 @@ req <- request(api_web)
 req <-
   req %>%
   req_url_query(region = "New York State", sex = "m")
-
-req
 ```
 
 ```{r}
