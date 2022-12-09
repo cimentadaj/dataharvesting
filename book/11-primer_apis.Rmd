@@ -35,7 +35,6 @@ As usual, we'll be using the `scrapex` package. This package contains an interna
 
 ```{r}
 api_covid <- api_coveragedb()
-Sys.sleep(10)
 api_covid
 ```
 
@@ -68,3 +67,4 @@ cali_data
 ```{r}
 api_covid$process$kill()
 ```
+ 
