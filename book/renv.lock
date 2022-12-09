@@ -2487,8 +2487,14 @@
     "scrapex": {
       "Package": "scrapex",
       "Version": "0.0.1.9999",
-      "Source": "unknown",
-      "Hash": "203b268fddc605c2a85ecbdbb62f29e1",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "scrapex",
+      "RemoteUsername": "cimentadaj",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "dcf511ac35ad49f2d9c3b9878a8ba1e66c262792",
+      "Hash": "b6c3a7886b2102ebf9fd26bc6e104cde",
       "Requirements": [
         "callr",
         "here",
