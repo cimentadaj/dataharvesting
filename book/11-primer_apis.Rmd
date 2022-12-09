@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # A primer on APIs
 
-When you make requests to an API, most probably you want to do them programmatically. By programmatically I mean to request data using a programming language. In this book we'll do it with Rbut you can do this with most programming languages.
+When you make requests to an API, most probably you want to do them programmatically. By programmatically I mean to request data using a programming language. In this book we'll do it with R but you can do this with most programming languages.
 
 Why do you want to do this programmatically when you can just use the documentation page to make sample requests? For several reasons. First, you can create a scheduled programme to download data on specific intervals of time. Doing that in a web browser would be tedious. Second, APIs are built to make thousands of requests per second/minutes. You might want to make 5 requests every minute. That sounds like a handful for a human clicking in a browser through out the day, right? Third and finally, because you can do much more within a programming language. For example, you might want to request some data from an endpoint that is then passed as input into another endpoint, which has a fallback value in case the request doesn't not return any data.
 
@@ -67,4 +67,3 @@ cali_data
 ```{r}
 api_covid$process$kill()
 ```
- 
