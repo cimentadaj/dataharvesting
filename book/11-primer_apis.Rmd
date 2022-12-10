@@ -1,5 +1,5 @@
 ```{r primer-api, echo = FALSE, eval = TRUE}
-main_dir_api <- "./images/intro_api"
+main_dir_api <- "./images/primer_api"
 
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -16,54 +16,290 @@ knitr::opts_chunk$set(
 
 # A primer on APIs
 
-When you make requests to an API, most probably you want to do them programmatically. By programmatically I mean to request data using a programming language. In this book we'll do it with R but you can do this with most programming languages.
+When you make requests to an API, most probably you want to make them programmatically. By programmatically I mean to request data using a programming language. In this book we'll do it with R but you can do this with most programming languages.
 
-Why do you want to do this programmatically when you can just use the documentation page to make sample requests? For several reasons. First, you can create a scheduled programme to download data on specific intervals of time. Doing that in a web browser would be tedious. Second, APIs are built to make thousands of requests per second/minutes. You might want to make 5 requests every minute. That sounds like a handful for a human clicking in a browser through out the day, right? Third and finally, because you can do much more within a programming language. For example, you might want to request some data from an endpoint that is then passed as input into another endpoint, which has a fallback value in case the request doesn't not return any data.
+Why do you want to do this programmatically when you can just use the documentation page to make sample requests as we did in chapter # TODO intro API? For several reasons. First, you can create a scheduled program to download data on specific intervals of time. Doing that in a web browser would be tedious as you need to constantly go to your computer to manually click on some buttons and then save the data somewhere. Second, APIs are built to persist thousands of requests per minutes. You might want to make 60 requests every minute. That sounds like a handful for a human clicking in a browser through out the day, right? Third, because you can do much more within a programming language. For example, you might want to request some data from an endpoint that is then passed as input into another endpoint, which has a fallback value in case the request doesn't not return any data. Fourth and finally, because you might want to do things 'real-time' with your program. You might build a web application that when a user clicks on a button, you grab data from an API 'real-time' and on demand, and train a machine learning with the recently requested data.
 
-APIs are just a way to gather data. Using a programming language allows you to automate the gathering of data and add value in the data gathering process. In this chapter we'll give a primer on how to request data from an API in R.
+You might think APIs are a very convoluted concept at this point but you need to think of APIs as just another way to gather data. Using a programming language allows you to automate the gathering of data and add value in the data gathering process by making it more automatic, persistent and available any time. The reasons to do it programmatically are very numerous and that's why for the remaining of this book we'll focus on requesting data from APIs with R.
 
-As we did in # TODO primer webscraping, throughout this chapter I'll give you a one-to-one tour on what to expect when requesting data from an API in the wild. We'll skip the usual 'start from the basics' sections to directly request data from an API and see results from your efforts right away. Before we begin, let's load the packages we'll use in this chapter:
+As we did in # TODO primer web scraping, throughout this chapter I'll give you a one-to-one tour on what to expect when requesting data from an API in the wild. We'll skip the usual 'start from the basics' sections to directly request data from an API and see results from your efforts right away. Before we begin, let's load the packages we'll use in this chapter:
 
 ```{r}
 library(scrapex)
 library(httr2)
-library(purrr)
-library(tidyr)
+library(dplyr)
+library(ggplot2)
 ```
 
-As usual, we'll be using the `scrapex` package. This package contains an internal API that wraps the [COVerAGE-DB](https://www.coverage-db.org/) database. COVerAGE-DB is an open-access database including cumulative counts of confirmed COVID-19 cases, deaths, tests, and vaccines by age and sex. For more information, visit their website at [https://www.coverage-db.org/](https://www.coverage-db.org/).
+As usual, we'll be using the `scrapex` package. This package contains an internal API that wraps the [COVerAGE-DB](https://www.coverage-db.org/) database. COVerAGE-DB is an open-access database including cumulative counts of confirmed COVID-19 cases, deaths, tests, and vaccines by age and sex. For more information, visit their website at [https://www.coverage-db.org/](https://www.coverage-db.org/). 
+
+The aim of this primer is to create a plot like this one:
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir_api, "coveragedb_covid_cases_plot.png"))
+```
+
+This plot shows the the total number of COVID cases for females and males in California. We do not have data on this on your local computer so we’ll need to request the data from an API. 
+
+## Getting familiar with an API
+
+Inside `scrapex` the function `api_coveragedb()` has a local API that was designed to be used in this book. Let's load it:
 
 ```{r}
 api_covid <- api_coveragedb()
-api_covid
 ```
 
+The API is now launched in the background and we can access it. Note that learning about a new API online you **won't** have to launch any API. APIs are hosted on servers elsewhere and you'll just need to read how to access the API. Since this is a stand-alone book (we don't want any of our examples to depend on fast-changing websites or APIs, making most of the content in this book useless in just a few months), we use a local API that won't change over time and thus we need to launch it ourselves. 
+
+When you do access an API, instead you'll be given directly things like the documentation page. That we can see in the print out of the previous R call `r paste0(api_covid$api_web, "/__docs__/")`. **Note that this link won't work on your computer because you need to launch the API on your computer (remember how this is a local API?). Go to your URL and you should see something like this**:
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir_api, "coveragedb_docs.png"))
+```
+
+We can see that this API has two endpoints. The first one allows you to access data on the number of COVID cases for the American states California, Utah and New York State. The second one returns vaccination rates for the same three cities. As opposed to our example in # TODO intro API, this API does not need any authentication so we can directly go to the first endpoint to read how it works:
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir_api, "coveragedb_covidcases_endpoint.png"))
+```
+
+First thing we see is that this endpoint has two parameters: `region` and `sex`. Both are required. Also, the documentation of each parameter tells us the valid values that can be accepted. Aside from that, we see that this endpoint returns a JSON structured response as well as the usual return codes that are standard (`200` for a successful request and `500` for a standard error code). Alright, we have enough information to construct our *first* endpoint. Let's go over a few things. Each endpoint is composed of three things:
+
+* A base URL. In this case, it's `r api_covid$api_web`. **Yours will be different because you launched it in your local computer**.
+* The endpoint URL of this specific endpoint. For the COVID cases, this is `/api/v1/covid_cases`.
+* The parameters in the endpoint which are specified after a `?` and each parameter is then concatenated with `&`. 
+
+So the complete endpoint URL for this endpoint would be `r paste0(api_covid$api_web, "/api/v1/covid_cases")`. How would we add parameters? We start with a `?` and then add `parameter=value` followed by a `&` to concatenate with other parameters. Sounds confusing? Let's construct it in R:
+
+
 ```{r}
+# COVID cases endpoint
+api_web <- paste0(api_covid$api_web, "/api/v1/covid_cases")
+
+# Filtering only for males in California
+cases_endpoint <- paste0(api_web, "?region=California&sex=m")
+
+cases_endpoint
+```
+
+The parameters we specified were `?region=California&sex=m`. It's not that difficult to construct these paths but rather tedious. Imagine having to construct this for an endpoint with 7 parameters. Too many `&` can confuse anyone and it can start to get difficult to read. Instead, the `httr2` package can help us with this. With `httr2` we just pass the endpoint URL and use functions to add as many parameters as we see fit.
+
+## Making your first request
+
+#### TODO: You can't see the results of the request objetct in this chapter.
+
+Let's start building our request in R:
+
+```{r}
+# COVID cases endpoint
 api_web <- paste0(api_covid$api_web, "/api/v1/covid_cases")
 req <- request(api_web)
-
-req <-
-  req %>%
-  req_url_query(region = "New York State", sex = "m")
+req
 ```
+
+There we go. The `request` function from `httr2` builds something like a placeholder for our request. It says it already has the endpoint URL (we can see it in the `GET` line) but it does not say anything about our parameters or headers. Let's add the endpoint and parameters:
 
 ```{r}
-print(req)
-
-res_req <-
+req_california_m <-
   req %>%
+  req_url_query(region = "California", sex = "m")
+
+req_california_m
+```
+
+The function `req_url_query` constructs the endpoint by adding as many parameters as we want. Do you see the idea here? `request` builds a placeholder for the endpoint and then you add as many "add-on's" as you want to your request. Our "add-on" so far has just been parameters but you could hypothetically add authentication headers and a retry step, for example:
+
+```{r}
+req_california_m %>%
+  req_auth_basic(username = "fake name", password = "fake password") %>%
+  req_retry(max_tries = 3, max_seconds = 5)
+```
+
+Our request object also added the headers as well as a retry policy: if the request fails for some reason, try it 3 more times, waiting 5 seconds in between. If you type `req_` and hit tab on most IDE's you'll get a complete list of functions that allow to add stuff into our request as well as extract stuff from a request. Feel free to explore these to get familiar with the capabilities of `httr2`.
+
+Let's get back to our initial request. Since we don't need any further add-on's to our request, it should look like this:
+
+```{r}
+req_california_m
+```
+
+Whenever we're happy with our request, we can actually *make* the request with `req_perform`:
+
+```{r}
+resp_california_m <- 
+  req_california_m %>%
   req_perform()
 
-cali_data <-
-  res_req %>%
-  resp_body_json() %>%
-  transpose() %>%
-  as_tibble() %>%
-  unnest()
-
-cali_data
+resp_california_m
 ```
+
+Alright so we can interpret a few things out of this request. First, it was successful. The `200` status code means that it was OK, so nothing failed. Second, the response content-type is `JSON`, meaning the data that was sent is in `JSON` format. Third, the actual body of the request has data, which is now loaded in RAM memory (instead of in your hard drive). 
+
+Now, you might have noticed that all functions for working with your request in `httr2` start with `req_*`. This means that you can easily search for all `req`uest related functions quickly. Similarly, for the *response* of an API, you can do the same but with the `resp_*`. All `resp`onse functions allow you to perform or extract stuff on a response object. We can extract the status code for example:
+
+```{r}
+resp_status(resp_california_m)
+```
+Or the content type:
+
+```{r}
+resp_content_type(resp_california_m)
+```
+
+Then how do we extract the `body` containing the data from the request? It depends on the content type that was returned. In our case it's `JSON` so we can use `resp_body_json`. Whenever you receive a response, depending on the type of data you receive, your best bet is to look at `resp_body_*` for the content type of your request. So for our case, we can safely extract it:
+
+```{r}
+resp_body_california_m <-
+  resp_california_m %>%
+  resp_body_json(simplifyVector = TRUE) %>%
+  as_tibble()
+
+resp_body_california_m
+```
+
+There we go. We see that data from California has `r nrow(resp_body_california_m)` rows and that we have `r ncol(resp_body_california_m)` columns. You'll notice that I used the argument `simplifyVector` inside `resp_body_json`. This is because the `JSON` format is know as a *nested* format. This means that you can have columns within columns within columns and so on. That argument *tries* (but not always succeeds) in simplifying this structure into a data frame. With that out of the way, let's visualize the overall number of COVID cases:
+
+```{r}
+# To avoid scientific numbering
+options(scipen = 231241231)
+
+resp_body_california_m <-
+  resp_body_california_m %>%
+  mutate(Date = lubridate::ymd(Date)) %>%
+  group_by(Date, Sex) %>%
+  summarize(cases = sum(Value))
+
+resp_body_california_m %>%
+  ggplot(aes(Date, cases)) +
+  geom_line() +
+  theme_bw()
+```
+
+Great, we can see a rather big jump starting 2021 for California. Let's perform the same request as before but replace the sex for females to compare the trend. After it, let's count the number of cases per date as we did for males and combine everything into one data frame. Finally, let's produce the same plot as before but for both sexes:
+
+```{r}
+
+# Perform the same request but for females and grab the JSON result
+resp_body_california_f <-
+  req %>%
+  req_url_query(region = "California", sex = 'f') %>%
+  req_perform() %>%
+  resp_body_json(simplifyVector = TRUE) %>%
+  as_tibble()
+
+# Add the total number of cases per date for females
+resp_body_california_f <-
+  resp_body_california_f %>%
+  mutate(Date = lubridate::ymd(Date)) %>%
+  group_by(Date, Sex) %>%
+  summarize(cases = sum(Value))
+
+# Combine the female cases with the male cases
+resp_body_california <- bind_rows(resp_body_california_f, resp_body_california_m)
+
+# Visualize both female and male cases
+resp_body_california %>%
+  ggplot(aes(Date, cases, color = Sex, group = Sex)) +
+  geom_line() +
+  theme_bw()
+```
+
+As we see, we start to see a difference in cases right at the start of 2021 with females having greater number of cases after 2021. Before we close the chapter, remember to *kill* the API that we launched. You wan't have to do it when you request data from online APIs, this is only for our local version:
 
 ```{r}
 api_covid$process$kill()
 ```
+
+So there you have it. This primer gave you a very direct experience on what requesting data from an API involves. It's usually all about studying the documentation to see what each endpoint returns, constructing URLs that directly grab the data that you want and extracting the data from the response. In the next chapter you’ll see more in depth how APIs work behind the scenes.
+
+## Exercises
+
+1. Generate the same plot that we created for males/females but for the state New York. However, construct the path manually (do not use the function `req_url_query`). You might need to look how *spaces* are written down in URLs on the internet.
+
+```{r, echo = FALSE, eval = FALSE}
+# COVID cases endpoint
+api_covid <- api_coveragedb()
+
+api_web_m <- paste0(api_covid$api_web, "/api/v1/covid_cases?region=New%20York%20State&sex=m")
+resp_m <- api_web_m %>% request() %>% req_perform() %>% resp_body_json(simplifyVector = TRUE)
+
+api_web_f <- paste0(api_covid$api_web, "/api/v1/covid_cases?region=New%20York%20State&sex=f")
+resp_f <- api_web_f %>% request() %>% req_perform() %>% resp_body_json(simplifyVector = TRUE)
+
+api_covid$process$kill()
+
+resp <- bind_rows(resp_f, resp_m)
+
+# Add the total number of cases per date for both sexes
+resp_df <-
+  resp %>%
+  mutate(Date = lubridate::ymd(Date)) %>%
+  group_by(Date, Sex) %>%
+  summarize(cases = sum(Value))
+
+# Visualize both female and male cases
+resp_df %>%
+  ggplot(aes(Date, cases, color = Sex, group = Sex)) +
+  geom_line() +
+  theme_bw()
+```
+
+2. Did the third wave of vaccination start at the same time for males and females in New York? You might need to look at the documentation of the second endpoint of the API to get acquainted with the parameters and values. 
+
+```{r, echo = FALSE, eval = FALSE}
+
+# COVID cases endpoint
+api_covid <- api_coveragedb()
+
+api_web_m <- paste0(api_covid$api_web, "/api/v1/covid_vaccines?region=New%20York%20State&sex=m")
+resp_m <- api_web_m %>% request() %>% req_perform() %>% resp_body_json(simplifyVector = TRUE)
+
+api_web_f <- paste0(api_covid$api_web, "/api/v1/covid_vaccines?region=New%20York%20State&sex=f")
+resp_f <- api_web_f %>% request() %>% req_perform() %>% resp_body_json(simplifyVector = TRUE)
+
+api_covid$process$kill()
+
+resp <- bind_rows(resp_f, resp_m)
+
+# Add the total number of cases per date for both sexes
+resp_df <-
+  resp %>%
+  mutate(Date = lubridate::ymd(Date)) %>%
+  filter(Measure == "Vaccination3") %>%
+  group_by(Date, Sex, Measure) %>%
+  summarize(cases = sum(Value))
+
+# Visualize both female and male cases
+resp_df %>%
+  ggplot(aes(Date, cases, color = Sex, group = Sex)) +
+  geom_line() +
+  theme_bw()
+```
+
+TODO request printout not happening?
+
+3. Can you recreate the request below? You will need to look at a few `req_*` but make sure you understand what each of these `req_*` functions do before reconstructing the request.
+
+```{r, echo = FALSE, eval = TRUE}
+api_web_m <- paste0(api_covid$api_web, "/api/v1/covid_cases?region=California&sex=m")
+
+api_web_m %>% 
+  request() %>%
+  req_auth_bearer_token("fake token") %>%
+  req_retry(max_tries = 5) %>%
+  req_throttle(rate = 2) %>%
+  req_timeout(10) %>%
+  req_headers("Content-type" = "*/*")
+```
+
+4. Can you make a request specifying sex but an unavailable region (Florida, for example)? What status code does it return? Look up on the internet what these status codes mean. After copying the endpoint on your browser (the entire endpoint with parameters on your browser), what message do you see?
+
+```{r, echo = FALSE, eval = FALSE}
+# COVID cases endpoint
+api_covid <- api_coveragedb()
+
+api_web_m <- paste0(api_covid$api_web, "/api/v1/covid_vaccines?region=New%20York%20State&sex=p")
+resp_m <- api_web_m %>% request()%>% req_perform()
+
+api_covid$process$kill()
+````

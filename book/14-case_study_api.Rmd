@@ -1,20 +1,10 @@
 # Case Study: grabbing data from a public API
 
 
-```{r}
+```{r, eval = FALSE}
 library(scrapex)
 library(httr2)
 library(dplyr)
-library(tidyr)
-library(purrr)
-
-parse_data <- function(req) {
-  req %>%
-    resp_body_json() %>%
-    transpose() %>%
-    as_tibble() %>%
-    unnest()
-}
 
 api <- api_amazon()
 

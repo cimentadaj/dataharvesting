@@ -1,9 +1,541 @@
-# Introduction to JSON
+```{r primer-json, echo = FALSE, eval = TRUE}
+main_dir_api <- "./images/primer_json"
 
-Examples of JSON
-Examples of nested JSON
-How they're parsed into R
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.path = paste0(main_dir_api, "/automatic_rmarkdown/"),
+  fig.asp = 0.618
+)
 
-How they handle nested data frames in R
+```
 
-https://www.gastonsanchez.com/intro2cwd/json.html
+# What you need to know about JSON
+
+Most of the content you'll grab from an API will probably be in JavaScript Object Notation or JSON for short. This is a format that was designed to be easily shared over the internet and is pretty much the standard for sharing data over APIs. JSON's are text based and allow you to store all the usual stuff you're used to such as strings and numbers. However, JSON's also allow you to use arrays, and more importantly, build complex nested structure. 
+
+As always, you might ask yourself, why is this new format important? I'll skip you the technical boring details and leave with you the three most important points:
+
+* It's lightweight and easy to share
+* It has support in nearly all programming languages
+* It allows you to make nested relationships and they're easy to read
+
+In this chapter we'll jump directly to the content that is mostly related to parsing JSON's in the context of API requests. This means that we won't be looking at toy examples but rather at a typical response you might get from an API, which has very nested structures. The idea is for users not to have perfect knowledge on JSON's but rather learn tricks on how to convert it to the format that they're interested in.
+
+If you want more information on JSON's in R, be sure to visit Gaston Sanchez's JSON intro, from which this chapter is very much inspired ( [https://www.gastonsanchez.com/intro2cwd/json.html](https://www.gastonsanchez.com/intro2cwd/json.html))
+    
+With theory out of the way, let's get our hands dirty. Let's load the package we'll use in this chapter:
+
+```{r}
+library(jsonlite)
+library(tibble)
+library(tidyr)
+```
+
+## Your first JSON example
+
+The JSON syntax is very straightforward. You wrap everything in `{}` and specify data as `key:value` pairs. For example:
+
+```
+{
+  "president": "Parlosi",
+  "vicepresident": "Kantos",
+  "opposition": "Pitaso"
+}
+```
+
+Each `key:value` needs to be wrapped in quotes (`"`). In `R` we can parse JSON's with several packages. In this book we'll use `jsonlite` but feel free to explore other options. Let's lparse the string we specified before with the function `fromJSON`:
+
+```{r}
+json_str <- '{
+  "president": "Parlosi",
+  "vicepresident": "Kantos",
+  "opposition": "Pitaso"
+}'
+
+fromJSON(json_str)
+```
+
+It parses the key/value pairs as a named list. That's exactly how yo can think of JSON's for now. A way to store named arrays. At this point I could show you a few examples of how JSON's work but it's pretty much it: `key:value` pairs. You can write number instead of strings as well but there's nothing to be gained from this example of JSON at the moment.
+
+It's inevitable to say that the true deal breaker with JSON's is the nested nature of the format. Here's what you can achieve with very simple syntax:
+
+```
+{
+    "president": [
+        {
+            "last_name": "Parlosi",
+            "party": "Free thinkers",
+            "age": 35
+        }
+    ],
+    "vicepresident": [
+        {
+            "last_name": "Kantos",
+            "party": "Free thinkers",
+            "age": 52
+        }
+    ],
+    "opposition": [
+        {
+            "last_name": "Pitaso",
+            "party": "Everyone United",
+            "age": 45
+        }
+    ]
+}
+```
+
+Things have taken quite a change here. Let's stop and discuss these changes. We still have the same `key:value` pairs (`president`, etc..) but the value is not only a string or a number but an **array**. So the first `key:value` pair is:
+
+```
+"president": [
+    {
+        "last_name": "Parlosi",
+        "party": "Free thinkers",
+        "age": 35
+    }
+]
+```
+
+We have the `key` followed by an array `[...]` that contains three `key:value` pairs. This is very interesting because you can think of arrays in JSON as rows in a data frame. Going back to the full example, you can think of this as three keys (names of each slot) where each contains a 1 row data frame inside. Let's try parsing this into R:
+
+
+```{r}
+json_str <- '
+{
+    "president": [
+        {
+            "last_name": "Parlosi",
+            "party": "Free thinkers",
+            "age": 35
+        }
+    ],
+    "vicepresident": [
+        {
+            "last_name": "Kantos",
+            "party": "Free thinkers",
+            "age": 52
+        }
+    ],
+    "opposition": [
+        {
+            "last_name": "Pitaso",
+            "party": "Everyone United",
+            "age": 45
+        }
+    ]
+}
+'
+
+fromJSON(json_str, simplifyDataFrame = TRUE)
+```
+
+You get precisely a named list where each slot contains a data frame. Are you with me? So far so good. We have that JSON's are `key:value` pairs and the value it self can be an array with other key/value pairs. So, with that idea in mind, you might get something like this:
+
+```
+{
+    "president": [
+        {
+            "last_name": "Parlosi",
+            "party": "Free thinkers",
+            "age": 35
+        },
+        {
+            "last_name": "Stevensson",
+            "party": "Free thinkers"
+        }
+    ],
+    "vicepresident": [
+        null
+    ],
+    "opposition": {
+        "last_name": "Pitaso",
+        "party": "Everyone United",
+        "age": 45
+    }
+}
+```
+
+Without looking further down, what you think will be the result of this in R? Study it and write it down. Let's look at the result:
+
+```{r}
+
+json_str <- '
+{
+    "president": [
+        {
+            "last_name": "Parlosi",
+            "party": "Free thinkers",
+            "age": 35
+        },
+        {
+            "last_name": "Stevensson",
+            "party": "Free thinkers"
+        }
+    ],
+    "vicepresident": [
+        null
+    ],
+    "opposition": {
+        "last_name": "Pitaso",
+        "party": "Everyone United",
+        "age": 45
+    }
+}
+'
+
+res <- fromJSON(json_str)
+res
+```
+
+Well, It has something we've never looked at before. It has:
+
+1. A data frame for the first slot. That's correct because the JSON contained an array with two sets of `key:value` pairs. That's translatable to a data frame with two rows even though one of the two sets did not have a field for `age`.
+
+2. An NA value since `null` is the way missing values are represented in JSON but notice that this `null` is in a JSON array so this is effectively a data frame with an `NA` value.
+
+3. A named list. That's right because there is no array structure (`[...]`) so `key:value` pairs are interpreted as a named list.
+
+If for some reason you were thinking, why is this important? Let me tell you that for much of the JSON you'll find in the wild, you'll see it becomes more and more convoluted to read as it becomes more nested. You'll need to learn to use your subsetting skills to actually convert the data into the format that you want. For example, you might want to convert the existing `opposition` slot into a data frame because the array structure was missing (`[...]`):
+
+```{r}
+res$opposition <- data.frame(res$opposition)
+res
+```
+
+## The `enframe` + `unnest` strategy
+
+And we've reached the most important objective of this chapter. Once we have this information, how can we combine it into a final data frame like this one:
+
+```{r, echo = FALSE}
+res %>%
+  enframe() %>%
+  unnest(value)
+```
+
+For each of the 'categories' (by this I mean, `president`, `vicepresident`, `opposition`), we concatenate all data frames into a single data frame which is much easier to read. 
+
+To do this, there's a general strategy of combining two functions: `enframe` and `unnest`. `enframe` takes a named list and does two things. First, it extracts the *names* of each slot in the list and stores it in a column in a data frame. Secondly, it takes **everything** inside each slot and stores it in a *list-column*. 
+
+What is a list-column? It's a column of class *list* that can contain different things for each row (if you remember, all columns in R must be of the same kind, either `numeric`, `character` or something else but there can't be two types in the same column. With list-columns, this is an exception). In our example, the **first row of this list-column is a data frame that has two rows** (the data frame for `president`), the second row is an empty data frame with an `NA` value and the third is now a data frame since we altered the JSON manually (remember?). Here's what the result of `enframe` would look like:
+
+```{r}
+res %>%
+  enframe()
+```
+
+The first column contains the names of the named list while the second column contains the list-column. The list column is telling you right away that it has two data frames and an empty slot. This is very useful for reading nested stuff because it gives you a high level overview of everything that you're working with but how can we actually do something  with this? We work with this using `unnest`. Contrary to `enframe`, `unnest` takes list-columns and 'unpacks' them into the common class of the list. Let me repeat that. `unnest` needs to be passed a list-column (the list-column can contain anything) and it will try to unpack it into whatever is the common class of all objects. If the all objects are of different classes (`data.frame`, `vectors`, etc..), then `unnest` will fail. However, if all objects within the list are of the same class, it will combine all of them into a proper column or 'unpack' it's values. 
+
+That's a somewhat convoluted explanation, and it's totally fine if it's not clear since there are many edge cases on how `unnest` works. Through the chapter we'll focus on understanding how this function works.
+
+Let's unpack the `value` column using `unnest`:
+
+```{r}
+res %>%
+  enframe() %>%
+  unnest(cols = value)
+```
+
+Since all objects of the list-column were compatible (all were data frames with the same number of columns), `unnest` unpacks the column entirely to simply expand the data frame's into one single data frame. A perfect example where `unnest` fails is when the different objects in the list are not easily mergeable. Say we use the same example as before but don't convert the third slot into a data frame. We'll that the JSON is parsed like this:
+
+```{r}
+
+json_str <- '
+{
+    "president": [
+        {
+            "last_name": "Parlosi",
+            "party": "Free thinkers",
+            "age": 35
+        },
+        {
+            "last_name": "Stevensson",
+            "party": "Free thinkers"
+        }
+    ],
+    "vicepresident": [
+        null
+    ],
+    "opposition": {
+        "last_name": "Pitaso",
+        "party": "Everyone United",
+        "age": 45
+    }
+}
+'
+
+res <- fromJSON(json_str)
+res
+```
+
+The first and second slot can be combined but the third is a named list. It's not clear how it can be combined. `unnest` will tell you that when you try to unpack it:
+
+```{r, error=TRUE}
+res %>%
+  enframe() %>%
+  unnest(cols = value)
+```
+
+It says exactly that: the first slot is a data frame and the third slot is a list. It can't find a way to combine them. The main problem you'll encounter with JSON's is that you're trying to parse some JSON that has many nested arrays and some of these arrays are not compatible for unnesting so you'll have to submerge yourself into these nested arrays and fix whatever data you want to extract.
+
+## Accessing deeply nested JSONs
+
+Suppose that as part of a research project, you've recently been granted access to the API of a company. You're interested in studying the relationship between the geo-location of clients, their shopping patterns and their social class. Once they grant you access to their private API, the endpoint that returns the geo location for each client returns a JSON like the one below. You use `fromJSON` to parse it and here is what you get:
+
+```{r}
+
+json_str <- '
+{
+    "client1": [
+        {
+            "name": "Kurt Rosenwinkel",
+            "device": [
+                {
+                    "type": "iphone",
+                    "location": [
+                        {
+                            "lat": 213.12,
+                            "lon": 43.213
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "client2": [
+        {
+            "name": "YEITUEI",
+            "device": [
+                {
+                    "type": "android",
+                    "location": [
+                        {
+                            "lat": 211.12,
+                            "lon": 53.213
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+'
+
+res <- fromJSON(json_str)
+res
+```
+
+Alright it seems two data frames were parsed, one for each client. Let's pick one of these two to access the columns:
+
+```{r}
+res$client1
+```
+Great, seems all was parsed correctly. Let's paste "Device: " in front of each device just to make sure we don't forget:
+
+```{r}
+paste0("Device: ", res$client1$device)
+```
+
+Ups, what? Oh, `device` column is not a character vector, it's something like a list. Let's explore it:
+
+```{r}
+res$client1$device[[1]]
+```
+`device` is a list with a data frame inside. Let's see what class is each of these columns to avoid the same mistake:
+
+```{r}
+lapply(res$client1$device[[1]], class)
+```
+`location` is also a list. Let's look at what's inside:
+
+```{r}
+res$client1$device[[1]]$location[[1]]
+```
+
+
+Alright, this is a general pattern. Whenever `fromJSON` encounters an array within an array, it converts each one to a data frame. The problem is that these are recurrent data frames inside data frames and so on. It's difficult to assess where to stop and this is a good example where `unnest` is very handy. Here's how we could fix this:
+
+```{r}
+res$client1 %>%
+  as_tibble() %>%
+  unnest(cols = device) %>%
+  unnest(cols = location)
+```
+
+Let's apply our general `enframe` + `unnest` strategy but applying `unnest` as many times as we need:
+
+```{r}
+all_res <-
+  res %>%
+  enframe(name = "client")
+
+all_res
+```
+Let's unpack `value`:
+
+```{r}
+all_res %>%
+  unnest(cols = "value")
+```
+
+Again with `device`:
+
+```{r}
+all_res %>%
+  unnest(cols = "value") %>%
+  unnest(cols = "device")
+```
+
+Again with `location`:
+
+```{r}
+all_res %>%
+  unnest(cols = "value") %>%
+  unnest(cols = "device") %>%
+  unnest(cols = "location")
+```
+
+There we go. That's how you handle nested JSON's in R. Beware that for this example, everything worked well because each nested object was an array that could be merged with other types but the real challenge in parsing JSON's is when some nested object does not conform well when unpacking everything into the same structure.
+
+JSON's are not that hard but the main challenge is understanding how to combine everything into R data frames when a lot of nested arrays have different classes or shapes. Remember that whenever you try to unpack something, be sure to pay attention to whether the error is related to unmergeable classes or objects of different lengths.
+
+
+## Exercises
+
+1. Can you fix this JSON?
+
+```{r, eval = FALSE}
+library(jsonlite)
+
+json_str <- '
+{
+  "president": [
+    {
+      "last_name": Parlosi,
+      "party": "Free thinkers",
+      "age": 35,
+    },
+    {
+      "last_name": "Stevensson",
+      party: "Free thinkers"
+    }
+  ,
+  "vicepresident": [null],
+  "opposition" =
+    {
+      "last_name": "Pitaso",
+      "party": "Everyone United",
+      "age": 45
+    }
+}
+'
+
+fromJSON(json_str)
+```
+
+2. Here's an excerpt of a deeply nested JSON. Can you parse it into R and unnest all columns as needed. Why can't you do it? Can you manually change the code to fix it?
+
+```{r}
+json_str <- '
+{
+    "client1": [
+        {
+            "name": "Kurt Rosenwinkel",
+            "device": [
+                {
+                    "type": "iphone",
+                    "location": [
+                        "213.12",
+                        "43.213"
+                    ]
+                }
+            ]
+        }
+    ],
+    "client2": [
+        {
+            "name": "YEITUEI",
+            "device": [
+                {
+                    "type": "android",
+                    "location": [
+                        213.12,
+                        43.213
+                    ]
+                }
+            ]
+        }
+    ]
+}
+'
+```
+
+```{r, echo = FALSE, eval = FALSE}
+# The location number of the first slot were strings. Remove quotes.
+
+json_str <- '
+{
+    "client1": [
+        {
+            "name": "Kurt Rosenwinkel",
+            "device": [
+                {
+                    "type": "iphone",
+                    "location": [
+                        213.12,
+                        43.213
+                    ]
+                }
+            ]
+        }
+    ],
+    "client2": [
+        {
+            "name": "YEITUEI",
+            "device": [
+                {
+                    "type": "android",
+                    "location": [
+                        213.12,
+                        43.213
+                    ]
+                }
+            ]
+        }
+    ]
+}
+'
+res <- fromJSON(json_str)
+
+res %>%
+  enframe(name = "client") %>%
+  unnest(cols = "value") %>%
+  unnest(cols = "device") %>%
+  unnest(cols = "location")
+```
+
+3. Say after parsing a JSON you get a list like the one below. How can you transform it to be a data frame like the one below? Hint: you might need to explore the function `purrr::transpose`.
+
+```{r}
+parsed_json <-
+  list(
+  list(author = "Cameron Gutkowski", genre = "Ad"),
+  list(author = "Stuart Armstrong", genre = "Sunt"),
+  list(author = "Kameron Grimes", genre = "Eius"),
+  list(author = "Genoveva Hand", genre = "A"),
+  list(author = "Kobe Effertz", genre = "Possimus")
+)
+```
+
+```{r, echo = FALSE}
+library(purrr)
+
+parsed_json %>%
+  transpose() %>%
+  as_tibble() %>%
+  unnest()
+```
