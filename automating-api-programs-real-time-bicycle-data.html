@@ -71,7 +71,6 @@
 <li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">14</span> What you need to know about JSON</a></li>
 <li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></li>
 <li><a class="active" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">16</span> Automating API programs: real-time bicycle data</a></li>
-<li><a class="" href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">17</span> Insightful and robust data collection progams</a></li>
 </ul>
 
         <div class="book-extra">
@@ -153,10 +152,10 @@
 ## [1] 29
 ## 
 ## [[1]]$current_time
-## [1] "2022-12-23 15:39:29"
+## [1] "2022-12-23 15:41:12"
 ## 
 ## [[1]]$in_use
-## [1] 20
+## [1] 25
 ## 
 ## 
 ## [[2]]
@@ -179,10 +178,10 @@
 ## [1] 27
 ## 
 ## [[2]]$current_time
-## [1] "2022-12-23 15:39:29"
+## [1] "2022-12-23 15:41:12"
 ## 
 ## [[2]]$in_use
-## [1] 20</code></pre>
+## [1] 23</code></pre>
 <p>I’ve only shown the first two slots of the resulting list (parsed from the JSON directly using <code>resp_body_json</code>). This output looks like each slot is the row of a data frame where each contains a column, with names like <code>slots</code>, <code>in_use</code>, <code>latitude/longitude</code> and <code>streetName</code>. There are different ways to parse this output but the first that comes to mind is to loop over each slot and simply try to convert it to a data frame. Since each slot has a named list inside, <code>data.frame</code> can convert that directly to a data frame and we can bind all those rows into a single data frame. Let’s try it:</p>
 <div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_output</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
@@ -192,8 +191,8 @@
 ## 1 BIKE  41.3980    2.1800 Gran Via Corts Catalanes          760    29
 ## 2 BIKE  41.3955    2.1771  Roger de Flor/ Gran Vía          126    27
 ##          current_time in_use
-## 1 2022-12-23 15:39:29     20
-## 2 2022-12-23 15:39:29     20</code></pre>
+## 1 2022-12-23 15:41:12     25
+## 2 2022-12-23 15:41:12     23</code></pre>
 <p>Yep, works well. Let’s go back to the request an extract all stations and combine them together:</p>
 <div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_stations</span> <span class="op">&lt;-</span>
@@ -228,26 +227,26 @@
 ## 19 BIKE  41.4102    2.1758                      Cartagena          308    20
 ## 20 BIKE  41.4109    2.1740       Sant Antoni Maria Claret          214     2
 ##           current_time in_use
-## 1  2022-12-23 15:39:29     20
-## 2  2022-12-23 15:39:29     20
-## 3  2022-12-23 15:39:29     25
-## 4  2022-12-23 15:39:29      0
-## 5  2022-12-23 15:39:29      4
-## 6  2022-12-23 15:39:29     12
-## 7  2022-12-23 15:39:29     19
-## 8  2022-12-23 15:39:29     24
-## 9  2022-12-23 15:39:29      5
-## 10 2022-12-23 15:39:29     16
-## 11 2022-12-23 15:39:29     29
-## 12 2022-12-23 15:39:29      0
-## 13 2022-12-23 15:39:29     14
-## 14 2022-12-23 15:39:29      5
-## 15 2022-12-23 15:39:29      5
-## 16 2022-12-23 15:39:29      1
-## 17 2022-12-23 15:39:29     20
-## 18 2022-12-23 15:39:29      7
-## 19 2022-12-23 15:39:29      6
-## 20 2022-12-23 15:39:29      1</code></pre>
+## 1  2022-12-23 15:41:12     25
+## 2  2022-12-23 15:41:12     23
+## 3  2022-12-23 15:41:12      7
+## 4  2022-12-23 15:41:12      5
+## 5  2022-12-23 15:41:12     25
+## 6  2022-12-23 15:41:12     33
+## 7  2022-12-23 15:41:12      1
+## 8  2022-12-23 15:41:12      4
+## 9  2022-12-23 15:41:12      7
+## 10 2022-12-23 15:41:12     16
+## 11 2022-12-23 15:41:12      8
+## 12 2022-12-23 15:41:12      0
+## 13 2022-12-23 15:41:12     26
+## 14 2022-12-23 15:41:12     17
+## 15 2022-12-23 15:41:12      5
+## 16 2022-12-23 15:41:12      2
+## 17 2022-12-23 15:41:12     19
+## 18 2022-12-23 15:41:12     23
+## 19 2022-12-23 15:41:12      5
+## 20 2022-12-23 15:41:12      1</code></pre>
 <p>Great, there we go. We managed to access the API, request the real time information of all bicycles and parse the output into a data frame. The most important columns here are <code>slots</code>, <code>current_time</code> and <code>in_use</code>. With these three you can calculate the rate at which the station is used throughout the day. In addition, we have cool stuff like the <code>latitude</code>/<code>longitude</code> to locate the station in case we want to make, for example, maps of bicycle usage. Let’s take a step back and move all of our code into a function that makes a request:</p>
 <div class="sourceCode" id="cb355"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">real_time_bicing</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bicing_api</span><span class="op">)</span> <span class="op">{</span>
@@ -275,26 +274,26 @@
 <span class="va">second</span> <span class="op">&lt;-</span> <span class="fu">real_time_bicing</span><span class="op">(</span><span class="va">bicing</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">in_use</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>second_in_use <span class="op">=</span> <span class="va">in_use</span><span class="op">)</span>
 <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_cols</a></span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span></code></pre></div>
 <pre><code>##    first_in_use second_in_use
-## 1            20             3
-## 2            12            26
-## 3            11             9
-## 4            11            13
-## 5            20            19
-## 6            10            30
-## 7            10             8
-## 8            21            25
-## 9            15            24
-## 10           21             0
-## 11           18             5
-## 12            2             3
-## 13           25            18
-## 14            9            12
-## 15            6            19
-## 16            1             2
-## 17           26            26
-## 18           13             8
-## 19           17             7
-## 20            2             0</code></pre>
+## 1            10            19
+## 2            20            26
+## 3            16            11
+## 4            19            20
+## 5            39            36
+## 6             4            22
+## 7             4            18
+## 8             6            15
+## 9             7            18
+## 10           10            10
+## 11           29            10
+## 12            3             1
+## 13           10             2
+## 14            3            18
+## 15           14            10
+## 16           13             6
+## 17            1            11
+## 18           20             8
+## 19            5             1
+## 20            0             1</code></pre>
 <p>We performed two requests and only selected the column <code>in_use</code> to check that these two columns are different. In effect, the bicycle usage of two requests just 1 second apart shows vastly different usage patterns for each station. This highlights that what we’re really interested here is in adding the two ingredients for making this a robust program: save the data on the fly and automate the script.</p>
 </div>
 <div id="saving-data-in-api-programs" class="section level2" number="16.2">
@@ -469,7 +468,7 @@ Number rows: 20</code></pre>
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></div>
-<div class="next"><a href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">17</span> Insightful and robust data collection progams</a></div>
+<div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">

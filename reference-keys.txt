@@ -74,4 +74,3 @@ the-bicing-api
 saving-data-in-api-programs
 automating-the-program
 exercises-10
-insightful-and-robust-data-collection-progams
