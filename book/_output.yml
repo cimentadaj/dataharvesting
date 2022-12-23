@@ -14,7 +14,7 @@ bookdown::bs4_book:
     bg: "#fefefe" #backgrounds
     fg: "#000000" #fonts
   repo:
-    base: https://github.com/cimentadaj/dataharvesting/
+    base: https://github.com/cimentadaj/dataharvesting
     branch: main
     subdir: book
   includes:
