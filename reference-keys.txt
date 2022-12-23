@@ -1,5 +1,5 @@
 welcome
-packages-well-use
+packages-used
 what-to-expect
 primer-webscraping
 getting-website-data-into-r
@@ -10,7 +10,7 @@ a-primer-on-xml-and-html
 tag-attributes
 conclusion
 exercises-1
-what-you-need-to-know-about-regular-expressions
+regex
 basic-matches
 the-.-placeholder
 quantifiers
@@ -48,7 +48,7 @@ scaling-rselenium-to-many-websites
 filling-out-forms
 summary
 exercises-6
-ethical-issues-in-web-scraping
+ethical-issues
 make-your-scraper-sleep
 terms-of-services
 copying-information

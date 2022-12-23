@@ -58,12 +58,12 @@
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
 <li><a class="" href="primer-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
 <li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
-<li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
+<li><a class="" href="regex.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
 <li><a class="" href="xpath-chapter.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
 <li><a class="active" href="spanish-school.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
 <li><a class="" href="automating-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
 <li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">8</span> Scraping JavaScript based website</a></li>
-<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
+<li><a class="" href="ethical-issues.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
 <li><a class="" href="intro-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
 <li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
 <li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></li>
@@ -229,19 +229,17 @@
 <span class="va">location</span></code></pre></div>
 <pre><code>## [1] "38.8274492" "0.0221681"</code></pre>
 <p>Alright, so that’s the end of our data cleaning efforts. We managed to locate the specific HTML node that contained the school coordinates and extracted it using string manipulations. Now that we got that information for one single school, let’s turn that into a function so we can pass only the school’s link and get the coordinates back.</p>
-<p>TODO reference user agent chapter</p>
 </div>
 </div>
 <div id="scaling-the-scraper-to-all-schools" class="section level2" number="6.2">
 <h2>
 <span class="header-section-number">6.2</span> Scaling the scraper to all schools<a class="anchor" aria-label="anchor" href="#scaling-the-scraper-to-all-schools"><i class="fas fa-link"></i></a>
 </h2>
-<p>When moving the code to scrape one single case to many cases, you’ll want to move the code into a function to make it more compact, organized and easy to read. Let’s move all our code into a function but also make sure to set your user agent as well add a time sleep of 5 seconds to the function because we want to make sure we don’t cause any troubles to the website we’re scraping due to an overload of requests:</p>
+<p>When moving the code to scrape one single case to many cases, you’ll want to move the code into a function to make it more compact, organized and easy to read. Let’s move all our code into a function but also make sure to set your user agent as well add a time sleep of 5 seconds to the function (we’ll touch upon the reasons why adding a user-agent and a time sleep are important in chapter <a href="ethical-issues.html#ethical-issues">9</a>) because we want to make sure we don’t cause any troubles to the website we’re scraping due to an overload of requests:</p>
 <div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># This sets your `User-Agent` globally so that all requests are</span>
-<span class="co"># identified with this `User-Agent`</span>
+<code class="sourceCode R"><span class="co"># This sets your `User-Agent` globally so that all requests are identified with this `User-Agent`</span>
 <span class="fu"><a href="https://httr.r-lib.org/reference/set_config.html">set_config</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://httr.r-lib.org/reference/user_agent.html">user_agent</a></span><span class="op">(</span><span class="st">"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0"</span><span class="op">)</span>
+  <span class="fu"><a href="https://httr.r-lib.org/reference/user_agent.html">user_agent</a></span><span class="op">(</span><span class="st">"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0; Jorge Cimentada / cimentadaj@gmail.com"</span><span class="op">)</span>
 <span class="op">)</span>
 
 <span class="co"># Collapse all of the code from above into one function called</span>
