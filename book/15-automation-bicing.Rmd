@@ -65,7 +65,7 @@ rt_bicing
 ```
 There we go, let's make a request and check the body:
 
-```{r}
+```{r, message = TRUE, collapse = TRUE}
 resp_output <- 
   rt_bicing %>%
   request() %>% 
