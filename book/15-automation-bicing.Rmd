@@ -157,7 +157,6 @@ For saving data we need to focus on several things:
 Here's a rough implementation with comments:
 
 ```{r}
-
 save_bicing_data <- function(bicing_api) {
   # Perform a request to the bicing API and get the data frame back
   bicing_results <- real_time_bicing(bicing_api)
@@ -184,7 +183,7 @@ save_bicing_data <- function(bicing_api) {
 
 One way to test whether this works is to run this twice and read the results back to a CSV to check that the data frame is correctly structured. Let's try it:
 
-```{r}
+```{r, eval = FALSE}
 save_bicing_data(bicing)
 Sys.sleep(5)
 save_bicing_data(bicing)
@@ -193,6 +192,13 @@ bicing_history <- read_csv("/home/jorge.cimentada/bicing/bicing_history.csv")
 bicing_history %>%
   distinct(current_time)
 ```
+```{r, echo = FALSE}
+dates <- c(lubridate::ymd_hms("2022-12-20 23:51:56"), lubridate::ymd_hms("2022-12-20 23:52:04	"))
+
+tibble(
+  current_time = dates
+)
+```
 
 ```{r, echo = FALSE, include = FALSE}
 file.remove("/home/jorge.cimentada/bicing/bicing_history.csv")
@@ -200,9 +206,17 @@ file.remove("/home/jorge.cimentada/bicing/bicing_history.csv")
 
 We called the API once, saved the results and the allowed the program to sleep for 5 seconds. We then called the API again and saved the results. After this, we read the `bicing_history.csv` file into an R data frame and showed the distinct time stamps that the file has. If we requested the data from the API twice and saved the results, then we should find two time stamps. That's precisely what we find in the results meaning that our results are correct. Great! We should also have two numbers in the column `in_use` for the number of bicycles under usage. Let's pick one station to check that it works:
 
-```{r}
+```{r, eval = FALSE}
 bicing_history %>%
-  filter(streetName == "Ribes")
+  filter(streetName == "Ribes") %>% 
+  select(current_time, streetName, in_use)
+```
+```{r, echo = FALSE}
+tibble(
+  current_time = dates,
+  streetName = c("Ribes", "Ribes"), 
+  in_use = c(13, 19) 
+)
 ```
 
 In the first time stamp the station had 13 bikes and in the second time stamp it had 19. Our aim is to automate this to run very frequently and thus we'll get hundreds of rows for each station. 
@@ -309,7 +323,9 @@ With that out of the way, remember that to exit the cron interface, follow these
 
 Immediately `cron` will start the schedule. Wait two or three minutes and if you open the file `bicing_history.csv` you'll be able to see something like this:
 
--- TODO: foto del CSV con las estaciones
+```{r, echo = FALSE, eval = TRUE, out.width = "100%"}
+knitr::include_graphics(file.path(main_dir_api, "bicing_history_cron.png"))
+```
 
 The CSV file is being continually updated every minute. Just as we did with web scraping, this strategy of automation can take you a long way for collecting data. Automation is one of the main building blocks in data harvesting because more often than not you'll find that online data is quick to disappear so you'll need to automate a process to collect it for you.
 
