@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 
 ```
 
-# Ethical issues in Web Scraping
+# Ethical issues in Web Scraping {#ethical-issues}
 
 Although quick to get up and running, web scraping is a delicate issue. It's delicate because it involves grabbing information that is not yours and using it for your own purposes. In some respects that might be even contrary to the terms of services of the website. It also involves *cluttering* the servers of the website with potentially many requests, making the functioning of the website less optimal. In this chapter we'll describe how you affect a website when you scrape it, how you can avoid problems with the website owners and how to figure out if indeed the website *allows* you to scrape that information.
 

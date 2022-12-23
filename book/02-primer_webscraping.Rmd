@@ -21,7 +21,7 @@ The aim of this primer is to create a plot like this one:
 knitr::include_graphics(file.path(main_dir, "elections_plot.png"))
 ```
 
-This plot shows the election results for all political parties in Spain since 1978. We do not have data on this on your local computer so we'll need to find this online and scrape it. By scrape I specifically mean to write down a little R script that will go to a website for you and manually select the data points that you tell it to. Wikipedia has such data but throughout this book we will work mostly with local copies of websites as outlined in the # TODO introduction chapter.
+This plot shows the election results for all political parties in Spain since 1978. We do not have data on this on your local computer so we'll need to find this online and scrape it. By scrape I specifically mean to write down a little R script that will go to a website for you and manually select the data points that you tell it to. Wikipedia has such data but throughout this book we will work mostly with local copies of websites as outlined in section \@ref(packages-used).
 
 ## Getting website data into R
 
@@ -30,6 +30,7 @@ Our very own `scrapex` package has a function called`history_elections_spain_ex(
 ```{r}
 library(scrapex)
 library(rvest)
+library(httr)
 library(dplyr)
 library(tidyr)
 library(stringr)
@@ -51,13 +52,14 @@ knitr::include_graphics(file.path(main_dir, "elections_website.png"))
 
 On the bottom right you can see the plot that we'd like to generate. This plots has all political parties since 1978 up until the 2020 elections. The first step in webscraping is to 'read' the website into R. We can do that with the `read_html` function. We pass the website link (the typical https://en.wikipedia.org string) but since we already have the website locally, we just pass it the path to the local website:
 
-TODO: explain and set the user agent. Rewrite this paragraph to mix with the chapter.
-Before we do that, I will set something called my `User-Agent`. In short, the `User-Agent` is **who** you are. It is good practice to identify the person who is scraping the website because if you're causing any trouble on the website, the website can directly identify who is causing problems. You can figure out your user agent [here](https://www.google.com/search?client=ubuntu&channel=fs&q=what%27s+my+user+agent&ie=utf-8&oe=utf-8) and paste it in the string below. In addition, I will add a time sleep of 5 seconds to the function because we want to make sure we don't cause any troubles to the website we're scraping due to an overload of requests.
-
-
+Before we do that, I will set something called my `User-Agent`. The `User-Agent` is **who** you are. It is good practice to identify the person who is scraping the website because if you're causing any trouble on the website, the website can directly identify who is causing problems. You can figure out your user agent [here](https://www.google.com/search?client=ubuntu&channel=fs&q=what%27s+my+user+agent&ie=utf-8&oe=utf-8) and paste it in the string below. This string contains information about your computer/browser such that the owners of the website can know who you are. I also add my name/email to make identification easier:
 
 
 ```{r}
+set_config(
+  user_agent("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0; Jorge Cimentada / cimentadaj@gmail.com")
+)
+
 html_website <- link %>% read_html()
 html_website
 ```
@@ -182,7 +184,7 @@ semi_cleaned_data <-
 semi_cleaned_data
 ```
 
-There we go, all columns are of class numeric and look nice and tidy for plotting. Last step we need to take is to remove the footnote values from the party column names. For doing that we'll need some more advanced regex patterns that I'll explain briefly (we have a # TODO separate chapter for this). The pattern we'll use is `[.+]` which means: detect any character (this is the `.`) that is repeated one or more times (this is the `+`) and are enclosed within brackets (this is the `[]` part). So for example, the string `Election` won't find any match because it does not have a bracket with any values repeated one or more times. However, the column name `UCD[a]` does have this pattern: it contains two brackets `[]` that have a value that is repeated one time (`a`).
+There we go, all columns are of class numeric and look nice and tidy for plotting. Last step we need to take is to remove the footnote values from the party column names. For doing that we'll need some more advanced regex patterns that I'll explain briefly (chapter \@ref(regex) will elaborate the concept of regex more in depth). The pattern we'll use is `[.+]` which means: detect any character (this is the `.`) that is repeated one or more times (this is the `+`) and are enclosed within brackets (this is the `[]` part). So for example, the string `Election` won't find any match because it does not have a bracket with any values repeated one or more times. However, the column name `UCD[a]` does have this pattern: it contains two brackets `[]` that have a value that is repeated one time (`a`).
 
 There's also a last trick that we need to take into account which is that brackets (`[]`) have a special meaning in the regex world. To signal to regex that you want to match brackets *literally*, you need to append them with the backslash (`\\`). So the final regex pattern we want to match is: `\\[.+\\]`. Let's use it to rename all columns:
 
@@ -283,8 +285,6 @@ all_years <-
 overlapping_years <- intersect(all_years[[1]], intersect(all_years[[2]], all_years[[3]]))
 overlapping_years
 ```
-
-
 
 
 <!-- # TODO: This is too hard for an exercise right away. You thought of saving cleaned_data to scrapex -->

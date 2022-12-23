@@ -212,17 +212,14 @@ location
 
 Alright, so that's the end of our data cleaning efforts. We managed to locate the specific HTML node that contained the school coordinates and extracted it using string manipulations. Now that we got that information for one single school, let's turn that into a function so we can pass only the school's link and get the coordinates back.
 
-TODO reference user agent chapter
-
 ## Scaling the scraper to all schools
 
-When moving the code to scrape one single case to many cases, you'll want to move the code into a function to make it more compact, organized and easy to read. Let's move all our code into a function but also make sure to set your user agent as well add a time sleep of 5 seconds to the function because we want to make sure we don't cause any troubles to the website we're scraping due to an overload of requests:
+When moving the code to scrape one single case to many cases, you'll want to move the code into a function to make it more compact, organized and easy to read. Let's move all our code into a function but also make sure to set your user agent as well add a time sleep of 5 seconds to the function (we'll touch upon the reasons why adding a user-agent and a time sleep are important in chapter \@ref(ethical-issues)) because we want to make sure we don't cause any troubles to the website we're scraping due to an overload of requests:
 
 ```{r}
-# This sets your `User-Agent` globally so that all requests are
-# identified with this `User-Agent`
+# This sets your `User-Agent` globally so that all requests are identified with this `User-Agent`
 set_config(
-  user_agent("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0")
+  user_agent("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0; Jorge Cimentada / cimentadaj@gmail.com")
 )
 
 # Collapse all of the code from above into one function called

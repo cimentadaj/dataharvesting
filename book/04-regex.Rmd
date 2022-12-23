@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# What you need to know about regular expressions
+# What you need to know about regular expressions {#regex}
 
 Before I set out to write this chapter I was hesitant to do it. I don't consider myself an expert on regular expressions nor do I think I would be able to take you from beginner to expert on such a complicated topic. On top of that, there are dozens of excellent tutorials on regular expressions out there that would do the topic more justice that I would be able to. With that said, you cannot do web scraping without knowing *some* regular expression techniques. Most of the data you'll extract from the web will need some type of massaging. Other times you'll find the data you need will be a string, combined with other stuff. You'll need to know that there are tools to clean this string and extract just what you need.
 
