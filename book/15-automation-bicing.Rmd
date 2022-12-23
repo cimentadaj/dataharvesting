@@ -156,7 +156,7 @@ For saving data we need to focus on several things:
 
 * If the CSV file *exists*, then we want to append the result
 
-**You'll see that in the remaining part of this chapter I'll use my local path. You should replace this with your local path**. Here's a rough implementation of the bullet points above with comments:
+**You'll see that in the remaining part of this chapter I'll use my local path to save the CSV file. This is in the variable `local_csv`. You should replace this with your local path before running any of the R code below**. Here's a rough implementation of the bullet points above with comments:
 
 ```{r}
 save_bicing_data <- function(bicing_api) {
