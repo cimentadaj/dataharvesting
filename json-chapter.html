@@ -10,7 +10,7 @@
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
 <meta property="og:title" content="13 What you need to know about JSON | Data Harvesting with R">
 <meta property="og:type" content="book">
-<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/what-you-need-to-know-about-json.html">
+<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/json-chapter.html">
 <meta property="og:description" content="Most of the content you’ll grab from an API will probably be in JavaScript Object Notation or JSON for short. This is a format that was designed to be easily shared over the internet and is pretty...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="13 What you need to know about JSON | Data Harvesting with R">
@@ -56,18 +56,18 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
-<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
+<li><a class="" href="primer-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
 <li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
 <li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
-<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
-<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
+<li><a class="" href="xpath-chapter.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
+<li><a class="" href="spanish-school.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
 <li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">8</span> Scraping JavaScript based website</a></li>
 <li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
-<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
+<li><a class="" href="intro-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
 <li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
 <li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></li>
-<li><a class="active" href="what-you-need-to-know-about-json.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
+<li><a class="active" href="json-chapter.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
 <li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">14</span> Case Study: grabbing data from a public API</a></li>
 <li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">15</span> Automating API programs: real-time bicycle data</a></li>
 </ul>
@@ -77,9 +77,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="what-you-need-to-know-about-json" class="section level1" number="13">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="json-chapter" class="section level1" number="13">
 <h1>
-<span class="header-section-number">13</span> What you need to know about JSON<a class="anchor" aria-label="anchor" href="#what-you-need-to-know-about-json"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13</span> What you need to know about JSON<a class="anchor" aria-label="anchor" href="#json-chapter"><i class="fas fa-link"></i></a>
 </h1>
 <p>Most of the content you’ll grab from an API will probably be in JavaScript Object Notation or JSON for short. This is a format that was designed to be easily shared over the internet and is pretty much the standard for sharing data over APIs. JSON’s are text based and allow you to store all the usual stuff you’re used to such as strings and numbers. However, JSON’s also allow you to use arrays, and more importantly, build complex nested structure.</p>
 <p>As always, you might ask yourself, why is this new format important? I’ll skip you the technical boring details and leave with you the three most important points:</p>
@@ -609,7 +609,7 @@
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#what-you-need-to-know-about-json"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
+<li><a class="nav-link" href="#json-chapter"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
 <li><a class="nav-link" href="#your-first-json-example"><span class="header-section-number">13.1</span> Your first JSON example</a></li>
 <li><a class="nav-link" href="#the-enframe-unnest-strategy"><span class="header-section-number">13.2</span> The enframe + unnest strategy</a></li>
 <li><a class="nav-link" href="#accessing-deeply-nested-jsons"><span class="header-section-number">13.3</span> Accessing deeply nested JSONs</a></li>

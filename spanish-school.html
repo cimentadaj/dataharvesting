@@ -10,7 +10,7 @@
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
 <meta property="og:title" content="6 Case study: scraping Spanish school locations from the web | Data Harvesting with R">
 <meta property="og:type" content="book">
-<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/case-study-scraping-spanish-school-locations-from-the-web.html">
+<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/spanish-school.html">
 <meta property="og:description" content="In this chapter we’ll be scraping the location of a sample of schools in Spain. This case study involves using XPath to find the specific chunks of code that contain coordinates of schools in...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="6 Case study: scraping Spanish school locations from the web | Data Harvesting with R">
@@ -56,18 +56,18 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
-<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
+<li><a class="" href="primer-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
 <li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
 <li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
-<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
-<li><a class="active" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
+<li><a class="" href="xpath-chapter.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
+<li><a class="active" href="spanish-school.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
 <li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">8</span> Scraping JavaScript based website</a></li>
 <li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
-<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
+<li><a class="" href="intro-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
 <li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
 <li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></li>
-<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
+<li><a class="" href="json-chapter.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
 <li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">14</span> Case Study: grabbing data from a public API</a></li>
 <li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">15</span> Automating API programs: real-time bicycle data</a></li>
 </ul>
@@ -77,9 +77,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="case-study-scraping-spanish-school-locations-from-the-web" class="section level1" number="6">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="spanish-school" class="section level1" number="6">
 <h1>
-<span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web<a class="anchor" aria-label="anchor" href="#case-study-scraping-spanish-school-locations-from-the-web"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web<a class="anchor" aria-label="anchor" href="#spanish-school"><i class="fas fa-link"></i></a>
 </h1>
 <p>In this chapter we’ll be scraping the location of a sample of schools in Spain. This case study involves using XPath to find the specific chunks of code that contain coordinates of schools in Spain, as well as inspecting the source code of a website in depth. The final result of this chapter is to generate a plot like this one without previous knowledge of where schools are:</p>
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/automatic_rmarkdown/spain-map-schools-1.png" width="100%" style="display: block; margin: auto;"></div>
@@ -228,7 +228,7 @@
 
 <span class="va">location</span></code></pre></div>
 <pre><code>## [1] "38.8274492" "0.0221681"</code></pre>
-<p>Alright, so that’s the end of our data cleaning efforts. We managed to locate the specific HTML node that contained the school coordinates and extracted it using string manipulations. Now that we got that information for one single school, let’s turn that into a function so we can pass only the school’s link and get the coordinates back</p>
+<p>Alright, so that’s the end of our data cleaning efforts. We managed to locate the specific HTML node that contained the school coordinates and extracted it using string manipulations. Now that we got that information for one single school, let’s turn that into a function so we can pass only the school’s link and get the coordinates back.</p>
 <p>TODO reference user agent chapter</p>
 </div>
 </div>
@@ -645,12 +645,12 @@
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">5</span> What you need to know about XPath</a></div>
-<div class="next"><a href="automating-web-scraping-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></div>
+<div class="prev"><a href="xpath-chapter.html"><span class="header-section-number">5</span> What you need to know about XPath</a></div>
+<div class="next"><a href="automating-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#case-study-scraping-spanish-school-locations-from-the-web"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="nav-link" href="#spanish-school"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
 <li>
 <a class="nav-link" href="#building-a-scraper-for-one-school"><span class="header-section-number">6.1</span> Building a scraper for one school</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#data-cleaning-1"><span class="header-section-number">6.1.1</span> Data cleaning</a></li></ul>
 </li>

@@ -10,7 +10,7 @@
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
 <meta property="og:title" content="10 Introduction to REST APIs | Data Harvesting with R">
 <meta property="og:type" content="book">
-<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/introduction-to-rest-apis.html">
+<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/intro-apis.html">
 <meta property="og:description" content="So far in the book we’ve covered the subtle art of web scraping. This art is weird in the sense that it’s not structured. To scrape some stuff you have to come up with unusual tricks to gather...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="10 Introduction to REST APIs | Data Harvesting with R">
@@ -56,18 +56,18 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
-<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
+<li><a class="" href="primer-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
 <li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
 <li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
-<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
-<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
+<li><a class="" href="xpath-chapter.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
+<li><a class="" href="spanish-school.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
 <li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">8</span> Scraping JavaScript based website</a></li>
 <li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
-<li><a class="active" href="introduction-to-rest-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
+<li><a class="active" href="intro-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
 <li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
 <li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></li>
-<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
+<li><a class="" href="json-chapter.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
 <li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">14</span> Case Study: grabbing data from a public API</a></li>
 <li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">15</span> Automating API programs: real-time bicycle data</a></li>
 </ul>
@@ -77,9 +77,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="introduction-to-rest-apis" class="section level1" number="10">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="intro-apis" class="section level1" number="10">
 <h1>
-<span class="header-section-number">10</span> Introduction to REST APIs<a class="anchor" aria-label="anchor" href="#introduction-to-rest-apis"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10</span> Introduction to REST APIs<a class="anchor" aria-label="anchor" href="#intro-apis"><i class="fas fa-link"></i></a>
 </h1>
 <p>So far in the book we’ve covered the subtle art of web scraping. This art is weird in the sense that it’s not structured. To scrape some stuff you have to come up with unusual tricks to gather data from websites. You also have to be careful not to do it too often because it might impact the latency of the website due too excessive requests. Moreover, when you do gather the data, you need to apply some ninja-style tricks to clean the results. Overall, a complicated process because this data (on the website) is not meant for you to scrape it.</p>
 <p>If it were for websites, they would love to prevent scrapers from scraping their website: in nearly all cases, that will bring negative impact to their website either through excessive requests and a possible slow down of their internal servers to reusing <em>their</em> data for your own economic benefit.</p>
@@ -111,7 +111,7 @@
 <li><p>It does not need any parameters. Endpoints often need parameters to filter data. For example, say you were requesting all the books from an author. Probably the endpoint would need to specify the author from which to return data from. This endpoint returns all available authors in the Amazon Book Store so it does not need any parameters. In other endpoints in this REST API you’ll see that you will need to specify parameters.</p></li>
 <li><p>It allows you to try out this endpoint with a button that says <code>"Try it out"</code>.</p></li>
 <li><p>REST APIs have codes that signal the status of your request. Below <code>Responses</code>, it says that this endpoint has two codes: <code>200</code> which means that everything is OK and <code>500</code> which means that something wrong happened when you requested data. Note that <em>whenever</em> you request data, one of these codes will be returned. If everything was alright, <code>200</code> will be return together with the data that you wanted. If something went wrong, the code <code>500</code> will be returned. Note that these are the possible values that it can return, not what is currently being returned: remember that we haven’t made yet a request.</p></li>
-<li><p>Right below <code>Media type</code>, we can figure out the formats that this endpoint returns. It says this endpoint returns a <code>JSON</code> string, a typical format used for sharing data over the web (we’ll talk about the JSON format in chapter #TODO).</p></li>
+<li><p>Right below <code>Media type</code>, we can figure out the formats that this endpoint returns. It says this endpoint returns a <code>JSON</code> string, a typical format used for sharing data over the web (we’ll talk about the JSON format in chapter <a href="json-chapter.html#json-chapter">13</a>).</p></li>
 </ol>
 <p>Finally, and this is irrespective of any particular endpoint, many REST APIs require that you authenticate before requesting any data. Normally, you’ll need to follow the instructions for authenticating for the REST API you’re after and in return they’ll give you some sort of token.</p>
 <p>As this is a fake REST API from Amazon, you can use the code fmcQoAZnnU to authenticate. To do this, click on the top right button <code>Authorize</code>, input that <em>token</em>, click on authorize and close the window:</p>
@@ -163,7 +163,7 @@
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#introduction-to-rest-apis"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
+<li><a class="nav-link" href="#intro-apis"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
 <li><a class="nav-link" href="#summary-1"><span class="header-section-number">10.1</span> Summary</a></li>
 <li><a class="nav-link" href="#exercises-7"><span class="header-section-number">10.2</span> Exercises</a></li>
 </ul>

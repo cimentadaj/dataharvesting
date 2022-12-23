@@ -10,7 +10,7 @@
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
 <meta property="og:title" content="5 What you need to know about XPath | Data Harvesting with R">
 <meta property="og:type" content="book">
-<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/what-you-need-to-know-about-xpath.html">
+<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/xpath-chapter.html">
 <meta property="og:description" content="XPath (XML Path Language) is the language designed to identify the address of one or several tags within an HTML or XML document. With that address, XPath allows us to extract the data under those...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="5 What you need to know about XPath | Data Harvesting with R">
@@ -56,18 +56,18 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
-<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
+<li><a class="" href="primer-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
 <li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
 <li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
-<li><a class="active" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
-<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
+<li><a class="active" href="xpath-chapter.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
+<li><a class="" href="spanish-school.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
 <li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">8</span> Scraping JavaScript based website</a></li>
 <li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
-<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
+<li><a class="" href="intro-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
 <li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
 <li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></li>
-<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
+<li><a class="" href="json-chapter.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
 <li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">14</span> Case Study: grabbing data from a public API</a></li>
 <li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">15</span> Automating API programs: real-time bicycle data</a></li>
 </ul>
@@ -77,18 +77,18 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="what-you-need-to-know-about-xpath" class="section level1" number="5">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="xpath-chapter" class="section level1" number="5">
 <h1>
-<span class="header-section-number">5</span> What you need to know about XPath<a class="anchor" aria-label="anchor" href="#what-you-need-to-know-about-xpath"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5</span> What you need to know about XPath<a class="anchor" aria-label="anchor" href="#xpath-chapter"><i class="fas fa-link"></i></a>
 </h1>
 <p>XPath (XML Path Language) is the language designed to identify the address of one or several tags within an HTML or XML document. With that address, XPath allows us to extract the data under those tags. For example, take a look at the XML below:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb127-1"><a href="what-you-need-to-know-about-xpath.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;bookshelf&gt;</span></span>
-<span id="cb127-2"><a href="what-you-need-to-know-about-xpath.html#cb127-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;dansimmons&gt;</span></span>
-<span id="cb127-3"><a href="what-you-need-to-know-about-xpath.html#cb127-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;book&gt;</span></span>
-<span id="cb127-4"><a href="what-you-need-to-know-about-xpath.html#cb127-4" aria-hidden="true" tabindex="-1"></a>      Hyperion Cantos</span>
-<span id="cb127-5"><a href="what-you-need-to-know-about-xpath.html#cb127-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/book&gt;</span></span>
-<span id="cb127-6"><a href="what-you-need-to-know-about-xpath.html#cb127-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/dansimmons&gt;</span></span>
-<span id="cb127-7"><a href="what-you-need-to-know-about-xpath.html#cb127-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/bookshelf&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb127-1"><a href="xpath-chapter.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;bookshelf&gt;</span></span>
+<span id="cb127-2"><a href="xpath-chapter.html#cb127-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;dansimmons&gt;</span></span>
+<span id="cb127-3"><a href="xpath-chapter.html#cb127-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;book&gt;</span></span>
+<span id="cb127-4"><a href="xpath-chapter.html#cb127-4" aria-hidden="true" tabindex="-1"></a>      Hyperion Cantos</span>
+<span id="cb127-5"><a href="xpath-chapter.html#cb127-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/book&gt;</span></span>
+<span id="cb127-6"><a href="xpath-chapter.html#cb127-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/dansimmons&gt;</span></span>
+<span id="cb127-7"><a href="xpath-chapter.html#cb127-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/bookshelf&gt;</span></span></code></pre></div>
 <p>To extract the book ‘Hyperion Cantos’ of Dan Simmons, the simplest XPath you can use is <code>/bookshelf/dansimmons/book</code>. Let’s break that up to understand it better:</p>
 <ul>
 <li>The first node is bookshelf so we start with <code>/bookshelf</code>.</li>
@@ -529,11 +529,11 @@
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></div>
-<div class="next"><a href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></div>
+<div class="next"><a href="spanish-school.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#what-you-need-to-know-about-xpath"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
+<li><a class="nav-link" href="#xpath-chapter"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
 <li><a class="nav-link" href="#finding-tags-with-xpath"><span class="header-section-number">5.1</span> Finding tags with XPath</a></li>
 <li><a class="nav-link" href="#filter-by-attributes"><span class="header-section-number">5.2</span> Filter by attributes</a></li>
 <li><a class="nav-link" href="#xpath-cookbook"><span class="header-section-number">5.3</span> XPath cookbook</a></li>
