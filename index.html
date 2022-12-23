@@ -56,21 +56,20 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="active" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
-<li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
-<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
-<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
-<li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">5</span> What you need to know about regular expressions</a></li>
-<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">6</span> What you need to know about XPath</a></li>
-<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">8</span> Automating Web Scraping Scripts</a></li>
-<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
-<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
-<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
-<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">12</span> A primer on APIs</a></li>
-<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">13</span> What is a RESTful API?</a></li>
-<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">14</span> What you need to know about JSON</a></li>
-<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></li>
-<li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">16</span> Automating API programs: real-time bicycle data</a></li>
+<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
+<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
+<li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
+<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
+<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
+<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">8</span> Scraping JavaScript based website</a></li>
+<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
+<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
+<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
+<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></li>
+<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
+<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">14</span> Case Study: grabbing data from a public API</a></li>
+<li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">15</span> Automating API programs: real-time bicycle data</a></li>
 </ul>
 
         <div class="book-extra">
@@ -84,75 +83,49 @@
 </h1>
 <p>Every day millions of gigabytes of data are shared across the internet. The standard way for most internet users to download this data is by manually clicking and downloading files in formats such as Excel files, CSV files, and Word files. However, this process of downloading files by clicking works well for downloading one or two files. What if you needed to download 500 CSV files? Or what happens when you need to download data that is refreshed every 20 seconds? The process of manually clicking each file is simply not a feasible solution when downloading data at scale or at frequent intervals. That’s why with the increasing amount of data on the internet, there’s also been an increase in the tools that allow you to access that data programmatically. This course will focus on exploring these technologies.</p>
 <p>Let me give you an example. When the COVID pandemic struck the world in 2020, it was paramount to understand the mortality rates that it was causing and the general decomposition of this mortality (how it was affecting males versus females as well as different age groups). A team of researchers at the Max Planck Institute for Demographic Research set out to collect administrative data on reported deaths by country, regions, gender and age. Now this might sound like fun but it’s actually awfully difficult because some countries uploaded data and refreshed it every day while others did it on a weekly basis. Some regions of a given country might update the data on a different schedule. The website might be different and the process of getting to know the website can take more time. Scale that process to collect data for hundreds of countries and the process of collecting mortality data can become incredibly cumbersome: you might spend hours on the web simply clicking links to download data (see <a href="https://timriffe.github.io/covid_age/DataAvail.html">here</a> for a sample of countries and dates that they had to collect data from). Aside from the long and tedious task of boringly clicking links for hours, chances are you’ll also introduce errors along the way. You might confuse one region with another and assign a wrong name to the CSV file, you might skip a particular country by mistake or you might simply misspell a country’s name, messing up the order of files that you were saving.</p>
-<p>The example from above is the typical task you want to automate: wouldn’t it be great if we had some type of robot that could automatically collect the data from all the different websites and save those files with correct, explicity names for me? That’s exactly what the team did. They created the <a href="https://academic.oup.com/ije/article/50/2/390/6277233">COVerAGE-DB dataset</a>. With the help of dozens of collaborators, they created web scraping scripts that automatically collected the data for them and automated the process to run as frequently as they needed. It’s as if they managed to created hundreds of small robots that did the work and then brought back the data for them to analyze. This is a perfect motivation for why automated data acquisition is an extremely important tool and why every person that works with data would benefit a lot from knowing these tools.</p>
-<p>Throughout the course, we’ll describe and create upon the basic formats for data transfer such as JSON, HTML and XML. We will learn how to subset, manipulate and transform these formats for suitable data analysis tasks. Most of these data formats can be accessed by scraping a website: programmatically accessing the data in a website and asking the program to download as much data as we need and as frequently as needed. An integral part of the course will focus on how to perform ethical web scrapping, how to scale your web scrapping to download massive amounts of data as well as to program your scraper to access data in frequent intervals.</p>
-<p>The course will also focus on an emerging technology for websites to share data: Application Programming Interfaces (API). We will touch upon the basic formats for data sharing through APIs as well as how to make thousands of data requests in just seconds. Special emphasis will be made on security and ethical guidelines when speaking to APIs.</p>
+<p>The example from above is the typical task you want to automate: wouldn’t it be great if we had some type of robot that could automatically collect the data from all the different websites and save those files with correct, explicitly names for me? That’s exactly what the team did. They created the <a href="https://academic.oup.com/ije/article/50/2/390/6277233">COVerAGE-DB dataset</a>. With the help of dozens of collaborators, they created web scraping scripts that automatically collected the data for them and automated the process to run as frequently as they needed. It’s as if they managed to created hundreds of small robots that did the work and then brought back the data for them to analyze. This is a perfect motivation for why automated data acquisition is an extremely important tool and why every person that works with data would benefit a lot from knowing these tools.</p>
+<p>Throughout the course, we’ll describe and create upon the basic formats for data transfer such as JSON, HTML and XML. We will learn how to subset, manipulate and transform these formats for suitable data analysis tasks. Most of these data formats can be accessed by scraping a website: programmatically accessing the data in a website and asking the program to download as much data as we need and as frequently as needed. An integral part of the course will focus on how to perform ethical web scrapping, how to scale your web scrapping programs to download massive amounts of data as well as to program your scraper to access data in frequent intervals.</p>
+<p>The course will also focus on an emerging technology for websites to share data: Application Programming Interfaces (API). We will touch upon the basic formats for data sharing through APIs as well as how to make dozens of data requests in just seconds.</p>
 <p>A big part of the course will emphasize automation, as a way for the student to create robust and scalable data acquisition pipelines. At each step of the process, we will focus on the practical applications of these techniques and exercise active participation by the students through hands-on challenges on data acquisition. The course will make heavy use of Github where students will need to share their homework as well as explore the immense repository of data acquisition technology already available as open source software.</p>
-<p>The goal of the course is to empower students with the right toolset and ideas to be able to create data acquisition programs, automate their data extraction pipeline and quickly transform that data into formats suitable for analysis. The course will place all these contents in light of the legal and ethical consequences that data acquisition can entail, always informing the students of best practices when grabbing data from the internet.</p>
+<p>The goal of the course is to empower students with the right tool set and ideas to be able to create data acquisition programs, automate their data extraction pipeline and quickly transform that data into formats suitable for analysis. The course will place all these contents in light of the legal and ethical consequences that data acquisition can entail, always informing the students of best practices when grabbing data from the internet.</p>
 <div class="rmdnote">
 <p>The course assumes students will be familiar with the R programming language, transforming and manipulating datasets as well as saving their work with Git and Github. No prior knowledge on software development nor data acquisition techniques is needed.</p>
 </div>
-<div id="curriculum" class="section level2" number="1.1">
+<div id="packages-well-use" class="section level2" number="1.1">
 <h2>
-<span class="header-section-number">1.1</span> Curriculum<a class="anchor" aria-label="anchor" href="#curriculum"><i class="fas fa-link"></i></a>
+<span class="header-section-number">1.1</span> Packages we’ll use<a class="anchor" aria-label="anchor" href="#packages-well-use"><i class="fas fa-link"></i></a>
 </h2>
+<p>Webscraping and APIs are inherently online resources. You cannot access a website without internet and you cannot access an API without internet. Although many tutorials on data harvesting use websites as examples, this has a major problem. Websites and APIs change. This means that one example that works today for grabbing some data from the web, might not work in six months because the developers changed the website. This book looks to break with that pattern by using <em>local copies</em> of websites that I saved. This means that all of the examples in this book will work just as well one, two or three years from now. Similarly, I’ve created local copies of APIs that will also persist over time, making this book reproducible in the long term.</p>
+<p>You might ask: but where are these examples saved? This book was written with a companion package, <code>scrapex</code>. <code>scrapex</code> contains complete websites saved as examples for us to use in this package. Moreover, it contains several APIs that can be launched just as you would access an online API. You can install <code>scrapex</code> with the code below:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"cimentadaj/scrapex"</span><span class="op">)</span></code></pre></div>
+<p>To actually scrape data and make requests, we’ll use these packages:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"httr2"</span>, <span class="st">"xml2"</span>, <span class="st">"rvest"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><code>httr2</code> will allow us to make requests to websites and APIs, while <code>xml2</code> and <code>rvest</code> allow us to extract stuff from a website. <code>rvest</code> is a more user-friendly package that we’ll use throughout the book but once we start getting more advanced we’ll switch to <code>xml2</code>. Just note that we’ll use these two packages interchangeably throughout the book. We’ll make heavy use of the <code>tidyverse</code> ecosystem of packages so be sure to install all of these packages with:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></code></pre></div>
+<p><strong>Apart from these packages, we’ll use other packages, mainly for manipulating data as well as for reading other data sources such as JSON. At the beginning of each chapter we’ll load the packages so be sure to install any other packages we haven’t mentioned here</strong>.</p>
 </div>
-<div id="todo-update-once-the-course-is-ready" class="section level2" number="1.2">
+<div id="what-to-expect" class="section level2" number="1.2">
 <h2>
-<span class="header-section-number">1.2</span> TODO: Update once the course is ready<a class="anchor" aria-label="anchor" href="#todo-update-once-the-course-is-ready"><i class="fas fa-link"></i></a>
+<span class="header-section-number">1.2</span> What to expect<a class="anchor" aria-label="anchor" href="#what-to-expect"><i class="fas fa-link"></i></a>
 </h2>
-<ul>
-<li>
-<strong>An introduction to Web Scraping</strong>
-<ul>
-<li>What is Web Scraping?</li>
-<li>Types of Web Scraping</li>
-<li>Data formats: XML and HTML</li>
-<li>Practical access to XML and HTML</li>
-<li>Automation for Web Scraping programs</li>
-<li>Selenium and JavaScript based scraping</li>
-<li>Ethical issues with Web Scraping</li>
-<li>Practical exercises</li>
-</ul>
-</li>
-<li>
-<strong>Data APIs</strong>
-<ul>
-<li>What is an API</li>
-<li>Fundamentals of API communication</li>
-<li>An introduction to the JSON format</li>
-<li>Create your own API (and share it)</li>
-<li>REST architecture</li>
-<li>APIs as a way to share and obtain data (any kind)</li>
-<li>Automation of API requests</li>
-<li>Talking with Databases</li>
-<li>Authentication and ethical access to APIs</li>
-<li>Practical exercises</li>
-</ul>
-</li>
-<li>
-<strong>Automation of Data Acquisition</strong>
-<ul>
-<li>Why do we need automation?</li>
-<li>Accessing servers</li>
-<li>Technologies for automating programs</li>
-<li>Automating cron jobs</li>
-<li>Logging tasks</li>
-<li>Practical exercises</li>
-</ul>
-</li>
-</ul>
+<p>In general, webscraping and APIs are an inexact art. The data you’ll gather from a website will be dirty, messy and unstructured. There’s no clear way to get what you want and you’ll need to come up with creative solutions to get data as well as to clean it. In particular, we’ll develop basic and intermediate skills for cleaning strings. Most of the data you’ll grab will be any formats as string (numbers, sentences, paragraphs, chunks of incomplete strings) and you’ll need to learn how to clean these strings. Don’t be intimidated by this, we’ll work hard at understating the logic behind each string manipulation exercises and we’ll establish clear feedback loops to quickly learn where we went wrong.</p>
+<p>Without further a due, let’s begin.</p>
+
 </div>
 </div>
   <div class="chapter-nav">
 <div class="empty"></div>
-<div class="next"><a href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></div>
+<div class="next"><a href="a-primer-on-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#welcome"><span class="header-section-number">1</span> Welcome</a></li>
-<li><a class="nav-link" href="#curriculum"><span class="header-section-number">1.1</span> Curriculum</a></li>
-<li><a class="nav-link" href="#todo-update-once-the-course-is-ready"><span class="header-section-number">1.2</span> TODO: Update once the course is ready</a></li>
+<li><a class="nav-link" href="#packages-well-use"><span class="header-section-number">1.1</span> Packages we’ll use</a></li>
+<li><a class="nav-link" href="#what-to-expect"><span class="header-section-number">1.2</span> What to expect</a></li>
 </ul>
 
       <div class="book-extra">

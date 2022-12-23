@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>12 A primer on APIs | Data Harvesting with R</title>
+<title>11 A primer on APIs | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
 <meta name="description" content="When you make requests to an API, most probably you want to make them programmatically. By programmatically I mean to request data using a programming language. In this book we’ll do it with R but...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
-<meta property="og:title" content="12 A primer on APIs | Data Harvesting with R">
+<meta property="og:title" content="11 A primer on APIs | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/a-primer-on-apis.html">
 <meta property="og:description" content="When you make requests to an API, most probably you want to make them programmatically. By programmatically I mean to request data using a programming language. In this book we’ll do it with R but...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="12 A primer on APIs | Data Harvesting with R">
+<meta name="twitter:title" content="11 A primer on APIs | Data Harvesting with R">
 <meta name="twitter:description" content="When you make requests to an API, most probably you want to make them programmatically. By programmatically I mean to request data using a programming language. In this book we’ll do it with R but...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -56,21 +56,20 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
-<li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
-<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
-<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
-<li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">5</span> What you need to know about regular expressions</a></li>
-<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">6</span> What you need to know about XPath</a></li>
-<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">8</span> Automating Web Scraping Scripts</a></li>
-<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
-<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
-<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
-<li><a class="active" href="a-primer-on-apis.html"><span class="header-section-number">12</span> A primer on APIs</a></li>
-<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">13</span> What is a RESTful API?</a></li>
-<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">14</span> What you need to know about JSON</a></li>
-<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></li>
-<li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">16</span> Automating API programs: real-time bicycle data</a></li>
+<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
+<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
+<li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
+<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
+<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
+<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">8</span> Scraping JavaScript based website</a></li>
+<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
+<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
+<li><a class="active" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
+<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></li>
+<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
+<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">14</span> Case Study: grabbing data from a public API</a></li>
+<li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">15</span> Automating API programs: real-time bicycle data</a></li>
 </ul>
 
         <div class="book-extra">
@@ -78,15 +77,15 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="a-primer-on-apis" class="section level1" number="12">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="a-primer-on-apis" class="section level1" number="11">
 <h1>
-<span class="header-section-number">12</span> A primer on APIs<a class="anchor" aria-label="anchor" href="#a-primer-on-apis"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11</span> A primer on APIs<a class="anchor" aria-label="anchor" href="#a-primer-on-apis"><i class="fas fa-link"></i></a>
 </h1>
 <p>When you make requests to an API, most probably you want to make them programmatically. By programmatically I mean to request data using a programming language. In this book we’ll do it with R but you can do this with most programming languages.</p>
 <p>Why do you want to do this programmatically when you can just use the documentation page to make sample requests as we did in chapter # TODO intro API? For several reasons. First, you can create a scheduled program to download data on specific intervals of time. Doing that in a web browser would be tedious as you need to constantly go to your computer to manually click on some buttons and then save the data somewhere. Second, APIs are built to persist thousands of requests per minutes. You might want to make 60 requests every minute. That sounds like a handful for a human clicking in a browser through out the day, right? Third, because you can do much more within a programming language. For example, you might want to request some data from an endpoint that is then passed as input into another endpoint, which has a fallback value in case the request doesn’t not return any data. Fourth and finally, because you might want to do things ‘real-time’ with your program. You might build a web application that when a user clicks on a button, you grab data from an API ‘real-time’ and on demand, and train a machine learning with the recently requested data.</p>
 <p>You might think APIs are a very convoluted concept at this point but you need to think of APIs as just another way to gather data. Using a programming language allows you to automate the gathering of data and add value in the data gathering process by making it more automatic, persistent and available any time. The reasons to do it programmatically are very numerous and that’s why for the remaining of this book we’ll focus on requesting data from APIs with R.</p>
 <p>As we did in # TODO primer web scraping, throughout this chapter I’ll give you a one-to-one tour on what to expect when requesting data from an API in the wild. We’ll skip the usual ‘start from the basics’ sections to directly request data from an API and see results from your efforts right away. Before we begin, let’s load the packages we’ll use in this chapter:</p>
-<div class="sourceCode" id="cb275"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb278"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr2.r-lib.org">httr2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
@@ -95,12 +94,12 @@
 <p>The aim of this primer is to create a plot like this one:</p>
 <div class="inline-figure"><img src="images/primer_api/coveragedb_covid_cases_plot.png" width="100%" style="display: block; margin: auto;"></div>
 <p>This plot shows the the total number of COVID cases for females and males in California. We do not have data on this on your local computer so we’ll need to request the data from an API.</p>
-<div id="getting-familiar-with-an-api" class="section level2" number="12.1">
+<div id="getting-familiar-with-an-api" class="section level2" number="11.1">
 <h2>
-<span class="header-section-number">12.1</span> Getting familiar with an API<a class="anchor" aria-label="anchor" href="#getting-familiar-with-an-api"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.1</span> Getting familiar with an API<a class="anchor" aria-label="anchor" href="#getting-familiar-with-an-api"><i class="fas fa-link"></i></a>
 </h2>
 <p>Inside <code>scrapex</code> the function <code><a href="https://rdrr.io/pkg/scrapex/man/api_coveragedb.html">api_coveragedb()</a></code> has a local API that was designed to be used in this book. Let’s load it:</p>
-<div class="sourceCode" id="cb276"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb279"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">api_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/api_coveragedb.html">api_coveragedb</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Visit your REST API at http://localhost:2234"
 ## [1] "Documentation is at http://localhost:2234/__docs__/"</code></pre>
@@ -116,7 +115,7 @@
 <li>The parameters in the endpoint which are specified after a <code>?</code> and each parameter is then concatenated with <code>&amp;</code>.</li>
 </ul>
 <p>So the complete endpoint URL for this endpoint would be <a href="http://localhost:2234/api/v1/covid_cases" class="uri">http://localhost:2234/api/v1/covid_cases</a>. How would we add parameters? We start with a <code>?</code> and then add <code>parameter=value</code> followed by a <code>&amp;</code> to concatenate with other parameters. Sounds confusing? Let’s construct it in R:</p>
-<div class="sourceCode" id="cb278"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb281"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># COVID cases endpoint</span>
 <span class="va">api_web</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">api_covid</span><span class="op">$</span><span class="va">api_web</span>, <span class="st">"/api/v1/covid_cases"</span><span class="op">)</span>
 
@@ -127,38 +126,38 @@
 <pre><code>## [1] "http://localhost:2234/api/v1/covid_cases?region=California&amp;sex=m"</code></pre>
 <p>The parameters we specified were <code>?region=California&amp;sex=m</code>. It’s not that difficult to construct these paths but rather tedious. Imagine having to construct this for an endpoint with 7 parameters. Too many <code>&amp;</code> can confuse anyone and it can start to get difficult to read. Instead, the <code>httr2</code> package can help us with this. With <code>httr2</code> we just pass the endpoint URL and use functions to add as many parameters as we see fit.</p>
 </div>
-<div id="making-your-first-request" class="section level2" number="12.2">
+<div id="making-your-first-request" class="section level2" number="11.2">
 <h2>
-<span class="header-section-number">12.2</span> Making your first request<a class="anchor" aria-label="anchor" href="#making-your-first-request"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.2</span> Making your first request<a class="anchor" aria-label="anchor" href="#making-your-first-request"><i class="fas fa-link"></i></a>
 </h2>
-<div id="todo-you-cant-see-the-results-of-the-request-objetct-in-this-chapter." class="section level4" number="12.2.0.1">
+<div id="todo-you-cant-see-the-results-of-the-request-objetct-in-this-chapter." class="section level4" number="11.2.0.1">
 <h4>
-<span class="header-section-number">12.2.0.1</span> TODO: You can’t see the results of the request objetct in this chapter.<a class="anchor" aria-label="anchor" href="#todo-you-cant-see-the-results-of-the-request-objetct-in-this-chapter."><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.2.0.1</span> TODO: You can’t see the results of the request objetct in this chapter.<a class="anchor" aria-label="anchor" href="#todo-you-cant-see-the-results-of-the-request-objetct-in-this-chapter."><i class="fas fa-link"></i></a>
 </h4>
 <p>Let’s start building our request in R:</p>
-<div class="sourceCode" id="cb280"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb283"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># COVID cases endpoint</span>
 <span class="va">api_web</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">api_covid</span><span class="op">$</span><span class="va">api_web</span>, <span class="st">"/api/v1/covid_cases"</span><span class="op">)</span>
 <span class="va">req</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr2.r-lib.org/reference/request.html">request</a></span><span class="op">(</span><span class="va">api_web</span><span class="op">)</span>
 <span class="va">req</span></code></pre></div>
 <p>There we go. The <code>request</code> function from <code>httr2</code> builds something like a placeholder for our request. It says it already has the endpoint URL (we can see it in the <code>GET</code> line) but it does not say anything about our parameters or headers. Let’s add the endpoint and parameters:</p>
-<div class="sourceCode" id="cb281"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb284"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">req_california_m</span> <span class="op">&lt;-</span>
   <span class="va">req</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/req_url.html">req_url_query</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"California"</span>, sex <span class="op">=</span> <span class="st">"m"</span><span class="op">)</span>
 
 <span class="va">req_california_m</span></code></pre></div>
 <p>The function <code>req_url_query</code> constructs the endpoint by adding as many parameters as we want. Do you see the idea here? <code>request</code> builds a placeholder for the endpoint and then you add as many “add-on’s” as you want to your request. Our “add-on” so far has just been parameters but you could hypothetically add authentication headers and a retry step, for example:</p>
-<div class="sourceCode" id="cb282"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb285"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">req_california_m</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/req_auth_basic.html">req_auth_basic</a></span><span class="op">(</span>username <span class="op">=</span> <span class="st">"fake name"</span>, password <span class="op">=</span> <span class="st">"fake password"</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/req_retry.html">req_retry</a></span><span class="op">(</span>max_tries <span class="op">=</span> <span class="fl">3</span>, max_seconds <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
 <p>Our request object also added the headers as well as a retry policy: if the request fails for some reason, try it 3 more times, waiting 5 seconds in between. If you type <code>req_</code> and hit tab on most IDE’s you’ll get a complete list of functions that allow to add stuff into our request as well as extract stuff from a request. Feel free to explore these to get familiar with the capabilities of <code>httr2</code>.</p>
 <p>Let’s get back to our initial request. Since we don’t need any further add-on’s to our request, it should look like this:</p>
-<div class="sourceCode" id="cb283"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb286"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">req_california_m</span></code></pre></div>
 <p>Whenever we’re happy with our request, we can actually <em>make</em> the request with <code>req_perform</code>:</p>
-<div class="sourceCode" id="cb284"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb287"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">resp_california_m</span> <span class="op">&lt;-</span> 
   <span class="va">req_california_m</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/req_perform.html">req_perform</a></span><span class="op">(</span><span class="op">)</span>
@@ -166,15 +165,15 @@
 <span class="va">resp_california_m</span></code></pre></div>
 <p>Alright so we can interpret a few things out of this request. First, it was successful. The <code>200</code> status code means that it was OK, so nothing failed. Second, the response content-type is <code>JSON</code>, meaning the data that was sent is in <code>JSON</code> format. Third, the actual body of the request has data, which is now loaded in RAM memory (instead of in your hard drive).</p>
 <p>Now, you might have noticed that all functions for working with your request in <code>httr2</code> start with <code>req_*</code>. This means that you can easily search for all <code>req</code>uest related functions quickly. Similarly, for the <em>response</em> of an API, you can do the same but with the <code>resp_*</code>. All <code>resp</code>onse functions allow you to perform or extract stuff on a response object. We can extract the status code for example:</p>
-<div class="sourceCode" id="cb285"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb288"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://httr2.r-lib.org/reference/resp_status.html">resp_status</a></span><span class="op">(</span><span class="va">resp_california_m</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 200</code></pre>
 <p>Or the content type:</p>
-<div class="sourceCode" id="cb287"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://httr2.r-lib.org/reference/resp_content_type.html">resp_content_type</a></span><span class="op">(</span><span class="va">resp_california_m</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "application/json"</code></pre>
 <p>Then how do we extract the <code>body</code> containing the data from the request? It depends on the content type that was returned. In our case it’s <code>JSON</code> so we can use <code>resp_body_json</code>. Whenever you receive a response, depending on the type of data you receive, your best bet is to look at <code>resp_body_*</code> for the content type of your request. So for our case, we can safely extract it:</p>
-<div class="sourceCode" id="cb289"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb292"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">resp_body_california_m</span> <span class="op">&lt;-</span>
   <span class="va">resp_california_m</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html">resp_body_json</a></span><span class="op">(</span>simplifyVector <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
@@ -196,7 +195,7 @@
 ## 10 USA     Calif… US-CA 2020… m     10        10 Count  Cases       0 USA_CDC_c…
 ## # … with 5,838 more rows</code></pre>
 <p>There we go. We see that data from California has 5848 rows and that we have 11 columns. You’ll notice that I used the argument <code>simplifyVector</code> inside <code>resp_body_json</code>. This is because the <code>JSON</code> format is know as a <em>nested</em> format. This means that you can have columns within columns within columns and so on. That argument <em>tries</em> (but not always succeeds) in simplifying this structure into a data frame. With that out of the way, let’s visualize the overall number of COVID cases:</p>
-<div class="sourceCode" id="cb291"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb294"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># To avoid scientific numbering</span>
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>scipen <span class="op">=</span> <span class="fl">231241231</span><span class="op">)</span>
 
@@ -210,9 +209,9 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Date</span>, <span class="va">cases</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="images/primer_api/automatic_rmarkdown/unnamed-chunk-284-1.png" width="672" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="images/primer_api/automatic_rmarkdown/unnamed-chunk-287-1.png" width="672" style="display: block; margin: auto;"></div>
 <p>Great, we can see a rather big jump starting 2021 for California. Let’s perform the same request as before but replace the sex for females to compare the trend. After it, let’s count the number of cases per date as we did for males and combine everything into one data frame. Finally, let’s produce the same plot as before but for both sexes:</p>
-<div class="sourceCode" id="cb292"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb295"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Perform the same request but for females and grab the JSON result</span>
 <span class="va">resp_body_california_f</span> <span class="op">&lt;-</span>
   <span class="va">req</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
@@ -236,17 +235,17 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Date</span>, <span class="va">cases</span>, color <span class="op">=</span> <span class="va">Sex</span>, group <span class="op">=</span> <span class="va">Sex</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="images/primer_api/automatic_rmarkdown/unnamed-chunk-285-1.png" width="672" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="images/primer_api/automatic_rmarkdown/unnamed-chunk-288-1.png" width="672" style="display: block; margin: auto;"></div>
 <p>As we see, we start to see a difference in cases right at the start of 2021 with females having greater number of cases after 2021. Before we close the chapter, remember to <em>kill</em> the API that we launched. You wan’t have to do it when you request data from online APIs, this is only for our local version:</p>
-<div class="sourceCode" id="cb293"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb296"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">api_covid</span><span class="op">$</span><span class="va">process</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>So there you have it. This primer gave you a very direct experience on what requesting data from an API involves. It’s usually all about studying the documentation to see what each endpoint returns, constructing URLs that directly grab the data that you want and extracting the data from the response. In the next chapter you’ll see more in depth how APIs work behind the scenes.</p>
 </div>
 </div>
-<div id="exercises-8" class="section level2" number="12.3">
+<div id="exercises-8" class="section level2" number="11.3">
 <h2>
-<span class="header-section-number">12.3</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-8"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.3</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-8"><i class="fas fa-link"></i></a>
 </h2>
 <ol style="list-style-type: decimal">
 <li><p>Generate the same plot that we created for males/females but for the state New York. However, construct the path manually (do not use the function <code>req_url_query</code>). You might need to look how <em>spaces</em> are written down in URLs on the internet.</p></li>
@@ -260,15 +259,15 @@
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></div>
-<div class="next"><a href="what-is-a-restful-api.html"><span class="header-section-number">13</span> What is a RESTful API?</a></div>
+<div class="prev"><a href="introduction-to-rest-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></div>
+<div class="next"><a href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#a-primer-on-apis"><span class="header-section-number">12</span> A primer on APIs</a></li>
-<li><a class="nav-link" href="#getting-familiar-with-an-api"><span class="header-section-number">12.1</span> Getting familiar with an API</a></li>
-<li><a class="nav-link" href="#making-your-first-request"><span class="header-section-number">12.2</span> Making your first request</a></li>
-<li><a class="nav-link" href="#exercises-8"><span class="header-section-number">12.3</span> Exercises</a></li>
+<li><a class="nav-link" href="#a-primer-on-apis"><span class="header-section-number">11</span> A primer on APIs</a></li>
+<li><a class="nav-link" href="#getting-familiar-with-an-api"><span class="header-section-number">11.1</span> Getting familiar with an API</a></li>
+<li><a class="nav-link" href="#making-your-first-request"><span class="header-section-number">11.2</span> Making your first request</a></li>
+<li><a class="nav-link" href="#exercises-8"><span class="header-section-number">11.3</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">

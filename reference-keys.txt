@@ -1,7 +1,6 @@
 welcome
-curriculum
-todo-update-once-the-course-is-ready
-introduction-to-webscraping
+packages-well-use
+what-to-expect
 a-primer-on-webscraping
 getting-website-data-into-r
 data-cleaning

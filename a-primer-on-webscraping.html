@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>3 A primer on Webscraping | Data Harvesting with R</title>
+<title>2 A primer on Webscraping | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
 <meta name="description" content="Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning and data manipulation. String...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
-<meta property="og:title" content="3 A primer on Webscraping | Data Harvesting with R">
+<meta property="og:title" content="2 A primer on Webscraping | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/a-primer-on-webscraping.html">
 <meta property="og:description" content="Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning and data manipulation. String...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="3 A primer on Webscraping | Data Harvesting with R">
+<meta name="twitter:title" content="2 A primer on Webscraping | Data Harvesting with R">
 <meta name="twitter:description" content="Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning and data manipulation. String...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -56,21 +56,20 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
-<li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
-<li><a class="active" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
-<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
-<li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">5</span> What you need to know about regular expressions</a></li>
-<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">6</span> What you need to know about XPath</a></li>
-<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">8</span> Automating Web Scraping Scripts</a></li>
-<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
-<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
-<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
-<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">12</span> A primer on APIs</a></li>
-<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">13</span> What is a RESTful API?</a></li>
-<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">14</span> What you need to know about JSON</a></li>
-<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></li>
-<li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">16</span> Automating API programs: real-time bicycle data</a></li>
+<li><a class="active" href="a-primer-on-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
+<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
+<li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
+<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
+<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
+<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">8</span> Scraping JavaScript based website</a></li>
+<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
+<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
+<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
+<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></li>
+<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
+<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">14</span> Case Study: grabbing data from a public API</a></li>
+<li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">15</span> Automating API programs: real-time bicycle data</a></li>
 </ul>
 
         <div class="book-extra">
@@ -78,20 +77,20 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="a-primer-on-webscraping" class="section level1" number="3">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="a-primer-on-webscraping" class="section level1" number="2">
 <h1>
-<span class="header-section-number">3</span> A primer on Webscraping<a class="anchor" aria-label="anchor" href="#a-primer-on-webscraping"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2</span> A primer on Webscraping<a class="anchor" aria-label="anchor" href="#a-primer-on-webscraping"><i class="fas fa-link"></i></a>
 </h1>
 <p>Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning and data manipulation. String manipulations, data subsetting and clever tricks rather than exact solutions will be your companion on your day to day scraping needs. Throughout this chapter I’ll give you a one-to-one tour on what to expect when webscraping out in the wild. For that reason, this book will skip the usual ‘start from the basics’ sections to directly webscrape a website and see results from your efforts right away. Ready? Let’s get going then.</p>
 <p>The aim of this primer is to create a plot like this one:</p>
 <div class="inline-figure"><img src="images/primer_webscraping/elections_plot.png" width="100%" style="display: block; margin: auto;"></div>
 <p>This plot shows the election results for all political parties in Spain since 1978. We do not have data on this on your local computer so we’ll need to find this online and scrape it. By scrape I specifically mean to write down a little R script that will go to a website for you and manually select the data points that you tell it to. Wikipedia has such data but throughout this book we will work mostly with local copies of websites as outlined in the # TODO introduction chapter.</p>
-<div id="getting-website-data-into-r" class="section level2" number="3.1">
+<div id="getting-website-data-into-r" class="section level2" number="2.1">
 <h2>
-<span class="header-section-number">3.1</span> Getting website data into R<a class="anchor" aria-label="anchor" href="#getting-website-data-into-r"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.1</span> Getting website data into R<a class="anchor" aria-label="anchor" href="#getting-website-data-into-r"><i class="fas fa-link"></i></a>
 </h2>
 <p>Our very own <code>scrapex</code> package has a function called<code><a href="https://rdrr.io/pkg/scrapex/man/history_elections_spain_ex.html">history_elections_spain_ex()</a></code> which points to a locally saved copy of the Wikipedia website that will persist over time(the original online link is <a href="https://en.wikipedia.org/wiki/Elections_in_Spain" class="uri">https://en.wikipedia.org/wiki/Elections_in_Spain</a>). Let’s load all packages and take a look at the website.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
@@ -103,13 +102,13 @@
 <span class="va">link</span></code></pre></div>
 <pre><code>## [1] "/home/runner/.local/share/renv/cache/v5/R-4.2/x86_64-pc-linux-gnu/scrapex/0.0.1.9999/9aa78cbb3eccaaa811756b4bf07fdd1a/scrapex/extdata/history_elections_spain//Elections_Spain.html"</code></pre>
 <p>This is where your the website is saved locally on your computer. We can directly visualize this on our browser like this:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/browseURL.html">browseURL</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/prep_browser.html">prep_browser</a></span><span class="op">(</span><span class="va">link</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="images/primer_webscraping/elections_website.png" width="100%" style="display: block; margin: auto;"></div>
 <p>On the bottom right you can see the plot that we’d like to generate. This plots has all political parties since 1978 up until the 2020 elections. The first step in webscraping is to ‘read’ the website into R. We can do that with the <code>read_html</code> function. We pass the website link (the typical <a href="https://en.wikipedia.org" class="uri">https://en.wikipedia.org</a> string) but since we already have the website locally, we just pass it the path to the local website:</p>
 <p>TODO: explain and set the user agent. Rewrite this paragraph to mix with the chapter.
 Before we do that, I will set something called my <code>User-Agent</code>. In short, the <code>User-Agent</code> is <strong>who</strong> you are. It is good practice to identify the person who is scraping the website because if you’re causing any trouble on the website, the website can directly identify who is causing problems. You can figure out your user agent <a href="https://www.google.com/search?client=ubuntu&amp;channel=fs&amp;q=what%27s+my+user+agent&amp;ie=utf-8&amp;oe=utf-8">here</a> and paste it in the string below. In addition, I will add a time sleep of 5 seconds to the function because we want to make sure we don’t cause any troubles to the website we’re scraping due to an overload of requests.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html_website</span> <span class="op">&lt;-</span> <span class="va">link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">html_website</span></code></pre></div>
 <pre><code>## {html_document}
@@ -119,12 +118,12 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
 <p>We can’t understand much from the output from <code>read_html</code> because the HTML code behind the website is <strong>very long</strong>. <code>read_html</code> only shows the top level details. In any case, we don’t need to understand these details at first. Now that we have the website already in R we need to figure out where is the actual data on elections on the website. If you scroll down, near the end of the website you’ll see a <strong>table</strong> like this one:</p>
 <div class="inline-figure"><img src="images/primer_webscraping/elections_table.png" width="100%" style="display: block; margin: auto;"></div>
 <p>This is precisely the data we need. This contains the election results for all parties since 1978. The <code>rvest</code> package (which we have already loaded) has a very handy function called <code><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table()</a></code> which automatically extracts all tables from a website into R. However, <code><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table()</a></code> needs to know which website we’re working with so we need to pass it the <code>html_website</code> we read in the previous step:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_tables</span> <span class="op">&lt;-</span>
   <span class="va">html_website</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><code><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table()</a></code> reads <strong>all</strong> tables so there’s a lot of information in <code>all_tables</code> (a list with 10 tables to be more precise). I won’t print the entire R object because it’s too verbose but I encourage the reader to write <code>all_tables</code> in the R console and explore all the tables that it scraped automatically. I did that myself to understand where is the information that we’re looking for. After carefully inspecting all tables, I figure out that the table we’re looking for is in slot 5:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">elections_data</span> <span class="op">&lt;-</span> <span class="va">all_tables</span><span class="op">[[</span><span class="fl">5</span><span class="op">]</span><span class="op">]</span>
 <span class="va">elections_data</span></code></pre></div>
 <pre><code>## # A tibble: 16 × 18
@@ -151,9 +150,9 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
 <p>You can see it’s the same table we saw on the website here:</p>
 <div class="inline-figure"><img src="images/primer_webscraping/elections_table.png" width="100%" style="display: block; margin: auto;"></div>
 </div>
-<div id="data-cleaning" class="section level2" number="3.2">
+<div id="data-cleaning" class="section level2" number="2.2">
 <h2>
-<span class="header-section-number">3.2</span> Data cleaning<a class="anchor" aria-label="anchor" href="#data-cleaning"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.2</span> Data cleaning<a class="anchor" aria-label="anchor" href="#data-cleaning"><i class="fas fa-link"></i></a>
 </h2>
 <p>On the first column we have the year and on each column we have the name of the political party. However, the table has some problems that we need to fix. Let’s outline the things that we need to fix:</p>
 <ul>
@@ -164,7 +163,7 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
 </ul>
 <p>As I recalled in the first paragraphs of this primer, to be able to do webscraping, you need to be a data ninja. You’ll need to become familiar with the basics of regular expressions (this is a fancy name for manipulating strings) and also on cleaning data. Here we’ll use the very basics of string manipulation, it’s fine if you feel completely lost. Just work hard at it and little by little you’ll learn tricks along the way.</p>
 <p>The first thing we’d want to do is to keep only the columns which are character. Most of our problems are related to these columns:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">elections_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select_all.html">select_if</a></span><span class="op">(</span><span class="va">is.character</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 16 × 8
 ##    Election  `UCD[a]`    `IU[c]` `EHB[g]`    `CDS[h]`    UPyD        Cs    Com. 
@@ -186,7 +185,7 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
 ## 15 Apr. 2019 "Dissolved" "[l]"   "1.0"       "Dissolved" "Did not r… "15.… "0.7"
 ## 16 Nov. 2019 "Dissolved" "[l]"   "1.2"       "Dissolved" "[m]"       "6.8" "[n]"</code></pre>
 <p>areWe can see all the different string values in those columns. What we’d want is to replace all non-numeric values for <code>NA</code>’s. That way when we convert these columns to numbers we won’t loose any information. How can we remove these values? I went through each of these columns and wrote down the <code>character</code> values that we need to remove:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">wrong_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"Dissolved"</span>,
   <span class="st">"[k]"</span>,
@@ -198,13 +197,13 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
   <span class="st">"Did not run"</span>
 <span class="op">)</span></code></pre></div>
 <p>Now we just need to apply some regular expression (regex from now on) skills to remove them. Let’s explain what we want to do. In the regex world the <code>|</code> stands for OR. This means that if we want to find all the words <code>Banned</code> and <code>Boycotted</code> and replace them with <code>NA'</code> we could write <code>Banned|Boycotted</code>. This literally means <code>Banned</code> OR <code>Boycotted</code>. We can take the previous <code>wrong_labels</code> vector and insert a <code>|</code> between the wrong labels:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">wrong_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">wrong_labels</span>, collapse <span class="op">=</span> <span class="st">"|"</span><span class="op">)</span>
 <span class="va">wrong_labels</span></code></pre></div>
 <pre><code>## [1] "Dissolved|[k]|[l]|[m]|n|Banned|Boycotted|Did not run"</code></pre>
 <p>This effectively says: <code>Dissolved</code> OR <code>[k]</code> OR <code>[l]</code>, …</p>
 <p>With this string we can use the function <code>str_replace_all</code> to replace all wrong labels for <code>NA</code>’s. Here’s how we’d do it:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">semi_cleaned_data</span> <span class="op">&lt;-</span>
   <span class="va">elections_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span><span class="op">(</span>
@@ -219,7 +218,7 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
 <li>Apply a transformation (<code>mutate_if(is character, ~ str_replace_all(...)</code>)</li>
 </ul>
 <p>For our example this means that for all character columns, the function <code>str_replace_all</code> function will be applied. This function replaces all <code>wrong_labels</code> for <code>NA</code>’s. We can see this right away:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">semi_cleaned_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select_all.html">select_if</a></span><span class="op">(</span><span class="va">is.character</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 16 × 8
 ##    Election  `UCD[a]` `IU[c]` `EHB[g]` `CDS[h]` UPyD  Cs     Com. 
@@ -241,14 +240,14 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
 ## 15 Apr. 2019  &lt;NA&gt;     &lt;NA&gt;   "1.0"     &lt;NA&gt;     &lt;NA&gt; "15.9" "0.7"
 ## 16 Nov. 2019  &lt;NA&gt;     &lt;NA&gt;   "1.2"     &lt;NA&gt;     &lt;NA&gt; "6.8"   &lt;NA&gt;</code></pre>
 <p>All columns <strong>still</strong> are characters, but don’t have any of the wrong labels that we identified before. The only problem we have is that the <code>Election</code> column has the months <code>Apr.</code> and <code>Nov.</code> and we won’t be able to convert that to numeric. We can apply our regex trick of saying replace Apr. OR Nov. by an empty string. Let’s do that:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">semi_cleaned_data</span> <span class="op">&lt;-</span>
   <span class="va">semi_cleaned_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
     Election <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span>string <span class="op">=</span> <span class="va">Election</span>, pattern <span class="op">=</span> <span class="st">"Apr. |Nov. "</span>, replacement <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
 <p>Let’s check again that everything worked as expected:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">semi_cleaned_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select_all.html">select_if</a></span><span class="op">(</span><span class="va">is.character</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 16 × 8
 ##    Election `UCD[a]` `IU[c]` `EHB[g]` `CDS[h]` UPyD  Cs     Com. 
@@ -270,7 +269,7 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
 ## 15 2019      &lt;NA&gt;     &lt;NA&gt;   "1.0"     &lt;NA&gt;     &lt;NA&gt; "15.9" "0.7"
 ## 16 2019      &lt;NA&gt;     &lt;NA&gt;   "1.2"     &lt;NA&gt;     &lt;NA&gt; "6.8"   &lt;NA&gt;</code></pre>
 <p>There we go, we don’t have strings in any of the the columns anymore. Let’s transform all columns into numeric and remove that first row that is empty:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">semi_cleaned_data</span> <span class="op">&lt;-</span>
   <span class="va">semi_cleaned_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span><span class="op">(</span><span class="va">as.numeric</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -299,7 +298,7 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
 ## #   UPyD &lt;dbl&gt;, Cs &lt;dbl&gt;, Com. &lt;dbl&gt;, `Pod.[j]` &lt;dbl&gt;, Vox &lt;dbl&gt;, MP &lt;dbl&gt;</code></pre>
 <p>There we go, all columns are of class numeric and look nice and tidy for plotting. Last step we need to take is to remove the footnote values from the party column names. For doing that we’ll need some more advanced regex patterns that I’ll explain briefly (we have a # TODO separate chapter for this). The pattern we’ll use is <code>[.+]</code> which means: detect any character (this is the <code>.</code>) that is repeated one or more times (this is the <code>+</code>) and are enclosed within brackets (this is the <code>[]</code> part). So for example, the string <code>Election</code> won’t find any match because it does not have a bracket with any values repeated one or more times. However, the column name <code>UCD[a]</code> does have this pattern: it contains two brackets <code>[]</code> that have a value that is repeated one time (<code>a</code>).</p>
 <p>There’s also a last trick that we need to take into account which is that brackets (<code>[]</code>) have a special meaning in the regex world. To signal to regex that you want to match brackets <em>literally</em>, you need to append them with the backslash (<code>\\</code>). So the final regex pattern we want to match is: <code>\\[.+\\]</code>. Let’s use it to rename all columns:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">semi_cleaned_data</span> <span class="op">&lt;-</span>
   <span class="va">semi_cleaned_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select_all.html">rename_all</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">.x</span>, <span class="st">"\\[.+\\]"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span>
@@ -326,7 +325,7 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
 ## # … with 6 more variables: UPyD &lt;dbl&gt;, Cs &lt;dbl&gt;, Com. &lt;dbl&gt;, Pod. &lt;dbl&gt;,
 ## #   Vox &lt;dbl&gt;, MP &lt;dbl&gt;</code></pre>
 <p>The data set is ready to plot. It’s tidy and clean. Let’s plot it:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Pivot from wide to long to plot it in ggplot</span>
 <span class="va">cleaned_data</span> <span class="op">&lt;-</span>
   <span class="va">semi_cleaned_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -339,17 +338,17 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"%"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="images/primer_webscraping/automatic_rmarkdown/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="images/primer_webscraping/automatic_rmarkdown/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;"></div>
 <p>So there you have it. This primer gave you a very direct experience on what webscraping involves. It involves read data from a website into R, manually or automatically finding the chunks of data you want to scrape, extracting those and cleaning them enough to be able to do something useful with it. In the next chapter you’ll see more in depth how to work with HTML and XML data, as you’ll need some intuition on how to find stuff within an HTML or XML document.</p>
 </div>
-<div id="exercises" class="section level2" number="3.3">
+<div id="exercises" class="section level2" number="2.3">
 <h2>
-<span class="header-section-number">3.3</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises"><i class="fas fa-link"></i></a>
 </h2>
 <ol style="list-style-type: decimal">
 <li>Europe has an ageing problem and the mandatory retirement age is being constantly revised. In the <code>scrapex</code> package there’s a copy of the “Retirement in Europe” wikipedia website <a href="https://en.wikipedia.org/wiki/Retirement_in_Europe">https://en.wikipedia.org/wiki/Retirement_in_Europe</a>. You can find the local link in the function <code><a href="https://rdrr.io/pkg/scrapex/man/retirement_age_europe_ex.html">retirement_age_europe_ex()</a></code>. Can you inspect the website, parse the table and replicate the plot below? (Hint: you might need the function <code>str_sub</code> from the <code>stringr</code> package).</li>
 </ol>
-<div class="inline-figure"><img src="images/primer_webscraping/automatic_rmarkdown/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="images/primer_webscraping/automatic_rmarkdown/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;"></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>When parsing the elections table, we parsed all tables of the Wikipedia table into <code>all_tables</code>. Among all those tables, there’s one table that documents the years at which there were general elections, presidential elections, european elections, local elections, regional elections and referendums in Spain. Can you extract into a <em>numeric</em> vector all the years at which there were general elections in Spain? (Hint: you might need <code>str_split</code> and other <code>stringr</code> functions and the resulting vector should start by 1810 and end with 2019).</p></li>
 <li><p>Building on your previous code, can you tell me the years where local elections, european elections and general elections overlapped?</p></li>
@@ -358,15 +357,15 @@ Before we do that, I will set something called my <code>User-Agent</code>. In sh
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></div>
-<div class="next"><a href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></div>
+<div class="prev"><a href="index.html"><span class="header-section-number">1</span> Welcome</a></div>
+<div class="next"><a href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#a-primer-on-webscraping"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
-<li><a class="nav-link" href="#getting-website-data-into-r"><span class="header-section-number">3.1</span> Getting website data into R</a></li>
-<li><a class="nav-link" href="#data-cleaning"><span class="header-section-number">3.2</span> Data cleaning</a></li>
-<li><a class="nav-link" href="#exercises"><span class="header-section-number">3.3</span> Exercises</a></li>
+<li><a class="nav-link" href="#a-primer-on-webscraping"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
+<li><a class="nav-link" href="#getting-website-data-into-r"><span class="header-section-number">2.1</span> Getting website data into R</a></li>
+<li><a class="nav-link" href="#data-cleaning"><span class="header-section-number">2.2</span> Data cleaning</a></li>
+<li><a class="nav-link" href="#exercises"><span class="header-section-number">2.3</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">

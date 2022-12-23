@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>4 Data Formats for Webscraping | Data Harvesting with R</title>
+<title>3 Data Formats for Webscraping | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
 <meta name="description" content="Most of the webscraping that you’ll be doing will involve parsing either XML or HTML. These two formats are very much alike and in fact for many of our examples you’ll notice that they are almost...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
-<meta property="og:title" content="4 Data Formats for Webscraping | Data Harvesting with R">
+<meta property="og:title" content="3 Data Formats for Webscraping | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/data-formats-for-webscraping.html">
 <meta property="og:description" content="Most of the webscraping that you’ll be doing will involve parsing either XML or HTML. These two formats are very much alike and in fact for many of our examples you’ll notice that they are almost...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4 Data Formats for Webscraping | Data Harvesting with R">
+<meta name="twitter:title" content="3 Data Formats for Webscraping | Data Harvesting with R">
 <meta name="twitter:description" content="Most of the webscraping that you’ll be doing will involve parsing either XML or HTML. These two formats are very much alike and in fact for many of our examples you’ll notice that they are almost...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -56,21 +56,20 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
-<li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
-<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
-<li><a class="active" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
-<li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">5</span> What you need to know about regular expressions</a></li>
-<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">6</span> What you need to know about XPath</a></li>
-<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">8</span> Automating Web Scraping Scripts</a></li>
-<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
-<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
-<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
-<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">12</span> A primer on APIs</a></li>
-<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">13</span> What is a RESTful API?</a></li>
-<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">14</span> What you need to know about JSON</a></li>
-<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></li>
-<li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">16</span> Automating API programs: real-time bicycle data</a></li>
+<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
+<li><a class="active" href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
+<li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
+<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
+<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
+<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">8</span> Scraping JavaScript based website</a></li>
+<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
+<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
+<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
+<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></li>
+<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
+<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">14</span> Case Study: grabbing data from a public API</a></li>
+<li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">15</span> Automating API programs: real-time bicycle data</a></li>
 </ul>
 
         <div class="book-extra">
@@ -78,20 +77,20 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="data-formats-for-webscraping" class="section level1" number="4">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="data-formats-for-webscraping" class="section level1" number="3">
 <h1>
-<span class="header-section-number">4</span> Data Formats for Webscraping<a class="anchor" aria-label="anchor" href="#data-formats-for-webscraping"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3</span> Data Formats for Webscraping<a class="anchor" aria-label="anchor" href="#data-formats-for-webscraping"><i class="fas fa-link"></i></a>
 </h1>
 <p>Most of the webscraping that you’ll be doing will involve parsing either XML or HTML. These two formats are very much alike and in fact for many of our examples you’ll notice that they are almost indistinguishable. Out on the web you’ll find very formal definitions of these languages but here’s my definition for the layman person: a series of tags that formats how a website is structured (HTML) or how you store and transfer data (XML). Still rather vague eh? Let’s go into it for concrete examples.</p>
 <p>XML is an abbreviation for Extensible Markup Language whereas HTML stands for Hypertext Markup Language. As you might’ve guessed, they’re both ‘Markup’ languages, so they share a lot in common. In R you can read both formats with the <code>xml2</code> package. Let’s load that package before getting started:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/">xml2</a></span><span class="op">)</span></code></pre></div>
-<div id="a-primer-on-xml-and-html" class="section level2" number="4.1">
+<div id="a-primer-on-xml-and-html" class="section level2" number="3.1">
 <h2>
-<span class="header-section-number">4.1</span> A primer on XML and HTML<a class="anchor" aria-label="anchor" href="#a-primer-on-xml-and-html"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.1</span> A primer on XML and HTML<a class="anchor" aria-label="anchor" href="#a-primer-on-xml-and-html"><i class="fas fa-link"></i></a>
 </h2>
 <p>Let’s begin with a simple example. Below we define a string and look at its structure:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xml_test</span> <span class="op">&lt;-</span> <span class="st">"&lt;people&gt;
 &lt;jason&gt;
   &lt;person type='fictional'&gt;
@@ -167,7 +166,7 @@
 <div class="inline-figure"><img src="images/data_formats/examples/xml_three.png" width="30%" style="display: block; margin: auto;"></div>
 <p>In the XML world, tags can have whatever meaning you attach to them (such as <code>&lt;people&gt;</code> or <code>&lt;occupation&gt;</code>). However, for HTML there are hundreds of tags which are standard for structuring websites. Here I want to stop for a second to highlight that XML and HTML have many differences, some conceptual and other visible to the users. Throughout the rest of this chapter I’ll focus on what I think are the most important ones for you in the context of webscraping.</p>
 <p>Let’s compare visibly the previous XML with an example HTML:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html_test</span> <span class="op">&lt;-</span> <span class="st">"&lt;html&gt;
   &lt;head&gt;
     &lt;title&gt;Div Align Attribbute&lt;/title&gt;
@@ -189,19 +188,19 @@
 &lt;/html&gt;
 "</span></code></pre></div>
 <p>One of the key differences is that these tags (<code>&lt;div&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;title&gt;</code>, etc..) have specific properties that structure how a website is shown to someone on a browser. Anything inside the <code>&lt;head&gt;</code> tag will be a header on a website. Anything within the <code>&lt;body&gt;</code> tag will be the body of the website, and so on. The tags themselves are <em>standard</em> across the HTML language and have predetermined behavior on how to format a website. Let’s look at another HTML but also with the result of being structured on a website. Here’s the code:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb29-1"><a href="data-formats-for-webscraping.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
-<span id="cb29-2"><a href="data-formats-for-webscraping.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
-<span id="cb29-3"><a href="data-formats-for-webscraping.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
-<span id="cb29-4"><a href="data-formats-for-webscraping.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;title&gt;</span>Page Title<span class="kw">&lt;/title&gt;</span></span>
-<span id="cb29-5"><a href="data-formats-for-webscraping.html#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
-<span id="cb29-6"><a href="data-formats-for-webscraping.html#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
-<span id="cb29-7"><a href="data-formats-for-webscraping.html#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-8"><a href="data-formats-for-webscraping.html#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span> <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"www.google.com"</span><span class="kw">&gt;</span>This is a Heading <span class="kw">&lt;/a&gt;</span> <span class="kw">&lt;/h1&gt;</span></span>
-<span id="cb29-9"><a href="data-formats-for-webscraping.html#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br&gt;</span></span>
-<span id="cb29-10"><a href="data-formats-for-webscraping.html#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p&gt;</span>This is a paragraph.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb29-11"><a href="data-formats-for-webscraping.html#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-12"><a href="data-formats-for-webscraping.html#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
-<span id="cb29-13"><a href="data-formats-for-webscraping.html#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb32-1"><a href="data-formats-for-webscraping.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb32-2"><a href="data-formats-for-webscraping.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb32-3"><a href="data-formats-for-webscraping.html#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb32-4"><a href="data-formats-for-webscraping.html#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;title&gt;</span>Page Title<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb32-5"><a href="data-formats-for-webscraping.html#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb32-6"><a href="data-formats-for-webscraping.html#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb32-7"><a href="data-formats-for-webscraping.html#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="data-formats-for-webscraping.html#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span> <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"www.google.com"</span><span class="kw">&gt;</span>This is a Heading <span class="kw">&lt;/a&gt;</span> <span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb32-9"><a href="data-formats-for-webscraping.html#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br&gt;</span></span>
+<span id="cb32-10"><a href="data-formats-for-webscraping.html#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p&gt;</span>This is a paragraph.<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb32-11"><a href="data-formats-for-webscraping.html#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="data-formats-for-webscraping.html#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb32-13"><a href="data-formats-for-webscraping.html#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
 <p>and here is the rendered website:</p>
 <div class="inline-figure"><img src="images/data_formats/examples/html_ex1.png" style="display: block; margin: auto;"></div>
 <p><strong>This is a heading</strong> contains a hyperlink (<code>&lt;a&gt;</code> tag with the <code>href</code> property), is bigger and is in bold in comparison to “This is a paragraph”. These specific tags together with their attributes are interpreted to give this outline of the text and as you’ll start to notice, it is the trademark value of the HTML language.</p>
@@ -211,7 +210,7 @@
 <div class="inline-figure"><img src="images/data_formats/examples/html_ex2.jpg" width="100%" style="display: block; margin: auto;"></div>
 <p>For a more comprehensive list see <a href="https://www.w3schools.com/tags/">here</a>. You don’t have to learn every single tag for webscraping (in fact I only know a handful) but it’s helpful to have a hint on what they do to be able to locate specific parts of a website that you’re interested in webscraping. With the theory out of the way, let’s get our hands dirty by manipulating these formats in R.</p>
 <p>In R you can read <code>XML</code> and <code>HTML</code> formats with the <code>read_xml</code> and <code>read_html</code> functions. Let’s read in the XML string from our fake example and look at its general structure:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xml_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_xml</a></span><span class="op">(</span><span class="va">xml_test</span><span class="op">)</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_structure.html">xml_structure</a></span><span class="op">(</span><span class="va">xml_raw</span><span class="op">)</span></code></pre></div>
 <pre><code>## &lt;people&gt;
@@ -243,20 +242,20 @@
 <li>Then each <strong>child</strong> node has nodes <code>&lt;first_name&gt;</code>, <code>&lt;married&gt;</code>, <code>&lt;last_name&gt;</code> and <code>&lt;occupation&gt;</code> nested within them.</li>
 </ul>
 <p>Put another way, if something is nested within a <strong>node</strong>, then the nested node is a <strong>child</strong> of the upper-level node. In our example, the <strong>root</strong> node is <code>&lt;people&gt;</code> so we can check which are its children:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># xml_child returns only one child (specified in search)</span>
 <span class="co"># Here, jason is the first child</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span><span class="va">xml_raw</span>, search <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_node}
 ## &lt;jason&gt;
 ## [1] &lt;person type="fictional"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Jason\n ...</code></pre>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Here, carol is the second child</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_child</a></span><span class="op">(</span><span class="va">xml_raw</span>, search <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_node}
 ## &lt;carol&gt;
 ## [1] &lt;person type="real"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Carol\n      ...</code></pre>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Use xml_children to extract **all** children</span>
 <span class="va">child_xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_children</a></span><span class="op">(</span><span class="va">xml_raw</span><span class="op">)</span>
 
@@ -265,12 +264,12 @@
 ## [1] &lt;jason&gt;\n  &lt;person type="fictional"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n ...
 ## [2] &lt;carol&gt;\n  &lt;person type="real"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n      ...</code></pre>
 </div>
-<div id="tag-attributes" class="section level2" number="4.2">
+<div id="tag-attributes" class="section level2" number="3.2">
 <h2>
-<span class="header-section-number">4.2</span> Tag attributes<a class="anchor" aria-label="anchor" href="#tag-attributes"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.2</span> Tag attributes<a class="anchor" aria-label="anchor" href="#tag-attributes"><i class="fas fa-link"></i></a>
 </h2>
 <p>Tags can also have different attributes which are usually specified as <code>&lt;fake_tag attribute='fake'&gt;</code> and ended as usual with <code>&lt;/fake_tag&gt;</code>. If you look at the XML structure of our example, you’ll notice that each <code>&lt;person&gt;</code> tag has an attribute called <code>type</code>. As you’ll see in our real-world example, extracting these attributes is often the aim of our scraping adventure. Using the <code>xml_attrs</code> function we can extract all attributes that match a specific name:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Extract the attribute type from all nodes</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attrs</a></span><span class="op">(</span><span class="va">child_xml</span>, <span class="st">"type"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
@@ -279,14 +278,14 @@
 ## [[2]]
 ## named character(0)</code></pre>
 <p>Wait, why didn’t this work? Well, if you look at the output of <code>child_xml</code>, we have two nodes on which are for <code>&lt;jason&gt;</code> and <code>&lt;carol&gt;</code>.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">child_xml</span></code></pre></div>
 <pre><code>## {xml_nodeset (2)}
 ## [1] &lt;jason&gt;\n  &lt;person type="fictional"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n ...
 ## [2] &lt;carol&gt;\n  &lt;person type="real"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n      ...</code></pre>
 <p>Do these tags have an attribute? No, because if they did, they would have something like <code>&lt;jason type='fake_tag'&gt;</code>. What we need is to look down at the <code>&lt;person&gt;</code> tag within <code>&lt;jason&gt;</code> and <code>&lt;carol&gt;</code> and extract the attribute from <code>&lt;person&gt;</code>.</p>
 <p>Does this sound familiar? Both <code>&lt;jason&gt;</code> and <code>&lt;carol&gt;</code> have an associated <code>&lt;person&gt;</code> tag below them, making them their children. We can just go down one level by running <code>xml_children</code> on these tags and extract them.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># We go down one level of children</span>
 <span class="va">person_nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_children.html">xml_children</a></span><span class="op">(</span><span class="va">child_xml</span><span class="op">)</span>
 
@@ -295,7 +294,7 @@
 <pre><code>## {xml_nodeset (2)}
 ## [1] &lt;person type="fictional"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Jason\n ...
 ## [2] &lt;person type="real"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Carol\n      ...</code></pre>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Both type attributes</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_attr.html">xml_attrs</a></span><span class="op">(</span><span class="va">person_nodes</span>, <span class="st">"type"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
@@ -306,13 +305,13 @@
 ##   type 
 ## "real"</code></pre>
 <p>Using the <code>xml_path</code> function you can even find the ‘address’ of these nodes to retrieve specific tags without having to write down <code>xml_children</code> many times. For example:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Specific address of each person tag for the whole xml tree</span>
 <span class="co"># only using the `person_nodes`</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_path.html">xml_path</a></span><span class="op">(</span><span class="va">person_nodes</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "/people/jason/person" "/people/carol/person"</code></pre>
 <p>We have the ‘address’ of specific tags in the tree but how do we extract them automatically? To extract specific ‘addresses’ of this XML tree, the main function we’ll use is <code>xml_find_all</code>. This function accepts the XML tree and an ‘address’ string. We can use very simple strings, such as the one given by <code>xml_path</code>:</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># You can use results from xml_path like directories</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="va">xml_raw</span>, <span class="st">"/people/jason/person"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (1)}
@@ -320,16 +319,16 @@
 <p>The expression above is asking for the node <code>"/people/jason/person"</code>. This will return the same as saying <code>xml_raw %&gt;% xml_child(search = 1)</code>. For deeply nested trees, <code>xml_find_all</code> will be many times much cleaner than calling <code>xml_child</code> recursively many times.</p>
 <p>However, in most cases the ‘addresses’ used in <code>xml_find_all</code> come from a separate language called XPath (in fact, the ‘address’ we’ve been looking at <strong>is</strong> XPath). XPath is a complex language (such as regular expressions for strings) which we’ll cover in chapter # TODO.</p>
 <p>Attributes are very flexible in XML and a tag can as many attributes as you see fit. For example:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb50-1"><a href="data-formats-for-webscraping.html#cb50-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt;</span>
-<span id="cb50-2"><a href="data-formats-for-webscraping.html#cb50-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">person</span><span class="ot"> age=</span><span class="st">"23"</span><span class="ot"> status=</span><span class="st">"married"</span><span class="ot"> occupation=</span><span class="st">"teacher"</span>&gt; John Doe &lt;/<span class="kw">person</span>&gt;</span>
-<span id="cb50-3"><a href="data-formats-for-webscraping.html#cb50-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">name</span>&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb53-1"><a href="data-formats-for-webscraping.html#cb53-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt;</span>
+<span id="cb53-2"><a href="data-formats-for-webscraping.html#cb53-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">person</span><span class="ot"> age=</span><span class="st">"23"</span><span class="ot"> status=</span><span class="st">"married"</span><span class="ot"> occupation=</span><span class="st">"teacher"</span>&gt; John Doe &lt;/<span class="kw">person</span>&gt;</span>
+<span id="cb53-3"><a href="data-formats-for-webscraping.html#cb53-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">name</span>&gt;</span></code></pre></div>
 <p>These attributes can also be repeated many times, so for example, you might have a generic <code>&lt;person&gt;</code> tag that is used for each person in your database:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb51-1"><a href="data-formats-for-webscraping.html#cb51-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt;</span>
-<span id="cb51-2"><a href="data-formats-for-webscraping.html#cb51-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">person</span><span class="ot"> age=</span><span class="st">"23"</span><span class="ot"> status=</span><span class="st">"married"</span><span class="ot"> occupation=</span><span class="st">"teacher"</span>&gt; John Doe &lt;/<span class="kw">person</span>&gt;</span>
-<span id="cb51-3"><a href="data-formats-for-webscraping.html#cb51-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">person</span><span class="ot"> age=</span><span class="st">"25"</span><span class="ot"> status=</span><span class="st">"single"</span><span class="ot"> occupation=</span><span class="st">"doctor"</span>&gt; Jane Doe &lt;/<span class="kw">person</span>&gt;</span>
-<span id="cb51-4"><a href="data-formats-for-webscraping.html#cb51-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">name</span>&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb54-1"><a href="data-formats-for-webscraping.html#cb54-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt;</span>
+<span id="cb54-2"><a href="data-formats-for-webscraping.html#cb54-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">person</span><span class="ot"> age=</span><span class="st">"23"</span><span class="ot"> status=</span><span class="st">"married"</span><span class="ot"> occupation=</span><span class="st">"teacher"</span>&gt; John Doe &lt;/<span class="kw">person</span>&gt;</span>
+<span id="cb54-3"><a href="data-formats-for-webscraping.html#cb54-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">person</span><span class="ot"> age=</span><span class="st">"25"</span><span class="ot"> status=</span><span class="st">"single"</span><span class="ot"> occupation=</span><span class="st">"doctor"</span>&gt; Jane Doe &lt;/<span class="kw">person</span>&gt;</span>
+<span id="cb54-4"><a href="data-formats-for-webscraping.html#cb54-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">name</span>&gt;</span></code></pre></div>
 <p>As usual with HTML, tags are also standard and have specific meaning. Let’s read our previous HTML example and visualize the structure:</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">html_test</span><span class="op">)</span>
 <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_structure.html">html_structure</a></span><span class="op">(</span><span class="va">html_raw</span><span class="op">)</span></code></pre></div>
 <pre><code>## &lt;html&gt;
@@ -351,39 +350,39 @@
 ##       {text}
 ##     {text}</code></pre>
 <p>The structure shows that each <code>&lt;div&gt;</code> tag has an <code>align</code> attribute. As you might’ve guessed, this attribute aligns text. Most of the common attributes of HTML tags are very easy to understand. Here’s a list of a few:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb54-1"><a href="data-formats-for-webscraping.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"https://www.w3schools.com"</span><span class="kw">&gt;</span>Visit W3Schools<span class="kw">&lt;/a&gt;</span></span>
-<span id="cb54-2"><a href="data-formats-for-webscraping.html#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"img_girl.jpg"</span> <span class="er">width</span><span class="ot">=</span><span class="st">"500"</span> <span class="er">height</span><span class="ot">=</span><span class="st">"600"</span><span class="kw">&gt;</span></span>
-<span id="cb54-3"><a href="data-formats-for-webscraping.html#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red;"</span><span class="kw">&gt;</span>This is a red paragraph.<span class="kw">&lt;/p&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb57-1"><a href="data-formats-for-webscraping.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"https://www.w3schools.com"</span><span class="kw">&gt;</span>Visit W3Schools<span class="kw">&lt;/a&gt;</span></span>
+<span id="cb57-2"><a href="data-formats-for-webscraping.html#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"img_girl.jpg"</span> <span class="er">width</span><span class="ot">=</span><span class="st">"500"</span> <span class="er">height</span><span class="ot">=</span><span class="st">"600"</span><span class="kw">&gt;</span></span>
+<span id="cb57-3"><a href="data-formats-for-webscraping.html#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red;"</span><span class="kw">&gt;</span>This is a red paragraph.<span class="kw">&lt;/p&gt;</span></span></code></pre></div>
 <p>The <code>&lt;a&gt;</code> tag contains text with a hyperlink (<code>href</code>). The <code>&lt;img&gt;</code> tag (abbreviation for image) contains the <code>src</code> tag that points to where an image is, together with the width and height of the image. Finally, the <code>&lt;p&gt;</code> tag is short for paragraph and contains the <code>style</code> attribute for declaring styling properties of the text. These are just some examples of common HTML tags and common attributes. In any case, as I’ve outlined above, it’s fine to not know these tags; with an intuition behind what they do is enough to locate specific parts of a website.</p>
 <p>To finalize, whenever you’ll be scraping something, you’ll want to know whether it’s XML or HTML based. If you manage to receive an <code>.html</code> or <code>.xml</code> it’s just as simple as looking at the extension of the file. If by any chance you have access to the source code of a file, you can also look at the tags and quickly see if there are many of the standard HTML tags and deduce the actual format. Another solution is to just look at the root node and you’ll see the hint right away. You’ll see that <code>xml</code> is signaled right at the beginning:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb55-1"><a href="data-formats-for-webscraping.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0&gt;</span></span>
-<span id="cb55-2"><a href="data-formats-for-webscraping.html#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span><span class="st">company&gt;</span></span>
-<span id="cb55-3"><a href="data-formats-for-webscraping.html#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="er">&lt;</span><span class="st">name&gt; John Doe </span><span class="er">&lt;</span><span class="st">/name&gt;</span></span>
-<span id="cb55-4"><a href="data-formats-for-webscraping.html#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="er">&lt;</span><span class="st">email&gt; johndoe@gmail.com </span><span class="er">&lt;</span><span class="st">/email&gt;</span></span>
-<span id="cb55-5"><a href="data-formats-for-webscraping.html#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span><span class="st">/address&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb58-1"><a href="data-formats-for-webscraping.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0&gt;</span></span>
+<span id="cb58-2"><a href="data-formats-for-webscraping.html#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span><span class="st">company&gt;</span></span>
+<span id="cb58-3"><a href="data-formats-for-webscraping.html#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="er">&lt;</span><span class="st">name&gt; John Doe </span><span class="er">&lt;</span><span class="st">/name&gt;</span></span>
+<span id="cb58-4"><a href="data-formats-for-webscraping.html#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="er">&lt;</span><span class="st">email&gt; johndoe@gmail.com </span><span class="er">&lt;</span><span class="st">/email&gt;</span></span>
+<span id="cb58-5"><a href="data-formats-for-webscraping.html#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span><span class="st">/address&gt;</span></span></code></pre></div>
 <p>and the same for <code>html</code>:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb56-1"><a href="data-formats-for-webscraping.html#cb56-1" aria-hidden="true" tabindex="-1"></a> <span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
-<span id="cb56-2"><a href="data-formats-for-webscraping.html#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
-<span id="cb56-3"><a href="data-formats-for-webscraping.html#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
-<span id="cb56-4"><a href="data-formats-for-webscraping.html#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-5"><a href="data-formats-for-webscraping.html#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span>My First Heading<span class="kw">&lt;/h1&gt;</span></span>
-<span id="cb56-6"><a href="data-formats-for-webscraping.html#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p&gt;</span>My first paragraph.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb56-7"><a href="data-formats-for-webscraping.html#cb56-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-8"><a href="data-formats-for-webscraping.html#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
-<span id="cb56-9"><a href="data-formats-for-webscraping.html#cb56-9" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb59-1"><a href="data-formats-for-webscraping.html#cb59-1" aria-hidden="true" tabindex="-1"></a> <span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb59-2"><a href="data-formats-for-webscraping.html#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb59-3"><a href="data-formats-for-webscraping.html#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb59-4"><a href="data-formats-for-webscraping.html#cb59-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="data-formats-for-webscraping.html#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span>My First Heading<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb59-6"><a href="data-formats-for-webscraping.html#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p&gt;</span>My first paragraph.<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb59-7"><a href="data-formats-for-webscraping.html#cb59-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-8"><a href="data-formats-for-webscraping.html#cb59-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb59-9"><a href="data-formats-for-webscraping.html#cb59-9" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
 </div>
-<div id="conclusion" class="section level2" number="4.3">
+<div id="conclusion" class="section level2" number="3.3">
 <h2>
-<span class="header-section-number">4.3</span> Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.3</span> Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"><i class="fas fa-link"></i></a>
 </h2>
 <p>I have to be frank with you. Although XML and HTML have important differences with respect to the technology and their philosophy, this difference is pretty much the same for us: for our webscraping needs, we don’t care how the data is formatted on a website (HTML) or whether your tags have special meanings (XML), we only care that they are formatted in tags such that we can extract information.</p>
 <p>Let’s do a brief recap as a summary. XML and HTML code is tag based, built on opening and closing tags like this: <code>&lt;tag&gt;</code> <code>&lt;/tag&gt;</code>. These languages are hierarchical, meaning that nodes within nodes have parent-child relationships. These tags can have attributes that signal either behavior (HTML) or data (XML) from the tags.</p>
 <p>To read XML and HTML into R we can use the equivalent <code>read_*</code> functions from the <code>xml2</code> package. To navigate the nodes of these data forms you can use <code>xml_child</code> recursively until you find what you’re looking for. To extract the children of a given node, you can use <code>xml_children</code> and to extract attributes of any given tag, you can resort to <code>xml_attr</code>. Finally, if you want to extract the text of a tag, <code>xml_text</code> extracts that for you. These functions give you a handy tool set to explore small scale tree nodes from both XML and HTML documents.</p>
 <p>Before we finish, it’s important to highlight that HTML is much more widely used in webscraping. That is because most of what you webscraping are websites and HTML in specifically designed to show how a website is formatted. However, the difference will be indistinguishable to you when webscraping from R.</p>
 </div>
-<div id="exercises-1" class="section level2" number="4.4">
+<div id="exercises-1" class="section level2" number="3.4">
 <h2>
-<span class="header-section-number">4.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-1"><i class="fas fa-link"></i></a>
 </h2>
 <ol style="list-style-type: decimal">
 <li><p>Extract the values for the <code>align</code> attributes in <code>html_raw</code> (Hint, look at the function <code>xml_children</code>).</p></li>
@@ -405,16 +404,16 @@
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></div>
-<div class="next"><a href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">5</span> What you need to know about regular expressions</a></div>
+<div class="prev"><a href="a-primer-on-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></div>
+<div class="next"><a href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#data-formats-for-webscraping"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
-<li><a class="nav-link" href="#a-primer-on-xml-and-html"><span class="header-section-number">4.1</span> A primer on XML and HTML</a></li>
-<li><a class="nav-link" href="#tag-attributes"><span class="header-section-number">4.2</span> Tag attributes</a></li>
-<li><a class="nav-link" href="#conclusion"><span class="header-section-number">4.3</span> Conclusion</a></li>
-<li><a class="nav-link" href="#exercises-1"><span class="header-section-number">4.4</span> Exercises</a></li>
+<li><a class="nav-link" href="#data-formats-for-webscraping"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
+<li><a class="nav-link" href="#a-primer-on-xml-and-html"><span class="header-section-number">3.1</span> A primer on XML and HTML</a></li>
+<li><a class="nav-link" href="#tag-attributes"><span class="header-section-number">3.2</span> Tag attributes</a></li>
+<li><a class="nav-link" href="#conclusion"><span class="header-section-number">3.3</span> Conclusion</a></li>
+<li><a class="nav-link" href="#exercises-1"><span class="header-section-number">3.4</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">

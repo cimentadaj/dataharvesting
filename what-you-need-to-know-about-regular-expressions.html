@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>5 What you need to know about regular expressions | Data Harvesting with R</title>
+<title>4 What you need to know about regular expressions | Data Harvesting with R</title>
 <meta name="author" content="Jorge Cimentada">
 <meta name="description" content="Before I set out to write this chapter I was hesitant to do it. I don’t consider myself an expert on regular expressions nor do I think I would be able to take you from beginner to expert on such...">
 <meta name="generator" content="bookdown 0.26 with bs4_book()">
-<meta property="og:title" content="5 What you need to know about regular expressions | Data Harvesting with R">
+<meta property="og:title" content="4 What you need to know about regular expressions | Data Harvesting with R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/what-you-need-to-know-about-regular-expressions.html">
 <meta property="og:description" content="Before I set out to write this chapter I was hesitant to do it. I don’t consider myself an expert on regular expressions nor do I think I would be able to take you from beginner to expert on such...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="5 What you need to know about regular expressions | Data Harvesting with R">
+<meta name="twitter:title" content="4 What you need to know about regular expressions | Data Harvesting with R">
 <meta name="twitter:description" content="Before I set out to write this chapter I was hesitant to do it. I don’t consider myself an expert on regular expressions nor do I think I would be able to take you from beginner to expert on such...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -56,21 +56,20 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
-<li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
-<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
-<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
-<li><a class="active" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">5</span> What you need to know about regular expressions</a></li>
-<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">6</span> What you need to know about XPath</a></li>
-<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></li>
-<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">8</span> Automating Web Scraping Scripts</a></li>
-<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
-<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
-<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
-<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">12</span> A primer on APIs</a></li>
-<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">13</span> What is a RESTful API?</a></li>
-<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">14</span> What you need to know about JSON</a></li>
-<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></li>
-<li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">16</span> Automating API programs: real-time bicycle data</a></li>
+<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
+<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
+<li><a class="active" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
+<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
+<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
+<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">8</span> Scraping JavaScript based website</a></li>
+<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
+<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
+<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
+<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></li>
+<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
+<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">14</span> Case Study: grabbing data from a public API</a></li>
+<li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">15</span> Automating API programs: real-time bicycle data</a></li>
 </ul>
 
         <div class="book-extra">
@@ -78,18 +77,18 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="what-you-need-to-know-about-regular-expressions" class="section level1" number="5">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="what-you-need-to-know-about-regular-expressions" class="section level1" number="4">
 <h1>
-<span class="header-section-number">5</span> What you need to know about regular expressions<a class="anchor" aria-label="anchor" href="#what-you-need-to-know-about-regular-expressions"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4</span> What you need to know about regular expressions<a class="anchor" aria-label="anchor" href="#what-you-need-to-know-about-regular-expressions"><i class="fas fa-link"></i></a>
 </h1>
 <p>Before I set out to write this chapter I was hesitant to do it. I don’t consider myself an expert on regular expressions nor do I think I would be able to take you from beginner to expert on such a complicated topic. On top of that, there are dozens of excellent tutorials on regular expressions out there that would do the topic more justice that I would be able to. With that said, you cannot do web scraping without knowing <em>some</em> regular expression techniques. Most of the data you’ll extract from the web will need some type of massaging. Other times you’ll find the data you need will be a string, combined with other stuff. You’ll need to know that there are tools to clean this string and extract just what you need.</p>
 <p>For that reason, I decided I wanted to write this chapter but focusing only on what I think are the the basics in regexp. Moreover, I wanted the chapter to use webscraping examples as soon as you had the basics in mind. These basics are the bare minimum you’ll need to clean the usual web scraping strings you’ll extract. This means that I’ll give you a very incomplete picture of what regexp can do but enough to get you up and running in a very short of amount of time. If the reader is interested in the topic, I refer them to the chapter on <a href="https://r4ds.had.co.nz/strings.html">strings</a> from the book R For Data Science. That chapter will give you a more thorough introduction into the topic with more general applications. Without further a due, let’s begin.</p>
-<div id="basic-matches" class="section level2" number="5.1">
+<div id="basic-matches" class="section level2" number="4.1">
 <h2>
-<span class="header-section-number">5.1</span> Basic matches<a class="anchor" aria-label="anchor" href="#basic-matches"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1</span> Basic matches<a class="anchor" aria-label="anchor" href="#basic-matches"><i class="fas fa-link"></i></a>
 </h2>
 <p>Let’s load all the packages we’ll use in the chapter. Most of them are related t webscraping or data cleaning. <code>stringr</code> will be the package we’ll use for doing regular expressions. You’ll see that all of the functions of this package begin with <code>str_</code>, denoting that they are related to <code>str</code>ings:</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://stringr.tidyverse.org">stringr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
@@ -98,67 +97,67 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://shosaco.github.io/vistime/">vistime</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></code></pre></div>
 <p>Regular expressions (regexp from now on) are a way for you to find patterns within strings. If you find the pattern, you can extract it or replace it in the original string. Let’s take a famous quote by Jorge Luis Borges and find the word “eighteenth” in the quote:</p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses, maps, eighteenth century typography."</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"eighteenth"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-710e011b94787f254be5" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-710e011b94787f254be5">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>That’s one of the simplest regexp I can think of. That’s a regular expression right there: you’re matching only the word “eighteenth”. <code>stringr</code> has two functions which will be at the backbone of using regexp in R: <code>str_replace_all</code> and <code>str_extract_all</code>. The first one will replace a string with another string. For example:</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div id="htmlwidget-9625d71fed2150464382" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9625d71fed2150464382">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>That’s one of the simplest regexp I can think of. That’s a regular expression right there: you’re matching only the word “eighteenth”. <code>stringr</code> has two functions which will be at the backbone of using regexp in R: <code>str_replace_all</code> and <code>str_extract_all</code>. The first one will replace a string with another string. For example:</p>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"eighteenth"</span>, <span class="st">"[DATE]"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "I like hourglasses, maps, [DATE] century typography."</code></pre>
 <p>It replaces the word <code>eighteenth</code> with <code>[DATE]</code>.</p>
 <p><code>str_extract_all</code> will extract the portion of the string which had a match</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"eighteenth"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] "eighteenth"</code></pre>
 <p>However, that’s not very handy since you know the word you want to match exactly. You’ll see the power of this later on.</p>
 </div>
-<div id="the-.-placeholder" class="section level2" number="5.2">
+<div id="the-.-placeholder" class="section level2" number="4.2">
 <h2>
-<span class="header-section-number">5.2</span> The <code>.</code> placeholder<a class="anchor" aria-label="anchor" href="#the-.-placeholder"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.2</span> The <code>.</code> placeholder<a class="anchor" aria-label="anchor" href="#the-.-placeholder"><i class="fas fa-link"></i></a>
 </h2>
 <p>If I asked you to match all occurrences of <code>eighteenth</code> or <code>Eighteenth</code> how would you do it? In regexp there’s a placeholder <code>.</code> that matches any letter, number or any type of character. For example:</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses, maps, eighteenth Eighteenth century typography."</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">".ighteenth"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-94cafc0f35226c10b8e1" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-94cafc0f35226c10b8e1">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> <span class='match'>Eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>The regexp I used is <code>.ighteenth</code> meaning that I want to match <em>any character</em> (<code>.</code>) followed directly by <code>ighteenth</code>. It matches both the capital letter word as well the lower case word. However, it would also match <em>any other</em> character, even empty spaces:</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div id="htmlwidget-3e91286870cfaf76f1ba" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3e91286870cfaf76f1ba">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> <span class='match'>Eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>The regexp I used is <code>.ighteenth</code> meaning that I want to match <em>any character</em> (<code>.</code>) followed directly by <code>ighteenth</code>. It matches both the capital letter word as well the lower case word. However, it would also match <em>any other</em> character, even empty spaces:</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses, maps, ighteenth century typography."</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">".ighteenth"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-e97eb674982f65890aa1" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e97eb674982f65890aa1">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps,<span class='match'> ighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-6f7f653523e98af668b1" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6f7f653523e98af668b1">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps,<span class='match'> ighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="quantifiers" class="section level2" number="5.3">
+<div id="quantifiers" class="section level2" number="4.3">
 <h2>
-<span class="header-section-number">5.3</span> Quantifiers<a class="anchor" aria-label="anchor" href="#quantifiers"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.3</span> Quantifiers<a class="anchor" aria-label="anchor" href="#quantifiers"><i class="fas fa-link"></i></a>
 </h2>
 <p>The <code>.</code> in regexp is very handy but also can be imprecise. The <code>.</code> is often used with <code>+</code> which means that the character <code>.</code> needs to be repeated one or more times. For example, say you want to extract the century from the phrase <code>maps, [some century] century</code>. In our example it’s easy because you know exactly the century. However, you might want to make it generic to extract any word between <code>maps</code> and <code>century</code>. You could try something like this:</p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges_two_phrase</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"I like hourglasses, maps, eighteenth century typography."</span>,
   <span class="st">"I like hourglasses, maps, seventeenth century typography."</span>
 <span class="op">)</span>
 
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_two_phrase</span>, <span class="st">"maps, . century"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-d8f600ea2db59cbdbd23" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d8f600ea2db59cbdbd23">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, eighteenth century typography.<\/li>\n  <li>I like hourglasses, maps, seventeenth century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Nothing was matched. Why? Because we’re saying we want to match something like this: <code>maps, [a] century.</code>. Replace <code>[a]</code> with whatever character you want and that’s what your matching. Of course, that doesn’t have a match anywhere in the string. What we want instead is this:</p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div id="htmlwidget-6cc580c709ee663186bc" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6cc580c709ee663186bc">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, eighteenth century typography.<\/li>\n  <li>I like hourglasses, maps, seventeenth century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Nothing was matched. Why? Because we’re saying we want to match something like this: <code>maps, [a] century.</code>. Replace <code>[a]</code> with whatever character you want and that’s what your matching. Of course, that doesn’t have a match anywhere in the string. What we want instead is this:</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_two_phrase</span>, <span class="st">"maps, .+ century"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-617db088e66aed8d92f0" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-617db088e66aed8d92f0">{"x":{"html":"<ul>\n  <li>I like hourglasses, <span class='match'>maps, eighteenth century<\/span> typography.<\/li>\n  <li>I like hourglasses, <span class='match'>maps, seventeenth century<\/span> typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This is saying: match the part <code>maps,</code> followed by <em>any character</em> (<code>.</code>) repeated one or more times (<code>+</code>) which is followed by <code>century</code>.</p>
+<div id="htmlwidget-c3ecf93e7673611ecbf1" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c3ecf93e7673611ecbf1">{"x":{"html":"<ul>\n  <li>I like hourglasses, <span class='match'>maps, eighteenth century<\/span> typography.<\/li>\n  <li>I like hourglasses, <span class='match'>maps, seventeenth century<\/span> typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This is saying: match the part <code>maps,</code> followed by <em>any character</em> (<code>.</code>) repeated one or more times (<code>+</code>) which is followed by <code>century</code>.</p>
 </div>
-<div id="escaping-." class="section level2" number="5.4">
+<div id="escaping-." class="section level2" number="4.4">
 <h2>
-<span class="header-section-number">5.4</span> Escaping <code>.</code><a class="anchor" aria-label="anchor" href="#escaping-."><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.4</span> Escaping <code>.</code><a class="anchor" aria-label="anchor" href="#escaping-."><i class="fas fa-link"></i></a>
 </h2>
 <p><code>.</code> is useful because it can be used as a general placeholder. However, what if you want to match a literal <code>.</code>? If I asked you to match the first sentence of this phrase without specifying “hourglasses”, what regexp could you use?</p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses. I also like maps, eighteenth century typography"</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"I like .+"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-72ec6eb0e0d9d4286c29" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-72ec6eb0e0d9d4286c29">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses. I also like maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p><code>I like .+</code> is almost there. It says: match the phrase <code>I like</code> followed by any character repeated one or more times. However, that matches the entire phrase because it doesn’t know we want it stop at the first <code>.</code>, right after hourglasses. To match a literal <code>.</code> you need to append it with two <code>\\</code>. It would look like this: <code>I like .+\\.</code>. This reads like this:</p>
+<div id="htmlwidget-712c8528c34a6a64b64b" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-712c8528c34a6a64b64b">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses. I also like maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p><code>I like .+</code> is almost there. It says: match the phrase <code>I like</code> followed by any character repeated one or more times. However, that matches the entire phrase because it doesn’t know we want it stop at the first <code>.</code>, right after hourglasses. To match a literal <code>.</code> you need to append it with two <code>\\</code>. It would look like this: <code>I like .+\\.</code>. This reads like this:</p>
 <ul>
 <li>Match the phrase <code>I like</code>
 </li>
@@ -166,17 +165,17 @@
 <li>Until there is a literal dot (<code>\\.</code>)</li>
 </ul>
 <p>Let’s apply it:</p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"I like .+\\."</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-0c9ac1952cfc818c6a0c" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0c9ac1952cfc818c6a0c">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses.<\/span> I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Be aware that you need to append <code>\\</code> in front of <strong>any</strong> special character in regexp. For example, if you wanted to match the quantifier <code>+</code> literally, you’ll need to do it like this: <code>\\+</code>. There’s a bunch of special character in regexp but you’ll just need to know a few like <code>(</code>, <code>)</code>, <code>+</code>, <code>.</code>, <code>$</code>, <code>^</code> or <code>|</code>.</p>
+<div id="htmlwidget-aab4c2cce10d6ea4d8bb" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-aab4c2cce10d6ea4d8bb">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses.<\/span> I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Be aware that you need to append <code>\\</code> in front of <strong>any</strong> special character in regexp. For example, if you wanted to match the quantifier <code>+</code> literally, you’ll need to do it like this: <code>\\+</code>. There’s a bunch of special character in regexp but you’ll just need to know a few like <code>(</code>, <code>)</code>, <code>+</code>, <code>.</code>, <code>$</code>, <code>^</code> or <code>|</code>.</p>
 </div>
-<div id="the-or-operator" class="section level2" number="5.5">
+<div id="the-or-operator" class="section level2" number="4.5">
 <h2>
-<span class="header-section-number">5.5</span> The OR (<code>|</code>) operator<a class="anchor" aria-label="anchor" href="#the-or-operator"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.5</span> The OR (<code>|</code>) operator<a class="anchor" aria-label="anchor" href="#the-or-operator"><i class="fas fa-link"></i></a>
 </h2>
 <p>To make your regexp generic, you’ll often want to match either one regexp or another. The <code>|</code> allows you to do it very succintly. Suppose we want to extract the century from the vector below. We can do it like this:</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges_two_phrase</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"I like hourglasses, maps, eighteenth century typography."</span>,
   <span class="st">"I like hourglasses, maps, seventeenth century typography."</span>
@@ -190,55 +189,55 @@
 ## [[2]]
 ## [1] "maps, seventeenth century"</code></pre>
 <p>However, we want to extract only the actual century and replace <code>maps,</code> and <code>century</code>. We can use a regexp to say: replace either <code>maps,</code> or <code>century</code> with an empty space, which will give you only the actual century. In our case the regexp would be like this: <code>maps, | century</code>. Using <code>str_replace_all</code> we can match that expression and replace it with empty space:</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="st">"maps, | century"</span>, <span class="st">""</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "eighteenth"  "seventeenth"</code></pre>
 </div>
-<div id="anchors" class="section level2" number="5.6">
+<div id="anchors" class="section level2" number="4.6">
 <h2>
-<span class="header-section-number">5.6</span> Anchors<a class="anchor" aria-label="anchor" href="#anchors"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.6</span> Anchors<a class="anchor" aria-label="anchor" href="#anchors"><i class="fas fa-link"></i></a>
 </h2>
 <p>Anchors are also another feature of regexp. <code>^</code> is used to match the start of the string and <code>$</code> to match the end of the string. For example, to match the first letter of the entire text you could use:</p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses. I also like maps, eighteenth century typography"</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"^."</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-3554598b46e3aa51c189" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3554598b46e3aa51c189">{"x":{"html":"<ul>\n  <li><span class='match'>I<\/span> like hourglasses. I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Conversely, to match the last letter of a string:</p>
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<div id="htmlwidget-8016b7fc936fe201419c" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8016b7fc936fe201419c">{"x":{"html":"<ul>\n  <li><span class='match'>I<\/span> like hourglasses. I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Conversely, to match the last letter of a string:</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">".$"</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-3edcf3b734f4c9940cb4" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3edcf3b734f4c9940cb4">{"x":{"html":"<ul>\n  <li>I like hourglasses. I also like maps, eighteenth century typograph<span class='match'>y<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This might seem like something which doesn’t have much use but it’s actually very handy. Take this text as an example:</p>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div id="htmlwidget-b9362574519c7f174f25" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b9362574519c7f174f25">{"x":{"html":"<ul>\n  <li>I like hourglasses. I also like maps, eighteenth century typograph<span class='match'>y<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This might seem like something which doesn’t have much use but it’s actually very handy. Take this text as an example:</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borges_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"I like cars. I like hourglasses, maps, eighteenth century typography"</span>,
   <span class="st">"I like computers. I like hourglasses, maps, eighteenth century typography"</span>
 <span class="op">)</span></code></pre></div>
 <p>Both phrases have “I like” at the beginning but also have “I like” after the end of the first sentence. Using what we know until now won’t be enough:</p>
-<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_long</span>, <span class="st">"^I like .+"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-ddc6ab2e419b17c95d6c" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ddc6ab2e419b17c95d6c">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n  <li><span class='match'>I like computers. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>To achieve what we want we could use the trick to match literal dot and add the anchor of the beginning:</p>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<div id="htmlwidget-37d4982153c048f2dbb3" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-37d4982153c048f2dbb3">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n  <li><span class='match'>I like computers. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>To achieve what we want we could use the trick to match literal dot and add the anchor of the beginning:</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges_long</span>, <span class="st">"^I like .+\\."</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-1953896e191555f011fd" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1953896e191555f011fd">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n  <li><span class='match'>I like computers.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-03d42c51057871471227" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-03d42c51057871471227">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n  <li><span class='match'>I like computers.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="matching-spaces" class="section level2" number="5.7">
+<div id="matching-spaces" class="section level2" number="4.7">
 <h2>
-<span class="header-section-number">5.7</span> Matching spaces<a class="anchor" aria-label="anchor" href="#matching-spaces"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.7</span> Matching spaces<a class="anchor" aria-label="anchor" href="#matching-spaces"><i class="fas fa-link"></i></a>
 </h2>
 <p>You can also match spaces in regexp and replace them:</p>
-<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">" "</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-449f005c10d45ef4cce5" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-449f005c10d45ef4cce5">{"x":{"html":"<ul>\n  <li>I<span class='match'> <\/span>like<span class='match'> <\/span>hourglasses.<span class='match'> <\/span>I<span class='match'> <\/span>also<span class='match'> <\/span>like<span class='match'> <\/span>maps,<span class='match'> <\/span>eighteenth<span class='match'> <\/span>century<span class='match'> <\/span>typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Since spaces come in different ways (new lines or a tabs), you can also use the special character <code>\\s</code>:</p>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<div id="htmlwidget-f61035cf393d3335dd20" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f61035cf393d3335dd20">{"x":{"html":"<ul>\n  <li>I<span class='match'> <\/span>like<span class='match'> <\/span>hourglasses.<span class='match'> <\/span>I<span class='match'> <\/span>also<span class='match'> <\/span>like<span class='match'> <\/span>maps,<span class='match'> <\/span>eighteenth<span class='match'> <\/span>century<span class='match'> <\/span>typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Since spaces come in different ways (new lines or a tabs), you can also use the special character <code>\\s</code>:</p>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">borges</span>, <span class="st">"\\s"</span>, <span class="st">""</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Ilikehourglasses.Ialsolikemaps,eighteenthcenturytypography"</code></pre>
 </div>
-<div id="special-classes" class="section level2" number="5.8">
+<div id="special-classes" class="section level2" number="4.8">
 <h2>
-<span class="header-section-number">5.8</span> Special classes<a class="anchor" aria-label="anchor" href="#special-classes"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.8</span> Special classes<a class="anchor" aria-label="anchor" href="#special-classes"><i class="fas fa-link"></i></a>
 </h2>
 <p>Aside from the magic of <code>.</code>, regexp has a set of special tools for matching general patterns. Let’s touch upon three of these.</p>
 <ul>
@@ -246,7 +245,7 @@
 <code>\\d</code>: matches digits</li>
 </ul>
 <p>Suppose you’re scraping a list of countries and their GDP. After scraping that data you end up with this:</p>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gdp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"Afghanistan 516 US dollars"</span>,
   <span class="st">"Albania 6494 US dollars"</span>,
@@ -255,25 +254,25 @@
   <span class="st">"Andorra 43047 US dollars"</span>
 <span class="op">)</span></code></pre></div>
 <p>The keyword <code>\\d</code> will match a single digit. So for example, if we wanted to match the age of a child in a string (<code>Angel is 8 years old)</code>, writing a regexp like <code>\\d</code> will match that <code>8</code>. For example:</p>
-<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="st">"Angel is 8 years old"</span>, <span class="st">"\\d"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-a087c22141f398cd0236" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a087c22141f398cd0236">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>If we matched instead someone older, <code>\\d</code> will match each digit <em>separately</em>:</p>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<div id="htmlwidget-f2f1b86bb5a13001a821" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f2f1b86bb5a13001a821">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>If we matched instead someone older, <code>\\d</code> will match each digit <em>separately</em>:</p>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Angel is 8 years old"</span>, <span class="st">"Martha is 56 years old"</span><span class="op">)</span>,
   <span class="st">"\\d"</span>
 <span class="op">)</span></code></pre></div>
-<div id="htmlwidget-a225fc1208b1267c8028" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a225fc1208b1267c8028">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>5<\/span><span class='match'>6<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>If you pay close attention, the regexp matched <code>56</code> but each digit separately. However, we could combine this with the quantifier <code>+</code> to match <em>one or more</em> digits. For example:</p>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<div id="htmlwidget-f6d805025ea5acd45fa0" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f6d805025ea5acd45fa0">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>5<\/span><span class='match'>6<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>If you pay close attention, the regexp matched <code>56</code> but each digit separately. However, we could combine this with the quantifier <code>+</code> to match <em>one or more</em> digits. For example:</p>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Angel is 8 years old"</span>, <span class="st">"Martha is 56 years old"</span><span class="op">)</span>,
   <span class="st">"\\d+"</span>
 <span class="op">)</span></code></pre></div>
-<div id="htmlwidget-1396873343b34fe1f522" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1396873343b34fe1f522">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>56<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Going back to our <code>gdp</code> example, we can extract the GDP of every country with the regexp <code>\\d+</code>, meaning “extract any number that is repeated one or more times”:</p>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<div id="htmlwidget-10be18c0e6d76f79c798" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-10be18c0e6d76f79c798">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>56<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Going back to our <code>gdp</code> example, we can extract the GDP of every country with the regexp <code>\\d+</code>, meaning “extract any number that is repeated one or more times”:</p>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gdp_chr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="va">gdp</span>, <span class="st">"\\d+"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">gdp_chr</span>, <span class="va">as.numeric</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
@@ -295,7 +294,7 @@
 <code>[abc]</code>: matches a, b, or c.</li>
 </ul>
 <p>Regexps also has a cool shortcut to extend the regexp <code>|</code> (or) and make it more flexible. For example, say we wanted to match all retirement ages of men in Europe that are between 67 and 69:</p>
-<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">retirement</span> <span class="op">&lt;-</span>
   <span class="co"># Read in our scrapex example with retirement ages</span>
   <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/retirement_age_europe_ex.html">retirement_age_europe_ex</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -319,34 +318,34 @@
 ## 10 Denmark                67                67            2022  "In … [3][5]    
 ## # … with 31 more rows</code></pre>
 <p>One way is to explicitly use <code>|</code> to match all ages like this: <code>(67|68|69)</code>. Instead, using brackets (<code>[]</code>), regexp will match everything inside as if it were <code>|</code>. So for example:</p>
-<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"6[789]"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-4210975c62a8b0162626" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4210975c62a8b0162626">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63 (and 4 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 9 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65 (and 7 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>66<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 6 months)<\/li>\n  <li>65<\/li>\n  <li>63 (and 10 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>64<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>60 (and 5 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This regexp will match the number <code>6</code> followed either by <code>7</code>, <code>8</code>, or <code>9</code>. If these numbers are sequential (as it is now) it has additional shortcuts to make it simpler:</p>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<div id="htmlwidget-f3e6a77de447e7b41d18" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f3e6a77de447e7b41d18">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63 (and 4 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 9 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65 (and 7 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>66<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 6 months)<\/li>\n  <li>65<\/li>\n  <li>63 (and 10 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>64<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>60 (and 5 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>This regexp will match the number <code>6</code> followed either by <code>7</code>, <code>8</code>, or <code>9</code>. If these numbers are sequential (as it is now) it has additional shortcuts to make it simpler:</p>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"6[7-9]"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-229e4d5e66e6eaad4f9a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-229e4d5e66e6eaad4f9a">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63 (and 4 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 9 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65 (and 7 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>66<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 6 months)<\/li>\n  <li>65<\/li>\n  <li>63 (and 10 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>64<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>60 (and 5 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Note that <code>[]</code> works the same way for anything: numbers, letters, punctuation, spaces, etc..</p>
+<div id="htmlwidget-2ed6a12015f0722b47fb" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2ed6a12015f0722b47fb">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>64 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>63 (and 4 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 9 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65 (and 7 months)<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>66<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>63 (and 6 months)<\/li>\n  <li>65<\/li>\n  <li>63 (and 10 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>63<\/li>\n  <li>66<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>64<\/li>\n  <li><span class='match'>67<\/span><\/li>\n  <li>65<\/li>\n  <li>66 (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>60 (and 5 months)<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li>62<\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>Note that <code>[]</code> works the same way for anything: numbers, letters, punctuation, spaces, etc..</p>
 <ul>
 <li>
 <code>[^abc]</code>: matches anything except a, b, or c.</li>
 </ul>
 <p>Similarly to the previous example <code>[abc]</code>, <code>[^abc]</code> will match anything except these letters. So recycling our previous retirement example, if we wanted to match all ages except those after 65, the regexp would be like this:</p>
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_view.html">str_view_all</a></span><span class="op">(</span><span class="va">retirement</span><span class="op">$</span><span class="va">Men</span>, <span class="st">"6[^5-9]"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-5ae11c0f781bfd802eda" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5ae11c0f781bfd802eda">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span>.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>64<\/span> (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>63<\/span> (and 4 months)<\/li>\n  <li>67<\/li>\n  <li><span class='match'>63<\/span> (and 9 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>65 (and 7 months)<\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>67<\/li>\n  <li>66<\/li>\n  <li>67<\/li>\n  <li><span class='match'>63<\/span> (and <span class='match'>6 <\/span>months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>63<\/span> (and 10 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li><span class='match'>63<\/span><\/li>\n  <li>66<\/li>\n  <li>6<span class='match'>6 <\/span>(and 4 months)<\/li>\n  <li><span class='match'>64<\/span><\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>6<span class='match'>6 <\/span>(and 4 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>60<\/span> (and 5 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>All ages which are below 65 will be matched.</p>
+<div id="htmlwidget-5dbdccc5eebbf90774ab" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5dbdccc5eebbf90774ab">{"x":{"html":"<ul>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span>.5<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>64<\/span> (and 4 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>63<\/span> (and 4 months)<\/li>\n  <li>67<\/li>\n  <li><span class='match'>63<\/span> (and 9 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>65 (and 7 months)<\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>67<\/li>\n  <li>66<\/li>\n  <li>67<\/li>\n  <li><span class='match'>63<\/span> (and <span class='match'>6 <\/span>months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>63<\/span> (and 10 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li><span class='match'>63<\/span><\/li>\n  <li>66<\/li>\n  <li>6<span class='match'>6 <\/span>(and 4 months)<\/li>\n  <li><span class='match'>64<\/span><\/li>\n  <li>67<\/li>\n  <li>65<\/li>\n  <li>6<span class='match'>6 <\/span>(and 4 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>60<\/span> (and 5 months)<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>65<\/li>\n  <li>65 (and 3 months)<\/li>\n  <li>65<\/li>\n  <li>65<\/li>\n  <li><span class='match'>62<\/span><\/li>\n  <li>66<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><p>All ages which are below 65 will be matched.</p>
 </div>
-<div id="case-study-mapping-the-kings-of-france" class="section level2" number="5.9">
+<div id="case-study-mapping-the-kings-of-france" class="section level2" number="4.9">
 <h2>
-<span class="header-section-number">5.9</span> Case study: mapping the kings of France<a class="anchor" aria-label="anchor" href="#case-study-mapping-the-kings-of-france"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.9</span> Case study: mapping the kings of France<a class="anchor" aria-label="anchor" href="#case-study-mapping-the-kings-of-france"><i class="fas fa-link"></i></a>
 </h2>
 <p><code>scrapex</code> contains a copy of the Wikipedia page “History of France”. Throughout all of the historical details, this website has several sections where it outlines all kings/queens of France and the years they were in power. In this case study we’ll plot a timeline plot, where we’ll be able to visualize the length of the kingdom of each king.</p>
 <p>Let’s load and read the website:</p>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">history_france_html</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/history_france_ex.html">history_france_ex</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">history_france</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">history_france_html</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/browseURL.html">browseURL</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/prep_browser.html">prep_browser</a></span><span class="op">(</span><span class="va">history_france_html</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>This website is your standard Wikipedia webpage: it has dozens of sections and a lengthy description of historical facts of France.</p>
 <div class="inline-figure">
@@ -367,14 +366,14 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 <code>[contains(@title, "House of Valois")]</code>: where this <code>a</code> tag needs to have a <code>title</code> attribute that contains “House of Valois”.</li>
 </ul>
 <p>Let’s put it all together and see if it worked:</p>
-<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">history_france</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//ul[.//a[contains(@title, 'House of Valois')]]"</span><span class="op">)</span></code></pre></div>
 <pre><code>## {xml_nodeset (2)}
 ## [1] &lt;ul&gt;\n&lt;li&gt;\n&lt;a href="https://en.wikipedia.org/wiki/Capetian_Dynasty" clas ...
 ## [2] &lt;ul&gt;\n&lt;li&gt;\n&lt;a href="https://en.wikipedia.org/wiki/House_of_Valois" title ...</code></pre>
 <p>There we are! The second slot contains the <code>ul</code> tag we want (because we can see the Valois right in the <code>href</code>). We can redo the previous XPath to pick only the second node and we should be done:</p>
-<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_txt</span> <span class="op">&lt;-</span>
   <span class="va">history_france</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html">xml_find_all</a></span><span class="op">(</span><span class="st">"//ul[.//a[contains(@title, 'House of Valois')]][2]"</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -383,7 +382,7 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 <span class="va">all_txt</span></code></pre></div>
 <pre><code>## [1] "House of Valois\nLouis XI the Prudent, 1461–83\nCharles VIII the Affable, 1483–98\nLouis XII, 1498–1515\nFrancis I, 1515–47\nHenry II, 1547–59\nFrancis II, 1559–60\nCharles IX, 1560–74 (1560–63 under regency of Catherine de' Medici)\nHenry III, 1574–89\nHouse of Bourbon\nHenry IV the Great, 1589–1610\nthe Regency of Marie de Medici, 1610–17\nLouis XIII the Just and his minister Cardinal Richelieu, 1610–43\nthe Regency of Anne of Austria and her minister Cardinal Mazarin, 1643–51\nLouis XIV the Sun King and his minister Jean-Baptiste Colbert, 1643–1715\nthe Régence, a period of regency under Philip II of Orléans, 1715–23\nLouis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74\nLouis XVI, 1774–92"</code></pre>
 <p>The text is pretty dirty as all the text is concatenated into one single string but it contains all the kings/queens and their period of kingdomship. Let’s clean it up. First thing we want to do is split the string based on the character <code>\n</code>. If you take a close look at the string all the names of each person are separated by <code>\n</code>. Let’s apply it as see how it looks:</p>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_txt</span> <span class="op">&lt;-</span>
   <span class="va">all_txt</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split</a></span><span class="op">(</span><span class="st">"\n"</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -409,7 +408,7 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 ## [17] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74"
 ## [18] "Louis XVI, 1774–92"</code></pre>
 <p>Better. We have 16 kings/queens but there are two slots that separated them by houses. House of Valois and House of Bourbon. We probably want to remove these two strings from the vector because we’re not interested in distinguishing them for now. For that we’ll use the regexp <code>^House</code> which matches any string that begins with <code>House</code>. We’ll combine it with <code>str_detect</code> which returns <code>TRUE</code> or <code>FALSE</code> if there’s a match. We’ll use that to exclude these two strings from the vector:</p>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_txt</span> <span class="op">&lt;-</span> <span class="va">all_txt</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">all_txt</span>, <span class="st">"^House"</span><span class="op">)</span><span class="op">]</span>
 <span class="va">all_txt</span></code></pre></div>
 <pre><code>##  [1] "Louis XI the Prudent, 1461–83"                                                  
@@ -429,7 +428,7 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 ## [15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74"
 ## [16] "Louis XVI, 1774–92"</code></pre>
 <p>There we go, 16 names and their corresponding period. The task we’re after is to extract two things from this vector. The years they were in power and their names. Let’s first extract the years. We could do that with the regexp <code>\\d+</code> that will extract all digits from each of the strings. However, this will also extract the extra years for Charles IX inside the parenthesis:</p>
-<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_txt</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span></code></pre></div>
 <pre><code>## [1] "Charles IX, 1560–74 (1560–63 under regency of Catherine de' Medici)"</code></pre>
 <p>Since these years are just a clarification, we can remove the parenthesis and everything inside it to just keep the first period next to his name. Let’s think of how a regexp like this can be:</p>
@@ -439,7 +438,7 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 <li>We don’t care what text is inside the parenthesis so we can just use the <code>.</code> placeholder with <code>+</code> to match as many character are needed</li>
 </ul>
 <p>The final regexp can be something like this: <code>\\(.+\\)</code>. Match any parenthesis (literal) that have any text inside. Let’s replace it with an empty character</p>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_txt</span> <span class="op">&lt;-</span>
   <span class="va">all_txt</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"\\(.+\\)"</span>, replacement <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
@@ -462,7 +461,7 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 ## [15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74"
 ## [16] "Louis XVI, 1774–92"</code></pre>
 <p>Perfect, we removed the extra parenthesis so we can now extract all years:</p>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span>
   <span class="va">all_txt</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="st">"\\d+"</span><span class="op">)</span>
@@ -516,7 +515,7 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 ## [[16]]
 ## [1] "1774" "92"</code></pre>
 <p>Great, the regexp worked but there are additional problems. For kings/queens which reigned in a single century, the end period only has the last two years. For those whose kingship lasted between two centuries, the two years are written explicitly in format YYYY. We have to correct this manually. One way to do it would be like this:</p>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">convert_time_period</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">start_year</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
   <span class="va">end_year</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
@@ -532,7 +531,7 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
   <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <p>This function accepts the character vector of length two containing both the start and end year of period where they reigned. The function checks if the number of character of the <em>end</em> year has only two years, and if it does, it subsets the first two years from the <em>start</em> year and pastes them together. Let’s apply the function in a loop for each of the years:</p>
-<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sequence_kings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">res</span>, <span class="va">convert_time_period</span><span class="op">)</span>
 <span class="va">sequence_kings</span></code></pre></div>
 <pre><code>## [[1]]
@@ -592,7 +591,7 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 <code>,</code>: until the first comma</li>
 </ul>
 <p>Let’s try it out:</p>
-<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_txt</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="st">"^.+,"</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] "Louis XI the Prudent,"                                                  
@@ -612,7 +611,7 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 ## [15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury,"
 ## [16] "Louis XVI,"</code></pre>
 <p>Great, all names we matched correctly. We just have to replace the comma with an empty space to make it cleaner:</p>
-<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">names_kings</span> <span class="op">&lt;-</span>
   <span class="va">all_txt</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="st">"^.+,"</span><span class="op">)</span> <span class="op"><a href="https://stringr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
@@ -636,7 +635,7 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 ## [15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury"
 ## [16] "Louis XVI"</code></pre>
 <p>Alright, with that out of the way, the rest is combining the years and names together into a data frame. Let’s look over <code>sequence_kings</code> and convert them into data frames. Combine all of them with the king names and convert all dates into <code>date</code> objects in R:</p>
-<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Combine into data frames</span>
 <span class="va">sequence_kings_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">sequence_kings</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>start <span class="op">=</span> <span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, end <span class="op">=</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
 <span class="va">final_kings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">sequence_kings_df</span><span class="op">)</span>
@@ -669,24 +668,24 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 ## 15 1715-01-01 1774-01-01 Louis XV the Beloved and his minister Cardinal André-H…
 ## 16 1774-01-01 1792-01-01 Louis XVI</code></pre>
 <p>Great job, that’s our final data frame. We can feed it into the <code>gg_vistime</code> function from the package <code>vistime</code> to visualize the timeline:</p>
-<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://shosaco.github.io/vistime/reference/gg_vistime.html">gg_vistime</a></span><span class="op">(</span><span class="va">final_kings</span>, col.group <span class="op">=</span> <span class="st">"event"</span>, show_labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="images/intro_regex/automatic_rmarkdown/unnamed-chunk-96-1.png" width="672" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="images/intro_regex/automatic_rmarkdown/unnamed-chunk-99-1.png" width="672" style="display: block; margin: auto;"></div>
 </div>
-<div id="exercises-2" class="section level2" number="5.10">
+<div id="exercises-2" class="section level2" number="4.10">
 <h2>
-<span class="header-section-number">5.10</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.10</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-2"><i class="fas fa-link"></i></a>
 </h2>
 <ol style="list-style-type: decimal">
 <li>Extend our case study to the period “State building into the Kingdom of France (987–1453)”:</li>
 </ol>
 <div class="inline-figure"><img src="images/intro_regex/kings_timeline_wk_earlier_period.png" width="100%" style="display: block; margin: auto;"></div>
 <p>Note that this will require you to change some of our previous code and think of slightly different regexp strategies. When done, merge it with our results of the case study to produce the complete lineage of France’s history of monarchy.</p>
-<div class="inline-figure"><img src="images/intro_regex/automatic_rmarkdown/unnamed-chunk-98-1.png" width="672" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="images/intro_regex/automatic_rmarkdown/unnamed-chunk-101-1.png" width="672" style="display: block; margin: auto;"></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Take a look at this regexp: <code>I like .+\\.</code>. It says: match the phrase <code>I like</code> followed by any character (<code>.</code>) repeated one or more times (<code>+</code>) until you find a dot (<code>\\.</code>). When applied to the string below it extracts the entire string:</li>
 </ol>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">text</span> <span class="op">&lt;-</span> <span class="st">"I like hourglasses. I also like maps, eighteenth century typography."</span>
 <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract_all</a></span><span class="op">(</span><span class="va">text</span>, <span class="st">"I like .+\\."</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 <pre><code>## [1] "I like hourglasses. I also like maps, eighteenth century typography."</code></pre>
@@ -705,22 +704,22 @@ If you scroll down to the section “Early Modern France (1453 - 1789)” you’
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></div>
-<div class="next"><a href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">6</span> What you need to know about XPath</a></div>
+<div class="prev"><a href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></div>
+<div class="next"><a href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">5</span> What you need to know about XPath</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#what-you-need-to-know-about-regular-expressions"><span class="header-section-number">5</span> What you need to know about regular expressions</a></li>
-<li><a class="nav-link" href="#basic-matches"><span class="header-section-number">5.1</span> Basic matches</a></li>
-<li><a class="nav-link" href="#the-.-placeholder"><span class="header-section-number">5.2</span> The . placeholder</a></li>
-<li><a class="nav-link" href="#quantifiers"><span class="header-section-number">5.3</span> Quantifiers</a></li>
-<li><a class="nav-link" href="#escaping-."><span class="header-section-number">5.4</span> Escaping .</a></li>
-<li><a class="nav-link" href="#the-or-operator"><span class="header-section-number">5.5</span> The OR (|) operator</a></li>
-<li><a class="nav-link" href="#anchors"><span class="header-section-number">5.6</span> Anchors</a></li>
-<li><a class="nav-link" href="#matching-spaces"><span class="header-section-number">5.7</span> Matching spaces</a></li>
-<li><a class="nav-link" href="#special-classes"><span class="header-section-number">5.8</span> Special classes</a></li>
-<li><a class="nav-link" href="#case-study-mapping-the-kings-of-france"><span class="header-section-number">5.9</span> Case study: mapping the kings of France</a></li>
-<li><a class="nav-link" href="#exercises-2"><span class="header-section-number">5.10</span> Exercises</a></li>
+<li><a class="nav-link" href="#what-you-need-to-know-about-regular-expressions"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
+<li><a class="nav-link" href="#basic-matches"><span class="header-section-number">4.1</span> Basic matches</a></li>
+<li><a class="nav-link" href="#the-.-placeholder"><span class="header-section-number">4.2</span> The . placeholder</a></li>
+<li><a class="nav-link" href="#quantifiers"><span class="header-section-number">4.3</span> Quantifiers</a></li>
+<li><a class="nav-link" href="#escaping-."><span class="header-section-number">4.4</span> Escaping .</a></li>
+<li><a class="nav-link" href="#the-or-operator"><span class="header-section-number">4.5</span> The OR (|) operator</a></li>
+<li><a class="nav-link" href="#anchors"><span class="header-section-number">4.6</span> Anchors</a></li>
+<li><a class="nav-link" href="#matching-spaces"><span class="header-section-number">4.7</span> Matching spaces</a></li>
+<li><a class="nav-link" href="#special-classes"><span class="header-section-number">4.8</span> Special classes</a></li>
+<li><a class="nav-link" href="#case-study-mapping-the-kings-of-france"><span class="header-section-number">4.9</span> Case study: mapping the kings of France</a></li>
+<li><a class="nav-link" href="#exercises-2"><span class="header-section-number">4.10</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">
