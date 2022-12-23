@@ -11,6 +11,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+# (PART) APIs {-}
+
 # Introduction to REST APIs {#intro-apis}
 
 So far in the book we've covered the subtle art of web scraping. This art is weird in the sense that it's not structured. To scrape some stuff you have to come up with unusual tricks to gather data from websites. You also have to be careful not to do it too often because it might impact the latency of the website due too excessive requests. Moreover, when you do gather the data, you need to apply some ninja-style tricks to clean the results. Overall, a complicated process because this data (on the website) is not meant for you to scrape it.

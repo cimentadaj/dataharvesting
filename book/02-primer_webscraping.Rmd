@@ -11,6 +11,8 @@ knitr::opts_chunk$set(
 
 ```
 
+# (PART) Webscraping {-}
+
 # A primer on Webscraping {#primer-webscraping}
 
 Webscraping is the subtle art of being a ninja. You need not be an expert on many things but should have a swiss army knife of skills when it comes to data cleaning and data manipulation. String manipulations, data subsetting and clever tricks rather than exact solutions will be your companion on your day to day scraping needs. Throughout this chapter I'll give you a one-to-one tour on what to expect when webscraping out in the wild. For that reason, this book will skip the usual 'start from the basics' sections to directly webscrape a website and see results from your efforts right away. Ready? Let's get going then.
