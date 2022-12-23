@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>16 Automating API programs: real-time bicycle data | Data Harvesting with R</title>
+<meta name="author" content="Jorge Cimentada">
+<meta name="description" content="Grabbing data from APIs can be achieved with all of the techniques we’ve covered in the book so far. However, as it is the case with web scraping, data is ephemeral. If you’re interested in web...">
+<meta name="generator" content="bookdown 0.26 with bs4_book()">
+<meta property="og:title" content="16 Automating API programs: real-time bicycle data | Data Harvesting with R">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/automating-api-programs-real-time-bicycle-data.html">
+<meta property="og:description" content="Grabbing data from APIs can be achieved with all of the techniques we’ve covered in the book so far. However, as it is the case with web scraping, data is ephemeral. If you’re interested in web...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="16 Automating API programs: real-time bicycle data | Data Harvesting with R">
+<meta name="twitter:description" content="Grabbing data from APIs can be achieved with all of the techniques we’ve covered in the book so far. However, as it is the case with web scraping, data is ephemeral. If you’re interested in web...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
+<link href="libs/_Roboto%20Mono-0.4.1/font.css" rel="stylesheet">
+<link href="libs/_Montserrat-0.4.1/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+<script src="libs/str_view-binding-1.4.0/str_view.js"></script><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<script>
+     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-99618359-1', 'auto');
+     ga('send', 'pageview');
+
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h2>
+        <a href="index.html" title="">Data Harvesting with R</a>
+      </h2>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
+<li><a class="" href="introduction-to-webscraping.html"><span class="header-section-number">2</span> Introduction to Webscraping</a></li>
+<li><a class="" href="a-primer-on-webscraping.html"><span class="header-section-number">3</span> A primer on Webscraping</a></li>
+<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">4</span> Data Formats for Webscraping</a></li>
+<li><a class="" href="what-you-need-to-know-about-regular-expressions.html"><span class="header-section-number">5</span> What you need to know about regular expressions</a></li>
+<li><a class="" href="what-you-need-to-know-about-xpath.html"><span class="header-section-number">6</span> What you need to know about XPath</a></li>
+<li><a class="" href="case-study-scraping-spanish-school-locations-from-the-web.html"><span class="header-section-number">7</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-web-scraping-scripts.html"><span class="header-section-number">8</span> Automating Web Scraping Scripts</a></li>
+<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">9</span> Scraping JavaScript based website</a></li>
+<li><a class="" href="ethical-issues-in-web-scraping.html"><span class="header-section-number">10</span> Ethical issues in Web Scraping</a></li>
+<li><a class="" href="introduction-to-rest-apis.html"><span class="header-section-number">11</span> Introduction to REST APIs</a></li>
+<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">12</span> A primer on APIs</a></li>
+<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">13</span> What is a RESTful API?</a></li>
+<li><a class="" href="what-you-need-to-know-about-json.html"><span class="header-section-number">14</span> What you need to know about JSON</a></li>
+<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></li>
+<li><a class="active" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">16</span> Automating API programs: real-time bicycle data</a></li>
+<li><a class="" href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">17</span> Insightful and robust data collection progams</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/cimentadaj/dataharvesting/tree/main/book">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="automating-api-programs-real-time-bicycle-data" class="section level1" number="16">
+<h1>
+<span class="header-section-number">16</span> Automating API programs: real-time bicycle data<a class="anchor" aria-label="anchor" href="#automating-api-programs-real-time-bicycle-data"><i class="fas fa-link"></i></a>
+</h1>
+<p>Grabbing data from APIs can be achieved with all of the techniques we’ve covered in the book so far. However, as it is the case with web scraping, data is ephemeral. If you’re interested in web scraping some temperature data for your city on a website, the temperature from 6 months ago for a given neighborhood might not be available any more. That’s why it’s very common for for web scraping or API scripts to be automated.</p>
+<p>Let me tell you a brief story that motivates this chapter. Throughout my PhD studies I was living in Barcelona where I used to take a bike ride from my house to my university. As it is common in Barcelona, I used the public bicycle system called “Bicing”. Every day, I used to take the bike from the upper part of the city, riding down through the big wide streets down to the campus that was next to the beach. Whenever the day was nearing the end, I took the bike up again to the upper part of the city. Yet every day when I tried to find a bike, there were no bikes available in the stations close to my university. This happened a lot as well in the mornings when I wanted to grab a bike to go to my university. I used to waste up to 15-20 minutes just waiting for bikes to arrive in one of the stations. With 3-4 stations near my university, I also had to juggle between which station I would wait for the bike. My ‘estimation’ was based on experience: on this day I’ve seen that bikes arrive much more often on this station than in the other one. However, that was something of a leap of faith: when I logged into the ‘Bicing’ mobile app, I saw that some bikes arrived earlier in other stations and I’d missed that opportunity.</p>
+<p>After spending about 2-3 years doing this I started to think there must be a way to make my ‘estimations’ more accurate. For example, if I had data on the availability of bikes on each station, I could probably estimate some type of poisson process where I could measure and predict the rate at which bikes arrived during different parts of the day. All of that was fine but I didn’t have data on that. <strong>That’s until I found it</strong>. Bicing had a real time API that allow you to check the status of each station (number of bikes available) and the time stamp at the time I was requesting this data. That’s it, that’s the information I needed but I needed it pretty much every minute, to be able to get the entire history of the station during the day. This near second-by-second snapshot would allow me to record at which interval of the day a bike was retrieved and at which interval another bike was deposited on each station. How do I do that? With automation.</p>
+<div id="the-bicing-api" class="section level2" number="16.1">
+<h2>
+<span class="header-section-number">16.1</span> The Bicing API<a class="anchor" aria-label="anchor" href="#the-bicing-api"><i class="fas fa-link"></i></a>
+</h2>
+<p>The <code>scrapex</code> package contains a replica of the bicing API that I used during my PhD studies. Let’s load the packages we’ll use in the chapter and launch the bicing API.</p>
+<div class="sourceCode" id="cb344"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr2.r-lib.org">httr2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>
+
+<span class="va">bicing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/api_bicing.html">api_bicing</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "Visit your REST API at http://localhost:9614"
+## [1] "Documentation is at http://localhost:9614/__docs__/"</code></pre>
+<p>As usual, the first we want to do is access the documentation. Here’s what we get:</p>
+<div class="inline-figure"><img src="images/automating_bicing/main_bicing_docs.png" width="100%" style="display: block; margin: auto;"></div>
+<p>The bicing API has only one endpoint. Let’s open up the endpoint to see if there are any arguments that we need to pass to the endpoint:</p>
+<div class="inline-figure"><img src="images/automating_bicing/endpoint_bicing.png" width="100%" style="display: block; margin: auto;"></div>
+<p>The documentation of the endpoint states a clear description of what the endpoint returns:</p>
+<blockquote>
+<p>Access real time bicycle usage from a sample of 20 stations from Barcelona’s public bicycle system</p>
+</blockquote>
+<p>As this is an example API, I’ve only included 20 stations from the original results. The original results contain information for over 100 stations all over Barcelona. We can also see under the <em>parameters</em> heading that this endpoint does not need any parameters.</p>
+<p>However, the most important thing from this endpoint can be interpreted from the description that we see above. <em>Access real time bicycle usage</em> is very transparent in highlighting that this data is <em>real time</em>. This means that data that we see in a request right now, might not be the same data that we see in 10 minutes. Since I created this sample API, I made sure that this is the case. This means that every time that we request some data from this endpoint, we’ll see completely new data from the previous request. The nature of this API forces us to think along two lines: if we want to understand bicycle patterns, we need to automate this process and we need to save this data somewhere.</p>
+<p>This is the point in my previous story where I had to learn more about robust programs, focusing on solid programming foundations and thinking about edge cases. Since this program will run every minute, if something fails (the bicing API gets a lot of requests, the response of the API changes, etc..) we want the API to persist, go around edge cases where it can and send an alarm if everything falls down. In this chapter we’ll build a very similar example to what I had to go through in building my bicycle time-to-arrival time predictor.</p>
+<p>Since we already know enough of the single endpoint of this API, let’s try to build a request to check how the output is structured. From the image above we can see that the endpoint is <code>/api/v1/real_time_bicycles</code> so let’s append it to the base of the API:</p>
+<div class="sourceCode" id="cb346"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rt_bicing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">bicing</span><span class="op">$</span><span class="va">api_web</span>, <span class="st">"/api/v1/real_time_bicycles"</span><span class="op">)</span>
+<span class="va">rt_bicing</span></code></pre></div>
+<pre><code>## [1] "http://localhost:9614/api/v1/real_time_bicycles"</code></pre>
+<p>There we go, let’s make a request and check the body:</p>
+<div class="sourceCode" id="cb348"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">resp_output</span> <span class="op">&lt;-</span> 
+  <span class="va">rt_bicing</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://httr2.r-lib.org/reference/request.html">request</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://httr2.r-lib.org/reference/req_perform.html">req_perform</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">resp_output</span></code></pre></div>
+<p>The status code of the request is <code>200</code> so everything went successful. We see that the content-type is in JSON format, so it’s everything we’re used to. Let’s check the content of the body:</p>
+<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sample_output</span> <span class="op">&lt;-</span>
+  <span class="va">resp_output</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html">resp_body_json</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+
+<span class="va">sample_output</span></code></pre></div>
+<pre><code>## [[1]]
+## [[1]]$type
+## [1] "BIKE"
+## 
+## [[1]]$latitude
+## [1] 41.398
+## 
+## [[1]]$longitude
+## [1] 2.18
+## 
+## [[1]]$streetName
+## [1] "Gran Via Corts Catalanes"
+## 
+## [[1]]$streetNumber
+## [1] "760"
+## 
+## [[1]]$slots
+## [1] 29
+## 
+## [[1]]$current_time
+## [1] "2022-12-23 14:40:21"
+## 
+## [[1]]$in_use
+## [1] 17
+## 
+## 
+## [[2]]
+## [[2]]$type
+## [1] "BIKE"
+## 
+## [[2]]$latitude
+## [1] 41.3955
+## 
+## [[2]]$longitude
+## [1] 2.1771
+## 
+## [[2]]$streetName
+## [1] "Roger de Flor/ Gran Vía"
+## 
+## [[2]]$streetNumber
+## [1] "126"
+## 
+## [[2]]$slots
+## [1] 27
+## 
+## [[2]]$current_time
+## [1] "2022-12-23 14:40:21"
+## 
+## [[2]]$in_use
+## [1] 23</code></pre>
+<p>I’ve only shown the first two slots of the resulting list (parsed from the JSON directly using <code>resp_body_json</code>). This output looks like each slot is the row of a data frame where each contains a column, where we have names like <code>slots</code>, <code>in_use</code>, <code>latitude/longitude</code> and <code>streetName</code>. There are different ways to parse this output but the first that comes to mind is to loop over each slot and simply try to convert it to a data frame. Since each slot has a named list inside, <code>data.frame</code> can convert that directly to a data frame. Finally, we can bind all those rows into a single data frame. Let’s try it:</p>
+<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sample_output</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">data.frame</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>##   type latitude longitude               streetName streetNumber slots
+## 1 BIKE  41.3980    2.1800 Gran Via Corts Catalanes          760    29
+## 2 BIKE  41.3955    2.1771  Roger de Flor/ Gran Vía          126    27
+##          current_time in_use
+## 1 2022-12-23 14:40:21     17
+## 2 2022-12-23 14:40:21     23</code></pre>
+<p>Yep, works well. Let’s go back to the request an extract all stations and combine them together:</p>
+<div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_stations</span> <span class="op">&lt;-</span>
+  <span class="va">resp_output</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html">resp_body_json</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">all_stations_df</span> <span class="op">&lt;-</span> 
+  <span class="va">all_stations</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">data.frame</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">all_stations_df</span></code></pre></div>
+<pre><code>##    type latitude longitude                     streetName streetNumber slots
+## 1  BIKE  41.3980    2.1800       Gran Via Corts Catalanes          760    29
+## 2  BIKE  41.3955    2.1771        Roger de Flor/ Gran Vía          126    27
+## 3  BIKE  41.3941    2.1813                         Nàpols           82    27
+## 4  BIKE  41.3935    2.1816                          Ribes           13    20
+## 5  BIKE  41.3911    2.1802              Pg Lluís Companys           11    39
+## 6  BIKE  41.3913    2.1806              Pg Lluís Companys           18    39
+## 7  BIKE  41.3889    2.1833              Pg Lluís Companys            1    23
+## 8  BIKE  41.3891    2.1836              Pg Lluís Companys            2    26
+## 9  BIKE  41.3845    2.1849         Marquès de l'Argentera           13    26
+## 10 BIKE  41.3817    2.1939                Passeig Marítim           19    21
+## 11 BIKE  41.3845    2.1957         Pg Marítim Barceloneta           23    29
+## 12 BIKE  41.3869    2.1958               Avinguda Litoral           16     3
+## 13 BIKE  41.3847    2.1850 Avinguda del Marques Argentera           15    26
+## 14 BIKE  41.3948    2.1712                         Girona           68    18
+## 15 BIKE  41.3983    2.1867                  Av. Meridiana           47    21
+## 16 BIKE  41.3982    2.1867                  Av. Meridiana           47    21
+## 17 BIKE  41.4061    2.1742                       Rosselló          453    26
+## 18 BIKE  41.4033    2.1707                       Rosselló          354    28
+## 19 BIKE  41.4102    2.1758                      Cartagena          308    20
+## 20 BIKE  41.4109    2.1740       Sant Antoni Maria Claret          214     2
+##           current_time in_use
+## 1  2022-12-23 14:40:21     17
+## 2  2022-12-23 14:40:21     23
+## 3  2022-12-23 14:40:21     23
+## 4  2022-12-23 14:40:21     19
+## 5  2022-12-23 14:40:21     24
+## 6  2022-12-23 14:40:21      2
+## 7  2022-12-23 14:40:21     21
+## 8  2022-12-23 14:40:21      5
+## 9  2022-12-23 14:40:21     21
+## 10 2022-12-23 14:40:21      2
+## 11 2022-12-23 14:40:21     20
+## 12 2022-12-23 14:40:21      0
+## 13 2022-12-23 14:40:21      2
+## 14 2022-12-23 14:40:21      8
+## 15 2022-12-23 14:40:21     15
+## 16 2022-12-23 14:40:21      2
+## 17 2022-12-23 14:40:21     12
+## 18 2022-12-23 14:40:21     26
+## 19 2022-12-23 14:40:21     10
+## 20 2022-12-23 14:40:21      2</code></pre>
+<p>Great, there we go. We managed to access the API, request the real time information of all bicycles and parse the output into a data frame. The most important columns here are <code>slots</code>, <code>current_time</code> and <code>in_use</code>. With these three you can calculate the intensity at which the station is used throughout the day. In addition, we have cool stuff like the <code>latitude</code>/<code>longitude</code> to locate the station in case we want to make, for example, maps of usage. Let’s take a step back and move all of our code into a function that makes a request:</p>
+<div class="sourceCode" id="cb355"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">real_time_bicing</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bicing_api</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">rt_bicing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">bicing_api</span><span class="op">$</span><span class="va">api_web</span>, <span class="st">"/api/v1/real_time_bicycles"</span><span class="op">)</span>
+  
+  <span class="va">resp_output</span> <span class="op">&lt;-</span> 
+    <span class="va">rt_bicing</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://httr2.r-lib.org/reference/request.html">request</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://httr2.r-lib.org/reference/req_perform.html">req_perform</a></span><span class="op">(</span><span class="op">)</span>
+  
+  <span class="va">all_stations</span> <span class="op">&lt;-</span>
+  <span class="va">resp_output</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html">resp_body_json</a></span><span class="op">(</span><span class="op">)</span>
+
+  <span class="va">all_stations_df</span> <span class="op">&lt;-</span> 
+    <span class="va">all_stations</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">data.frame</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="op">)</span>
+  
+  <span class="va">all_stations_df</span>
+<span class="op">}</span></code></pre></div>
+<p>Using this example function we can confirm that making two requests will return different data in terms of bicycle usage. For example:</p>
+<div class="sourceCode" id="cb356"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">first</span> <span class="op">&lt;-</span> <span class="fu">real_time_bicing</span><span class="op">(</span><span class="va">bicing</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">in_use</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>first_in_use <span class="op">=</span> <span class="va">in_use</span><span class="op">)</span>
+<span class="va">second</span> <span class="op">&lt;-</span> <span class="fu">real_time_bicing</span><span class="op">(</span><span class="va">bicing</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">in_use</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>second_in_use <span class="op">=</span> <span class="va">in_use</span><span class="op">)</span>
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_cols</a></span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span></code></pre></div>
+<pre><code>##    first_in_use second_in_use
+## 1             8            10
+## 2            11            10
+## 3             5             3
+## 4            14             4
+## 5            15            38
+## 6             8            36
+## 7             8            20
+## 8            10            16
+## 9            14            17
+## 10            6            17
+## 11           11            10
+## 12            0             0
+## 13           17             8
+## 14           11            15
+## 15           16            20
+## 16            6            20
+## 17            0            17
+## 18           28            25
+## 19           10            16
+## 20            2             0</code></pre>
+<p>We performed two requests and only selected the column <code>in_use</code> to check that these two columns are different. In effect, the usage of just a 1 second difference shows vastly different usage patterns for each station. This highlights that what we’re really interested here is in adding the two ingredients for making this a robust program: save the data on the fly and automate the script.</p>
+</div>
+<div id="saving-data-in-api-programs" class="section level2" number="16.2">
+<h2>
+<span class="header-section-number">16.2</span> Saving data in API programs<a class="anchor" aria-label="anchor" href="#saving-data-in-api-programs"><i class="fas fa-link"></i></a>
+</h2>
+<p>The first step we’ll take is saving the data. The strategy here can be very different depending on your needs. For example, you might want to access an online database such as MySQL and save the data there. That has a lot of benefits and also some drawbacks. In this example we’ll go with the very basics and save the result in a local CSV file. This is a very valid strategy depending on your needs. The main drawback from this strategy is that we’ll save the data <em>locally</em> meaning we have no backup in case you loose your computer or it breaks. An alternative is to host a CSV, for example, on a Google Drive and access it real time to save your results. We’ll focus on a simpler example by loading/saving our CSV in our local computer.</p>
+<p>For saving data we need to focus on several things:</p>
+<ul>
+<li><p>We must perform the request to the bicing API</p></li>
+<li><p>We must specify a local path where the CSV file will be hosted. If the directory of the CSV file has not been created, we should create it.</p></li>
+<li><p>If the CSV file does not exist, then we should create it from scratch</p></li>
+<li><p>If the CSV file <em>exists</em>, then we want to append the result</p></li>
+</ul>
+<p>Here’s a rough implementation with comments:</p>
+<div class="sourceCode" id="cb358"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">save_bicing_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bicing_api</span><span class="op">)</span> <span class="op">{</span>
+  <span class="co"># Perform a request to the bicing API and get the data frame back</span>
+  <span class="va">bicing_results</span> <span class="op">&lt;-</span> <span class="fu">real_time_bicing</span><span class="op">(</span><span class="va">bicing_api</span><span class="op">)</span>
+  
+  <span class="co"># Specify the local path where the file will be saved</span>
+  <span class="va">local_csv</span> <span class="op">&lt;-</span> <span class="st">"/home/jorge.cimentada/bicing/bicing_history.csv"</span>
+  <span class="co"># Extract the directory where the local file is saved</span>
+  <span class="va">main_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">dirname</a></span><span class="op">(</span><span class="va">local_csv</span><span class="op">)</span>
+
+  <span class="co"># If the directory does *not* exist, create it, recursively creating each folder  </span>
+  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span><span class="op">(</span><span class="va">main_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">main_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  <span class="op">}</span>
+
+  <span class="co"># If the file does not exist, save the current bicing response  </span>
+  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="va">local_csv</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">bicing_results</span>, <span class="va">local_csv</span><span class="op">)</span>
+  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
+    <span class="co"># If the file does exist, the *append* the result to the already existing CSV file</span>
+    <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">bicing_results</span>, <span class="va">local_csv</span>, append <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  <span class="op">}</span>
+<span class="op">}</span></code></pre></div>
+<p>One way to test whether this works is to run this twice and read the results back to a CSV to check that the data frame is correctly structured. Let’s try it:</p>
+<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">save_bicing_data</span><span class="op">(</span><span class="va">bicing</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>
+<span class="fu">save_bicing_data</span><span class="op">(</span><span class="va">bicing</span><span class="op">)</span>
+
+<span class="va">bicing_history</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"/home/jorge.cimentada/bicing/bicing_history.csv"</span><span class="op">)</span>
+<span class="va">bicing_history</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">current_time</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 1
+##   current_time       
+##   &lt;dttm&gt;             
+## 1 2022-12-20 23:51:56
+## 2 2022-12-20 23:52:04</code></pre>
+<p>We called the API once, saved the results and the allowed the program to sleep for 5 seconds. We then called the API again and saved the results. After this, we read the <code>bicing_history.csv</code> file into an R data frame and showed the distinct time stamps that the file has. If we requested the data from the API twice and saved the results, then we should find two time stamps. That’s precisely what we find in the results meaning that our results are correct. Great! We should also have two numbers in the column <code>in_use</code> for the number of bicycles under usage. Let’s pick one station to check that it works:</p>
+<div class="sourceCode" id="cb361"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">bicing_history</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">streetName</span> <span class="op">==</span> <span class="st">"Ribes"</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">current_time</span>, <span class="va">streetName</span>, <span class="va">in_use</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 3
+##   current_time        streetName in_use
+##   &lt;dttm&gt;              &lt;chr&gt;       &lt;dbl&gt;
+## 1 2022-12-20 23:51:56 Ribes          13
+## 2 2022-12-20 23:52:04 Ribes          19</code></pre>
+<p>In the first time stamp the station had 13 bikes and in the second time stamp it had 19. Our aim is to automate this to run very frequently and thus we’ll get hundreds of rows for each station.</p>
+</div>
+<div id="automating-the-program" class="section level2" number="16.3">
+<h2>
+<span class="header-section-number">16.3</span> Automating the program<a class="anchor" aria-label="anchor" href="#automating-the-program"><i class="fas fa-link"></i></a>
+</h2>
+<p>Just as we did in chapter TODO chapter automating web scrapers, APIs need to be automated. The strategy is pretty much the same as in that chapter. We create a script that defines the functions we’ll use for the program and run the functions at the end. In our case, that’s running the function <code>save_bicing_data</code>. We then automate the process using <code>cron</code> by running the script in a schedule. Let’s organize all of our code in a script. Here’s the code that needs to be in a script:</p>
+<div class="sourceCode" id="cb363"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr2.r-lib.org">httr2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>
+
+<span class="va">bicing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/api_bicing.html">api_bicing</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">real_time_bicing</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bicing_api</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">rt_bicing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">bicing_api</span><span class="op">$</span><span class="va">api_web</span>, <span class="st">"/api/v1/real_time_bicycles"</span><span class="op">)</span>
+  
+  <span class="va">resp_output</span> <span class="op">&lt;-</span> 
+    <span class="va">rt_bicing</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://httr2.r-lib.org/reference/request.html">request</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://httr2.r-lib.org/reference/req_perform.html">req_perform</a></span><span class="op">(</span><span class="op">)</span>
+  
+  <span class="va">all_stations</span> <span class="op">&lt;-</span>
+  <span class="va">resp_output</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html">resp_body_json</a></span><span class="op">(</span><span class="op">)</span>
+
+  <span class="va">all_stations_df</span> <span class="op">&lt;-</span> 
+    <span class="va">all_stations</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">data.frame</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="op">)</span>
+  
+  <span class="va">all_stations_df</span>
+<span class="op">}</span>
+
+<span class="va">save_bicing_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bicing_api</span><span class="op">)</span> <span class="op">{</span>
+  <span class="co"># Perform a request to the bicing API and get the data frame back</span>
+  <span class="va">bicing_results</span> <span class="op">&lt;-</span> <span class="fu">real_time_bicing</span><span class="op">(</span><span class="va">bicing_api</span><span class="op">)</span>
+  
+  <span class="co"># Specify the local path where the file will be saved</span>
+  <span class="va">local_csv</span> <span class="op">&lt;-</span> <span class="st">"/home/jorge.cimentada/bicing/bicing_history.csv"</span>
+  <span class="co"># Extract the directory where the local file is saved</span>
+  <span class="va">main_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">dirname</a></span><span class="op">(</span><span class="va">local_csv</span><span class="op">)</span>
+
+  <span class="co"># If the directory does *not* exist, create it, recursively creating each folder  </span>
+  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span><span class="op">(</span><span class="va">main_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">main_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  <span class="op">}</span>
+
+  <span class="co"># If the file does not exist, save the current bicing response  </span>
+  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="va">local_csv</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">bicing_results</span>, <span class="va">local_csv</span><span class="op">)</span>
+  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
+    <span class="co"># If the file does exist, the *append* the result to the already existing CSV file</span>
+    <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">bicing_results</span>, <span class="va">local_csv</span>, append <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  <span class="op">}</span>
+<span class="op">}</span>
+
+<span class="fu">save_bicing_data</span><span class="op">(</span><span class="va">bicing</span><span class="op">)</span></code></pre></div>
+<p>Let’s save that script locally. I’m going to save it as <code>bicing_api.R</code> in <code>/home/jorge.cimentada/bicing/</code> but you need to save it locally on <em>your</em> computer somewhere else. Once you have that file saved we have to set up the <code>cron</code> job to schedule the script. Refer to chapter TODO chapter web scraping on how <code>cron</code> works and how the syntax for setting the schedule works. So at this point you should have the the file <code>bicing_api.R</code> saved locally wherever you want to store the bicing data. In my case, you can see it here:</p>
+<div class="inline-figure"><img src="images/automating_bicing/console_ls_bicing.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Let’s test that it works first by running <code>Rscript api_bicing.R</code>:</p>
+<div class="inline-figure"><img src="images/automating_bicing/results_api_bicing_console.png" width="100%" style="display: block; margin: auto;"></div>
+<p>If this works we should see that the file is saved with <code>ls</code>, let’s check:</p>
+<div class="inline-figure"><img src="images/automating_bicing/ls_bicing_history.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Moreover, we should be able to see that the CSV file has content inside:</p>
+<div class="inline-figure"><img src="images/automating_bicing/bicing_history_csv.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Let’s type <code>crontab -e</code> to open the <code>crontab</code> console:</p>
+<div class="inline-figure"><img src="images/automating_bicing/main_menu_crontab.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Since we want to run this every, the <code>cron</code> expression we want is <code>* * * * * Rscript /home/jorge.cimentada/bicing/api_bicing.R</code>. This effectively reads as: for every minute of every day of every year, run the script <code>api_bicing.R</code>. This is how it should look like in <code>crontab</code>:</p>
+<div class="inline-figure"><img src="images/automating_bicing/rscript_cron.png" width="100%" style="display: block; margin: auto;"></div>
+<p>With that out of the way, remember that to exit the cron interface, follow these steps:</p>
+<ul>
+<li>Hit CTRL and X (this is for exiting the cron interface)</li>
+<li>It will prompt you to save the file. Press Y to save it.</li>
+<li>Press enter to save the cron schedule file with the same name it has.</li>
+</ul>
+<p>Immediately <code>cron</code> will start the schedule. Wait two or three minutes and if you open the file <code>bicing_history.csv</code> you’ll be able to see something like this:</p>
+<div class="inline-figure"><img src="images/automating_bicing/bicing_history_cron.png" width="100%" style="display: block; margin: auto;"></div>
+<p>The CSV file is being continually updated every minute. Just as we did with web scraping, this strategy of automation can take you a long way for collecting data. Automation is one of the main building blocks in data harvesting because more often than not you’ll find that online data is quick to disappear so you’ll need to automate a process to collect it for you.</p>
+</div>
+<div id="exercises-10" class="section level2" number="16.4">
+<h2>
+<span class="header-section-number">16.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-10"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p>Can you disable the <code>cron</code> expression we just enable above?</p></li>
+<li><p>Can you create a <code>logs.txt</code> file inside the directory where the <code>cron</code> is running and save the time stamp, the number of rows and columns of the request response? Logs are extremely important in these programs because you can check them to see why a scheduled program might have failed. The print out of your logs should look something like this for each of the request that your program makes:</p></li>
+</ul>
+<pre><code>#############################################################################
+Current timestamp of request 2022-12-21 01:41:25
+Number of columns: 8 
+Number rows: 20
+#############################################################################
+Current timestamp of request 2022-12-22 01:40:25
+Number of columns: 8
+Number rows: 20</code></pre>
+<p>Some hints:</p>
+<ul>
+<li>You’ll need to create an empty logs file if it doesn’t exist.</li>
+<li>You’ll need to extract the time stamp and dimensions of the data frame</li>
+<li>You’ll need to use one of the <code>write_*</code> functions to save to a <code>txt</code> file and remember to <em>append</em> the results to accumulate everything.</li>
+</ul>
+<p>After adding these changes, relaunch your schedule and look at your logs file: it should populate every minute with the status of your program.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">15</span> Case Study: grabbing data from a public API</a></div>
+<div class="next"><a href="insightful-and-robust-data-collection-progams.html"><span class="header-section-number">17</span> Insightful and robust data collection progams</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#automating-api-programs-real-time-bicycle-data"><span class="header-section-number">16</span> Automating API programs: real-time bicycle data</a></li>
+<li><a class="nav-link" href="#the-bicing-api"><span class="header-section-number">16.1</span> The Bicing API</a></li>
+<li><a class="nav-link" href="#saving-data-in-api-programs"><span class="header-section-number">16.2</span> Saving data in API programs</a></li>
+<li><a class="nav-link" href="#automating-the-program"><span class="header-section-number">16.3</span> Automating the program</a></li>
+<li><a class="nav-link" href="#exercises-10"><span class="header-section-number">16.4</span> Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/blob/main/15-automation-bicing.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/cimentadaj/dataharvesting/tree/main/book/edit/main/15-automation-bicing.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-12-23.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
