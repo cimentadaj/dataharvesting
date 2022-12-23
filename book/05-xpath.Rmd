@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# What you need to know about XPath
+# What you need to know about XPath {#xpath-chapter}
 
 XPath (XML Path Language) is the language designed to identify the address of one or several tags within an HTML or XML document. With that address, XPath allows us to extract the data under those tags. For example, take a look at the XML below:
 

@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 
 ```
 
-# What you need to know about JSON
+# What you need to know about JSON {#json-chapter}
 
 Most of the content you'll grab from an API will probably be in JavaScript Object Notation or JSON for short. This is a format that was designed to be easily shared over the internet and is pretty much the standard for sharing data over APIs. JSON's are text based and allow you to store all the usual stuff you're used to such as strings and numbers. However, JSON's also allow you to use arrays, and more importantly, build complex nested structure. 
 

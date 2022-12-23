@@ -13,16 +13,15 @@ knitr::opts_chunk$set(
 
 ```
 
-
 # A primer on APIs
 
 When you make requests to an API, most probably you want to make them programmatically. By programmatically I mean to request data using a programming language. In this book we'll do it with R but you can do this with most programming languages.
 
-Why do you want to do this programmatically when you can just use the documentation page to make sample requests as we did in chapter # TODO intro API? For several reasons. First, you can create a scheduled program to download data on specific intervals of time. Doing that in a web browser would be tedious as you need to constantly go to your computer to manually click on some buttons and then save the data somewhere. Second, APIs are built to persist thousands of requests per minutes. You might want to make 60 requests every minute. That sounds like a handful for a human clicking in a browser through out the day, right? Third, because you can do much more within a programming language. For example, you might want to request some data from an endpoint that is then passed as input into another endpoint, which has a fallback value in case the request doesn't not return any data. Fourth and finally, because you might want to do things 'real-time' with your program. You might build a web application that when a user clicks on a button, you grab data from an API 'real-time' and on demand, and train a machine learning with the recently requested data.
+Why do you want to do this programmatically when you can just use the documentation page to make sample requests as we did in chapter \@ref(intro-apis)? For several reasons. First, you can create a scheduled program to download data on specific intervals of time. Doing that in a web browser would be tedious as you need to constantly go to your computer to manually click on some buttons and then save the data somewhere. Second, APIs are built to persist thousands of requests per minutes. You might want to make 60 requests every minute. That sounds like a handful for a human clicking in a browser through out the day, right? Third, because you can do much more within a programming language. For example, you might want to request some data from an endpoint that is then passed as input into another endpoint, which has a fallback value in case the request doesn't not return any data. Fourth and finally, because you might want to do things 'real-time' with your program. You might build a web application that when a user clicks on a button, you grab data from an API 'real-time' and on demand, and train a machine learning with the recently requested data.
 
 You might think APIs are a very convoluted concept at this point but you need to think of APIs as just another way to gather data. Using a programming language allows you to automate the gathering of data and add value in the data gathering process by making it more automatic, persistent and available any time. The reasons to do it programmatically are very numerous and that's why for the remaining of this book we'll focus on requesting data from APIs with R.
 
-As we did in # TODO primer web scraping, throughout this chapter I'll give you a one-to-one tour on what to expect when requesting data from an API in the wild. We'll skip the usual 'start from the basics' sections to directly request data from an API and see results from your efforts right away. Before we begin, let's load the packages we'll use in this chapter:
+As we did in chapter \@ref(primer-webscraping), throughout this chapter I'll give you a one-to-one tour on what to expect when requesting data from an API in the wild. We'll skip the usual 'start from the basics' sections to directly request data from an API and see results from your efforts right away. Before we begin, let's load the packages we'll use in this chapter:
 
 ```{r}
 library(scrapex)
@@ -57,7 +56,7 @@ When you do access an API, instead you'll be given directly things like the docu
 knitr::include_graphics(file.path(main_dir_api, "coveragedb_docs.png"))
 ```
 
-We can see that this API has two endpoints. The first one allows you to access data on the number of COVID cases for the American states California, Utah and New York State. The second one returns vaccination rates for the same three cities. As opposed to our example in # TODO intro API, this API does not need any authentication so we can directly go to the first endpoint to read how it works:
+We can see that this API has two endpoints. The first one allows you to access data on the number of COVID cases for the American states California, Utah and New York State. The second one returns vaccination rates for the same three cities. As opposed to our example in chapter \@ref(intro-apis), this API does not need any authentication so we can directly go to the first endpoint to read how it works:
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir_api, "coveragedb_covidcases_endpoint.png"))

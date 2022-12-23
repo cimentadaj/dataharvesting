@@ -24,7 +24,7 @@ Well, to my surprise, I was making that request many times every day without kno
 
 Big websites such as Google or Amazon have enough servers and throttle to handle millions of requests per second but most of the content on the internet does not. For that reason, it's important that whenever you make a request to a website (calling `read_html` or `read_xml`), you add a *system sleep* to your scraper. In R you can do that with `Sys.sleep(amount_of_seconds)` where `amount_of_seconds` is the amount of seconds you want to sleep before making a request. 
 
-If we were scraping a website only once, making only a single request, adding a system sleep should not matter. What we want to avoid is making *many* requests in shorts amount of time. So for example, in our example in chapter *TODO* Spanish school we scraped information for several different schools. Each school that we scraped, meant making a request to the website. That's a perfect example where want to sleep before making a request. So in R code, the skeleton code would look something like this with the system sleep:
+If we were scraping a website only once, making only a single request, adding a system sleep should not matter. What we want to avoid is making *many* requests in shorts amount of time. So for example, in our example in chapter \@ref(spanish-school) we scraped information for several different schools. Each school that we scraped, meant making a request to the website. That's a perfect example where want to sleep before making a request. So in R code, the skeleton code would look something like this with the system sleep:
 
 ```{r, eval = FALSE}
 library(scrapex)

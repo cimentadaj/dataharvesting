@@ -11,9 +11,9 @@ knitr::opts_chunk$set(
 
 ```
 
-# Automating Web Scraping Scripts
+# Automating Web Scraping Scripts {#automating-scripts}
 
-There are two types of webscraping: one-off scrapings or frequent scrapings. The first one is what we did in chapter **TODO** primer on webscraping. You create a program to scrape something only once. This is a very common approach and we've done it a few time throughout this book. The second one involves building scrapers that you know will be used more frequently. Many examples come to mind: scrapers to extract news on a frequent basis, scrapers to extract temperature data on a daily basis, scrapers to collect prices of groceries in a supermarket website and so on. These scrapers are designed to be run on frequent intervals to get timely information.
+There are two types of webscraping: one-off scrapings or frequent scrapings. The first one is what we did in chapter \@ref(primer-webscraping). You create a program to scrape something only once. This is a very common approach and we've done it a few time throughout this book. The second one involves building scrapers that you know will be used more frequently. Many examples come to mind: scrapers to extract news on a frequent basis, scrapers to extract temperature data on a daily basis, scrapers to collect prices of groceries in a supermarket website and so on. These scrapers are designed to be run on frequent intervals to get timely information.
 
 For one-off scrapers, all of the material of the book until this chapter should be enough. However, for frequent scrapings we need new tools and strategies. Have you asked yourself how can you automate a script? By automating I mean, for example, run that script every Thursday at 08:00 PM. This chapter focuses on scheduling programs to run whenever you want them to. You might need this to collect data on a website that is changing constantly or to request data from an API on frequent intervals (the topic of API's is the second part of this book) but in any of those two cases you don't want to be manually running to your house at 3 in the morning to run the program. This chapter will make sure you don't have to do that.
 
@@ -23,7 +23,7 @@ Scheduling scripts is very different between operating systems. This chapter wil
 
 ## The Scraping Program
 
-The first thing we need is a scraping program. Let's recycle one from chapter *TODO* xpath which loaded an example from the newspaper "El País". Our scraper will count the number of articles for each of the sections available in the newspaper "El País". The R script will parse the "El País" website, extract the number of articles per section and collect everything in a data frame. Here's how it would look like:
+The first thing we need is a scraping program. Let's recycle one from chapter \@ref(xpath-chapter) which loaded an example from the newspaper "El País". Our scraper will count the number of articles for each of the sections available in the newspaper "El País". The R script will parse the "El País" website, extract the number of articles per section and collect everything in a data frame. Here's how it would look like:
 
 ```{r}
 # Load all our libraries

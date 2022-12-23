@@ -227,7 +227,7 @@ xml_find_all(xml_raw, "/people/jason/person")
 
 The expression above is asking for the node `"/people/jason/person"`. This will return the same as saying `xml_raw %>% xml_child(search = 1)`. For deeply nested trees, `xml_find_all` will be many times much cleaner than calling `xml_child` recursively many times.
 
-However, in most cases the 'addresses' used in `xml_find_all` come from a separate language called XPath (in fact, the 'address' we've been looking at **is** XPath). XPath is a complex language (such as regular expressions for strings) which we'll cover in chapter # TODO.
+However, in most cases the 'addresses' used in `xml_find_all` come from a separate language called XPath (in fact, the 'address' we've been looking at **is** XPath). XPath is a complex language (such as regular expressions for strings) which we'll cover in chapter \@ref(xpath-chapter).
 
 Attributes are very flexible in XML and a tag can as many attributes as you see fit. For example:
 

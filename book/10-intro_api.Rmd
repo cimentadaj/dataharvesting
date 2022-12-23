@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Introduction to REST APIs
+# Introduction to REST APIs {#intro-apis}
 
 So far in the book we've covered the subtle art of web scraping. This art is weird in the sense that it's not structured. To scrape some stuff you have to come up with unusual tricks to gather data from websites. You also have to be careful not to do it too often because it might impact the latency of the website due too excessive requests. Moreover, when you do gather the data, you need to apply some ninja-style tricks to clean the results. Overall, a complicated process because this data (on the website) is not meant for you to scrape it.
 
@@ -70,7 +70,7 @@ Here we can see several things from this endpoint:
 
 3. REST APIs have codes that signal the status of your request. Below `Responses`, it says that this endpoint has two codes: `200` which means that everything is OK and `500` which means that something wrong happened when you requested data. Note that *whenever* you request data, one of these codes will be returned. If everything was alright, `200` will be return together with the data that you wanted. If something went wrong, the code `500` will be returned. Note that these are the possible values that it can return, not what is currently being returned: remember that we haven't made yet a request.
 
-4. Right below `Media type`, we can figure out the formats that this endpoint returns. It says this endpoint returns a `JSON` string, a typical format used for sharing data over the web (we'll talk about the JSON format in chapter #TODO).
+4. Right below `Media type`, we can figure out the formats that this endpoint returns. It says this endpoint returns a `JSON` string, a typical format used for sharing data over the web (we'll talk about the JSON format in chapter \@ref(json-chapter)).
 
 Finally, and this is irrespective of any particular endpoint, many REST APIs require that you authenticate before requesting any data. Normally, you'll need to follow the instructions for authenticating for the REST API you're after and in return they'll give you some sort of token. 
 

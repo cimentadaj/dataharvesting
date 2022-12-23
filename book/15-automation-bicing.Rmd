@@ -17,11 +17,11 @@ knitr::opts_chunk$set(
 
 Grabbing data from APIs can be achieved with all of the techniques we've covered in the book so far. However, as it is the case with web scraping, data is ephemeral. If you're interested in web scraping some temperature data for your city on a website, the temperature from 6 months ago for a given neighborhood might not be available any more. That's why it's very common for for web scraping or API scripts to be automated.
 
-Let me tell you a brief story that motivates this chapter. Throughout my PhD studies I was living in Barcelona where I used to take a bike ride from my house to my university. As it is common in Barcelona, I used the public bicycle system called "Bicing". Every day, I took the bike from the upper part of the city, riding down the city to the campus that was next to the beach. Whenever the day was coming to an end, I took the bike up again to the upper part of the city. 
+Let me tell you a brief story that motivates this chapter. Throughout my PhD studies I was living in Barcelona where I used to take a bike ride from my house to my university. As it is common in Barcelona, I used the public bicycle system called "Bicing". Every day, I took the bike from the upper part of the city, riding down the city to the campus that was next to the beach. Whenever the day was coming to an end, I took the bike up again to the upper part of the city.
 
 Although that sounds very pleasent, every day when I tried to find a bike, there were no bikes available in the stations. This happened both in the upper part of the city as well as in the stations close to my university. I used to waste up to 15-20 minutes per trajectory just waiting for bikes to arrive in one of the stations. With 3-4 stations near my university, I also had to juggle between which station I would wait for the bike. My 'estimation' was based on experience: on this day I've seen that bikes arrive much more often on this station than in the other one. However, that was something of a leap of faith: when I logged into the 'Bicing' mobile app, I saw that some bikes arrived earlier in other stations and I'd missed that opportunity.
 
-After spending about 2-3 years doing this I started to think there must be a way to make my 'estimations' more accurate. For example, if I had data on the availability of bikes on each station, I could probably estimate some type of poisson process where I could measure and predict the rate at which bikes arrived during different periods of the day. All of that was fine but I didn't have data on that. **That's until I found it**. 
+After spending about 2-3 years doing this I started to think there must be a way to make my 'estimations' more accurate. For example, if I had data on the availability of bikes on each station, I could probably estimate some type of poisson process where I could measure and predict the rate at which bikes arrived during different periods of the day. All of that was fine but I didn't have data on that. **That's until I found it**.
 
 Bicing had a real time API that allow you to check the status of each station (number of bikes available) and the time stamp at the time I was requesting this data. That's it, that's the information I needed but I needed it pretty much every minute, to be able to get the entire history of the station during the day. This near second-by-second snapshot would allow me to record at which interval of the day a bike was retrieved and at which interval another bike was deposited on each station. How do I do that? With automation.
 
@@ -226,7 +226,7 @@ In the first time stamp the station had 13 bikes and in the second time stamp it
 
 ## Automating the program
 
-Just as we did in chapter TODO chapter automating web scrapers, APIs need to be automated. The strategy is pretty much the same as what we did in that chapter. We create a script that defines the functions we'll use for the program and run the functions at the end. In our case, that's running the function `save_bicing_data`. We then automate the process using `cron` by running the script in a schedule.
+Just as we did in chapter \@ref(automating-scripts), APIs need to be automated. The strategy is pretty much the same as what we did in that chapter. We create a script that defines the functions we'll use for the program and run the functions at the end. In our case, that's running the function `save_bicing_data`. We then automate the process using `cron` by running the script in a schedule.
 
 Let's organize all of our code in a script. Here's what we should have:
 
@@ -285,7 +285,7 @@ save_bicing_data <- function(bicing_api) {
 save_bicing_data(bicing)
 ```
 
-**Remember that you need to change the local path to save the CSV from this script. You should change the variable `local_csv` wherever you want to save the CSV file**. I'm going to save this script as `bicing_api.R` in `/home/jorge.cimentada/bicing/` but you need to save it locally on *your* computer, in the same directory you defined in `local_csv`. Once you have the script saved we have to set up the `cron` job to schedule the script. Refer to chapter TODO chapter web scraping on how `cron` works and how the syntax for setting the schedule works. So at this point you should have the the file `bicing_api.R` saved locally wherever you want to store the bicing data. In my case, you can see it here:
+**Remember that you need to change the local path to save the CSV from this script. You should change the variable `local_csv` wherever you want to save the CSV file**. I'm going to save this script as `bicing_api.R` in `/home/jorge.cimentada/bicing/` but you need to save it locally on *your* computer, in the same directory you defined in `local_csv`. Once you have the script saved we have to set up the `cron` job to schedule the script. Refer to chapter \@ref(automating-scripts) on how `cron` works and how the syntax for setting the schedule works. So at this point you should have the the file `bicing_api.R` saved locally wherever you want to store the bicing data. In my case, you can see it here:
 
 ```{r, echo = FALSE, eval = TRUE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir_api, "console_ls_bicing.png"))
@@ -426,7 +426,3 @@ save_bicing_data <- function(bicing_api) {
 
 save_bicing_data(bicing)
 ```
-
-
-
-
