@@ -100,9 +100,9 @@
 </h2>
 <p>Inside <code>scrapex</code> the function <code><a href="https://rdrr.io/pkg/scrapex/man/api_coveragedb.html">api_coveragedb()</a></code> has a local API that was designed to be used in this book. Let’s load it:</p>
 <div class="sourceCode" id="cb279"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">api_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/api_coveragedb.html">api_coveragedb</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Visit your REST API at http://localhost:2234"
-## [1] "Documentation is at http://localhost:2234/__docs__/"</code></pre>
+<code class="sourceCode R"><span class="va">api_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scrapex/man/api_coveragedb.html">api_coveragedb</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">## [1] "Visit your REST API at http://localhost:2234"</span>
+<span class="co">## [1] "Documentation is at http://localhost:2234/__docs__/"</span></code></pre></div>
 <p>The API is now launched in the background and we can access it. Note that learning about a new API online you <strong>won’t</strong> have to launch any API. APIs are hosted on servers elsewhere and you’ll just need to read how to access the API. Since this is a stand-alone book (we don’t want any of our examples to depend on fast-changing websites or APIs, making most of the content in this book useless in just a few months), we use a local API that won’t change over time and thus we need to launch it ourselves.</p>
 <p>When you do access an API, instead you’ll be given directly things like the documentation page. That we can see in the print out of the previous R call <a href="http://localhost:2234/__docs__/" class="uri">http://localhost:2234/__docs__/</a>. <strong>Note that this link won’t work on your computer because you need to launch the API on your computer (remember how this is a local API?). Go to your URL and you should see something like this</strong>:</p>
 <div class="inline-figure"><img src="images/primer_api/coveragedb_docs.png" width="100%" style="display: block; margin: auto;"></div>
@@ -115,87 +115,105 @@
 <li>The parameters in the endpoint which are specified after a <code>?</code> and each parameter is then concatenated with <code>&amp;</code>.</li>
 </ul>
 <p>So the complete endpoint URL for this endpoint would be <a href="http://localhost:2234/api/v1/covid_cases" class="uri">http://localhost:2234/api/v1/covid_cases</a>. How would we add parameters? We start with a <code>?</code> and then add <code>parameter=value</code> followed by a <code>&amp;</code> to concatenate with other parameters. Sounds confusing? Let’s construct it in R:</p>
-<div class="sourceCode" id="cb281"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb280"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># COVID cases endpoint</span>
 <span class="va">api_web</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">api_covid</span><span class="op">$</span><span class="va">api_web</span>, <span class="st">"/api/v1/covid_cases"</span><span class="op">)</span>
 
 <span class="co"># Filtering only for males in California</span>
 <span class="va">cases_endpoint</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">api_web</span>, <span class="st">"?region=California&amp;sex=m"</span><span class="op">)</span>
 
-<span class="va">cases_endpoint</span></code></pre></div>
-<pre><code>## [1] "http://localhost:2234/api/v1/covid_cases?region=California&amp;sex=m"</code></pre>
+<span class="va">cases_endpoint</span>
+<span class="co">## [1] "http://localhost:2234/api/v1/covid_cases?region=California&amp;sex=m"</span></code></pre></div>
 <p>The parameters we specified were <code>?region=California&amp;sex=m</code>. It’s not that difficult to construct these paths but rather tedious. Imagine having to construct this for an endpoint with 7 parameters. Too many <code>&amp;</code> can confuse anyone and it can start to get difficult to read. Instead, the <code>httr2</code> package can help us with this. With <code>httr2</code> we just pass the endpoint URL and use functions to add as many parameters as we see fit.</p>
 </div>
 <div id="making-your-first-request" class="section level2" number="11.2">
 <h2>
 <span class="header-section-number">11.2</span> Making your first request<a class="anchor" aria-label="anchor" href="#making-your-first-request"><i class="fas fa-link"></i></a>
 </h2>
-<div id="todo-you-cant-see-the-results-of-the-request-objetct-in-this-chapter." class="section level4" number="11.2.0.1">
-<h4>
-<span class="header-section-number">11.2.0.1</span> TODO: You can’t see the results of the request objetct in this chapter.<a class="anchor" aria-label="anchor" href="#todo-you-cant-see-the-results-of-the-request-objetct-in-this-chapter."><i class="fas fa-link"></i></a>
-</h4>
 <p>Let’s start building our request in R:</p>
-<div class="sourceCode" id="cb283"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb281"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># COVID cases endpoint</span>
 <span class="va">api_web</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">api_covid</span><span class="op">$</span><span class="va">api_web</span>, <span class="st">"/api/v1/covid_cases"</span><span class="op">)</span>
 <span class="va">req</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr2.r-lib.org/reference/request.html">request</a></span><span class="op">(</span><span class="va">api_web</span><span class="op">)</span>
-<span class="va">req</span></code></pre></div>
+<span class="va">req</span>
+<span class="co">## &lt;httr2_request&gt;</span>
+<span class="co">## GET http://localhost:2234/api/v1/covid_cases</span>
+<span class="co">## Body: empty</span></code></pre></div>
 <p>There we go. The <code>request</code> function from <code>httr2</code> builds something like a placeholder for our request. It says it already has the endpoint URL (we can see it in the <code>GET</code> line) but it does not say anything about our parameters or headers. Let’s add the endpoint and parameters:</p>
-<div class="sourceCode" id="cb284"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb282"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">req_california_m</span> <span class="op">&lt;-</span>
   <span class="va">req</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/req_url.html">req_url_query</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"California"</span>, sex <span class="op">=</span> <span class="st">"m"</span><span class="op">)</span>
 
-<span class="va">req_california_m</span></code></pre></div>
+<span class="va">req_california_m</span>
+<span class="co">## &lt;httr2_request&gt;</span>
+<span class="co">## GET http://localhost:2234/api/v1/covid_cases?region=California&amp;sex=m</span>
+<span class="co">## Body: empty</span></code></pre></div>
 <p>The function <code>req_url_query</code> constructs the endpoint by adding as many parameters as we want. Do you see the idea here? <code>request</code> builds a placeholder for the endpoint and then you add as many “add-on’s” as you want to your request. Our “add-on” so far has just been parameters but you could hypothetically add authentication headers and a retry step, for example:</p>
-<div class="sourceCode" id="cb285"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb283"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">req_california_m</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/req_auth_basic.html">req_auth_basic</a></span><span class="op">(</span>username <span class="op">=</span> <span class="st">"fake name"</span>, password <span class="op">=</span> <span class="st">"fake password"</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://httr2.r-lib.org/reference/req_retry.html">req_retry</a></span><span class="op">(</span>max_tries <span class="op">=</span> <span class="fl">3</span>, max_seconds <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://httr2.r-lib.org/reference/req_retry.html">req_retry</a></span><span class="op">(</span>max_tries <span class="op">=</span> <span class="fl">3</span>, max_seconds <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
+<span class="co">## &lt;httr2_request&gt;</span>
+<span class="co">## GET http://localhost:2234/api/v1/covid_cases?region=California&amp;sex=m</span>
+<span class="co">## Headers:</span>
+<span class="co">## • Authorization: '&lt;REDACTED&gt;'</span>
+<span class="co">## Body: empty</span>
+<span class="co">## Policies:</span>
+<span class="co">## • retry_max_tries: 3</span>
+<span class="co">## • retry_max_wait: 5</span></code></pre></div>
 <p>Our request object also added the headers as well as a retry policy: if the request fails for some reason, try it 3 more times, waiting 5 seconds in between. If you type <code>req_</code> and hit tab on most IDE’s you’ll get a complete list of functions that allow to add stuff into our request as well as extract stuff from a request. Feel free to explore these to get familiar with the capabilities of <code>httr2</code>.</p>
 <p>Let’s get back to our initial request. Since we don’t need any further add-on’s to our request, it should look like this:</p>
-<div class="sourceCode" id="cb286"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">req_california_m</span></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">req_california_m</span>
+<span class="co">## &lt;httr2_request&gt;</span>
+<span class="co">## GET http://localhost:2234/api/v1/covid_cases?region=California&amp;sex=m</span>
+<span class="co">## Body: empty</span></code></pre></div>
 <p>Whenever we’re happy with our request, we can actually <em>make</em> the request with <code>req_perform</code>:</p>
-<div class="sourceCode" id="cb287"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb285"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">resp_california_m</span> <span class="op">&lt;-</span> 
   <span class="va">req_california_m</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/req_perform.html">req_perform</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="va">resp_california_m</span></code></pre></div>
+<span class="va">resp_california_m</span>
+<span class="co">## &lt;httr2_response&gt;</span>
+<span class="co">## GET http://localhost:2234/api/v1/covid_cases?region=California&amp;sex=m</span>
+<span class="co">## Status: 200 OK</span>
+<span class="co">## Content-Type: application/json</span>
+<span class="co">## Body: In memory (1086936 bytes)</span></code></pre></div>
 <p>Alright so we can interpret a few things out of this request. First, it was successful. The <code>200</code> status code means that it was OK, so nothing failed. Second, the response content-type is <code>JSON</code>, meaning the data that was sent is in <code>JSON</code> format. Third, the actual body of the request has data, which is now loaded in RAM memory (instead of in your hard drive).</p>
 <p>Now, you might have noticed that all functions for working with your request in <code>httr2</code> start with <code>req_*</code>. This means that you can easily search for all <code>req</code>uest related functions quickly. Similarly, for the <em>response</em> of an API, you can do the same but with the <code>resp_*</code>. All <code>resp</code>onse functions allow you to perform or extract stuff on a response object. We can extract the status code for example:</p>
-<div class="sourceCode" id="cb288"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://httr2.r-lib.org/reference/resp_status.html">resp_status</a></span><span class="op">(</span><span class="va">resp_california_m</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 200</code></pre>
+<div class="sourceCode" id="cb286"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://httr2.r-lib.org/reference/resp_status.html">resp_status</a></span><span class="op">(</span><span class="va">resp_california_m</span><span class="op">)</span>
+<span class="co">## [1] 200</span></code></pre></div>
 <p>Or the content type:</p>
-<div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://httr2.r-lib.org/reference/resp_content_type.html">resp_content_type</a></span><span class="op">(</span><span class="va">resp_california_m</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "application/json"</code></pre>
+<div class="sourceCode" id="cb287"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://httr2.r-lib.org/reference/resp_content_type.html">resp_content_type</a></span><span class="op">(</span><span class="va">resp_california_m</span><span class="op">)</span>
+<span class="co">## [1] "application/json"</span></code></pre></div>
 <p>Then how do we extract the <code>body</code> containing the data from the request? It depends on the content type that was returned. In our case it’s <code>JSON</code> so we can use <code>resp_body_json</code>. Whenever you receive a response, depending on the type of data you receive, your best bet is to look at <code>resp_body_*</code> for the content type of your request. So for our case, we can safely extract it:</p>
-<div class="sourceCode" id="cb292"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb288"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">resp_body_california_m</span> <span class="op">&lt;-</span>
   <span class="va">resp_california_m</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html">resp_body_json</a></span><span class="op">(</span>simplifyVector <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="va">resp_body_california_m</span></code></pre></div>
-<pre><code>## # A tibble: 5,848 × 11
-##    Country Region Code  Date  Sex   Age   AgeInt Metric Measure Value templateID
-##    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;     
-##  1 USA     Calif… US-CA 2020… m     0         10 Count  Cases       0 USA_CDC_c…
-##  2 USA     Calif… US-CA 2020… m     10        10 Count  Cases       0 USA_CDC_c…
-##  3 USA     Calif… US-CA 2020… m     20        10 Count  Cases       2 USA_CDC_c…
-##  4 USA     Calif… US-CA 2020… m     30        10 Count  Cases       2 USA_CDC_c…
-##  5 USA     Calif… US-CA 2020… m     40        10 Count  Cases       1 USA_CDC_c…
-##  6 USA     Calif… US-CA 2020… m     50        10 Count  Cases       1 USA_CDC_c…
-##  7 USA     Calif… US-CA 2020… m     60        10 Count  Cases       1 USA_CDC_c…
-##  8 USA     Calif… US-CA 2020… m     70        10 Count  Cases       1 USA_CDC_c…
-##  9 USA     Calif… US-CA 2020… m     0         10 Count  Cases       0 USA_CDC_c…
-## 10 USA     Calif… US-CA 2020… m     10        10 Count  Cases       0 USA_CDC_c…
-## # … with 5,838 more rows</code></pre>
+<span class="va">resp_body_california_m</span>
+<span class="co">## # A tibble: 5,848 × 11</span>
+<span class="co">##    Country Region Code  Date  Sex   Age   AgeInt Metric Measure Value templateID</span>
+<span class="co">##    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;     </span>
+<span class="co">##  1 USA     Calif… US-CA 2020… m     0         10 Count  Cases       0 USA_CDC_c…</span>
+<span class="co">##  2 USA     Calif… US-CA 2020… m     10        10 Count  Cases       0 USA_CDC_c…</span>
+<span class="co">##  3 USA     Calif… US-CA 2020… m     20        10 Count  Cases       2 USA_CDC_c…</span>
+<span class="co">##  4 USA     Calif… US-CA 2020… m     30        10 Count  Cases       2 USA_CDC_c…</span>
+<span class="co">##  5 USA     Calif… US-CA 2020… m     40        10 Count  Cases       1 USA_CDC_c…</span>
+<span class="co">##  6 USA     Calif… US-CA 2020… m     50        10 Count  Cases       1 USA_CDC_c…</span>
+<span class="co">##  7 USA     Calif… US-CA 2020… m     60        10 Count  Cases       1 USA_CDC_c…</span>
+<span class="co">##  8 USA     Calif… US-CA 2020… m     70        10 Count  Cases       1 USA_CDC_c…</span>
+<span class="co">##  9 USA     Calif… US-CA 2020… m     0         10 Count  Cases       0 USA_CDC_c…</span>
+<span class="co">## 10 USA     Calif… US-CA 2020… m     10        10 Count  Cases       0 USA_CDC_c…</span>
+<span class="co">## # … with 5,838 more rows</span></code></pre></div>
 <p>There we go. We see that data from California has 5848 rows and that we have 11 columns. You’ll notice that I used the argument <code>simplifyVector</code> inside <code>resp_body_json</code>. This is because the <code>JSON</code> format is know as a <em>nested</em> format. This means that you can have columns within columns within columns and so on. That argument <em>tries</em> (but not always succeeds) in simplifying this structure into a data frame. With that out of the way, let’s visualize the overall number of COVID cases:</p>
-<div class="sourceCode" id="cb294"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb289"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># To avoid scientific numbering</span>
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>scipen <span class="op">=</span> <span class="fl">231241231</span><span class="op">)</span>
 
@@ -204,6 +222,8 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Date</span>, <span class="va">Sex</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>cases <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span><span class="op">)</span>
+<span class="co">## `summarise()` has grouped output by 'Date'. You can override using the</span>
+<span class="co">## `.groups` argument.</span>
 
 <span class="va">resp_body_california_m</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Date</span>, <span class="va">cases</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -211,8 +231,9 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="images/primer_api/automatic_rmarkdown/unnamed-chunk-287-1.png" width="672" style="display: block; margin: auto;"></div>
 <p>Great, we can see a rather big jump starting 2021 for California. Let’s perform the same request as before but replace the sex for females to compare the trend. After it, let’s count the number of cases per date as we did for males and combine everything into one data frame. Finally, let’s produce the same plot as before but for both sexes:</p>
-<div class="sourceCode" id="cb295"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Perform the same request but for females and grab the JSON result</span>
+<div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="co"># Perform the same request but for females and grab the JSON result</span>
 <span class="va">resp_body_california_f</span> <span class="op">&lt;-</span>
   <span class="va">req</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/req_url.html">req_url_query</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"California"</span>, sex <span class="op">=</span> <span class="st">'f'</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
@@ -226,6 +247,8 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Date</span>, <span class="va">Sex</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>cases <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span><span class="op">)</span>
+<span class="co">## `summarise()` has grouped output by 'Date'. You can override using the</span>
+<span class="co">## `.groups` argument.</span>
 
 <span class="co"># Combine the female cases with the male cases</span>
 <span class="va">resp_body_california</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">resp_body_california_f</span>, <span class="va">resp_body_california_m</span><span class="op">)</span>
@@ -237,11 +260,10 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="images/primer_api/automatic_rmarkdown/unnamed-chunk-288-1.png" width="672" style="display: block; margin: auto;"></div>
 <p>As we see, we start to see a difference in cases right at the start of 2021 with females having greater number of cases after 2021. Before we close the chapter, remember to <em>kill</em> the API that we launched. You wan’t have to do it when you request data from online APIs, this is only for our local version:</p>
-<div class="sourceCode" id="cb296"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">api_covid</span><span class="op">$</span><span class="va">process</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb291"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">api_covid</span><span class="op">$</span><span class="va">process</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span>
+<span class="co">## [1] TRUE</span></code></pre></div>
 <p>So there you have it. This primer gave you a very direct experience on what requesting data from an API involves. It’s usually all about studying the documentation to see what each endpoint returns, constructing URLs that directly grab the data that you want and extracting the data from the response. In the next chapter you’ll see more in depth how APIs work behind the scenes.</p>
-</div>
 </div>
 <div id="exercises-8" class="section level2" number="11.3">
 <h2>
@@ -250,11 +272,21 @@
 <ol style="list-style-type: decimal">
 <li><p>Generate the same plot that we created for males/females but for the state New York. However, construct the path manually (do not use the function <code>req_url_query</code>). You might need to look how <em>spaces</em> are written down in URLs on the internet.</p></li>
 <li><p>Did the third wave of vaccination start at the same time for males and females in New York? You might need to look at the documentation of the second endpoint of the API to get acquainted with the parameters and values.</p></li>
-</ol>
-<p>TODO request printout not happening?</p>
-<ol start="3" style="list-style-type: decimal">
 <li><p>Can you recreate the request below? You will need to look at a few <code>req_*</code> but make sure you understand what each of these <code>req_*</code> functions do before reconstructing the request.</p></li>
-<li><p>Can you make a request specifying sex but an unavailable region (Florida, for example)? What status code does it return? Look up on the internet what these status codes mean. After copying the endpoint on your browser (the entire endpoint with parameters on your browser), what message do you see?</p></li>
+</ol>
+<pre><code>## &lt;httr2_request&gt;
+## GET http://localhost:2234/api/v1/covid_cases?region=California&amp;sex=m
+## Headers:
+## • Authorization: '&lt;REDACTED&gt;'
+## • Content-type: '*/*'
+## Body: empty
+## Options:
+## • timeout_ms: 10000
+## Policies:
+## • retry_max_tries: 5
+## • throttle_delay: a function</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Can you make a request specifying sex but an unavailable region (Florida, for example)? What status code does it return? Look up on the internet what these status codes mean. After copying the endpoint on your browser (the entire endpoint with parameters on your browser), what message do you see?</li>
 </ol>
 </div>
 </div>

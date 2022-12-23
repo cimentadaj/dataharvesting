@@ -91,7 +91,7 @@
 <p>In this chapter we’ll jump directly to the content that is mostly related to parsing JSON’s in the context of API requests. This means that we won’t be looking at toy examples but rather at a typical response you might get from an API, which has very nested structures. The idea is for users not to have perfect knowledge on JSON’s but rather learn tricks on how to convert it to the format that they’re interested in.</p>
 <p>If you want more information on JSON’s in R, be sure to visit Gaston Sanchez’s JSON intro, from which this chapter is very much inspired ( <a href="https://www.gastonsanchez.com/intro2cwd/json.html">https://www.gastonsanchez.com/intro2cwd/json.html</a>)</p>
 <p>With theory out of the way, let’s get our hands dirty. Let’s load the package we’ll use in this chapter:</p>
-<div class="sourceCode" id="cb298"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb293"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://arxiv.org/abs/1403.2805">jsonlite</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span></code></pre></div>
@@ -106,22 +106,22 @@
   "opposition": "Pitaso"
 }</code></pre>
 <p>Each <code>key:value</code> needs to be wrapped in quotes (<code>"</code>). In <code>R</code> we can parse JSON’s with several packages. In this book we’ll use <code>jsonlite</code> but feel free to explore other options. Let’s lparse the string we specified before with the function <code>fromJSON</code>:</p>
-<div class="sourceCode" id="cb300"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb295"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">json_str</span> <span class="op">&lt;-</span> <span class="st">'{
   "president": "Parlosi",
   "vicepresident": "Kantos",
   "opposition": "Pitaso"
 }'</span>
 
-<span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">json_str</span><span class="op">)</span></code></pre></div>
-<pre><code>## $president
-## [1] "Parlosi"
-## 
-## $vicepresident
-## [1] "Kantos"
-## 
-## $opposition
-## [1] "Pitaso"</code></pre>
+<span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">json_str</span><span class="op">)</span>
+<span class="co">## $president</span>
+<span class="co">## [1] "Parlosi"</span>
+<span class="co">## </span>
+<span class="co">## $vicepresident</span>
+<span class="co">## [1] "Kantos"</span>
+<span class="co">## </span>
+<span class="co">## $opposition</span>
+<span class="co">## [1] "Pitaso"</span></code></pre></div>
 <p>It parses the key/value pairs as a named list. That’s exactly how yo can think of JSON’s for now. A way to store named arrays. At this point I could show you a few examples of how JSON’s work but it’s pretty much it: <code>key:value</code> pairs. You can write number instead of strings as well but there’s nothing to be gained from this example of JSON at the moment.</p>
 <p>It’s inevitable to say that the true deal breaker with JSON’s is the nested nature of the format. Here’s what you can achieve with very simple syntax:</p>
 <pre><code>{
@@ -156,7 +156,7 @@
     }
 ]</code></pre>
 <p>We have the <code>key</code> followed by an array <code>[...]</code> that contains three <code>key:value</code> pairs. This is very interesting because you can think of arrays in JSON as rows in a data frame. Going back to the full example, you can think of this as three keys (names of each slot) where each contains a 1 row data frame inside. Let’s try parsing this into R:</p>
-<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb298"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">json_str</span> <span class="op">&lt;-</span> <span class="st">'
 {
     "president": [
@@ -183,18 +183,18 @@
 }
 '</span>
 
-<span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">json_str</span>, simplifyDataFrame <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code>## $president
-##   last_name         party age
-## 1   Parlosi Free thinkers  35
-## 
-## $vicepresident
-##   last_name         party age
-## 1    Kantos Free thinkers  52
-## 
-## $opposition
-##   last_name           party age
-## 1    Pitaso Everyone United  45</code></pre>
+<span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">json_str</span>, simplifyDataFrame <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">## $president</span>
+<span class="co">##   last_name         party age</span>
+<span class="co">## 1   Parlosi Free thinkers  35</span>
+<span class="co">## </span>
+<span class="co">## $vicepresident</span>
+<span class="co">##   last_name         party age</span>
+<span class="co">## 1    Kantos Free thinkers  52</span>
+<span class="co">## </span>
+<span class="co">## $opposition</span>
+<span class="co">##   last_name           party age</span>
+<span class="co">## 1    Pitaso Everyone United  45</span></code></pre></div>
 <p>You get precisely a named list where each slot contains a data frame. Are you with me? So far so good. We have that JSON’s are <code>key:value</code> pairs and the value it self can be an array with other key/value pairs. So, with that idea in mind, you might get something like this:</p>
 <pre><code>{
     "president": [
@@ -218,8 +218,9 @@
     }
 }</code></pre>
 <p>Without looking further down, what you think will be the result of this in R? Study it and write it down. Let’s look at the result:</p>
-<div class="sourceCode" id="cb307"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">json_str</span> <span class="op">&lt;-</span> <span class="st">'
+<div class="sourceCode" id="cb300"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">json_str</span> <span class="op">&lt;-</span> <span class="st">'
 {
     "president": [
         {
@@ -244,24 +245,24 @@
 '</span>
 
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">json_str</span><span class="op">)</span>
-<span class="va">res</span></code></pre></div>
-<pre><code>## $president
-##    last_name         party age
-## 1    Parlosi Free thinkers  35
-## 2 Stevensson Free thinkers  NA
-## 
-## $vicepresident
-## [1] NA
-## 
-## $opposition
-## $opposition$last_name
-## [1] "Pitaso"
-## 
-## $opposition$party
-## [1] "Everyone United"
-## 
-## $opposition$age
-## [1] 45</code></pre>
+<span class="va">res</span>
+<span class="co">## $president</span>
+<span class="co">##    last_name         party age</span>
+<span class="co">## 1    Parlosi Free thinkers  35</span>
+<span class="co">## 2 Stevensson Free thinkers  NA</span>
+<span class="co">## </span>
+<span class="co">## $vicepresident</span>
+<span class="co">## [1] NA</span>
+<span class="co">## </span>
+<span class="co">## $opposition</span>
+<span class="co">## $opposition$last_name</span>
+<span class="co">## [1] "Pitaso"</span>
+<span class="co">## </span>
+<span class="co">## $opposition$party</span>
+<span class="co">## [1] "Everyone United"</span>
+<span class="co">## </span>
+<span class="co">## $opposition$age</span>
+<span class="co">## [1] 45</span></code></pre></div>
 <p>Well, It has something we’ve never looked at before. It has:</p>
 <ol style="list-style-type: decimal">
 <li><p>A data frame for the first slot. That’s correct because the JSON contained an array with two sets of <code>key:value</code> pairs. That’s translatable to a data frame with two rows even though one of the two sets did not have a field for <code>age</code>.</p></li>
@@ -269,20 +270,20 @@
 <li><p>A named list. That’s right because there is no array structure (<code>[...]</code>) so <code>key:value</code> pairs are interpreted as a named list.</p></li>
 </ol>
 <p>If for some reason you were thinking, why is this important? Let me tell you that for much of the JSON you’ll find in the wild, you’ll see it becomes more and more convoluted to read as it becomes more nested. You’ll need to learn to use your subsetting skills to actually convert the data into the format that you want. For example, you might want to convert the existing <code>opposition</code> slot into a data frame because the array structure was missing (<code>[...]</code>):</p>
-<div class="sourceCode" id="cb309"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb301"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span><span class="op">$</span><span class="va">opposition</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">opposition</span><span class="op">)</span>
-<span class="va">res</span></code></pre></div>
-<pre><code>## $president
-##    last_name         party age
-## 1    Parlosi Free thinkers  35
-## 2 Stevensson Free thinkers  NA
-## 
-## $vicepresident
-## [1] NA
-## 
-## $opposition
-##   last_name           party age
-## 1    Pitaso Everyone United  45</code></pre>
+<span class="va">res</span>
+<span class="co">## $president</span>
+<span class="co">##    last_name         party age</span>
+<span class="co">## 1    Parlosi Free thinkers  35</span>
+<span class="co">## 2 Stevensson Free thinkers  NA</span>
+<span class="co">## </span>
+<span class="co">## $vicepresident</span>
+<span class="co">## [1] NA</span>
+<span class="co">## </span>
+<span class="co">## $opposition</span>
+<span class="co">##   last_name           party age</span>
+<span class="co">## 1    Pitaso Everyone United  45</span></code></pre></div>
 </div>
 <div id="the-enframe-unnest-strategy" class="section level2" number="13.2">
 <h2>
@@ -299,32 +300,33 @@
 <p>For each of the ‘categories’ (by this I mean, <code>president</code>, <code>vicepresident</code>, <code>opposition</code>), we concatenate all data frames into a single data frame which is much easier to read.</p>
 <p>To do this, there’s a general strategy of combining two functions: <code>enframe</code> and <code>unnest</code>. <code>enframe</code> takes a named list and does two things. First, it extracts the <em>names</em> of each slot in the list and stores it in a column in a data frame. Secondly, it takes <strong>everything</strong> inside each slot and stores it in a <em>list-column</em>.</p>
 <p>What is a list-column? It’s a column of class <em>list</em> that can contain different things for each row (if you remember, all columns in R must be of the same kind, either <code>numeric</code>, <code>character</code> or something else but there can’t be two types in the same column. With list-columns, this is an exception). In our example, the <strong>first row of this list-column is a data frame that has two rows</strong> (the data frame for <code>president</code>), the second row is an empty data frame with an <code>NA</code> value and the third is now a data frame since we altered the JSON manually (remember?). Here’s what the result of <code>enframe</code> would look like:</p>
-<div class="sourceCode" id="cb312"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb303"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 3 × 2
-##   name          value       
-##   &lt;chr&gt;         &lt;list&gt;      
-## 1 president     &lt;df [2 × 3]&gt;
-## 2 vicepresident &lt;lgl [1]&gt;   
-## 3 opposition    &lt;df [1 × 3]&gt;</code></pre>
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">## # A tibble: 3 × 2</span>
+<span class="co">##   name          value       </span>
+<span class="co">##   &lt;chr&gt;         &lt;list&gt;      </span>
+<span class="co">## 1 president     &lt;df [2 × 3]&gt;</span>
+<span class="co">## 2 vicepresident &lt;lgl [1]&gt;   </span>
+<span class="co">## 3 opposition    &lt;df [1 × 3]&gt;</span></code></pre></div>
 <p>The first column contains the names of the named list while the second column contains the list-column. The list column is telling you right away that it has two data frames and an empty slot. This is very useful for reading nested stuff because it gives you a high level overview of everything that you’re working with but how can we actually do something with this? We work with this using <code>unnest</code>. Contrary to <code>enframe</code>, <code>unnest</code> takes list-columns and ‘unpacks’ them into the common class of the list. Let me repeat that. <code>unnest</code> needs to be passed a list-column (the list-column can contain anything) and it will try to unpack it into whatever is the common class of all objects. If the all objects are of different classes (<code>data.frame</code>, <code>vectors</code>, etc..), then <code>unnest</code> will fail. However, if all objects within the list are of the same class, it will combine all of them into a proper column or ‘unpack’ it’s values.</p>
 <p>That’s a somewhat convoluted explanation, and it’s totally fine if it’s not clear since there are many edge cases on how <code>unnest</code> works. Through the chapter we’ll focus on understanding how this function works.</p>
 <p>Let’s unpack the <code>value</code> column using <code>unnest</code>:</p>
-<div class="sourceCode" id="cb314"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">value</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 4 × 4
-##   name          last_name  party             age
-##   &lt;chr&gt;         &lt;chr&gt;      &lt;chr&gt;           &lt;int&gt;
-## 1 president     Parlosi    Free thinkers      35
-## 2 president     Stevensson Free thinkers      NA
-## 3 vicepresident &lt;NA&gt;       &lt;NA&gt;               NA
-## 4 opposition    Pitaso     Everyone United    45</code></pre>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">value</span><span class="op">)</span>
+<span class="co">## # A tibble: 4 × 4</span>
+<span class="co">##   name          last_name  party             age</span>
+<span class="co">##   &lt;chr&gt;         &lt;chr&gt;      &lt;chr&gt;           &lt;int&gt;</span>
+<span class="co">## 1 president     Parlosi    Free thinkers      35</span>
+<span class="co">## 2 president     Stevensson Free thinkers      NA</span>
+<span class="co">## 3 vicepresident &lt;NA&gt;       &lt;NA&gt;               NA</span>
+<span class="co">## 4 opposition    Pitaso     Everyone United    45</span></code></pre></div>
 <p>Since all objects of the list-column were compatible (all were data frames with the same number of columns), <code>unnest</code> unpacks the column entirely to simply expand the data frame’s into one single data frame. A perfect example where <code>unnest</code> fails is when the different objects in the list are not easily mergeable. Say we use the same example as before but don’t convert the third slot into a data frame. We’ll that the JSON is parsed like this:</p>
-<div class="sourceCode" id="cb316"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">json_str</span> <span class="op">&lt;-</span> <span class="st">'
+<div class="sourceCode" id="cb305"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">json_str</span> <span class="op">&lt;-</span> <span class="st">'
 {
     "president": [
         {
@@ -349,31 +351,31 @@
 '</span>
 
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">json_str</span><span class="op">)</span>
-<span class="va">res</span></code></pre></div>
-<pre><code>## $president
-##    last_name         party age
-## 1    Parlosi Free thinkers  35
-## 2 Stevensson Free thinkers  NA
-## 
-## $vicepresident
-## [1] NA
-## 
-## $opposition
-## $opposition$last_name
-## [1] "Pitaso"
-## 
-## $opposition$party
-## [1] "Everyone United"
-## 
-## $opposition$age
-## [1] 45</code></pre>
+<span class="va">res</span>
+<span class="co">## $president</span>
+<span class="co">##    last_name         party age</span>
+<span class="co">## 1    Parlosi Free thinkers  35</span>
+<span class="co">## 2 Stevensson Free thinkers  NA</span>
+<span class="co">## </span>
+<span class="co">## $vicepresident</span>
+<span class="co">## [1] NA</span>
+<span class="co">## </span>
+<span class="co">## $opposition</span>
+<span class="co">## $opposition$last_name</span>
+<span class="co">## [1] "Pitaso"</span>
+<span class="co">## </span>
+<span class="co">## $opposition$party</span>
+<span class="co">## [1] "Everyone United"</span>
+<span class="co">## </span>
+<span class="co">## $opposition$age</span>
+<span class="co">## [1] 45</span></code></pre></div>
 <p>The first and second slot can be combined but the third is a named list. It’s not clear how it can be combined. <code>unnest</code> will tell you that when you try to unpack it:</p>
-<div class="sourceCode" id="cb318"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb306"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">value</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error:
-## ! Can't combine `..1` &lt;data.frame&gt; and `..3` &lt;list&gt;.</code></pre>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">value</span><span class="op">)</span>
+<span class="co">## Error:</span>
+<span class="co">## ! Can't combine `..1` &lt;data.frame&gt; and `..3` &lt;list&gt;.</span></code></pre></div>
 <p>It says exactly that: the first slot is a data frame and the third slot is a list. It can’t find a way to combine them. The main problem you’ll encounter with JSON’s is that you’re trying to parse some JSON that has many nested arrays and some of these arrays are not compatible for unnesting so you’ll have to submerge yourself into these nested arrays and fix whatever data you want to extract.</p>
 </div>
 <div id="accessing-deeply-nested-jsons" class="section level2" number="13.3">
@@ -381,8 +383,9 @@
 <span class="header-section-number">13.3</span> Accessing deeply nested JSONs<a class="anchor" aria-label="anchor" href="#accessing-deeply-nested-jsons"><i class="fas fa-link"></i></a>
 </h2>
 <p>Suppose that as part of a research project, you’ve recently been granted access to the API of a company. You’re interested in studying the relationship between the geo-location of clients, their shopping patterns and their social class. Once they grant you access to their private API, the endpoint that returns the geo location for each client returns a JSON like the one below. You use <code>fromJSON</code> to parse it and here is what you get:</p>
-<div class="sourceCode" id="cb320"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">json_str</span> <span class="op">&lt;-</span> <span class="st">'
+<div class="sourceCode" id="cb307"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">json_str</span> <span class="op">&lt;-</span> <span class="st">'
 {
     "client1": [
         {
@@ -420,93 +423,93 @@
 '</span>
 
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">json_str</span><span class="op">)</span>
-<span class="va">res</span></code></pre></div>
-<pre><code>## $client1
-##               name                 device
-## 1 Kurt Rosenwinkel iphone, 213.12, 43.213
-## 
-## $client2
-##      name                  device
-## 1 YEITUEI android, 211.12, 53.213</code></pre>
+<span class="va">res</span>
+<span class="co">## $client1</span>
+<span class="co">##               name                 device</span>
+<span class="co">## 1 Kurt Rosenwinkel iphone, 213.12, 43.213</span>
+<span class="co">## </span>
+<span class="co">## $client2</span>
+<span class="co">##      name                  device</span>
+<span class="co">## 1 YEITUEI android, 211.12, 53.213</span></code></pre></div>
 <p>Alright it seems two data frames were parsed, one for each client. Let’s pick one of these two to access the columns:</p>
-<div class="sourceCode" id="cb322"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res</span><span class="op">$</span><span class="va">client1</span></code></pre></div>
-<pre><code>##               name                 device
-## 1 Kurt Rosenwinkel iphone, 213.12, 43.213</code></pre>
+<div class="sourceCode" id="cb308"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res</span><span class="op">$</span><span class="va">client1</span>
+<span class="co">##               name                 device</span>
+<span class="co">## 1 Kurt Rosenwinkel iphone, 213.12, 43.213</span></code></pre></div>
 <p>Great, seems all was parsed correctly. Let’s paste “Device:” in front of each device just to make sure we don’t forget:</p>
-<div class="sourceCode" id="cb324"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Device: "</span>, <span class="va">res</span><span class="op">$</span><span class="va">client1</span><span class="op">$</span><span class="va">device</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Device: list(type = \"iphone\", location = list(list(lat = 213.12, lon = 43.213)))"</code></pre>
+<div class="sourceCode" id="cb309"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Device: "</span>, <span class="va">res</span><span class="op">$</span><span class="va">client1</span><span class="op">$</span><span class="va">device</span><span class="op">)</span>
+<span class="co">## [1] "Device: list(type = \"iphone\", location = list(list(lat = 213.12, lon = 43.213)))"</span></code></pre></div>
 <p>Ups, what? Oh, <code>device</code> column is not a character vector, it’s something like a list. Let’s explore it:</p>
-<div class="sourceCode" id="cb326"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res</span><span class="op">$</span><span class="va">client1</span><span class="op">$</span><span class="va">device</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>##     type        location
-## 1 iphone 213.120, 43.213</code></pre>
+<div class="sourceCode" id="cb310"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res</span><span class="op">$</span><span class="va">client1</span><span class="op">$</span><span class="va">device</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="co">##     type        location</span>
+<span class="co">## 1 iphone 213.120, 43.213</span></code></pre></div>
 <p><code>device</code> is a list with a data frame inside. Let’s see what class is each of these columns to avoid the same mistake:</p>
-<div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">client1</span><span class="op">$</span><span class="va">device</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">class</span><span class="op">)</span></code></pre></div>
-<pre><code>## $type
-## [1] "character"
-## 
-## $location
-## [1] "list"</code></pre>
+<div class="sourceCode" id="cb311"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">client1</span><span class="op">$</span><span class="va">device</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">class</span><span class="op">)</span>
+<span class="co">## $type</span>
+<span class="co">## [1] "character"</span>
+<span class="co">## </span>
+<span class="co">## $location</span>
+<span class="co">## [1] "list"</span></code></pre></div>
 <p><code>location</code> is also a list. Let’s look at what’s inside:</p>
-<div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res</span><span class="op">$</span><span class="va">client1</span><span class="op">$</span><span class="va">device</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">location</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>##      lat    lon
-## 1 213.12 43.213</code></pre>
+<div class="sourceCode" id="cb312"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res</span><span class="op">$</span><span class="va">client1</span><span class="op">$</span><span class="va">device</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">location</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="co">##      lat    lon</span>
+<span class="co">## 1 213.12 43.213</span></code></pre></div>
 <p>Alright, this is a general pattern. Whenever <code>fromJSON</code> encounters an array within an array, it converts each one to a data frame. The problem is that these are recurrent data frames inside data frames and so on. It’s difficult to assess where to stop and this is a good example where <code>unnest</code> is very handy. Here’s how we could fix this:</p>
-<div class="sourceCode" id="cb332"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb313"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span><span class="op">$</span><span class="va">client1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">device</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">location</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 4
-##   name             type     lat   lon
-##   &lt;chr&gt;            &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
-## 1 Kurt Rosenwinkel iphone  213.  43.2</code></pre>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">location</span><span class="op">)</span>
+<span class="co">## # A tibble: 1 × 4</span>
+<span class="co">##   name             type     lat   lon</span>
+<span class="co">##   &lt;chr&gt;            &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">## 1 Kurt Rosenwinkel iphone  213.  43.2</span></code></pre></div>
 <p>Let’s apply our general <code>enframe</code> + <code>unnest</code> strategy but applying <code>unnest</code> as many times as we need:</p>
-<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb314"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_res</span> <span class="op">&lt;-</span>
   <span class="va">res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"client"</span><span class="op">)</span>
 
-<span class="va">all_res</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 2
-##   client  value       
-##   &lt;chr&gt;   &lt;list&gt;      
-## 1 client1 &lt;df [1 × 2]&gt;
-## 2 client2 &lt;df [1 × 2]&gt;</code></pre>
+<span class="va">all_res</span>
+<span class="co">## # A tibble: 2 × 2</span>
+<span class="co">##   client  value       </span>
+<span class="co">##   &lt;chr&gt;   &lt;list&gt;      </span>
+<span class="co">## 1 client1 &lt;df [1 × 2]&gt;</span>
+<span class="co">## 2 client2 &lt;df [1 × 2]&gt;</span></code></pre></div>
 <p>Let’s unpack <code>value</code>:</p>
-<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb315"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##   client  name             device      
-##   &lt;chr&gt;   &lt;chr&gt;            &lt;list&gt;      
-## 1 client1 Kurt Rosenwinkel &lt;df [1 × 2]&gt;
-## 2 client2 YEITUEI          &lt;df [1 × 2]&gt;</code></pre>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span>
+<span class="co">## # A tibble: 2 × 3</span>
+<span class="co">##   client  name             device      </span>
+<span class="co">##   &lt;chr&gt;   &lt;chr&gt;            &lt;list&gt;      </span>
+<span class="co">## 1 client1 Kurt Rosenwinkel &lt;df [1 × 2]&gt;</span>
+<span class="co">## 2 client2 YEITUEI          &lt;df [1 × 2]&gt;</span></code></pre></div>
 <p>Again with <code>device</code>:</p>
-<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb316"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"device"</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 4
-##   client  name             type    location    
-##   &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;   &lt;list&gt;      
-## 1 client1 Kurt Rosenwinkel iphone  &lt;df [1 × 2]&gt;
-## 2 client2 YEITUEI          android &lt;df [1 × 2]&gt;</code></pre>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"device"</span><span class="op">)</span>
+<span class="co">## # A tibble: 2 × 4</span>
+<span class="co">##   client  name             type    location    </span>
+<span class="co">##   &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;   &lt;list&gt;      </span>
+<span class="co">## 1 client1 Kurt Rosenwinkel iphone  &lt;df [1 × 2]&gt;</span>
+<span class="co">## 2 client2 YEITUEI          android &lt;df [1 × 2]&gt;</span></code></pre></div>
 <p>Again with <code>location</code>:</p>
-<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb317"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"device"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"location"</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 5
-##   client  name             type      lat   lon
-##   &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
-## 1 client1 Kurt Rosenwinkel iphone   213.  43.2
-## 2 client2 YEITUEI          android  211.  53.2</code></pre>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"location"</span><span class="op">)</span>
+<span class="co">## # A tibble: 2 × 5</span>
+<span class="co">##   client  name             type      lat   lon</span>
+<span class="co">##   &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">## 1 client1 Kurt Rosenwinkel iphone   213.  43.2</span>
+<span class="co">## 2 client2 YEITUEI          android  211.  53.2</span></code></pre></div>
 <p>There we go. That’s how you handle nested JSON’s in R. Beware that for this example, everything worked well because each nested object was an array that could be merged with other types but the real challenge in parsing JSON’s is when some nested object does not conform well when unpacking everything into the same structure.</p>
 <p>JSON’s are not that hard but the main challenge is understanding how to combine everything into R data frames when a lot of nested arrays have different classes or shapes. Remember that whenever you try to unpack something, be sure to pay attention to whether the error is related to unmergeable classes or objects of different lengths.</p>
 </div>
@@ -517,7 +520,7 @@
 <ol style="list-style-type: decimal">
 <li>Can you fix this JSON?</li>
 </ol>
-<div class="sourceCode" id="cb342"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb318"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://arxiv.org/abs/1403.2805">jsonlite</a></span><span class="op">)</span>
 
 <span class="va">json_str</span> <span class="op">&lt;-</span> <span class="st">'
@@ -547,7 +550,7 @@
 <ol start="2" style="list-style-type: decimal">
 <li>Here’s an excerpt of a deeply nested JSON. Can you parse it into R and unnest all columns as needed. Why can’t you do it? Can you manually change the code to fix it?</li>
 </ol>
-<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb319"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">json_str</span> <span class="op">&lt;-</span> <span class="st">'
 {
     "client1": [
@@ -583,7 +586,7 @@
 <ol start="3" style="list-style-type: decimal">
 <li>Say after parsing a JSON you get a list like the one below. How can you transform it to be a data frame like the one below? Hint: you might need to explore the function <code><a href="https://purrr.tidyverse.org/reference/transpose.html">purrr::transpose</a></code>.</li>
 </ol>
-<div class="sourceCode" id="cb344"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb320"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">parsed_json</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>author <span class="op">=</span> <span class="st">"Cameron Gutkowski"</span>, genre <span class="op">=</span> <span class="st">"Ad"</span><span class="op">)</span>,

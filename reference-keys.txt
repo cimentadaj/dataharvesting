@@ -59,7 +59,6 @@ exercises-7
 a-primer-on-apis
 getting-familiar-with-an-api
 making-your-first-request
-todo-you-cant-see-the-results-of-the-request-objetct-in-this-chapter.
 exercises-8
 what-is-a-restful-api
 json-chapter
