@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>12 A dialogue between computers | Data Harvesting with R</title>
+<meta name="author" content="Jorge Cimentada">
+<meta name="description" content="With the advent of computing in the modern world, we’ve seen the surge of the shiny concept of ‘cloud computing’. The technical folks that work in the area know pretty well what ‘cloud’ means....">
+<meta name="generator" content="bookdown 0.26 with bs4_book()">
+<meta property="og:title" content="12 A dialogue between computers | Data Harvesting with R">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://cimentadaj.github.io/dataharvesting/a-dialogue-between-computers.html">
+<meta property="og:description" content="With the advent of computing in the modern world, we’ve seen the surge of the shiny concept of ‘cloud computing’. The technical folks that work in the area know pretty well what ‘cloud’ means....">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="12 A dialogue between computers | Data Harvesting with R">
+<meta name="twitter:description" content="With the advent of computing in the modern world, we’ve seen the surge of the shiny concept of ‘cloud computing’. The technical folks that work in the area know pretty well what ‘cloud’ means....">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/_Lato-0.4.1/font.css" rel="stylesheet">
+<link href="libs/_Roboto%20Mono-0.4.1/font.css" rel="stylesheet">
+<link href="libs/_Montserrat-0.4.1/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+<script src="libs/str_view-binding-1.4.0/str_view.js"></script><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<script>
+     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-99618359-1', 'auto');
+     ga('send', 'pageview');
+
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="style/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h2>
+        <a href="index.html" title="">Data Harvesting with R</a>
+      </h2>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Welcome</a></li>
+<li class="book-part">Webscraping</li>
+<li><a class="" href="primer-webscraping.html"><span class="header-section-number">2</span> A primer on Webscraping</a></li>
+<li><a class="" href="data-formats-for-webscraping.html"><span class="header-section-number">3</span> Data Formats for Webscraping</a></li>
+<li><a class="" href="regex.html"><span class="header-section-number">4</span> What you need to know about regular expressions</a></li>
+<li><a class="" href="xpath-chapter.html"><span class="header-section-number">5</span> What you need to know about XPath</a></li>
+<li><a class="" href="spanish-school.html"><span class="header-section-number">6</span> Case study: scraping Spanish school locations from the web</a></li>
+<li><a class="" href="automating-scripts.html"><span class="header-section-number">7</span> Automating Web Scraping Scripts</a></li>
+<li><a class="" href="scraping-javascript-based-website.html"><span class="header-section-number">8</span> Scraping JavaScript based website</a></li>
+<li><a class="" href="ethical-issues.html"><span class="header-section-number">9</span> Ethical issues in Web Scraping</a></li>
+<li class="book-part">APIs</li>
+<li><a class="" href="intro-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
+<li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
+<li><a class="active" href="a-dialogue-between-computers.html"><span class="header-section-number">12</span> A dialogue between computers</a></li>
+<li><a class="" href="json-chapter.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
+<li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">14</span> Case Study: grabbing data from a public API</a></li>
+<li><a class="" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">15</span> Automating API programs: real-time bicycle data</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/cimentadaj/dataharvesting">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="a-dialogue-between-computers" class="section level1" number="12">
+<h1>
+<span class="header-section-number">12</span> A dialogue between computers<a class="anchor" aria-label="anchor" href="#a-dialogue-between-computers"><i class="fas fa-link"></i></a>
+</h1>
+<p>With the advent of computing in the modern world, we’ve seen the surge of the shiny concept of ‘cloud computing’. The technical folks that work in the area know pretty well what ‘cloud’ means. However, even experienced users of the cloud often don’t know that ‘cloud’ is just another word for computer. The arcane phrase <em>“we’re moving to the cloud”</em> can actually be translate to <em>“we’re moving our data to a computer hosted somewhere else in the world where professionals can take care of making backups of the data and if the computer breaks they can immediately launch a new computer with the backup copy of the data”</em>.</p>
+<p>This means that whenever you hear that your files are on the cloud (think of any Google/Microsoft service such as Word, Excel, etc..) there’s really no magic behind this: they are probably somewhere in a computer in the United States/Europe. But wait, it doesn’t end there. <em>Every website in the world has a computer behind it that hosts the data and information showed in the website</em>. Yep, that’s right. Every time you type a website into your browser (for example, <code>www.google.com</code>), your browser knocks on the door of the computer behind the website asking for the content to show you. Whenever the server responds back (and this is not instant, it might take from even a few milliseconds to half a minute) the browser prettifies the information and renders it for you. Here’s a visual depiction of how it works:</p>
+<div class="inline-figure"><img src="images/dialogue_computer/browser_server.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Rephrasing what I described above, the browser sends a <strong>request</strong> to the server behind the website.</p>
+<div id="anatomy-of-a-request" class="section level2" number="12.1">
+<h2>
+<span class="header-section-number">12.1</span> Anatomy of a request<a class="anchor" aria-label="anchor" href="#anatomy-of-a-request"><i class="fas fa-link"></i></a>
+</h2>
+<p>Chances are you’ve made over thousands of requests in your life without even knowing it. When you use the browser, the browser makes the request for you. However, in all previous webscraping examples in this book we actually made requests to the servers behind the website. You didn’t see it because we were running high level functions such as <code>read_html</code> or <code>read_xml</code> but these functions <em>actually</em> make a request for you to access the code behind the website.</p>
+<p>What is a request? It’s a set of instructions that describe what you want. So the usual request that you send to a website looks like this:</p>
+<pre><code>GET / HTTP/3
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0
+Host: google.com
+Accept: */*</code></pre>
+<p>It describes several things:</p>
+<ul>
+<li>The type of request you’re making (<code>GET /HTTP/3</code>). There are several types of request that we’ll describe next.</li>
+<li>The <code>User-Agent</code> or, in other words, who you are. This string describes the browser/computer that you’re using such that a website can identify you.</li>
+<li>The host. This is the website you are requesting data from.</li>
+<li>The format that the request can accept. This is primarily for formats such as HTML, XML, JSON, etc.. In this case, since it has <code>*/*</code>, it means the browser can accept any format.</li>
+</ul>
+<p>A request contains extra information but we won’t delve into those in this introduction. In short, it contains ‘attachments’ called headers which contain options such as the supported encoding and other technical details. However, as an introduction, there’s no need for you to know these details right now.</p>
+<p>As it is common for human interactions, a dialogue is between two parties. When your browser sends a request, it is expecting a response. When the computer/server responds back, it gives back an answer like this one:</p>
+<pre><code>HTTP/3 301 Moved Permanently
+Date: Mon, 25 Dic 2022 15:37:00 GMT
+Server: Apache/2.4.54 (Ubuntu)
+Location: http://www.google.org/
+Vary: Accept-Encoding
+Content-Length: 312
+Content-Type: text/html; charset=iso-8859-1
+ 
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en-us"&gt;
+...
+&lt;/html&gt;</code></pre>
+<p>The top of the response contains technical details associated with the response such as the date, the content length and the content type. The key part of the answer of the request is the bottom part:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en-us"&gt;
+...
+&lt;/html&gt;</code></pre>
+<p>This part contains <em>all the source code of the website</em>. The browser then takes this source code and renders it for you in the browser. This is the basics of what happens when you enter a website:</p>
+<div class="inline-figure"><img src="images/dialogue_computer/browser_server_request.png" width="100%" style="display: block; margin: auto;"></div>
+<p>This happens every time you click a hyperlink, a tab or a button inside a website. The web is a series of thousands of requests made every millisecond.</p>
+</div>
+<div id="types-of-requests" class="section level2" number="12.2">
+<h2>
+<span class="header-section-number">12.2</span> Types of requests<a class="anchor" aria-label="anchor" href="#types-of-requests"><i class="fas fa-link"></i></a>
+</h2>
+<p>Nearly all requests that your browser makes for you are <code>GET</code> requests. <code>GET</code> requests ask for information and receive information back, as we saw in the previous section. The world of requests, however, has evolved over time and many other type of requests have been developed. Here are the most common ones:</p>
+<ul>
+<li>
+<code>GET</code>: retrieves whatever information is identified by the URL</li>
+<li>
+<code>POST</code>: requests data just as <code>GET</code> but allows to enclose data in the ‘body’ of the request. That is, aside from the usual details from the <code>GET</code> we saw above, it allows to enclose additional information that is often needed by a website to return information.</li>
+<li>
+<code>HEAD</code>: identical to GET except that the server MUST NOT return a message-body in the response. This means that the actual content of the response is not returned; only the response metadata</li>
+<li>
+<code>PUT</code>: request that creates a new resource or replaces a resource on the server</li>
+<li>
+<code>DELETE</code>: deletes a resource on the server</li>
+</ul>
+<p>These explanations are fine but we probably need some hand-on examples of how this works in practice. Suppose that you enter a website that orders food to your home. When you enter the website, your browser sends <code>GET</code> request to the servers behind the website and receives the content it will show you. The browser renders it and you can navigate the content freely. You spend about 15 minutes choosing which plate you’re gonna order. You finally click on ‘submit order’. What happens? You just sent <code>POST</code> request. What does that mean? Aside from the usual details of the <code>GET</code> request, the <code>POST</code> request also allows you to ‘enclose’ a body with a message. This body contains information needed by the server to be able to send a response back. In our food example, this <code>POST</code> request contains all the details of your order which are saved on the servers of the website and allow people at the kitchen start preparing your food. How does a <code>POST</code> request look like?</p>
+<pre><code>POST /test / HTTP/3
+Host: foo.example
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 27
+
+main_plate=poke_bowl&amp;drinks=water</code></pre>
+<p>This <code>POST</code> request has a very similar format as the <code>GET</code> request we described above but has some extra content at the bottom which contains the body of the request. For our food example, this contains our order. <code>PUT</code> works very similar to <code>POST</code> but has one main difference: it can be used to create/update one thing. <code>POST</code> was created to make as many submits as you need. You can make 10 orders and each order on the website will be <em>in addition</em> to the other ones; no replacement is done on the previous orders. <code>PUT</code> is meant to create/update something as many times as needed. For example, when you enter the website, the developers might use <code>PUT</code> to show the currency exchange of the dollar-euro. Whenever it changes, they might update it again with <code>PUT</code> but completely erases the previous one. In general, these two ‘verbs’ are a way to submit information and receive a response based on this submission.</p>
+<p><code>HEAD</code> on the other hand is pretty much the same as <code>GET</code> but it is not supposed to return the response body. This is meant as a precaution in case the response has a lot of data, someone can filter and act accordingly using <code>HEAD</code>. The benefit of <code>HEAD</code> is that it cannot contain the body of the message but it contains information of the request, such as the content length.</p>
+<p>Finally, <code>DELETE</code> is a request type that, as it’s name says, it requests a deletion of a resource in the server. This is the counterpart to <code>POST</code>. If you place 10 orders, each using <code>POST</code>, you can delete each one sending a <code>DELETE</code> request.</p>
+</div>
+<div id="rest-apis" class="section level2" number="12.3">
+<h2>
+<span class="header-section-number">12.3</span> REST APIs<a class="anchor" aria-label="anchor" href="#rest-apis"><i class="fas fa-link"></i></a>
+</h2>
+<p>Why is this all important? Wasn’t this a chapter on APIs? All of the content above happens automatically behind the scenes, why should I care? Because requests are at the core of how APIs work. APIs work just as we described requests above:</p>
+<div class="inline-figure"><img src="images/dialogue_computer/browser_server_request.png" width="100%" style="display: block; margin: auto;"></div>
+<p>However, the main difference is that REST APIs are designed to share data. REST APIs have their biggest objective as a way to share data that was traditionally gathered through web scraping. So in most instances, en API would return a JSON or an XML file with the data you requested in the body of the response. In webscraping, the requests return the source code of the website.</p>
+<p>REST APIs organize the internal data of a website and share them using a standard interface following the REST guidelines. REST stands for “Representational state transfer” and is a standard architecture for sharing data.</p>
+<p>Enough of technical descriptions, how do these REST APIs work? In layman terms, REST APIs have documentation which shows something called endpoints, just as we saw in chapter <a href="intro-apis.html#intro-apis">10</a>. Each of these endpoints are connected internally to databases. Each endpoint is responsible for returning one set of data. Depending on which parameters you pass to the URL of a given endpoint, the endpoint filters data and returns results accordingly.</p>
+<p>Other endpoints that have access to the data also allows to alter data. For example, the Spotify API, once you log in with your credentials and obtain a ‘token’ to access the API, allows you to remove playlists or add songs to particular albums. This is all done using requests such as <code>DELETE</code> or <code>POST</code>. Like in chapter <a href="intro-apis.html#intro-apis">10</a>, each of these endpoints has documentation on how to access the data behind it.</p>
+<p>This should sound familiar to how we described requests above, because it is very familiar. The idea is that APIs are persistent machines (they’re always on) that can support thousands of requests per minute from people requesting data. The data that you request from an API can change depend from parameters from the website. However, the key idea of this chapter is the APIs are computers that host data. You can speak to these computers using different types of requests and filter data from these requests using parameters in the URL.</p>
+</div>
+<div id="ethics-in-apis" class="section level2" number="12.4">
+<h2>
+<span class="header-section-number">12.4</span> Ethics in APIs<a class="anchor" aria-label="anchor" href="#ethics-in-apis"><i class="fas fa-link"></i></a>
+</h2>
+<p>Even though companies are giving you data for free, this doesn’t mean we shouldn’t abide by some general guidelines on behavior. Ethical guidelines for APIs are very similar to the ones described in chapter <a href="ethical-issues.html#ethical-issues">9</a> for web scraping. They can be summarized in bullet points:</p>
+<ul>
+<li><p><strong>Excessive requests</strong>: since APIs are just computers sending data, they have a finite amount of bandwidth they can use. Remember to use system sleeps to avoid cluttering the servers.</p></li>
+<li><p><strong>Read the terms of services</strong>: companies are sharing data freely over the web but this doesn’t mean you can do anything with it. Be sure to read the terms of services from the website as they might forbid something you can do with the data.</p></li>
+<li><p><strong>Authentication</strong>: as opposed to webscraping, where you usually just specify the <code>User-Agent</code>, many APIs require authentication. This means that you need to log in or create a developer account on the website of interest and obtain a token. This token is used on every request you make to the API, validating that you have authenticated with the website. Make sure to do this every time it is needed, as it ensures that you can access correct information and the owners can control how requests data from their website.</p></li>
+</ul>
+</div>
+<div id="exercises-9" class="section level2" number="12.5">
+<h2>
+<span class="header-section-number">12.5</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-9"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p>Can you browse the internet and find out how to make a <code>GET</code> request using R? Search for the <code>httr2</code> R package.</p></li>
+<li><p>APIs often have something called rate limiting. Can you search online what it means? If you had a program that requests data from an API how could you control rate limiting?</p></li>
+</ul>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></div>
+<div class="next"><a href="json-chapter.html"><span class="header-section-number">13</span> What you need to know about JSON</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#a-dialogue-between-computers"><span class="header-section-number">12</span> A dialogue between computers</a></li>
+<li><a class="nav-link" href="#anatomy-of-a-request"><span class="header-section-number">12.1</span> Anatomy of a request</a></li>
+<li><a class="nav-link" href="#types-of-requests"><span class="header-section-number">12.2</span> Types of requests</a></li>
+<li><a class="nav-link" href="#rest-apis"><span class="header-section-number">12.3</span> REST APIs</a></li>
+<li><a class="nav-link" href="#ethics-in-apis"><span class="header-section-number">12.4</span> Ethics in APIs</a></li>
+<li><a class="nav-link" href="#exercises-9"><span class="header-section-number">12.5</span> Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/cimentadaj/dataharvesting/blob/main/book/12-dialogue-computers.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/cimentadaj/dataharvesting/edit/main/book/12-dialogue-computers.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-12-26.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

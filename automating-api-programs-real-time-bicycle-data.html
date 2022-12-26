@@ -68,7 +68,7 @@
 <li class="book-part">APIs</li>
 <li><a class="" href="intro-apis.html"><span class="header-section-number">10</span> Introduction to REST APIs</a></li>
 <li><a class="" href="a-primer-on-apis.html"><span class="header-section-number">11</span> A primer on APIs</a></li>
-<li><a class="" href="what-is-a-restful-api.html"><span class="header-section-number">12</span> What is a RESTful API?</a></li>
+<li><a class="" href="a-dialogue-between-computers.html"><span class="header-section-number">12</span> A dialogue between computers</a></li>
 <li><a class="" href="json-chapter.html"><span class="header-section-number">13</span> What you need to know about JSON</a></li>
 <li><a class="" href="case-study-grabbing-data-from-a-public-api.html"><span class="header-section-number">14</span> Case Study: grabbing data from a public API</a></li>
 <li><a class="active" href="automating-api-programs-real-time-bicycle-data.html"><span class="header-section-number">15</span> Automating API programs: real-time bicycle data</a></li>
@@ -93,7 +93,7 @@
 <span class="header-section-number">15.1</span> The Bicing API<a class="anchor" aria-label="anchor" href="#the-bicing-api"><i class="fas fa-link"></i></a>
 </h2>
 <p>The <code>scrapex</code> package contains a replica of the bicing API that I used during my PhD studies. Let’s load the packages we’ll use in the chapter and launch the bicing API.</p>
-<div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb327"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr2.r-lib.org">httr2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
@@ -113,12 +113,12 @@
 <p>As this is an example API, I’ve only included 20 stations from the original results. The original results contain information for over 100 stations all over Barcelona. We can also see under the <em>parameters</em> heading that this endpoint does not need any parameters.</p>
 <p>However, the most important thing from this endpoint can be interpreted from the description that we see above. <em>Access real time bicycle usage</em> is very transparent in highlighting that this data is <em>real time</em>. This means that data that we see in a request right now, might not be the same data that we see in 10 minutes. Since I created this sample API, I made sure that this is the case. This means that every time that we request some data from this endpoint, we’ll see completely new data from the previous request. The nature of this API forces us to think along two lines: if we want to understand bicycle patterns, we need to automate this process and we need to save this data somewhere.</p>
 <p>Since we already know enough of the single endpoint of this API, let’s try to build a request to check how the output is structured. From the image above we can see that the endpoint is <code>/api/v1/real_time_bicycles</code> so let’s append it to the base of the API:</p>
-<div class="sourceCode" id="cb324"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rt_bicing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">bicing</span><span class="op">$</span><span class="va">api_web</span>, <span class="st">"/api/v1/real_time_bicycles"</span><span class="op">)</span>
 <span class="va">rt_bicing</span>
 <span class="co">## [1] "http://localhost:9614/api/v1/real_time_bicycles"</span></code></pre></div>
 <p>There we go, let’s make a request and check the body:</p>
-<div class="sourceCode" id="cb325"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">resp_output</span> <span class="op">&lt;-</span> 
   <span class="va">rt_bicing</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/request.html">request</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> 
@@ -129,9 +129,9 @@
 <span class="co">## GET http://localhost:9614/api/v1/real_time_bicycles</span>
 <span class="co">## Status: 200 OK</span>
 <span class="co">## Content-Type: application/json</span>
-<span class="co">## Body: In memory (3311 bytes)</span></code></pre></div>
+<span class="co">## Body: In memory (3315 bytes)</span></code></pre></div>
 <p>The status code of the request is <code>200</code> so everything went successful. We see that the content-type is in JSON format, so it’s everything we’re used to. Let’s check the content of the body:</p>
-<div class="sourceCode" id="cb326"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_output</span> <span class="op">&lt;-</span>
   <span class="va">resp_output</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html">resp_body_json</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
@@ -158,10 +158,10 @@
 <span class="co">## [1] 29</span>
 <span class="co">## </span>
 <span class="co">## [[1]]$current_time</span>
-<span class="co">## [1] "2022-12-23 19:31:19"</span>
+<span class="co">## [1] "2022-12-26 19:05:16"</span>
 <span class="co">## </span>
 <span class="co">## [[1]]$in_use</span>
-<span class="co">## [1] 7</span>
+<span class="co">## [1] 15</span>
 <span class="co">## </span>
 <span class="co">## </span>
 <span class="co">## [[2]]</span>
@@ -184,12 +184,12 @@
 <span class="co">## [1] 27</span>
 <span class="co">## </span>
 <span class="co">## [[2]]$current_time</span>
-<span class="co">## [1] "2022-12-23 19:31:19"</span>
+<span class="co">## [1] "2022-12-26 19:05:16"</span>
 <span class="co">## </span>
 <span class="co">## [[2]]$in_use</span>
-<span class="co">## [1] 4</span></code></pre></div>
+<span class="co">## [1] 19</span></code></pre></div>
 <p>I’ve only shown the first two slots of the resulting list (parsed from the JSON directly using <code>resp_body_json</code>). This output looks like each slot is the row of a data frame where each contains a column, with names like <code>slots</code>, <code>in_use</code>, <code>latitude/longitude</code> and <code>streetName</code>. There are different ways to parse this output but the first that comes to mind is to loop over each slot and simply try to convert it to a data frame. Since each slot has a named list inside, <code>data.frame</code> can convert that directly to a data frame and we can bind all those rows into a single data frame. Let’s try it:</p>
-<div class="sourceCode" id="cb327"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_output</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">data.frame</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="op">)</span>
@@ -197,10 +197,10 @@
 <span class="co">## 1 BIKE  41.3980    2.1800 Gran Via Corts Catalanes          760    29</span>
 <span class="co">## 2 BIKE  41.3955    2.1771  Roger de Flor/ Gran Vía          126    27</span>
 <span class="co">##          current_time in_use</span>
-<span class="co">## 1 2022-12-23 19:31:19      7</span>
-<span class="co">## 2 2022-12-23 19:31:19      4</span></code></pre></div>
+<span class="co">## 1 2022-12-26 19:05:16     15</span>
+<span class="co">## 2 2022-12-26 19:05:16     19</span></code></pre></div>
 <p>Yep, works well. Let’s go back to the request an extract all stations and combine them together:</p>
-<div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb332"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_stations</span> <span class="op">&lt;-</span>
   <span class="va">resp_output</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html">resp_body_json</a></span><span class="op">(</span><span class="op">)</span>
@@ -233,28 +233,28 @@
 <span class="co">## 19 BIKE  41.4102    2.1758                      Cartagena          308    20</span>
 <span class="co">## 20 BIKE  41.4109    2.1740       Sant Antoni Maria Claret          214     2</span>
 <span class="co">##           current_time in_use</span>
-<span class="co">## 1  2022-12-23 19:31:19      7</span>
-<span class="co">## 2  2022-12-23 19:31:19      4</span>
-<span class="co">## 3  2022-12-23 19:31:19      3</span>
-<span class="co">## 4  2022-12-23 19:31:19     16</span>
-<span class="co">## 5  2022-12-23 19:31:19     10</span>
-<span class="co">## 6  2022-12-23 19:31:19     28</span>
-<span class="co">## 7  2022-12-23 19:31:19      3</span>
-<span class="co">## 8  2022-12-23 19:31:19      2</span>
-<span class="co">## 9  2022-12-23 19:31:19     12</span>
-<span class="co">## 10 2022-12-23 19:31:19      9</span>
-<span class="co">## 11 2022-12-23 19:31:19     25</span>
-<span class="co">## 12 2022-12-23 19:31:19      3</span>
-<span class="co">## 13 2022-12-23 19:31:19     13</span>
-<span class="co">## 14 2022-12-23 19:31:19      4</span>
-<span class="co">## 15 2022-12-23 19:31:19      9</span>
-<span class="co">## 16 2022-12-23 19:31:19     21</span>
-<span class="co">## 17 2022-12-23 19:31:19     20</span>
-<span class="co">## 18 2022-12-23 19:31:19     17</span>
-<span class="co">## 19 2022-12-23 19:31:19     14</span>
-<span class="co">## 20 2022-12-23 19:31:19      2</span></code></pre></div>
+<span class="co">## 1  2022-12-26 19:05:16     15</span>
+<span class="co">## 2  2022-12-26 19:05:16     19</span>
+<span class="co">## 3  2022-12-26 19:05:16     10</span>
+<span class="co">## 4  2022-12-26 19:05:16     13</span>
+<span class="co">## 5  2022-12-26 19:05:16     39</span>
+<span class="co">## 6  2022-12-26 19:05:16     17</span>
+<span class="co">## 7  2022-12-26 19:05:16     11</span>
+<span class="co">## 8  2022-12-26 19:05:16      6</span>
+<span class="co">## 9  2022-12-26 19:05:16     17</span>
+<span class="co">## 10 2022-12-26 19:05:16      8</span>
+<span class="co">## 11 2022-12-26 19:05:16     20</span>
+<span class="co">## 12 2022-12-26 19:05:16      2</span>
+<span class="co">## 13 2022-12-26 19:05:16      9</span>
+<span class="co">## 14 2022-12-26 19:05:16     15</span>
+<span class="co">## 15 2022-12-26 19:05:16     20</span>
+<span class="co">## 16 2022-12-26 19:05:16     12</span>
+<span class="co">## 17 2022-12-26 19:05:16     26</span>
+<span class="co">## 18 2022-12-26 19:05:16     26</span>
+<span class="co">## 19 2022-12-26 19:05:16      5</span>
+<span class="co">## 20 2022-12-26 19:05:16      2</span></code></pre></div>
 <p>Great, there we go. We managed to access the API, request the real time information of all bicycles and parse the output into a data frame. The most important columns here are <code>slots</code>, <code>current_time</code> and <code>in_use</code>. With these three you can calculate the rate at which the station is used throughout the day. In addition, we have cool stuff like the <code>latitude</code>/<code>longitude</code> to locate the station in case we want to make, for example, maps of bicycle usage. Let’s take a step back and move all of our code into a function that makes a request:</p>
-<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">real_time_bicing</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bicing_api</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">rt_bicing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">bicing_api</span><span class="op">$</span><span class="va">api_web</span>, <span class="st">"/api/v1/real_time_bicycles"</span><span class="op">)</span>
   
@@ -275,31 +275,31 @@
   <span class="va">all_stations_df</span>
 <span class="op">}</span></code></pre></div>
 <p>This function receives the bicing API object that has the API website, makes a request to the API, combines all results into a data frame and returns the data frame. Using this example function we can confirm that making two requests will return different data in terms of bicycle usage. For example:</p>
-<div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">first</span> <span class="op">&lt;-</span> <span class="fu">real_time_bicing</span><span class="op">(</span><span class="va">bicing</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">in_use</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>first_in_use <span class="op">=</span> <span class="va">in_use</span><span class="op">)</span>
 <span class="va">second</span> <span class="op">&lt;-</span> <span class="fu">real_time_bicing</span><span class="op">(</span><span class="va">bicing</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">in_use</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>second_in_use <span class="op">=</span> <span class="va">in_use</span><span class="op">)</span>
 <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_cols</a></span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span>
 <span class="co">##    first_in_use second_in_use</span>
-<span class="co">## 1             2            12</span>
-<span class="co">## 2            21            10</span>
-<span class="co">## 3             9            15</span>
-<span class="co">## 4            11             4</span>
-<span class="co">## 5            27            32</span>
-<span class="co">## 6            12             7</span>
-<span class="co">## 7            23             2</span>
-<span class="co">## 8            20            22</span>
-<span class="co">## 9             4            13</span>
-<span class="co">## 10           12             8</span>
-<span class="co">## 11           20             0</span>
-<span class="co">## 12            3             0</span>
-<span class="co">## 13           17            12</span>
-<span class="co">## 14           10             7</span>
-<span class="co">## 15           16            15</span>
-<span class="co">## 16            9             9</span>
-<span class="co">## 17           22            10</span>
-<span class="co">## 18            4             2</span>
-<span class="co">## 19           18            15</span>
-<span class="co">## 20            0             2</span></code></pre></div>
+<span class="co">## 1            19             2</span>
+<span class="co">## 2            13            17</span>
+<span class="co">## 3            16             5</span>
+<span class="co">## 4             9            10</span>
+<span class="co">## 5            11            30</span>
+<span class="co">## 6            39            36</span>
+<span class="co">## 7             8             0</span>
+<span class="co">## 8             7            16</span>
+<span class="co">## 9             3            16</span>
+<span class="co">## 10            8            20</span>
+<span class="co">## 11            2            14</span>
+<span class="co">## 12            3             3</span>
+<span class="co">## 13           14            22</span>
+<span class="co">## 14           17             7</span>
+<span class="co">## 15           21             4</span>
+<span class="co">## 16           18            19</span>
+<span class="co">## 17           14            24</span>
+<span class="co">## 18            4            21</span>
+<span class="co">## 19            4             8</span>
+<span class="co">## 20            1             0</span></code></pre></div>
 <p>We performed two requests and only selected the column <code>in_use</code> to check that these two columns are different. In effect, the bicycle usage of two requests just 1 second apart shows vastly different usage patterns for each station. This highlights that what we’re really interested here is in adding the two ingredients for making this a robust program: save the data on the fly and automate the script.</p>
 </div>
 <div id="saving-data-in-api-programs" class="section level2" number="15.2">
@@ -315,7 +315,7 @@
 <li><p>If the CSV file <em>exists</em>, then we want to append the result</p></li>
 </ul>
 <p><strong>You’ll see that in the remaining part of this chapter I’ll use my local path to save the CSV file. This is in the variable <code>local_csv</code>. You should replace this with your local path before running any of the R code below</strong>. Here’s a rough implementation of the bullet points above with comments:</p>
-<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">save_bicing_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bicing_api</span><span class="op">)</span> <span class="op">{</span>
   <span class="co"># Perform a request to the bicing API and get the data frame back</span>
   <span class="va">bicing_results</span> <span class="op">&lt;-</span> <span class="fu">real_time_bicing</span><span class="op">(</span><span class="va">bicing_api</span><span class="op">)</span>
@@ -340,7 +340,7 @@
   <span class="op">}</span>
 <span class="op">}</span></code></pre></div>
 <p>One way to test whether this works is to run this twice and read the results back to a data frame to check that the data frame is correctly structured. Let’s try it:</p>
-<div class="sourceCode" id="cb332"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">save_bicing_data</span><span class="op">(</span><span class="va">bicing</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>
 <span class="fu">save_bicing_data</span><span class="op">(</span><span class="va">bicing</span><span class="op">)</span>
@@ -354,7 +354,7 @@
 ## 1 2022-12-20 23:51:56
 ## 2 2022-12-20 23:52:04</code></pre>
 <p>We called the API once, saved the results and allowed the program to sleep for 5 seconds. We then called the API again and saved the results. After this, we read the <code>bicing_history.csv</code> file into an R data frame and showed the distinct time stamps that the file has. If we requested the data from the API twice and saved the results, then we should find two time stamps, rather than one. That’s precisely what we find in the results. In addition, we should also have two different numbers in the column <code>in_use</code> for the number of bicycles under usage. Let’s pick one station to check that it works:</p>
-<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bicing_history</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">streetName</span> <span class="op">==</span> <span class="st">"Ribes"</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">current_time</span>, <span class="va">streetName</span>, <span class="va">in_use</span><span class="op">)</span></code></pre></div>
@@ -371,7 +371,7 @@
 </h2>
 <p>Just as we did in chapter <a href="automating-scripts.html#automating-scripts">7</a>, APIs need to be automated. The strategy is pretty much the same as what we did in that chapter. We create a script that defines the functions we’ll use for the program and run the functions at the end. In our case, that’s running the function <code>save_bicing_data</code>. We then automate the process using <code>cron</code> by running the script in a schedule.</p>
 <p>Let’s organize all of our code in a script. Here’s what we should have:</p>
-<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scrapex</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://httr2.r-lib.org">httr2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
@@ -446,9 +446,9 @@
 <div class="inline-figure"><img src="images/automating_bicing/bicing_history_cron.png" width="100%" style="display: block; margin: auto;"></div>
 <p>The CSV file is being continually updated every minute. Just as we did with web scraping, this strategy of automation can take you a long way for collecting data. Automation is one of the main building blocks in data harvesting because more often than not you’ll find that online data is quick to disappear so you’ll need to automate a process to collect it for you.</p>
 </div>
-<div id="exercises-10" class="section level2" number="15.4">
+<div id="exercises-11" class="section level2" number="15.4">
 <h2>
-<span class="header-section-number">15.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-10"><i class="fas fa-link"></i></a>
+<span class="header-section-number">15.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-11"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li><p>Can you disable the <code>cron</code> expression we just enable above?</p></li>
@@ -482,7 +482,7 @@ Number rows: 20</code></pre>
 <li><a class="nav-link" href="#the-bicing-api"><span class="header-section-number">15.1</span> The Bicing API</a></li>
 <li><a class="nav-link" href="#saving-data-in-api-programs"><span class="header-section-number">15.2</span> Saving data in API programs</a></li>
 <li><a class="nav-link" href="#automating-the-program"><span class="header-section-number">15.3</span> Automating the program</a></li>
-<li><a class="nav-link" href="#exercises-10"><span class="header-section-number">15.4</span> Exercises</a></li>
+<li><a class="nav-link" href="#exercises-11"><span class="header-section-number">15.4</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">
@@ -500,7 +500,7 @@ Number rows: 20</code></pre>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-12-23.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2022-12-26.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
