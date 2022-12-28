@@ -79,7 +79,7 @@ knitr::include_graphics(file.path(main_dir_api, "browser_server_request.png"))
 
 This happens every time you click a hyperlink, a tab or a button inside a website. The web is a series of thousands of requests made every millisecond.
 
-## Types of requests
+## Types of requests {#type-requests}
 
 Nearly all requests that your browser makes for you are `GET` requests. `GET` requests ask for information and receive information back, as we saw in the previous section. The world of requests, however, has evolved over time and many other type of requests have been developed. Here are the most common ones:
 
@@ -137,7 +137,7 @@ Even though companies are giving you data for free, this doesn't mean we shouldn
 
 ## Exercises
 
-* Can you browse the internet and find out how to make a `GET` request using R? Search for the `httr2` R package.
+1. Can you browse the internet and find out how to make a `GET` request using R? Search for the `httr2` R package.
 
 ```{r, eval = FALSE, echo = FALSE}
 library(httr2)
@@ -146,7 +146,7 @@ resp <- req_perform(req)
 resp
 ```
 
-* APIs often have something called rate limiting. Can you search online what it means? If you had a program that requests data from an API how could you control rate limiting?
+2. APIs often have something called rate limiting. Can you search online what it means? If you had a program that requests data from an API how could you control rate limiting?
 
 ```{r, eval = FALSE, echo = FALSE}
 # A rate limit is the number of API calls an app or user can make within a given time period. If this limit is exceeded or if CPU or total time limits are exceeded, the app or user may be throttled. API requests made by a throttled user or app will fail. You can circumvent it using system sleeps.

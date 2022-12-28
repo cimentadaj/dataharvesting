@@ -337,9 +337,9 @@ The CSV file is being continually updated every minute. Just as we did with web 
 
 ## Exercises
 
-* Can you disable the `cron` expression we just enable above?
+1. Can you disable the `cron` expression we just enable above?
 
-* Can you create a `logs.txt` file inside the directory where the `cron` is running and save the time stamp, the number of rows and columns of the request response? Logs are extremely important in these programs because you can check them to see why a scheduled program might have failed. The print out of your logs should look something like this for each of the request that your program makes:
+2. Can you create a `logs.txt` file inside the directory where the `cron` is running and save the time stamp, the number of rows and columns of the request response? Logs are extremely important in these programs because you can check them to see why a scheduled program might have failed. The print out of your logs should look something like this for each of the request that your program makes:
 
 ```
 #############################################################################

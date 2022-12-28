@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 
 ```
 
-# Case study: scraping Spanish school locations from the web {#spanish-school}
+# Case study: Scraping Spanish school locations from the web {#spanish-school}
 
 In this chapter we'll be scraping the location of a sample of schools in Spain. This case study involves using XPath to find the specific chunks of code that contain coordinates of schools in Spain, as well as inspecting the source code of a website in depth. The final result of this chapter is to generate a plot like this one without previous knowledge of where schools are:
 

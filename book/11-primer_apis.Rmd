@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 ```
 
-# A primer on APIs
+# A primer on APIs {#primer-apis}
 
 When you make requests to an API, most probably you want to make them programmatically. By programmatically I mean to request data using a programming language. In this book we'll do it with R but you can do this with most programming languages.
 
