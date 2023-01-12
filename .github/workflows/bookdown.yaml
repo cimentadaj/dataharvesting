@@ -56,10 +56,10 @@ jobs:
         run: Rscript -e 'bookdown::render_book("index.Rmd", quiet = TRUE)'
 
       - name: Render slides
-          uses: quarto-dev/quarto-actions/render@v2
-          with:
-            to: html # If set, it will be equivalent to `quarto render --to html`
-            path: slides # By default, the current working dir is used i.e `quarto render .`
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          to: html # If set, it will be equivalent to `quarto render --to html`
+          path: slides # By default, the current working dir is used i.e `quarto render .`
 
       - name: Deploy to GitHub pages 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
