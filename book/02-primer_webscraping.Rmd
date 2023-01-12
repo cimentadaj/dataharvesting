@@ -9,6 +9,8 @@ knitr::opts_chunk$set(
   fig.asp = 0.618
 )
 
+knitr::knit_hooks$set(purl = knitr::hook_purl)
+
 ```
 
 # (PART) Webscraping {-}
@@ -111,7 +113,7 @@ The first thing we'd want to do is to keep only the columns which are character.
 elections_data %>% select_if(is.character)
 ```
 
-areWe can see all the different string values in those columns. What we'd want is to replace all non-numeric values for `NA`'s. That way when we convert these columns to numbers we won't loose any information. How can we remove these values? I went through each of these columns and wrote down the `character` values that we need to remove:
+We can see all the different string values in those columns. What we'd want is to replace all non-numeric values for `NA`'s. That way when we convert these columns to numbers we won't loose any information. How can we remove these values? I went through each of these columns and wrote down the `character` values that we need to remove:
 
 ```{r}
 wrong_labels <- c(

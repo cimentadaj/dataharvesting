@@ -5,21 +5,262 @@ format: revealjs
 editor: visual
 ---
 
-## Quarto
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  eval = TRUE,
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.asp = 0.618
+)
+```
 
-Hey. Ho. Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+## A primer on webscraping
 
-## Bullets
+![](images/elections_plot.png){fig-align="center"}
 
-When you click the **Render** button a document will be generated that includes:
+## Primer on webscraping
 
--   Content authored with markdown
--   Output from executable code
+-   Skip the usual 'basics' right into coding
 
-## Code
+-   Webscraping is the subtle art of being a ninja
 
-When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+-   The plot above shows the election results for all political parties in Spain since 1978, all completely [scraped from Wikipedia](https://en.wikipedia.org/wiki/Elections_in_Spain).
+
+-   Chapter 2 from book
+
+## Scrapex
+
+1.  Webscraping tutorials are doomed to change
+
+    <br>
+
+2.  API examples are doomed to change
+
+    <br>
+
+3.  Predictability is important
+
+`scrapex` is an R package with completely self-standing web scraping/API examples for eternity
+
+::: {.columns style="display: flex !important; height: 20%;"}
+::: {.column width="20%" style="display: flex; justify-content: center; align-items: center;"}
+### <https://github.com/cimentadaj/scrapex>
+:::
+:::
+
+## Getting website data into R
 
 ```{r}
-1 + 1
+library(scrapex)
+library(rvest)
+library(httr)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+
+link <- history_elections_spain_ex()
+link
+```
+
+## Getting website data into R
+
+```{r, eval = FALSE}
+browseURL(prep_browser(link))
+```
+
+![](images/elections_website.png){fig-align="center"}
+
+## Getting website data into R
+
+Ethical web scraping is identifying yourself
+
+```{r}
+set_config(
+  user_agent("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0; Jorge Cimentada / cimentadaj@gmail.com")
+)
+```
+
+Where can you find it?
+
+![](images/user_agent.png){fig-align="center" width="4.57in"}
+
+## Getting website data into R
+
+```{r}
+html_website <- link %>% read_html()
+html_website
+```
+
+<br>
+
+-   Difficult to read -- raw HTML code
+
+-   Often too long to actually explore it
+
+-   This output is mostly to confirm it was read and the header of the HTML file
+
+## Getting website data into R
+
+What we actually want:
+
+![](images/elections_table.png){fig-align="center"}
+
+## Getting website data into R
+
+-   The output from `read_html()` is difficult to understand
+
+-   Goal is to find actual election data on the website
+
+-   `rvest` package has `html_table()` function that can extract tables from website and import into R.
+
+<br>
+
+```{r}
+all_tables <-
+  html_website %>%
+  html_table()
+```
+
+## Getting website data into R
+
+-   Grabs all tables
+
+-   We only pick the one we're interested in.
+
+```{r}
+elections_data <- all_tables[[5]]
+elections_data
+```
+
+## Data cleaning
+
+1.  The first row is empty
+2.  The "Election" column is a character column and contains string values
+3.  Columns contain values which are not numbers
+4.  Column names also have footnote values
+
+The process of web scraping requires knowledge of regular expressions and data cleaning techniques.
+
+
+## Data cleaning
+
+```{r}
+elections_data %>% select_if(is.character)
+```
+
+
+## Data cleaning
+
+* Build regular expression to replace all unwanted parts of the string
+
+```{r}
+wrong_labels <- c(
+  "Dissolved",
+  "[k]",
+  "[l]",
+  "[m]",
+  "n",
+  "Banned",
+  "Boycotted",
+  "Did not run"
+)
+
+wrong_labels <- paste0(wrong_labels, collapse = "|")
+wrong_labels
+```
+
+
+## Data cleaning
+
+* Replace the regex using `str_replace_all`
+
+```{r}
+semi_cleaned_data <-
+  elections_data %>%
+  mutate_if(
+    is.character,
+    ~ str_replace_all(string = .x, pattern = wrong_labels, replacement = NA_character_)
+  )
+
+semi_cleaned_data %>% select_if(is.character)
+```
+
+## Data cleaning
+
+* Replace extra patterns of months
+
+* We replace again here because we want to replace with `""` instead of `NA`
+
+```{r}
+semi_cleaned_data <-
+  semi_cleaned_data %>%
+  mutate(
+    Election = str_replace_all(string = Election, pattern = "Apr. |Nov. ", replacement = "")
+  )
+
+semi_cleaned_data %>% select_if(is.character)
+```
+
+
+## Data cleaning
+
+* Remove first row
+
+```{r}
+semi_cleaned_data <-
+  semi_cleaned_data %>%
+  mutate_all(as.numeric) %>%
+  filter(!is.na(Election))
+
+semi_cleaned_data
+```
+
+## Data cleaning
+
+* Clean up column names
+
+```{r}
+semi_cleaned_data <-
+  semi_cleaned_data %>%
+  rename_all(~ str_replace_all(.x, "\\[.+\\]", ""))
+
+semi_cleaned_data
+```
+
+
+## Data cleaning
+
+```{r, eval = FALSE}
+# Pivot from wide to long to plot it in ggplot
+cleaned_data <-
+  semi_cleaned_data %>%
+  pivot_longer(-Election, names_to = "parties")
+
+# Plot it
+cleaned_data %>%
+  ggplot(aes(Election, value, color = parties)) +
+  geom_line() +
+  scale_y_continuous(labels = function(x) paste0(x, "%")) +
+  scale_color_viridis_d() +
+  theme_minimal()
+```
+
+## Data cleaning
+
+```{r, echo = FALSE}
+# Pivot from wide to long to plot it in ggplot
+cleaned_data <-
+  semi_cleaned_data %>%
+  pivot_longer(-Election, names_to = "parties")
+
+# Plot it
+cleaned_data %>%
+  ggplot(aes(Election, value, color = parties)) +
+  geom_line() +
+  scale_y_continuous(labels = function(x) paste0(x, "%")) +
+  scale_color_viridis_d() +
+  theme_minimal()
 ```

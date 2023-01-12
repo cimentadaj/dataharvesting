@@ -52,14 +52,23 @@ jobs:
           key: bookdown-${{ hashFiles('**/*Rmd') }}
           restore-keys: bookdown-
 
+
+      - name: Extract Rmd code
+        shell: Rscript {0}
+        run: |
+          library(knitr)
+
+          purl("test.Rmd", output = "test2.R", documentation = 2)
+
+
       - name: Build site
         run: Rscript -e 'bookdown::render_book("index.Rmd", quiet = TRUE)'
 
       - name: Render slides
         uses: quarto-dev/quarto-actions/render@v2
         with:
-          to: html # If set, it will be equivalent to `quarto render --to html`
-          path: slides # By default, the current working dir is used i.e `quarto render .`
+          to: html
+          path: slides 
 
       - name: Deploy to GitHub pages 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
