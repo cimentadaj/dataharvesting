@@ -71,4 +71,4 @@ Without further a due, let's begin.
 
 ## Slides
 
-- [Welcome slides](./slides/first_class/first_class.html)
+- [Welcome slides](./slides/welcome/welcome.html)
