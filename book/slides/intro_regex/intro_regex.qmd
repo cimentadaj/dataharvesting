@@ -109,7 +109,7 @@ str_view_all(borges, "I like .+\\.")
 
 ## The OR (`|`) operator
 
-You\'ll often want to match either one regexp or another. Suppose we want to extract the century from the vector below.
+You'll often want to match either one regexp or another. Suppose we want to extract the century from the vector below.
 
 ```{r}
 borges_two_phrase <- c(
@@ -157,7 +157,7 @@ borges_long <- c(
 str_view_all(borges_long, "I like .+")
 ```
 
-Both phrases have \"I like\" at the beginning but also have \"I like\" after the end of the first sentence. What if we want to match only the first sentence?
+Both phrases have "I like" at the beginning but also have "I like" after the end of the first sentence. What if we want to match only the first sentence?
 
 ## Anchors
 
@@ -198,7 +198,7 @@ str_view_all(
 )
 ```
 
-## Special classes: `\\d` 
+## Special classes: `\\d`
 
 Instead we want:
 
@@ -209,7 +209,7 @@ str_view_all(
 )
 ```
 
-## Special classes: `[]` 
+## Special classes: `[]`
 
 Shortcut to extend the regexp `|` (or) and make it more flexible:
 
@@ -236,7 +236,7 @@ str_view_all(retirement$Men, "6[7-9]")
 
 Note that `[]` works the same way for anything: numbers, letters, punctuation, spaces, etc..
 
-## Special classes: `[^]` 
+## Special classes: `[^]`
 
 -   `[^abc]`: matches anything except a, b, or c.
 
@@ -248,7 +248,7 @@ All ages which are below 65 will be matched.
 
 ## Case study: mapping the kings of France
 
-`scrapex` contains a copy of the Wikipedia page \"History of France\":
+`scrapex` contains a copy of the Wikipedia page "History of France":
 
 ![](images/history_fr_main.png){fig-align="center"}
 
@@ -279,7 +279,7 @@ history_france <- read_html(history_france_html)
 
 -   `[.//a]`: subset all `a` tags that are *below* all `ul` tags (notice the `.`)
 
--   `[contains(@title, "House of Valois")]`: where this `a` tag needs to have a `title` attribute that contains \"House of Valois\".
+-   `[contains(@title, "House of Valois")]`: where this `a` tag needs to have a `title` attribute that contains "House of Valois".
 
 ## Case study: mapping the kings of France
 
