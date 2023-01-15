@@ -1,0 +1,289 @@
+---
+title: "Data Formats Web Scraping"
+author: "Jorge Cimentada"
+format: revealjs
+editor: visual
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  eval = TRUE,
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.asp = 0.618
+)
+```
+
+# Data Formats for Webscraping
+
+-   Most web scraping involves parsing XML or HTML.
+-   XML is for data storage and transfer, HTML for website structure.
+-   Use `xml2` package in R to read both formats.
+
+What? What do you mean?
+
+## Data Formats for Webscraping: XML
+
+```{r, echo = TRUE}
+xml_test <- "<people>
+<jason>
+  <person type='fictional'>
+    <first_name>
+      <married>
+        Jason
+      </married>
+    </first_name>
+    <last_name>
+        Bourne
+    </last_name>
+    <occupation>
+      Spy
+    </occupation>
+  </person>
+</jason>
+<carol>
+  <person type='real'>
+    <first_name>
+      <married>
+        Carol
+      </married>
+    </first_name>
+    <last_name>
+        Kalp
+    </last_name>
+    <occupation>
+      Scientist
+    </occupation>
+  </person>
+</carol>
+</people>
+"
+```
+
+## Data Formats for Webscraping: XML
+
+![](images/xml_one.png){fig-align="center"}
+
+## Data Formats for Webscraping: XML
+
+![](images/xml_two.png){fig-align="center"}
+
+## Data Formats for Webscraping: XML
+
+![](images/xml_three.png){fig-align="center"}
+
+## Data Formats for Webscraping: XML
+
+-   XML tags have a beginning and end, with the end being signified by '\</\>'
+
+-   XML tags can have any meaning, while HTML has standard tags for website structure.
+
+-   XML and HTML have many differences, some conceptual and some visible to users, and the author will focus on the most important ones for web scraping in the rest of the chapter.
+
+## Data Formats for Webscraping: HTML
+
+Let's compare:
+
+```{r}
+html_test <- "<html>
+  <head>
+    <title>Div Align Attribbute</title>
+  </head>
+  <body>
+    <div align='left'>
+      First text
+    </div>
+    <div align='right'>
+      Second text
+    </div>
+    <div align='center'>
+      Third text
+    </div>
+    <div align='justify'>
+      Fourth text
+    </div>
+  </body>
+</html>
+"
+```
+
+## Data Formats for Webscraping: HTML
+
+-   HTML tags have specific properties that structure how a website is shown on a browser
+
+-   These tags like `<div>`, `<head>`, `<title>` have predetermined behavior to format the website
+
+-   The tags themselves are standard across the HTML language and have specific behavior for website formatting.
+
+For example...
+
+## Data Formats for Webscraping: HTML
+
+```{html}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+
+<h1> <a href="www.google.com">This is a Heading </a> </h1>
+<br>
+<p>This is a paragraph.</p>
+
+</body>
+</html>
+```
+
+## Data Formats for Webscraping: HTML
+
+![](images/html_ex1.png){fig-align="center" width="3.5in" height="2.2in"}
+
+## Data Formats for Webscraping: HTML
+
+-   In XML, all tags must have a closing tag, while some HTML tags don't need to be closed.
+
+-   There are too many standard HTML tags for one to remember when getting started.
+
+-   XML tags have no meaning other than what the creator intended for them.
+
+-   HTML tags have predetermined behavior and standard across the language.
+
+## Data Formats for Webscraping
+
+![](images/html_ex2.jpg){fig-align="center"}
+
+## Data Formats for Webscraping
+
+```{r}
+library(xml2)
+xml_raw <- read_xml(xml_test)
+xml_structure(xml_raw)
+```
+
+## Data Formats for Webscraping
+
+In more detail, the structure is as follows:
+
+-   The **root** node is `<people>`
+
+-   The **child** nodes are `<jason>` and `<carol>`
+
+-   Then each **child** node has nodes `<first_name>`, `<married>`, `<last_name>` and `<occupation>` nested within them.
+
+## Data Formats for Webscraping
+
+```{r}
+xml_child(xml_raw, search = 1)
+```
+
+```{r}
+xml_child(xml_raw, search = 2)
+```
+
+```{r}
+child_xml <- xml_children(xml_raw)
+child_xml
+```
+
+## Tag attributes
+
+Tags can also have different attributes which are usually specified as `<fake_tag attribute='fake'>` and ended as usual with `</fake_tag>`
+
+```{r}
+# Extract the attribute type from all nodes
+xml_attrs(child_xml, "type")
+```
+
+No attribute? Right!
+
+```{r}
+child_xml
+```
+
+Do these tags have an attribute? No, because if they did, they would have something like `<jason type='fake_tag'>`
+
+## Tag attributes
+
+```{r}
+# We go down one level of children
+person_nodes <- xml_children(child_xml)
+
+# <person> is now the main node, so we can extract attributes
+person_nodes
+```
+
+```{r}
+# Both type attributes
+xml_attrs(person_nodes, "type")
+```
+
+## Tag attributes
+
+You can even extract the address of specific tags:
+
+```{r}
+# Specific address of each person tag for the whole xml tree
+# only using the `person_nodes`
+xml_path(person_nodes)
+```
+
+\-\--
+
+```{r}
+# You can use results from xml_path like directories
+xml_find_all(xml_raw, "/people/jason/person")
+```
+
+-   Same as: `xml_raw %>% xml_child(search = 1)`.
+
+-   For deeply nested trees, `xml_find_all` will be better.
+
+## Tag attributes
+
+HTML also has tag attributes:
+
+```{r}
+html_raw <- read_html(html_test)
+html_structure(html_raw)
+```
+
+## Tag attributes
+
+How to separate XML from HTML?
+
+```{html}
+<?xml version="1.0>
+<company>
+    <name> John Doe </name>
+    <email> johndoe@gmail.com </email>
+</address>
+```
+
+\-\--
+
+```{html}
+ <!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+
+</body>
+</html>
+```
+
+## Conclusion
+
+-   XML and HTML are tag-based and have parent-child relationships
+
+-   XML tags have special meanings while HTML tags have behavior
+
+-   Navigating nodes in XML and HTML can be done with `xml_child`, `xml_children` and `xml_find_all`
+
+-   Extracting attributes and text is done with `xml_attr` and `xml_text`
+
+-   HTML is more commonly used in web scraping because it is designed to show website format.
