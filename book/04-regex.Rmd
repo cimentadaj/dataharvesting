@@ -18,7 +18,7 @@ For that reason, I decided I wanted to write this chapter but focusing only on w
 
 ## Basic matches
 
-Let's load all the packages we'll use in the chapter. Most of them are related t webscraping or data cleaning. `stringr` will be the package we'll use for doing regular expressions. You'll see that all of the functions of this package begin with `str_`, denoting that they are related to `str`ings:
+Let's load all the packages we'll use in the chapter. Most of them are related to webscraping or data cleaning. `stringr` will be the package we'll use for doing regular expressions. You'll see that all of the functions of this package begin with `str_`, denoting that they are related to `str`ings:
 
 ```{r}
 library(stringr)
@@ -152,8 +152,8 @@ This might seem like something which doesn't have much use but it's actually ver
 
 ```{r}
 borges_long <- c(
-  "I like cars. I like hourglasses, maps, eighteenth century typography",
-  "I like computers. I like hourglasses, maps, eighteenth century typography"
+  "I like cars. I like hourglasses, maps, eighteenth century typography.",
+  "I like computers. I like hourglasses, maps, eighteenth century typography."
 )
 ```
 

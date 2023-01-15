@@ -27,6 +27,8 @@ What? What do you mean?
 ## Data Formats for Webscraping: XML
 
 ```{r, echo = TRUE}
+library(xml2)
+
 xml_test <- "<people>
 <jason>
   <person type='fictional'>
