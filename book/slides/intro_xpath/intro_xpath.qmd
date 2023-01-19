@@ -22,8 +22,7 @@ knitr::opts_chunk$set(
 
 <br>
 
-> XPath (XML Path Language) is the language designed to identify the
-> address of one or several tags within an HTML or XML document.
+> XPath (XML Path Language) is the language designed to identify the address of one or several tags within an HTML or XML document.
 
 ## Example
 
@@ -191,11 +190,11 @@ book_xml %>%
   xml_find_all("//dansimmons/*")
 ```
 
-The result is not the `dansimmons` tag but all it\'s children, regardless of whether they are `<book>` tags or any other tag
+The result is not the `dansimmons` tag but all it's children, regardless of whether they are `<book>` tags or any other tag
 
-## XPath tricks: `*` 
+## XPath tricks: `*`
 
--   `*` can be used to fill out a tag which you don\'t know the name of.
+-   `*` can be used to fill out a tag which you don't know the name of.
 
 ```{r}
 book_xml %>%
@@ -305,7 +304,7 @@ XPath has additional functions that are useful for filtering:
 
 -   `count()`
 
-## Case study:  Web scraping El País
+## Case study: Web scraping El País
 
 ```{r}
 newspaper_link <- elpais_newspaper_ex()
@@ -322,9 +321,9 @@ Objective: figuring out the links to all sections of the newspaper to be able to
 
 ## Case study: Web scraping El País
 
-On the left you can see the section `‘Science, Tech & Health’` and the articles that belong to that section. The words `‘Science, Tech & Health’` in bold contain a hyperlink to that main page on science articles. That\'s what we want to access.
+On the left you can see the section `‘Science, Tech & Health’` and the articles that belong to that section. The words `‘Science, Tech & Health’` in bold contain a hyperlink to that main page on science articles. That's what we want to access.
 
-On the right, you\'ll see that I opened the web developer tools from the browser. After clicking manually on \'Science, Tech & Health\' on the right, the source code highlights in blue where the hyperlink is.
+On the right, you'll see that I opened the web developer tools from the browser. After clicking manually on 'Science, Tech & Health' on the right, the source code highlights in blue where the hyperlink is.
 
 ## Case study: Web scraping El País
 
@@ -354,9 +353,9 @@ Let's explain the XPath:
 
 -   `//section/*/*` means to search for two *direct* children of `<section>`
 
--   `a[contains(@href, 'science')]` finds the `<a>` tags for which the `@href` attribute contains the text \'science\'.
+-   `a[contains(@href, 'science')]` finds the `<a>` tags for which the `@href` attribute contains the text 'science'.
 
-**Overall: Find all `<a>` tags for which the `@href` attribute contains the text \'science\' which are descendant of the `<section>` tag with two tags in between.**
+**Overall: Find all `<a>` tags for which the `@href` attribute contains the text 'science' which are descendant of the `<section>` tag with two tags in between.**
 
 ## Case study: Web scraping El País
 
@@ -410,7 +409,7 @@ newspaper %>%
   xml_attr("data-dtm-region")
 ```
 
-Five sections, mostly entertainment related except for the first one which is the front page (\'aperatura\' is something like \'opening\')
+Five sections, mostly entertainment related except for the first one which is the front page ('aperatura' is something like 'opening')
 
 ## XPath cookbook
 
@@ -418,7 +417,7 @@ Five sections, mostly entertainment related except for the first one which is th
 
 ## Conclusion
 
-XPath is a very rich language with over 20 years of development. I\'ve covered some basics as well as intermediate parts of the language but there\'s much more to be learned:
+XPath is a very rich language with over 20 years of development. I've covered some basics as well as intermediate parts of the language but there's much more to be learned:
 
 -   [XPath Cheetsheet](https://devhints.io/xpath)
 

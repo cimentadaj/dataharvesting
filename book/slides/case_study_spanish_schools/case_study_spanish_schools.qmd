@@ -1,0 +1,664 @@
+---
+title: "Case study: Scraping Spanish school locations from the web"
+author: "Jorge Cimentada"
+format: revealjs
+editor: visual
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  eval = TRUE,
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.asp = 0.618
+)
+```
+
+## Case study: Scraping Spanish school locations from the web
+
+Goal:
+
+![](images/spain-map-schools-1.png){fig-align="center"}
+
+## Scraping Spanish school locations
+
+`www.buscocolegio.com` is saved locally on the `scrapex` package in the function `spanish_schools_ex()`:
+
+```{r}
+library(scrapex)
+head(spanish_schools_ex(), n = 3)
+```
+
+These are the links to the landing page of each school inside the website. There are `r length(spanish_schools_ex())` schools saved locally.
+
+## Scraping Spanish school locations
+
+Let's see how one school website looks like:
+
+```{r}
+library(xml2)
+library(httr)
+library(tidyverse)
+library(sf)
+library(rnaturalearth)
+library(scrapex)
+
+school_links <- spanish_schools_ex()
+school_url <- school_links[13]
+```
+
+```{r, eval = FALSE}
+browseURL(prep_browser(school_url))
+```
+
+## Scraping Spanish school locations
+
+![](images/main_website_no_selection-01.png){fig-align="center"}
+
+## Build a scraper for one school
+
+Read it into R:
+
+```{r}
+school_raw <- read_html(school_url) %>% xml_child()
+school_raw
+```
+
+## Build a scraper for one school
+
+-   Objective: extract school locations.
+
+-   You always want to begin by browsing the source code on your browser
+
+-   Exploring the output of `read_html` is not the best way to explore what you're looking for
+
+-   Get very familiar with the website. Scraping two websites will require vastly different strategies.
+
+-   We'll use the developers tool from your browser: `CTRL + SHIFT + c`
+
+## Build a scraper for one school
+
+![](images/developer_tools.png){fig-align="center"}
+
+## Build a scraper for one school
+
+This is like an open book. You need to search and explore what you're looking for. This is unstructured in nature. First intuition: look for the source code close to the map:
+
+![](images/main_page.png){fig-align="center"}
+
+## Build a scraper for one school
+
+`CTRL + F` will pop up a search bar as other browsers. Search for terms next to what you're looking for:
+
+![](images/search_developer_tools.png){fig-align="center"}
+
+## Build a scraper for one school
+
+Fast track to what we're looking for:
+
+![](images/location_tag_zoomed.png){fig-align="center"}
+
+## Build a scraper for one school
+
+Remember, we're just looking at the source code of the maps section:
+
+![](images/main_page.png){fig-align="center"}
+
+## Build a scraper for one school
+
+In case you didn't know, the coordinates are hidden in a string inside the `href` tag:
+
+![](images/location_tag_zoomed.png){fig-align="center"}
+
+## Build a scraper for one school
+
+Typical brain storming:
+
+1.  Extract a unique tag?
+2.  Extract a common tag but with a unique attribute?
+3.  Extract a common tag but filtering through the ascendants of that tag?
+4.  Extract only filtering by text of an attribute, regardless of the tag?
+
+**There are many different ways to get what you're looking for. XPath is very handy for this** 👏.
+
+## Build a scraper for one school
+
+We'll go with option 3:
+
+![](images/father_p_tag.png){fig-align="center"}
+
+## Build a scraper for one school
+
+-   Tag `<p>` with a descendant `<a>` will return too many results
+
+-   We can combine option 3 with option 2: Tag `<p>` with a unique text attribute with a descendant `<a>`.
+
+-   Possible XPath: find all `p` tags with `class` set to `d-flex align-items-baseline g-mt-5`. If we get one match, we're on the right track:
+
+```{r}
+# Search for all <p> tags with that class in the document
+school_raw %>%
+  xml_find_all("//p[@class='d-flex align-items-baseline g-mt-5']")
+```
+
+## Build a scraper for one school
+
+-   Extend XPath to say: find all `a` tags which are children of a `p` tag with `class` set to `d-flex align-items-baseline g-mt-5`.
+
+-   Or in other words: append `//a` to the previous XPath
+
+```{r}
+# Search for all <p> tags with that class in the document
+school_raw %>%
+  xml_find_all("//p[@class='d-flex align-items-baseline g-mt-5']//a")
+```
+
+There we are, we can see the coordinates 👏
+
+## Build a scraper for one school
+
+-   Extract `href` attribute with `xml_attr`:
+
+    ```{r}
+    location_str <-
+      school_raw %>%
+      xml_find_all("//p[@class='d-flex align-items-baseline g-mt-5']//a") %>%
+      xml_attr(attr = "href")
+
+    location_str
+    ```
+
+Awesome, but now we need some ninja string skills to extract the coordinates.
+
+## Data Cleaning
+
+We need some regex skills to extract this. Let's brain storming:
+
+1.  First coordinate appears after the first `=`
+2.  There's a few words like 'colegio' (this is just Spanish for school) and 'longitud' that are in the middle of the two coordinates.
+3.  A s*ingle* regex need not do all the work. Do it one step at a time.
+4.  One first step would be: extract any text after the `=` until the end of the string
+
+## Data Cleaning
+
+Possible regex: `"=.+$"` which captures a `=` followed by any character (the `.`) repeated 1 or more times (`+`) until the end of the string (`$`). Let's test it:
+
+```{r}
+location <-
+  location_str %>%
+  str_extract_all("=.+$")
+
+location
+```
+
+There we go!
+
+## Data Cleaning
+
+Now we need to replace all unwanted letters in the strings. One way would be to say:
+
+-   Replace the `=` or `colegio.longitud` with an empty string.
+
+-   Why not replace the `&` as well? Because we can split the string based on `&` later
+
+```{r}
+location <-
+  location %>%
+  str_replace_all("=|colegio\\.longitud", "")
+
+location
+```
+
+## Data Cleaning
+
+```{r}
+location <-
+  location %>%
+  str_split("&") %>%
+  .[[1]]
+
+location
+```
+
+Great, that's it, this is data we've looking for in the entire chapter. Let's summarize the work so far:
+
+-   Using XPath to extract tags that match our data
+
+-   Clean up the data with some regex
+
+-   Only do this for a *single* school since it's much easier
+
+## Scaling the scraper to all schools
+
+-   When scraping repetitively similar pages, it always makes sense to start small.
+
+-   Focus your efforts on a single school
+
+-   Wrap all your work into a function that works for that single school
+
+-   Loop over all other schools applying the tested function
+
+-   Set your `User-Agent` to identify yourself
+
+## Scaling the scraper to all schools
+
+```{r}
+
+# This sets your `User-Agent` globally so that all requests are identified with this `User-Agent`
+set_config(
+  user_agent("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0; Jorge Cimentada / cimentadaj@gmail.com")
+)
+
+# Collapse all of the code from above into one function called
+# school grabber
+
+school_grabber <- function(school_url) {
+  # We add a time sleep of 5 seconds to avoid
+  # sending too many quick requests to the website
+  Sys.sleep(5)
+
+  school_raw <- read_html(school_url) %>% xml_child()
+
+  location_str <-
+    school_raw %>%
+    xml_find_all("//p[@class='d-flex align-items-baseline g-mt-5']//a") %>%
+    xml_attr(attr = "href")
+
+  location <-
+    location_str %>%
+    str_extract_all("=.+$") %>%
+    str_replace_all("=|colegio\\.longitud", "") %>%
+    str_split("&") %>%
+    .[[1]]
+
+  # Turn into a data frame
+  data.frame(
+    latitude = location[1],
+    longitude = location[2],
+    stringsAsFactors = FALSE
+  )
+}
+
+school_grabber(school_url)
+```
+
+## Scaling the scraper to all schools
+
+Works for a single school, let's loop over all other schools:
+
+```{r, cache=TRUE}
+coordinates <- map_dfr(school_links, school_grabber)
+coordinates
+```
+
+## Plotting all schools
+
+```{r, eval = FALSE}
+coordinates <- mutate_all(coordinates, as.numeric)
+
+sp_sf <-
+  ne_countries(scale = "large", country = "Spain", returnclass = "sf") %>%
+  st_transform(crs = 4326)
+
+ggplot(sp_sf) +
+  geom_sf() +
+  geom_point(data = coordinates, aes(x = longitude, y = latitude)) +
+  coord_sf(xlim = c(-20, 10), ylim = c(25, 45)) +
+  theme_minimal() +
+  ggtitle("Sample of schools in Spain")
+```
+
+## Plotting all schools
+
+```{r, echo=FALSE}
+coordinates <- mutate_all(coordinates, as.numeric)
+
+sp_sf <-
+  ne_countries(scale = "large", country = "Spain", returnclass = "sf") %>%
+  st_transform(crs = 4326)
+
+ggplot(sp_sf) +
+  geom_sf() +
+  geom_point(data = coordinates, aes(x = longitude, y = latitude)) +
+  coord_sf(xlim = c(-20, 10), ylim = c(25, 45)) +
+  theme_minimal() +
+  ggtitle("Sample of schools in Spain")
+```
+
+## Scraping public/private school
+
+-   Private/public school info can help understand inequality.
+
+-   Mapping school location to average income at the neighborhood level
+
+-   Correlating private/public school quotas with income can understand inequality patterns
+
+-   Luckily, the website has the info for us
+
+## Scraping public/private school
+
+![](images/main_website_public_private-01.png){fig-align="center"}
+
+**"Centro Público" means Public School**
+
+## Scraping public/private school
+
+Open up developer tools (`CTRL + SHIFT + c`) and hover over that info:
+
+![](images/tag_public_private.png){fig-align="center"}
+
+## Scraping public/private school
+
+Brainstorming scraping strategy:
+
+-   Info we want is within a `<strong>` tag
+
+-   `<strong>` is **bold** in HTML world
+
+-   Too many matches if search for `<strong>`
+
+-   Find an ascendant with a unique attribute. For example: `<div>` tag with class `'col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25'`
+
+Let's try it.
+
+## Scraping public/private school
+
+```{r}
+school_raw %>%
+  xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']")
+```
+
+What? 10 matches? I was expecting one match..
+
+## Scraping public/private school
+
+![](images/main_website_details_box.png){fig-align="center"}
+
+## Scraping public/private school
+
+One strategy is to extract content in all boxes and then extract the specific data we want:
+
+```{r}
+text_boxes <-
+  school_raw %>%
+  xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']//strong") %>%
+  xml_text()
+
+text_boxes
+```
+
+## Scraping public/private school
+
+-   We don't know if all schools will have exactly 10 boxes
+
+-   Make it more precise with regex
+
+```{r}
+single_public_private <-
+  text_boxes %>%
+  str_detect("Centro") %>%
+  text_boxes[.]
+
+single_public_private
+```
+
+## Scraping public/private school
+
+Same strategy: apply it to one school and scale it to all others:
+
+```{r, eval = FALSE}
+grab_public_private_school <- function(school_link) {
+  Sys.sleep(5)
+  school <- read_html(school_link)
+  text_boxes <-
+    school %>%
+    xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']//strong") %>%
+    xml_text()
+
+  single_public_private <-
+    text_boxes %>%
+    str_detect("Centro") %>%
+    text_boxes[.]
+
+
+  data.frame(
+    public_private = single_public_private,
+    stringsAsFactors = FALSE
+  )
+}
+
+public_private_schools <- map_dfr(school_links, grab_public_private_school)
+public_private_schools
+```
+
+## Scraping public/private school
+
+```{r, cache = TRUE, echo = FALSE}
+grab_public_private_school <- function(school_link) {
+  Sys.sleep(5)
+  school <- read_html(school_link)
+  text_boxes <-
+    school %>%
+    xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']//strong") %>%
+    xml_text()
+
+  single_public_private <-
+    text_boxes %>%
+    str_detect("Centro") %>%
+    text_boxes[.]
+
+
+  data.frame(
+    public_private = single_public_private,
+    stringsAsFactors = FALSE
+  )
+}
+
+public_private_schools <- map_dfr(school_links, grab_public_private_school)
+public_private_schools
+```
+
+## Scraping public/private school
+
+```{r, eval = FALSE}
+# Let's translate the public/private names from Spanish to English
+lookup <- c("Centro Público" = "Public", "Centro Privado" = "Private")
+public_private_schools$public_private <- lookup[public_private_schools$public_private]
+
+# Merge it with the coordinates data
+all_schools <- cbind(coordinates, public_private_schools)
+
+# Plot private/public by coordinates
+ggplot(sp_sf) +
+  geom_sf() +
+  geom_point(data = all_schools, aes(x = longitude, y = latitude, color = public_private)) +
+  coord_sf(xlim = c(-20, 10), ylim = c(25, 45)) +
+  theme_minimal() +
+  ggtitle("Sample of schools in Spain by private/public")
+```
+
+## Scraping public/private school
+
+```{r, echo = FALSE}
+# Let's translate the public/private names from Spanish to English
+lookup <- c("Centro Público" = "Public", "Centro Privado" = "Private")
+public_private_schools$public_private <- lookup[public_private_schools$public_private]
+
+# Merge it with the coordinates data
+all_schools <- cbind(coordinates, public_private_schools)
+
+# Plot private/public by coordinates
+ggplot(sp_sf) +
+  geom_sf() +
+  geom_point(data = all_schools, aes(x = longitude, y = latitude, color = public_private)) +
+  coord_sf(xlim = c(-20, 10), ylim = c(25, 45)) +
+  theme_minimal() +
+  ggtitle("Sample of schools in Spain by private/public")
+```
+
+## Extracting type of school
+
+One additional information that might also be useful to know is the type of each school: kindergarten, secondary school, primary school, etc. This information is just next to whether the school is private or public:
+
+![](images/main_website_type_school.png){fig-align="center"}
+
+## Extracting type of school
+
+Brain storm:
+
+-   This is the exact same code as before?
+
+-   Can we recycle at least until extracting the `div` XPath?
+
+-   Problem: we can't know in advance the *type* of center so we can't regex to detect it
+
+-   Instead: detect `Tipo Centro`, genetic for "Type of center"
+
+## Extracting type of school
+
+```{r}
+text_boxes <-
+  school_raw %>%
+  xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']")
+
+text_boxes
+```
+
+10 boxes of the page
+
+## Extracting type of school
+
+```{r}
+selected_node <- text_boxes %>% xml_text() %>% str_detect("Tipo Centro")
+selected_node
+```
+
+-   Subset that node and from here on we can do as we did last time: extract the strong tag.
+
+-   XPath `.//strong`. `.//strong` means to find all strong tags but the `.` means to search for all tags below the current selection.
+
+## Extracting type of school
+
+```{r}
+single_type_school <-
+  text_boxes[selected_node] %>%
+  xml_find_all(".//strong") %>%
+  xml_text()
+
+single_type_school
+```
+
+## Extracting type of school
+
+General strategy:
+
+1.  Recycle strategy of extracting all `div` tags
+2.  Can't know in advance type of school. Search for generic wording in the box.
+3.  Extract the specific `div` node that matches the wording
+4.  Searching for the `strong` tag but **only** within that box with `.//strong`.
+
+## Extracting type of school
+
+```{r, eval = FALSE}
+grab_type_school <- function(school_link) {
+  Sys.sleep(5)
+  school <- read_html(school_link)
+
+  text_boxes <-
+    school %>%
+    xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']")
+
+  selected_node <-
+    text_boxes %>%
+    xml_text() %>%
+    str_detect("Tipo Centro")
+
+  single_type_school <-
+    text_boxes[selected_node] %>%
+    xml_find_all(".//strong") %>%
+    xml_text()
+
+
+  data.frame(
+    type_school = single_type_school,
+    stringsAsFactors = FALSE
+  )
+}
+
+all_type_schools <- map_dfr(school_links, grab_type_school)
+all_type_schools
+```
+
+## Extracting type of school
+
+```{r, cache = TRUE, echo = FALSE}
+grab_type_school <- function(school_link) {
+  Sys.sleep(5)
+  school <- read_html(school_link)
+
+  text_boxes <-
+    school %>%
+    xml_find_all("//div[@class='col-6 g-brd-left g-brd-bottom g-theme-brd-gray-light-v3 g-px-15 g-py-25']")
+
+  selected_node <-
+    text_boxes %>%
+    xml_text() %>%
+    str_detect("Tipo Centro")
+
+  single_type_school <-
+    text_boxes[selected_node] %>%
+    xml_find_all(".//strong") %>%
+    xml_text()
+
+
+  data.frame(
+    type_school = single_type_school,
+    stringsAsFactors = FALSE
+  )
+}
+
+all_type_schools <- map_dfr(school_links, grab_type_school)
+all_type_schools
+```
+
+## Extracting type of school
+
+```{r, eval = FALSE}
+all_schools <- cbind(all_schools, all_type_schools)
+
+ggplot(sp_sf) +
+  geom_sf() +
+  geom_point(data = all_schools, aes(x = longitude, y = latitude, color = public_private)) +
+  coord_sf(xlim = c(-20, 10), ylim = c(25, 45)) +
+  facet_wrap(~ type_school) +
+  theme_minimal() +
+  ggtitle("Sample of schools in Spain")
+```
+
+## Extracting type of school
+
+```{r, echo =  FALSE}
+all_schools <- cbind(all_schools, all_type_schools)
+
+ggplot(sp_sf) +
+  geom_sf() +
+  geom_point(data = all_schools, aes(x = longitude, y = latitude, color = public_private)) +
+  coord_sf(xlim = c(-20, 10), ylim = c(25, 45)) +
+  facet_wrap(~ type_school) +
+  theme_minimal() +
+  ggtitle("Sample of schools in Spain")
+```
+
+## Summary
+
+-   Web scraping is all about creativity
+
+-   Knowing some XPath
+
+-   Mastering some regex
+
+-   Thinking outside the box
+
+🤯

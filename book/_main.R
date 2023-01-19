@@ -439,8 +439,8 @@ str_view_all(borges, ".$", match = TRUE)
 
 ## -----------------------------------------------------------------------------
 borges_long <- c(
-  "I like cars. I like hourglasses, maps, eighteenth century typography",
-  "I like computers. I like hourglasses, maps, eighteenth century typography"
+  "I like cars. I like hourglasses, maps, eighteenth century typography.",
+  "I like computers. I like hourglasses, maps, eighteenth century typography."
 )
 
 ## -----------------------------------------------------------------------------

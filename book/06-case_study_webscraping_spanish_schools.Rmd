@@ -309,7 +309,7 @@ As we saw in `www.buscocolegio.com`, each school website has also information on
 knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/main_website_public_private.png"))
 ```
 
-"Centro Público" means Public Center. Ig we managed to build a scraper to extract this information we would know if a school is either public or private. Let's open up web developer tools and look specifically at the tag that is highlighted when clicking on "Centro Público":
+"Centro Público" means Public Center. If we managed to build a scraper to extract this information we would know if a school is either public or private. Let's open up web developer tools and look specifically at the tag that is highlighted when clicking on "Centro Público":
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(file.path(main_dir, "buscocolegios_xml/tag_public_private.png"))
