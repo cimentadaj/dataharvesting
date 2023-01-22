@@ -215,7 +215,7 @@ Or you might want to run your scraper at 05:30 AM only on Saturday and Sunday:
 
 The expression reads like this: run on the 30th minute of the 5th hour every month but on Saturday and Sunday (6th and 7th day of the week). These simple rules can take you a long way when building your scraper.
 
-Let's say we wanted to run our newspaper scraper every 4 hours, every day, how would it look like? That sounds a bit different to what we've done until no. The syntax we've discussed specifically writes down the day / hour / minute we want to the scraper to do. We have no way of saying, regardless of the day / hour / minute, run the scraper every X hours. For that `cron` has additional tricks. If we wanted to run a scraper every every 4 hours we would write it like this:
+Let's say we wanted to run our newspaper scraper every 4 hours, every day, how would it look like? That sounds a bit different to what we've done until now. The syntax we've discussed specifically writes down the day / hour / minute we want to the scraper to do. We have no way of saying, regardless of the day / hour / minute, run the scraper every X hours. For that `cron` has additional tricks. If we wanted to run a scraper every every 4 hours we would write it like this:
 
 ```
 1 */4 * * *
