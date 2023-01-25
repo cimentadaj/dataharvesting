@@ -1,0 +1,305 @@
+---
+title: "A primer on APIs"
+author: "Jorge Cimentada"
+format: revealjs
+editor: visual
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  eval = TRUE,
+  echo = TRUE,
+  message = TRUE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.asp = 0.618
+)
+```
+
+## A Primer on APIs
+
+APIs are designed to work programatically not through a user interface.
+
+**Benefits**
+
+-   Schedule requests
+
+-   Increase intensity of requests no human can do
+
+-   Construct logic in your program: results from an endpoint are used as input to other endpoint and checks are provided a long the way
+
+-   Build application that request data real-time
+
+## A Primer on APIs
+
+This chapter is hands-on. We focus on programatically accessing an API.
+
+Let's load the packages we'll use in this chapter:
+
+```{r, message = FALSE}
+library(scrapex)
+library(httr2)
+library(dplyr)
+library(ggplot2)
+```
+
+## A Primer on APIs
+
+Objective of the slides:
+
+![](images/paste-89EDF376.png){fig-align="center"}
+
+Plot for California
+
+## A Primer on APIs
+
+How do we get there? Thank the COVerAGE-DB team.
+
+> This package contains an internal API that wraps the [COVerAGE-DB](https://www.coverage-db.org/) database. COVerAGE-DB is an open-access database including cumulative counts of confirmed COVID-19 cases, deaths, tests, and vaccines by age and sex. For more information, visit their website at <https://www.coverage-db.org/>
+
+`scrapex` contains a small copy of this database.
+
+## A Primer on APIs
+
+```{r}
+api_covid <- api_coveragedb()
+```
+
+-   The API is now launched in the background
+
+-   Note that learning about a new API online you **won\'t** have to launch any API.
+
+-   APIs are hosted on servers elsewhere and you\'ll just need to read how to access the API.
+
+-   First thing you want to do is access docs.
+
+## A Primer on APIs
+
+![](images/paste-1F8D4EC1.png){fig-align="center"}
+
+## A Primer on APIs
+
+![](images/paste-20AC8B64.png){fig-align="center"}
+
+## A Primer on APIs
+
+-   API has two endpoints: one for cases, another for vaccines
+
+-   API has no authentication
+
+-   Cases endpoint has two parameters: `region` and `sex`, which both are required.
+
+-   We see that it returns two status codes: `200` and `500`
+
+-   How do make a request with this info?
+
+## A Primer on APIs
+
+-   A base URL. In this case, it\'s <http://localhost:2234>. **Yours will be different because you launched it in your local computer**.
+
+-   The endpoint URL of this specific endpoint. For the COVID cases, this is `/api/v1/covid_cases`.
+
+-   The parameters in the endpoint which are specified after a `?` and each parameter is then concatenated with `&`.
+
+```{r}
+api_web <- paste0(api_covid$api_web, "/api/v1/covid_cases")
+cases_endpoint <- paste0(api_web, "?region=California&sex=m")
+cases_endpoint
+```
+
+## Making your first request
+
+Building API paths can be tedious. Let's use R:
+
+```{r}
+api_web <- paste0(api_covid$api_web, "/api/v1/covid_cases")
+req <- request(api_web)
+req
+```
+
+`request` builds a "placeholder" for our request. It says it already has the endpoint URL (we can see it in the `GET` line) but it does not say anything about our parameters or headers.
+
+## Making your first request
+
+Construct URL query programatically:
+
+```{r}
+req_california_m <-
+  req %>%
+  req_url_query(region = "California", sex = "m")
+
+req_california_m
+```
+
+Do you see the idea here? `request` builds a placeholder for the endpoint and then you add as many \"add-on\'s\" as you want to your request.
+
+## Making your first request
+
+```{r}
+req_california_m %>%
+  req_auth_basic(username = "fake name", password = "fake password") %>%
+  req_retry(max_tries = 3, max_seconds = 5)
+```
+
+See how we can "add" as many things to our "request"? These things might came in the headers or defined in R.
+
+## Making your first request
+
+Let's get back to our previous request:
+
+```{r}
+req_california_m
+```
+
+## Making your first request
+
+Once the request is ready, perform the request with `req_perform`:
+
+```{r}
+resp_california_m <- 
+  req_california_m %>%
+  req_perform()
+
+resp_california_m
+```
+
+## Making your first request
+
+We can interpret a few things out of this request.
+
+-   It was successful. The `200` status code means that it was OK, so nothing failed
+
+-   The response content-type is `JSON`, meaning the data that was sent is in `JSON` format
+
+-   The actual body of the request has data, which is now loaded in RAM memory
+
+-   All request data has functions `req_*`. Response functions have `resp_*`
+
+## Making your first request
+
+For example:
+
+```{r}
+resp_status(resp_california_m)
+```
+
+<br>
+
+```{r}
+resp_content_type(resp_california_m)
+```
+
+<br>
+
+```{r}
+resp_encoding(resp_california_m)
+```
+
+In our case, we need `resp_body_json` to extract the data.
+
+## Making your first request
+
+```{r}
+resp_body_california_m <-
+  resp_california_m %>%
+  resp_body_json(simplifyVector = TRUE) %>%
+  as_tibble()
+
+resp_body_california_m
+```
+
+## Making your first request
+
+-   Data has \> 5K rows
+
+-   JSONs can be nested so `simplifyVector = TRUE`
+
+-   As opposed to web scraping, data is organized and clean
+
+-   Additional info such as encoding to read data seamlessly
+
+-   Awesome, this was your first request!
+
+## Making your first request
+
+```{r, eval = FALSE}
+options(scipen = 231241231)
+
+resp_body_california_m <-
+  resp_body_california_m %>%
+  mutate(Date = lubridate::ymd(Date)) %>%
+  group_by(Date, Sex) %>%
+  summarize(cases = sum(Value))
+
+resp_body_california_m %>%
+  ggplot(aes(Date, cases)) +
+  geom_line() +
+  theme_bw()
+```
+
+## Making your first request
+
+```{r, echo = FALSE, message = FALSE}
+options(scipen = 231241231)
+
+resp_body_california_m <-
+  resp_body_california_m %>%
+  mutate(Date = lubridate::ymd(Date)) %>%
+  group_by(Date, Sex) %>%
+  summarize(cases = sum(Value))
+
+resp_body_california_m %>%
+  ggplot(aes(Date, cases)) +
+  geom_line() +
+  theme_bw()
+```
+
+## Making your first request
+
+```{r, eval = FALSE}
+# Perform the same request but for females and grab the JSON result
+resp_body_california_f <-
+  req %>%
+  req_url_query(region = "California", sex = 'f') %>%
+  req_perform() %>%
+  resp_body_json(simplifyVector = TRUE) %>%
+  as_tibble()
+
+resp_body_california_f <-
+  resp_body_california_f %>%
+  mutate(Date = lubridate::ymd(Date)) %>%
+  group_by(Date, Sex) %>%
+  summarize(cases = sum(Value))
+
+resp_body_california <- bind_rows(resp_body_california_f, resp_body_california_m)
+
+resp_body_california %>%
+  ggplot(aes(Date, cases, color = Sex, group = Sex)) +
+  geom_line() +
+  theme_bw()
+```
+
+## Making your first request
+
+```{r, echo = FALSE, message = FALSE}
+# Perform the same request but for females and grab the JSON result
+resp_body_california_f <-
+  req %>%
+  req_url_query(region = "California", sex = 'f') %>%
+  req_perform() %>%
+  resp_body_json(simplifyVector = TRUE) %>%
+  as_tibble()
+
+resp_body_california_f <-
+  resp_body_california_f %>%
+  mutate(Date = lubridate::ymd(Date)) %>%
+  group_by(Date, Sex) %>%
+  summarize(cases = sum(Value))
+
+resp_body_california <- bind_rows(resp_body_california_f, resp_body_california_m)
+
+resp_body_california %>%
+  ggplot(aes(Date, cases, color = Sex, group = Sex)) +
+  geom_line() +
+  theme_bw()
+```
