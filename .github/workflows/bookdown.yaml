@@ -59,7 +59,7 @@ jobs:
         run: quarto render ./slides --to html
 
       - name: Move slides to book
-        run: mv -rf ./slides/ ./_book/
+        run: cp -rf ./slides/ ./_book/
 
       - name: Deploy to GitHub pages 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
