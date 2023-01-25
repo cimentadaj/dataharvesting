@@ -1,0 +1,178 @@
+---
+title: "A Dialogue Between Computers"
+author: "Jorge Cimentada"
+format: revealjs
+editor: visual
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  eval = TRUE,
+  echo = TRUE,
+  message = TRUE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.asp = 0.618
+)
+```
+
+## A Dialogue Between Computers
+
+Much is found about how to talk to APIs and the technical details of accessing API data. However, how do they work?
+
+<br>
+
+<div>
+
+**Let's explain it with the analogy of cloud computing.**
+
+</div>
+
+## A Dialogue Between Computers
+
+What does "moving" to the cloud mean?
+
+-   *"we're moving our data to a computer hosted somewhere else in the world where professionals can take care of making backups of the data and if the computer breaks they can immediately launch a new computer with the backup copy of the data"*.
+
+-   Google/Microsoft services such as Word/Excel are just hosted on computers
+
+-   No magic behind this: they are probably somewhere in a computer in the United States/Europe.
+
+-   Servers are **ON** all the time
+
+## A Dialogue Between Computers
+
+-   Doesn't end there: *every website in the world has a computer behind it that hosts the data and information showed in the website*.
+
+-   Yep, that's right: type `www.google.com` and there's a machine behind it responding back in milliseconds.
+
+-   The browser prettifies the information and renders it for you.
+
+-   This "dialogue" between your request and the server happens every time someone enters a website.
+
+## A Dialogue Between Computers
+
+![](images/paste-DA406479.png){fig-align="center"}
+
+## Anatomy of a Request
+
+-   You've made over thousands of requests in your life without even knowing it.
+
+-   When you use the browser, the browser makes the request for you.
+
+-   When you webscrape, you make requests yourself.
+
+-   `read_html` and `read_xml` do these for you
+
+## Anatomy of a Request
+
+How do the instructions of a request look like?
+
+    GET / HTTP/3
+    User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0
+    Host: google.com
+    Accept: */*
+
+-   The type of request you're making (`GET /HTTP/3`)
+
+-   The `User-Agent`.This string describes the browser/computer that you're using such that a website can identify you.
+
+-   The host: the website you are requesting data from.
+
+-   The format that the request can accept: HTML, XML, JSON, etc..`*/*` means the browser can accept any format.
+
+## Anatomy of a Request
+
+As it is common for human interactions, a dialogue is between two parties. The computer/server responds back like this:
+
+    HTTP/3 301 Moved Permanently
+    Date: Mon, 25 Dic 2022 15:37:00 GMT
+    Server: Apache/2.4.54 (Ubuntu)
+    Location: http://www.google.org/
+    Vary: Accept-Encoding
+    Content-Length: 312
+    Content-Type: text/html; charset=iso-8859-1
+     
+    <!DOCTYPE html>
+    <html lang="en-us">
+    …
+    </html>
+
+## Anatomy of a Request
+
+Full interaction
+
+![](images/paste-8268C524.png){fig-align="center"}
+
+## Types of requests
+
+Most common request `GET`. Your browser makes thousands of this every week. However, there are many more:
+
+-   `GET`: retrieves whatever information is identified by the URL
+
+-   `POST`: requests data just as `GET` but allows to enclose data in the 'body' of the request.
+
+-   `HEAD`: identical to GET except that the server MUST NOT return a message-body in the response.
+
+-   `PUT`: request that creates a new resource or replaces a resource on the server
+
+-   `DELETE`: deletes a resource on the server
+
+## Example of POST
+
+1.  You enter a website that delivers food to your home.
+
+2.  Your browser sends `GET`request to the servers behind the website and receives a reponse and renders the result.
+
+3.  You spend about 15 minutes choosing which plate you're gonna order.
+
+4.  Click on 'submit order'.
+
+5.  You just sent `POST` request.
+
+The `POST` request contains all the details of your order which are saved on the servers of the website and allow people at the kitchen start preparing your food.
+
+## Example of POST
+
+    POST /test / HTTP/3
+    Host: foo.example
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 27
+
+    main_plate=poke_bowl&drinks=water
+
+-   Very similar to `GET`; only changes top line
+
+-   Contains a body, correctly structured to be accepted by the website
+
+-   `POST` is applied when an action can be repeated many times: ordering food, books, etc..
+
+-   `PUT` is **the same** but used for one-time things: updating currency (old one is removed)
+
+## REST APIs
+
+Why is this all important? APIs work pretty much the same
+
+![](images/paste-8268C524.png){fig-align="center"}
+
+## REST APIs
+
+-   Main difference: APIs are meant to share data
+
+-   APIs are hosted on a server and organize data internally
+
+-   Using the REST framework, it exposes this data to endpoints which are connected to different parts of the data organized
+
+-   Endpoints can be accessed with `GET`, `POST`, etc..
+
+-   Non-`GET` examples: log in to your Spotify account and use `POST` and `DELETE` to add/delete songs from your playlist
+
+-   Exposes documentation layer for users to investigate each endpoint
+
+## Ethics in APIs
+
+-   **Excessive requests**: servers have a finite amount of bandwidth they can use. Sleep your requests.
+
+-   **Read the terms of services**: companies are sharing data freely over the web but this doesn\'t mean you can do anything with it.
+
+-   **Authentication**: many APIs require authentication. Make sure to do this every time it is needed

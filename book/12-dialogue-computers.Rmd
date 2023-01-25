@@ -114,7 +114,7 @@ Why is this all important? Wasn't this a chapter on APIs? All of the content abo
 knitr::include_graphics(file.path(main_dir_api, "browser_server_request.png"))
 ```
 
-However, the main difference is that REST APIs are designed to share data. REST APIs have their biggest objective as a way to share data that was traditionally gathered through web scraping. So in most instances, en API would return a JSON or an XML file with the data you requested in the body of the response. In webscraping, the requests return the source code of the website. 
+However, the main difference is that REST APIs are designed to share data. REST APIs have their biggest objective as a way to share data that was traditionally gathered through web scraping. So in most instances, an API would return a JSON or an XML file with the data you requested in the body of the response. In webscraping, the requests return the source code of the website. 
 
 REST APIs organize the internal data of a website and share them using a standard interface following the REST guidelines. REST stands for "Representational state transfer" and is a standard architecture for sharing data.
 
