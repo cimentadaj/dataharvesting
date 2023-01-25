@@ -56,7 +56,7 @@ I'll assume that you ran your part of loading `scrapex` and ran the `api_amazon`
 knitr::include_graphics(file.path(main_dir_api, "main_amazon_docs.png"))
 ```
 
-This is the documentation of the API. Normally, company APIs will have something like this in their website (it will be different but the gist of the content will be very similar). You can see the different *endpoints* with their description. The first one, for example, is named `/api/v1/amazon/authors`. The *base path* of the API is `http://localhost:28723` and each *endpoint* is a different URL from that website that will return different types of data.
+This is the documentation of the API. Normally, company APIs will have something like this on their website (it will be different but the gist of the content will be very similar). You can see the different *endpoints* with their description. The first one, for example, is named `/api/v1/amazon/authors`. The *base path* of the API is `http://localhost:28723` and each *endpoint* is a different URL from that website that will return different types of data.
 
 Let's check out the data in the `authors` endpoint. We can usually try this API endpoint directly in the documentation to get a grasp of how it works. Let's click on this endpoint and see what's inside:
 
