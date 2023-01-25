@@ -61,6 +61,10 @@ jobs:
           # to: html
           path: slides
 
+
+      - name: Move slides to book
+        run: mv -rf book/slides/ book/_book/
+
       - name: Deploy to GitHub pages 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
