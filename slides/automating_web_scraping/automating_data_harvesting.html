@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.3.71">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Jorge Cimentada">
+  <title>Automating Web Scraping</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="automating_data_harvesting_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="automating_data_harvesting_files/libs/quarto-html/quarto.js"></script>
+  <script src="automating_data_harvesting_files/libs/quarto-html/popper.min.js"></script>
+  <script src="automating_data_harvesting_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="automating_data_harvesting_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="automating_data_harvesting_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="automating_data_harvesting_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="automating_data_harvesting_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="automating_data_harvesting_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="automating_data_harvesting_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="fullcontent">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content">
+<header id="title-block-header">
+<h1 class="title display-7">Automating Web Scraping</h1>
+<p class="author">Jorge Cimentada</p>
+</header>
+<div class="cell">
+
+</div>
+<section id="automating-web-scraping" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping">Automating Web Scraping</h2>
+<p>Ever wondered how you can grab real time data, <strong>on demand</strong>, without moving a finger?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/scraping_gif.gif" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p><strong>Welcome to the world of automation!</strong></p>
+</section>
+<section id="automating-web-scraping-1" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-1">Automating Web Scraping</h2>
+<ul>
+<li><p>One off scraping is <em>just as good</em></p></li>
+<li><p>One off scraping will solve many problems as is usually the first starting point</p></li>
+<li><p>However, you might need this to collect data that is changing constantly</p></li>
+<li><p>Sometimes you want to gather info the dissappears</p></li>
+<li><p>Ex: weather data, financial data, sports data, political data</p></li>
+</ul>
+</section>
+<section id="automating-web-scraping-2" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-2">Automating Web Scraping</h2>
+<p><br></p>
+<p><img src="images/paste-26D7E258.png" class="img-fluid" style="width:3.42in"></p>
+</section>
+<section id="automating-web-scraping-3" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-3">Automating Web Scraping</h2>
+<p>Since we want to <strong>automate</strong> a program, we first need one. Let’s recycle one from our example on El País:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load all our libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scrapex)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># If this were being done on the real website of the newspaper, you'd want to</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># replace the line below with the real link of the website.</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>newspaper_link <span class="ot">&lt;-</span> <span class="fu">elpais_newspaper_ex</span>()</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>newspaper <span class="ot">&lt;-</span> <span class="fu">read_html</span>(newspaper_link)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>all_sections <span class="ot">&lt;-</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  newspaper <span class="sc">%&gt;%</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Find all &lt;section&gt; tags which have an &lt;article&gt; tag</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># below each &lt;section&gt; tag. Keep only the &lt;article&gt;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># tags which an attribute @data-dtm-region.</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xml_find_all</span>(<span class="st">"//section[.//article][@data-dtm-region]"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>final_df <span class="ot">&lt;-</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  all_sections <span class="sc">%&gt;%</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Count the number of articles for each section</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span> <span class="fu">length</span>(<span class="fu">xml_find_all</span>(.x, <span class="st">".//article"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Name all sections</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>(all_sections <span class="sc">%&gt;%</span> <span class="fu">xml_attr</span>(<span class="st">"data-dtm-region"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to data frame</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">enframe</span>(<span class="at">name =</span> <span class="st">"sections"</span>, <span class="at">value =</span> <span class="st">"num_articles"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(num_articles)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="automating-web-scraping-4" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-4">Automating Web Scraping</h2>
+<ul>
+<li><p>Our goal with this scraper is to monitor El País</p></li>
+<li><p>How it distributes news across different categories</p></li>
+<li><p>Studying whether there are important patterns</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>final_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 11 × 2
+   sections                                   num_articles
+   &lt;chr&gt;                                             &lt;int&gt;
+ 1 portada_apertura                                      5
+ 2 portada_arrevistada                                   1
+ 3 portada_tematicos_science,-tech-&amp;-health              5
+ 4 portada_tematicos_business-&amp;-economy                  2
+ 5 portada_tematicos_undefined                           1
+ 6 portada_branded_                                      2
+ 7 portada_arrevistada_culture                           5
+ 8 portada_tematicos_work-&amp;-lifestyle                    3
+ 9 portada_arrevistada                                   1
+10 portada_tematicos_celebrities,-movies-&amp;-tv            4
+11 portada_tematicos_our-selection                       4</code></pre>
+</div>
+</div>
+</section>
+<section id="automating-web-scraping-5" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-5">Automating Web Scraping</h2>
+<p>The scraper is missing one step: saving the data to CSV.</p>
+<p><strong>Logic</strong>:</p>
+<ol type="1">
+<li><p>If this is the first time the scraper is run, save a csv file with the count of sections</p></li>
+<li><p>If the CSV with the count of section exists, open the CSV file and append the newest data with the current time stamp</p></li>
+<li><p>This approach will add rows with new counts every time the scraper is run.</p></li>
+</ol>
+</section>
+<section id="automating-web-scraping-6" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-6">Automating Web Scraping</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scrapex)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>newspaper_link <span class="ot">&lt;-</span> <span class="fu">elpais_newspaper_ex</span>()</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>all_sections <span class="ot">&lt;-</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  newspaper_link <span class="sc">%&gt;%</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xml_find_all</span>(<span class="st">"//section[.//article][@data-dtm-region]"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>final_df <span class="ot">&lt;-</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  all_sections <span class="sc">%&gt;%</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span> <span class="fu">length</span>(<span class="fu">xml_find_all</span>(.x, <span class="st">".//article"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>(all_sections <span class="sc">%&gt;%</span> <span class="fu">xml_attr</span>(<span class="st">"data-dtm-region"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">enframe</span>(<span class="at">name =</span> <span class="st">"sections"</span>, <span class="at">value =</span> <span class="st">"num_articles"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(num_articles)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the current date time as a column</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>final_df<span class="sc">$</span>date_saved <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">Sys.time</span>(), <span class="st">"%Y-%m-%d %H:%M"</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Where the CSV will be saved. Note that this directory</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co"># doesn't exist yet.</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="st">"~/newspaper/newspaper_section_counter.csv"</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co"># *Try* reading the file. If the file doesn't exist, this will silently save an error</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">try</span>(<span class="fu">read_csv</span>(file_path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>), <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co"># If the file doesn't exist</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">inherits</span>(res, <span class="st">"try-error"</span>)) {</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Save the data frame we scraped above</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"File doesn't exist; Creating it"</span>)</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(final_df, file_path)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If the file was read successfully, append the</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># new rows and save the file again</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbind</span>(res, final_df) <span class="sc">%&gt;%</span> <span class="fu">write_csv</span>(file_path)</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="automating-web-scraping-7" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-7">Automating Web Scraping</h2>
+<p>Summary:</p>
+<ul>
+<li><p>This script will read the website of “El País”</p></li>
+<li><p>Count the number of sections</p></li>
+<li><p>Save the results as a CSV file at <code>~/newspaper/newspaper_section_counter.csv</code>.</p></li>
+<li><p>That directory still doesn’t exist, so we’ll create it first.</p></li>
+</ul>
+</section>
+<section id="automating-web-scraping-8" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-8">Automating Web Scraping</h2>
+<p>New tool: The Terminal</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/basic_terminal_ubuntu.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Open with <code>CTRL + ALT + t</code>.</p>
+</section>
+<section id="automating-web-scraping-9" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-9">Automating Web Scraping</h2>
+<p>Programatically create directories, files, search for files, execute scripts 🦾</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/create_newspaper_dir.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="automating-web-scraping-10" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-10">Automating Web Scraping</h2>
+<p>With the directory created, we copy the R script and check that is there <code>ls</code></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash cell-code code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ~/newspaper/</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># newspaper_scraper.R</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>change directories with the <code>cd</code> command, which stands for <code>c</code>hange<code>d</code>irectory,</p></li>
+<li><p>followed by the path where you want to switch to.</p></li>
+<li><p>For our case, this would be <code>cd ~/newspaper/</code></p></li>
+</ul>
+</section>
+<section id="automating-web-scraping-11" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-11">Automating Web Scraping</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/cd_newspaper.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="automating-web-scraping-12" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-12">Automating Web Scraping</h2>
+<ul>
+<li><p>To execute an R script from the terminal you can do it with the <code>Rscript</code> command followed by the file name.</p></li>
+<li><p>For our case it should be <code>Rscript newspaper_scraper.R</code></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/running_scraper_once.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="automating-web-scraping-13" class="level2">
+<h2 class="anchored" data-anchor-id="automating-web-scraping-13">Automating Web Scraping</h2>
+<ul>
+<li><p>The first few lines show the printing of package loading</p></li>
+<li><p><code>File doesn't exist; Creating it</code> shows how it’s creating the first file</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/newspaper_scraping_excel.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="cron-your-scheduling-friend" class="level2">
+<h2 class="anchored" data-anchor-id="cron-your-scheduling-friend">cron, your scheduling friend</h2>
+<ul>
+<li><p>Our scraper works</p></li>
+<li><p>All infrastructure is ready (directories, excel file)</p></li>
+<li><p>How do we automate it?</p></li>
+</ul>
+<p>Here’s we <code>cron</code> comes in</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash cell-code code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Linux</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install cron</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># MacOS</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install <span class="at">--cask</span> cron</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="cron-your-scheduling-friend-1" class="level2">
+<h2 class="anchored" data-anchor-id="cron-your-scheduling-friend-1">cron, your scheduling friend</h2>
+<p>Confirm it works:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/crontab_list.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>The output means you have no scheduled scripts in your computer.</p>
+</section>
+<section id="anatomy-of-a-schedule" class="level2">
+<h2 class="anchored" data-anchor-id="anatomy-of-a-schedule">Anatomy of a schedule</h2>
+<ol type="1">
+<li>A schedule</li>
+<li>What to execute</li>
+<li><code>Rscript ~/newspaper/newspaper_scraper.R</code></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/crontab_syntax.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="anatomy-of-a-schedule-1" class="level2">
+<h2 class="anchored" data-anchor-id="anatomy-of-a-schedule-1">Anatomy of a schedule</h2>
+<ul>
+<li><p><code>* * * * *</code> every minute, hour, of every day of the month, every month, every day of the week.</p></li>
+<li><p><code>30 * * * *</code> run at minute 30 of each hour, each day, each month, each day of the week</p></li>
+<li><p><code>30 * * * 3</code> run every 30 minutes on Wednesdays</p></li>
+<li><p><code>30 5 * * 6,7</code> run on the 30th minute of the 5th hour every month on Saturday and Sunday</p></li>
+<li><p><em>if day of week, the last slot, clashes in a schedule with the third slot which is day of month then any day matching either the day of month, or the day of week, shall be matched.</em></p></li>
+</ul>
+</section>
+<section id="anatomy-of-a-schedule-2" class="level2">
+<h2 class="anchored" data-anchor-id="anatomy-of-a-schedule-2">Anatomy of a schedule</h2>
+<p>Let’s say we wanted to run our newspaper scraper every 4 hours, every day, how would it look like?</p>
+<ul>
+<li><p>We have no way of saying, regardless of the day / hour / minute, run the scraper every X hours.</p></li>
+<li><p><code>1 */4 * * *</code> run at minute 1 every 4 hours, every day, of the year</p></li>
+<li><p><code>1 */4 * * */2</code> run at minute 1 every 4 hours, every two days</p></li>
+</ul>
+<p>These simple rules will allow you to go very far in scheduling scripts for your scrapers or APIs.</p>
+</section>
+<section id="scheduling-our-scraper" class="level2">
+<h2 class="anchored" data-anchor-id="scheduling-our-scraper">Scheduling our scraper</h2>
+<ul>
+<li><p>Schedule our newspaper scraper to run every minute, just to make sure it works.</p></li>
+<li><p>Will get messy because it'll append the same resultsin the CSV file continuously.</p></li>
+<li><p>However, it will give proof that the script is running on a schedule.</p></li>
+<li><p>If we want this to run every minute, our cron expression should be this <code>* * * * *</code></p></li>
+</ul>
+</section>
+<section id="scheduling-our-scraper-1" class="level2">
+<h2 class="anchored" data-anchor-id="scheduling-our-scraper-1">Scheduling our scraper</h2>
+<p>First steps with <code>cron</code> is to pick an editor:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/crontab_choose_editor.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Pick <code>nano</code>, the easiest one.</p>
+</section>
+<section id="scheduling-our-scraper-2" class="level2">
+<h2 class="anchored" data-anchor-id="scheduling-our-scraper-2">Scheduling our scraper</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/crontab_schedule_file.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Here is where we write <code>* * * * * Rscript ~/newspaper/newspaper_scraper.R</code></p>
+</section>
+<section id="scheduling-our-scraper-3" class="level2">
+<h2 class="anchored" data-anchor-id="scheduling-our-scraper-3">Scheduling our scraper</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/crontab_newspaper_scraper.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="scheduling-our-scraper-4" class="level2">
+<h2 class="anchored" data-anchor-id="scheduling-our-scraper-4">Scheduling our scraper</h2>
+<p>To exit the <code>cron</code> interface, <strong>follow these steps</strong>:</p>
+<ul>
+<li><p>Hit <code>CTRL</code> and <code>X</code> (this is for exiting the <code>cron</code> interface)</p></li>
+<li><p>It will prompt you to save the file. <strong>Press<code>Y</code> to save it</strong>.</p></li>
+<li><p>Press <code>enter</code> to save the <code>cron</code> schedule file with the same name it has.</p></li>
+</ul>
+<p>Nothing special should be happening at the moment. Wait two or three minutes</p>
+</section>
+<section id="scheduling-our-scraper-5" class="level2">
+<h2 class="anchored" data-anchor-id="scheduling-our-scraper-5">Scheduling our scraper</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/newspaper_results_crontab.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="scheduling-our-scraper-6" class="level2">
+<h2 class="anchored" data-anchor-id="scheduling-our-scraper-6">Scheduling our scraper</h2>
+<p><strong>Remove entire line to remove schedule and save again</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/crontab_newspaper_scraper.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="caveats" class="level2">
+<h2 class="anchored" data-anchor-id="caveats">Caveats</h2>
+<ul>
+<li><p>Computer needs to be on all the time; this is why servers are used</p></li>
+<li><p><code>cron</code> can also become complex if your schedule patterns are difficult.</p></li>
+<li><p>Backtracking a failed <code>cron</code> job is tricky because it’s not interactive</p></li>
+<li><p>Setting up production ready scrapers are difficult: databases, interactivity, persistence, avoid bans, saving data real time, etc..</p></li>
+</ul>
+</section>
+</main>
+<!-- /main column -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>

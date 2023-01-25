@@ -161,7 +161,7 @@ main_plate=poke_bowl&amp;drinks=water</code></pre>
 </h2>
 <p>Why is this all important? Wasn’t this a chapter on APIs? All of the content above happens automatically behind the scenes, why should I care? Because requests are at the core of how APIs work. APIs work just as we described requests above:</p>
 <div class="inline-figure"><img src="images/dialogue_computer/browser_server_request.png" width="100%" style="display: block; margin: auto;"></div>
-<p>However, the main difference is that REST APIs are designed to share data. REST APIs have their biggest objective as a way to share data that was traditionally gathered through web scraping. So in most instances, en API would return a JSON or an XML file with the data you requested in the body of the response. In webscraping, the requests return the source code of the website.</p>
+<p>However, the main difference is that REST APIs are designed to share data. REST APIs have their biggest objective as a way to share data that was traditionally gathered through web scraping. So in most instances, an API would return a JSON or an XML file with the data you requested in the body of the response. In webscraping, the requests return the source code of the website.</p>
 <p>REST APIs organize the internal data of a website and share them using a standard interface following the REST guidelines. REST stands for “Representational state transfer” and is a standard architecture for sharing data.</p>
 <p>Enough of technical descriptions, how do these REST APIs work? In layman terms, REST APIs have documentation which shows something called endpoints, just as we saw in chapter <a href="intro-apis.html#intro-apis">10</a>. Each of these endpoints are connected internally to databases. Each endpoint is responsible for returning one set of data. Depending on which parameters you pass to the URL of a given endpoint, the endpoint filters data and returns results accordingly.</p>
 <p>Other endpoints that have access to the data also allows to alter data. For example, the Spotify API, once you log in with your credentials and obtain a ‘token’ to access the API, allows you to remove playlists or add songs to particular albums. This is all done using requests such as <code>DELETE</code> or <code>POST</code>. Like in chapter <a href="intro-apis.html#intro-apis">10</a>, each of these endpoints has documentation on how to access the data behind it.</p>
@@ -217,7 +217,7 @@ main_plate=poke_bowl&amp;drinks=water</code></pre>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-02.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

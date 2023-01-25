@@ -235,7 +235,7 @@ How would such a schedule look like? We know the first slot is for minutes so we
 <p>Or you might want to run your scraper at 05:30 AM only on Saturday and Sunday:</p>
 <pre><code>30 5 * * 6,7</code></pre>
 <p>The expression reads like this: run on the 30th minute of the 5th hour every month but on Saturday and Sunday (6th and 7th day of the week). These simple rules can take you a long way when building your scraper.</p>
-<p>Let’s say we wanted to run our newspaper scraper every 4 hours, every day, how would it look like? That sounds a bit different to what we’ve done until no. The syntax we’ve discussed specifically writes down the day / hour / minute we want to the scraper to do. We have no way of saying, regardless of the day / hour / minute, run the scraper every X hours. For that <code>cron</code> has additional tricks. If we wanted to run a scraper every every 4 hours we would write it like this:</p>
+<p>Let’s say we wanted to run our newspaper scraper every 4 hours, every day, how would it look like? That sounds a bit different to what we’ve done until now. The syntax we’ve discussed specifically writes down the day / hour / minute we want to the scraper to do. We have no way of saying, regardless of the day / hour / minute, run the scraper every X hours. For that <code>cron</code> has additional tricks. If we wanted to run a scraper every every 4 hours we would write it like this:</p>
 <pre><code>1 */4 * * *</code></pre>
 <p>For the date parameter you want to make recurrent, add <code>/</code> by the frequency you want. If instead you wanted to run the scraper every 4 hours, every 2 days, you would write something like this:</p>
 <pre><code>1 */4 * * */2</code></pre>
@@ -311,7 +311,7 @@ How would such a schedule look like? We know the first slot is for minutes so we
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-02.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

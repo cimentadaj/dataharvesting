@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.3.71">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Jorge Cimentada">
+  <title>Introduction to APIs</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="intro_apis_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="intro_apis_files/libs/quarto-html/quarto.js"></script>
+  <script src="intro_apis_files/libs/quarto-html/popper.min.js"></script>
+  <script src="intro_apis_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="intro_apis_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="intro_apis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="intro_apis_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="intro_apis_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="intro_apis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="intro_apis_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="fullcontent">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content">
+<header id="title-block-header">
+<h1 class="title display-7">Introduction to APIs</h1>
+<p class="author">Jorge Cimentada</p>
+</header>
+<div class="cell">
+
+</div>
+<section id="introduction-rest-apis" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-rest-apis">Introduction REST APIs</h2>
+<ul>
+<li><p>Webscraping is unstructured in nature</p></li>
+<li><p>Not beneficial for companies</p></li>
+<li><p>Potentially harming business operations</p></li>
+<li><p>Cleaning scraped data is cumbersome</p></li>
+<li><p>Website might change</p></li>
+</ul>
+</section>
+<section id="introduction-rest-apis-1" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-rest-apis-1">Introduction REST APIs</h2>
+<p>REST APIs are a natural response to that.</p>
+<ul>
+<li><p>REST APIs are a two party contract</p></li>
+<li><p>Structured way for businesses to give you data</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>Companies decided to create a custom 'portal' where a user, after authenticating and accepting the agreements of using this 'portal', can access much of the data they can see on a companies website (but not necessarily what you're looking for, it is their prerogative).</p>
+</blockquote>
+</section>
+<section id="introduction-rest-apis-2" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-rest-apis-2">Introduction REST APIs</h2>
+<blockquote class="blockquote">
+<p>Users should be careful distinguishing between APIs and REST APIs. APIs are the interface of any program. In contrast, a REST API is a data transfer design for users to share data over the internet. In this chapter we'll be discussing exclusively REST APIs</p>
+</blockquote>
+</section>
+<section id="introduction-rest-apis-3" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-rest-apis-3">Introduction REST APIs</h2>
+<p>Hey, but can you show us an API!?</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scrapex)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">api_amazon</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>[1] "Visit your REST API at http://localhost:28723"
+[1] "Documentation is at http://localhost:28723/__docs__/"</code></pre>
+<p><br></p>
+<ul>
+<li><p>APIs have URLs which have documentation</p></li>
+<li><p>Documentation is PARAMOUNT for APIs</p></li>
+<li><p>For example: <a href="https://developer.spotify.com/documentation/web-api/reference/#/operations/get-track">Spotify API docs</a></p></li>
+</ul>
+</section>
+<section id="introduction-rest-apis-4" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-rest-apis-4">Introduction REST APIs</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/paste-E6F74C31.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="introduction-rest-apis-5" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-rest-apis-5">Introduction REST APIs</h2>
+<ul>
+<li><p>APIs have endpoint which return specific data</p></li>
+<li><p>Each endpoint has documentation on its inputs/outputs</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/paste-05E1ADC8.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="introduction-to-rest-apis" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-rest-apis">Introduction to REST APIs</h2>
+<ol type="1">
+<li><p>No input parameters needed. This endpoint returns all available authors in the Amazon Book Store so it does not need any parameters.</p></li>
+<li><p>It allows you to try out this endpoint with a button that says <code>"Try it out"</code>.</p></li>
+<li><p>This endpoint has two codes: <code>200</code> which means is OK and <code>500</code> which means that something wrong happened.</p></li>
+<li><p>Returns a <code>JSON</code> string, a typical format used for sharing data over the web.</p></li>
+</ol>
+</section>
+<section id="authenticating-in-rest-apis" class="level2">
+<h2 class="anchored" data-anchor-id="authenticating-in-rest-apis">Authenticating in REST APIs</h2>
+<p>Fake API, code: fmcQoAZnnU</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/paste-0F25E436.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="requesting-from-a-rest-apis" class="level2">
+<h2 class="anchored" data-anchor-id="requesting-from-a-rest-apis">Requesting from a REST APIs</h2>
+<p>Requesting data from <code>/api/v1/amazon/authors</code></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/paste-26809E14.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="requesting-from-a-rest-apis-1" class="level2">
+<h2 class="anchored" data-anchor-id="requesting-from-a-rest-apis-1">Requesting from a REST APIs</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/paste-46A430C6.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="requesting-from-a-rest-apis-2" class="level2">
+<h2 class="anchored" data-anchor-id="requesting-from-a-rest-apis-2">Requesting from a REST APIs</h2>
+<p>Things to pay attention to:</p>
+<ul>
+<li><p>Status code. In this case 200.</p></li>
+<li><p>Data is what is expected: 5 authors in Amazon database.</p></li>
+<li><p>Format is JSON</p></li>
+<li><p>Headers: think of them as attachments. Important: authentication.</p></li>
+</ul>
+</section>
+<section id="analogy-headers" class="level2">
+<h2 class="anchored" data-anchor-id="analogy-headers">Analogy headers</h2>
+<p>Response is like an R list:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">status_code =</span> <span class="dv">200</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">response_header =</span> <span class="fu">c</span>(<span class="st">"Authorization"</span> <span class="ot">=</span> <span class="st">"private"</span>, <span class="st">"content-type"</span> <span class="ot">=</span> <span class="st">"application/json"</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">response_body =</span> <span class="fu">data</span>()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Header data: encoding of the response, the date and the transfer encoding.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ul>
+<li><p>REST APIs have a base path.</p></li>
+<li><p>REST APIs are structured around endpoints. For example <code>https://api.spotify.com/v1/artists</code></p></li>
+<li><p>Endpoints might not or might have parameters to filter data.</p></li>
+<li><p>The docs of the REST API documents parameters of each endpoint.</p></li>
+<li><p>Many REST APIs need authentication tokens for making requests.</p></li>
+<li><p>REST APIs response return status codes and headers</p></li>
+</ul>
+</section>
+</main>
+<!-- /main column -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>

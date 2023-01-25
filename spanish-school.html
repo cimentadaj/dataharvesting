@@ -333,7 +333,7 @@
 <p>Suppose that working as a consultant for the ministry of economy, they task you with understanding whether public/private schools are correlated with income inequality at the neighborhood level. There’s many public sources nowadays that can tell you the average income for a given neighborhood so we can find that data already cleaned and ready to use for us on the internet. However, it’s difficult to find a list of all national schools of a country together with the information on whether they’re public or private.</p>
 <p>As we saw in <code>www.buscocolegio.com</code>, each school website has also information on whether a school is public or private. It’s exactly here:</p>
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/main_website_public_private.png" width="100%" style="display: block; margin: auto;"></div>
-<p>“Centro Público” means Public Center. Ig we managed to build a scraper to extract this information we would know if a school is either public or private. Let’s open up web developer tools and look specifically at the tag that is highlighted when clicking on “Centro Público”:</p>
+<p>“Centro Público” means Public Center. If we managed to build a scraper to extract this information we would know if a school is either public or private. Let’s open up web developer tools and look specifically at the tag that is highlighted when clicking on “Centro Público”:</p>
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/tag_public_private.png" width="100%" style="display: block; margin: auto;"></div>
 <p>The public/private information we’re interested is within a <code>&lt;strong&gt;</code> tag. This tag in HTML means that the text will be in bold (althought we don’t care about what each tag does, it’s handy to know). Searching simply for a <code>&lt;strong&gt;</code> tag will probably yield dozens of matches since <code>&lt;strong&gt;</code> is too generic. We need to find a more unique tag that identifies the entire box. At this point, I started looking at the father tags above <code>&lt;strong&gt;</code> and found the 1st ascendant of the <code>&lt;strong&gt;</code> tag:</p>
 <div class="inline-figure"><img src="images/cs_spanish_school_locations/buscocolegios_xml/father_tag_public_private.png" width="100%" style="display: block; margin: auto;"></div>
@@ -675,7 +675,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-02.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

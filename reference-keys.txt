@@ -1,6 +1,7 @@
 welcome
 packages-used
 what-to-expect
+slides
 primer-webscraping
 getting-website-data-into-r
 data-cleaning

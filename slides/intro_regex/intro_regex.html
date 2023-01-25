@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.3.71">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Jorge Cimentada">
+  <title>Introduction to Regex</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="intro_regex_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="intro_regex_files/libs/quarto-html/quarto.js"></script>
+  <script src="intro_regex_files/libs/quarto-html/popper.min.js"></script>
+  <script src="intro_regex_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="intro_regex_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="intro_regex_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="intro_regex_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="intro_regex_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="intro_regex_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="intro_regex_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script src="intro_regex_files/libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+  <link href="intro_regex_files/libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+  <script src="intro_regex_files/libs/str_view-binding-1.4.0/str_view.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="fullcontent">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content">
+<header id="title-block-header">
+<h1 class="title display-7">Introduction to Regex</h1>
+<p class="author">Jorge Cimentada</p>
+</header>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">eval =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">message =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">warning =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.align =</span> <span class="st">"center"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.asp =</span> <span class="fl">0.618</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="regular-expressions" class="level2">
+<h2 class="anchored" data-anchor-id="regular-expressions">Regular expressions</h2>
+<ul>
+<li>Regular expressions, also called “regex”</li>
+</ul>
+<blockquote class="blockquote">
+<p>Imagine you are playing a treasure hunt game and you are given a clue that says “the treasure is hidden in a sentence with the word ‘treasure’ in it.” You would use regex to help you quickly find the sentence with the word “treasure” in it, like a treasure hunter using a metal detector to find gold.</p>
+</blockquote>
+</section>
+<section id="what-do-you-mean" class="level2">
+<h2 class="anchored" data-anchor-id="what-do-you-mean">What do you mean?</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scrapex)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vistime)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>borges <span class="ot">&lt;-</span> <span class="st">"I like hourglasses, maps, eighteenth century typography."</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(borges, <span class="st">"eighteenth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-d445941b3da55c034469" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d445941b3da55c034469">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="why-is-this-useful" class="level2">
+<h2 class="anchored" data-anchor-id="why-is-this-useful">Why is this useful?</h2>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace_all</span>(borges, <span class="st">"eighteenth"</span>, <span class="st">"[DATE]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] "I like hourglasses, maps, [DATE] century typography."</code></pre>
+</div>
+</div>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_extract_all</span>(borges, <span class="st">"eighteenth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[[1]]
+[1] "eighteenth"</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Not very handy because you know the word you’re extracting 😅</p>
+</section>
+<section id="the-.-placeholder" class="level2">
+<h2 class="anchored" data-anchor-id="the-.-placeholder">The . placeholder</h2>
+<p>Matches any letter, number or any type of character.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>borges <span class="ot">&lt;-</span> <span class="st">"I like hourglasses, maps, eighteenth Eighteenth century typography."</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(borges, <span class="st">".ighteenth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-8fae17b0239f47fcf105" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8fae17b0239f47fcf105">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, <span class='match'>eighteenth<\/span> <span class='match'>Eighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Also spaces..😥</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>borges <span class="ot">&lt;-</span> <span class="st">"I like hourglasses, maps, ighteenth century typography."</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(borges, <span class="st">".ighteenth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-455ca9048cf5091d8499" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-455ca9048cf5091d8499">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps,<span class='match'> ighteenth<\/span> century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="quantifiers" class="level2">
+<h2 class="anchored" data-anchor-id="quantifiers">Quantifiers</h2>
+<p>The <code>.</code> is often used with <code>+</code> which means that the character <code>.</code> needs to be repeated one or more times. This example is a great motivation:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>borges_two_phrase <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I like hourglasses, maps, eighteenth century typography."</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I like hourglasses, maps, seventeenth century typography."</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(borges_two_phrase, <span class="st">"maps, . century"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-f03eb1d77e752d114f5f" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f03eb1d77e752d114f5f">{"x":{"html":"<ul>\n  <li>I like hourglasses, maps, eighteenth century typography.<\/li>\n  <li>I like hourglasses, maps, seventeenth century typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="quantifiers-1" class="level2">
+<h2 class="anchored" data-anchor-id="quantifiers-1">Quantifiers</h2>
+<p>What you want is:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(borges_two_phrase, <span class="st">"maps, .+ century"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-10d0897ec0619a35372d" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-10d0897ec0619a35372d">{"x":{"html":"<ul>\n  <li>I like hourglasses, <span class='match'>maps, eighteenth century<\/span> typography.<\/li>\n  <li>I like hourglasses, <span class='match'>maps, seventeenth century<\/span> typography.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="escaping-." class="level2">
+<h2 class="anchored" data-anchor-id="escaping-.">Escaping .</h2>
+<p>What if you wanted to actually match <code>.</code>?</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>borges <span class="ot">&lt;-</span> <span class="st">"I like hourglasses. I also like maps, eighteenth century typography"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(borges, <span class="st">"I like .+"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-b0ff00adce234b16eb73" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b0ff00adce234b16eb73">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses. I also like maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Good but matches the entire phrase. How do we match <em>until</em> the <code>.</code>?</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(borges, <span class="st">"I like .+</span><span class="sc">\\</span><span class="st">."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-bc9245d46cc575382111" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bc9245d46cc575382111">{"x":{"html":"<ul>\n  <li><span class='match'>I like hourglasses.<\/span> I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="the-or-operator" class="level2">
+<h2 class="anchored" data-anchor-id="the-or-operator">The OR (<code>|</code>) operator</h2>
+<p>You’ll often want to match either one regexp or another. Suppose we want to extract the century from the vector below.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>borges_two_phrase <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I like hourglasses, maps, eighteenth century typography."</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I like hourglasses, maps, seventeenth century typography."</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">str_extract_all</span>(borges_two_phrase, <span class="st">"maps, .+ century"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[[1]]
+[1] "maps, eighteenth century"
+
+[[2]]
+[1] "maps, seventeenth century"</code></pre>
+</div>
+</div>
+</section>
+<section id="the-or-operator-1" class="level2">
+<h2 class="anchored" data-anchor-id="the-or-operator-1">The OR (<code>|</code>) operator</h2>
+<p><br></p>
+<p>Use <code>|</code> to separate regex. Here we use it to say: replace either <code>map,</code> (contains the space) or <code>century</code> (contains a space):</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>res <span class="sc">%&gt;%</span> <span class="fu">str_replace_all</span>(<span class="st">"maps, | century"</span>, <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] "eighteenth"  "seventeenth"</code></pre>
+</div>
+</div>
+</section>
+<section id="anchors" class="level2">
+<h2 class="anchored" data-anchor-id="anchors">Anchors</h2>
+<p>Anchors are <code>^</code> for beginning and <code>$</code> for ending. If you start with power, you end up with money.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>borges <span class="ot">&lt;-</span> <span class="st">"I like hourglasses. I also like maps, eighteenth century typography"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(borges, <span class="st">"^."</span>, <span class="at">match =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-c5b5731c18a9f4bd698e" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c5b5731c18a9f4bd698e">{"x":{"html":"<ul>\n  <li><span class='match'>I<\/span> like hourglasses. I also like maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(borges, <span class="st">".$"</span>, <span class="at">match =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-ca560f9eaef488aeabc0" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ca560f9eaef488aeabc0">{"x":{"html":"<ul>\n  <li>I like hourglasses. I also like maps, eighteenth century typograph<span class='match'>y<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="anchors-1" class="level2">
+<h2 class="anchored" data-anchor-id="anchors-1">Anchors</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>borges_long <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I like cars. I like hourglasses, maps, eighteenth century typography"</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I like computers. I like hourglasses, maps, eighteenth century typography"</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(borges_long, <span class="st">"I like .+"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-2e96659122fbc96cd1b9" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2e96659122fbc96cd1b9">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n  <li><span class='match'>I like computers. I like hourglasses, maps, eighteenth century typography<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Both phrases have “I like” at the beginning but also have “I like” after the end of the first sentence. What if we want to match only the first sentence?</p>
+</section>
+<section id="anchors-2" class="level2">
+<h2 class="anchored" data-anchor-id="anchors-2">Anchors</h2>
+<p>Instead, we use anchors:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(borges_long, <span class="st">"^I like .+</span><span class="sc">\\</span><span class="st">."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-f352a7af4ee8725f45f8" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f352a7af4ee8725f45f8">{"x":{"html":"<ul>\n  <li><span class='match'>I like cars.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n  <li><span class='match'>I like computers.<\/span> I like hourglasses, maps, eighteenth century typography<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>🤩</p>
+</section>
+<section id="special-classes-d" class="level2">
+<h2 class="anchored" data-anchor-id="special-classes-d">Special classes: <code>\\d</code></h2>
+<p><code>\\d</code> matches digits</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gdp <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Afghanistan 516 US dollars"</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Albania 6494 US dollars"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Algeria 3765 US dollars"</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"American Samoa 12844 US dollars"</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Andorra 43047 US dollars"</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(<span class="st">"Angel is 8 years old"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">d"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-8356015af421087b1a95" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8356015af421087b1a95">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="special-classes-d-1" class="level2">
+<h2 class="anchored" data-anchor-id="special-classes-d-1">Special classes: <code>\\d</code></h2>
+<p><code>\\d</code> matches single digits</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"Angel is 8 years old"</span>, <span class="st">"Martha is 56 years old"</span>),</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"</span><span class="sc">\\</span><span class="st">d"</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-a39e5292077050999226" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a39e5292077050999226">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>5<\/span><span class='match'>6<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="special-classes-d-2" class="level2">
+<h2 class="anchored" data-anchor-id="special-classes-d-2">Special classes: <code>\\d</code></h2>
+<p>Instead we want:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb23"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"Angel is 8 years old"</span>, <span class="st">"Martha is 56 years old"</span>),</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-b2bbeac86fbcfac29bb7" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b2bbeac86fbcfac29bb7">{"x":{"html":"<ul>\n  <li>Angel is <span class='match'>8<\/span> years old<\/li>\n  <li>Martha is <span class='match'>56<\/span> years old<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="special-classes" class="level2">
+<h2 class="anchored" data-anchor-id="special-classes">Special classes: <code>[]</code></h2>
+<p>Shortcut to extend the regexp <code>|</code> (or) and make it more flexible:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>retirement <span class="ot">&lt;-</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>(<span class="fu">retirement_age_europe_ex</span>()) <span class="sc">%&gt;%</span> <span class="fu">html_table</span>() <span class="sc">%&gt;%</span> .[[<span class="dv">2</span>]]</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>retirement</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 41 × 6
+   Country                Men               Women         Year  Notes References
+   &lt;chr&gt;                  &lt;chr&gt;             &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     
+ 1 Albania                65                61            2020  ""    [1]       
+ 2 Austria                65                60            2018  "In … [1][3]    
+ 3 Belarus                62.5              57.5          2021  "By … [5]       
+ 4 Belgium                65                65            2018  "In … [5]       
+ 5 Bosnia and Herzegovina 65                65            2011  ""    [1]       
+ 6 Bulgaria               64 (and 4 months) 61 (and 8 mo… 2021  "In … [2]       
+ 7 Croatia                65                62            2018  "By … [2]       
+ 8 Cyprus                 65                65            2018  ""    [1][3]    
+ 9 Czech Republic         63 (and 4 months) 58 (and 8 mo… 2018  "In … [7]       
+10 Denmark                67                67            2022  "In … [3][5]    
+# … with 31 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="special-classes-1" class="level2">
+<h2 class="anchored" data-anchor-id="special-classes-1">Special classes: <code>[]</code></h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(retirement<span class="sc">$</span>Men, <span class="st">"6[789]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>See output at <a href="https://cimentadaj.github.io/dataharvesting/regex.html#special-classes">here</a>.</p>
+</section>
+<section id="special-classes-2" class="level2">
+<h2 class="anchored" data-anchor-id="special-classes-2">Special classes: <code>[]</code></h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb27"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(retirement<span class="sc">$</span>Men, <span class="st">"6[7-9]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that <code>[]</code> works the same way for anything: numbers, letters, punctuation, spaces, etc..</p>
+</section>
+<section id="special-classes-3" class="level2">
+<h2 class="anchored" data-anchor-id="special-classes-3">Special classes: <code>[^]</code></h2>
+<ul>
+<li><code>[^abc]</code>: matches anything except a, b, or c.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb28"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view_all</span>(retirement<span class="sc">$</span>Men, <span class="st">"6[^5-9]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>All ages which are below 65 will be matched.</p>
+</section>
+<section id="case-study-mapping-the-kings-of-france" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france">Case study: mapping the kings of France</h2>
+<p><code>scrapex</code> contains a copy of the Wikipedia page “History of France”:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/history_fr_main.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-1" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-1">Case study: mapping the kings of France</h2>
+<p>Let’s load the HTML:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb29"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>history_france_html <span class="ot">&lt;-</span> <span class="fu">history_france_ex</span>()</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>history_france <span class="ot">&lt;-</span> <span class="fu">read_html</span>(history_france_html)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kings_timeline_wk.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-2" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-2">Case study: mapping the kings of France</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kings_timeline_wk_developertools.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-3" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-3">Case study: mapping the kings of France</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kings_timeline_wk_dev.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-4" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-4">Case study: mapping the kings of France</h2>
+<p><code>ul</code> tags are very common and subsetting only for <code>ul</code> tags will bring many matches. XPath is the topic of next chapter but bear with me.</p>
+<ul>
+<li><p><code>//ul</code>: bring all <code>ul</code> tags from the document</p></li>
+<li><p><code>[.//a]</code>: subset all <code>a</code> tags that are <em>below</em> all <code>ul</code> tags (notice the <code>.</code>)</p></li>
+<li><p><code>[contains(@title, "House of Valois")]</code>: where this <code>a</code> tag needs to have a <code>title</code> attribute that contains “House of Valois”.</p></li>
+</ul>
+</section>
+<section id="case-study-mapping-the-kings-of-france-5" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-5">Case study: mapping the kings of France</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>history_france <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xml_find_all</span>(<span class="st">"//ul[.//a[contains(@title, 'House of Valois')]]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>{xml_nodeset (2)}
+[1] &lt;ul&gt;\n&lt;li&gt;\n&lt;a href="https://en.wikipedia.org/wiki/Capetian_Dynasty" clas ...
+[2] &lt;ul&gt;\n&lt;li&gt;\n&lt;a href="https://en.wikipedia.org/wiki/House_of_Valois" title ...</code></pre>
+</div>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-6" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-6">Case study: mapping the kings of France</h2>
+<p>Let’s pick the second slot and redo the XPath</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>all_txt <span class="ot">&lt;-</span> history_france <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xml_find_all</span>(<span class="st">"//ul[.//a[contains(@title, 'House of Valois')]][2]"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xml_text</span>()</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>all_txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] "House of Valois\nLouis XI the Prudent, 1461–83\nCharles VIII the Affable, 1483–98\nLouis XII, 1498–1515\nFrancis I, 1515–47\nHenry II, 1547–59\nFrancis II, 1559–60\nCharles IX, 1560–74 (1560–63 under regency of Catherine de' Medici)\nHenry III, 1574–89\nHouse of Bourbon\nHenry IV the Great, 1589–1610\nthe Regency of Marie de Medici, 1610–17\nLouis XIII the Just and his minister Cardinal Richelieu, 1610–43\nthe Regency of Anne of Austria and her minister Cardinal Mazarin, 1643–51\nLouis XIV the Sun King and his minister Jean-Baptiste Colbert, 1643–1715\nthe Régence, a period of regency under Philip II of Orléans, 1715–23\nLouis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74\nLouis XVI, 1774–92"</code></pre>
+</div>
+</div>
+<p>This is where regex comes in. Let’s use our ninja skills 🦾!</p>
+</section>
+<section id="case-study-mapping-the-kings-of-france-7" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-7">Case study: mapping the kings of France</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb34"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>all_txt <span class="ot">&lt;-</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  all_txt <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  .[[<span class="dv">1</span>]]</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>all_txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code> [1] "House of Valois"                                                                
+ [2] "Louis XI the Prudent, 1461–83"                                                  
+ [3] "Charles VIII the Affable, 1483–98"                                              
+ [4] "Louis XII, 1498–1515"                                                           
+ [5] "Francis I, 1515–47"                                                             
+ [6] "Henry II, 1547–59"                                                              
+ [7] "Francis II, 1559–60"                                                            
+ [8] "Charles IX, 1560–74 (1560–63 under regency of Catherine de' Medici)"            
+ [9] "Henry III, 1574–89"                                                             
+[10] "House of Bourbon"                                                               
+[11] "Henry IV the Great, 1589–1610"                                                  
+[12] "the Regency of Marie de Medici, 1610–17"                                        
+[13] "Louis XIII the Just and his minister Cardinal Richelieu, 1610–43"               
+[14] "the Regency of Anne of Austria and her minister Cardinal Mazarin, 1643–51"      
+[15] "Louis XIV the Sun King and his minister Jean-Baptiste Colbert, 1643–1715"       
+[16] "the Régence, a period of regency under Philip II of Orléans, 1715–23"           
+[17] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74"
+[18] "Louis XVI, 1774–92"                                                             </code></pre>
+</div>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-8" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-8">Case study: mapping the kings of France</h2>
+<p>We have 16 kings/queens but there are two slots that separated them by houses: House of Valois and House of Bourbon.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>all_txt <span class="ot">&lt;-</span> all_txt[<span class="sc">!</span><span class="fu">str_detect</span>(all_txt, <span class="st">"^House"</span>)]</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>all_txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code> [1] "Louis XI the Prudent, 1461–83"                                                  
+ [2] "Charles VIII the Affable, 1483–98"                                              
+ [3] "Louis XII, 1498–1515"                                                           
+ [4] "Francis I, 1515–47"                                                             
+ [5] "Henry II, 1547–59"                                                              
+ [6] "Francis II, 1559–60"                                                            
+ [7] "Charles IX, 1560–74 (1560–63 under regency of Catherine de' Medici)"            
+ [8] "Henry III, 1574–89"                                                             
+ [9] "Henry IV the Great, 1589–1610"                                                  
+[10] "the Regency of Marie de Medici, 1610–17"                                        
+[11] "Louis XIII the Just and his minister Cardinal Richelieu, 1610–43"               
+[12] "the Regency of Anne of Austria and her minister Cardinal Mazarin, 1643–51"      
+[13] "Louis XIV the Sun King and his minister Jean-Baptiste Colbert, 1643–1715"       
+[14] "the Régence, a period of regency under Philip II of Orléans, 1715–23"           
+[15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74"
+[16] "Louis XVI, 1774–92"                                                             </code></pre>
+</div>
+</div>
+<p>There we go, 16 names and their corresponding period.</p>
+</section>
+<section id="case-study-mapping-the-kings-of-france-9" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-9">Case study: mapping the kings of France</h2>
+<p>We want to extract:</p>
+<ul>
+<li><p>name of monarch</p></li>
+<li><p>years in power</p></li>
+</ul>
+<p>Problem is:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb38"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>all_txt[<span class="dv">7</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] "Charles IX, 1560–74 (1560–63 under regency of Catherine de' Medici)"</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>These are just clarifications so we should just remove.</p>
+</section>
+<section id="case-study-mapping-the-kings-of-france-10" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-10">Case study: mapping the kings of France</h2>
+<p>Strategy: (1) escape parenthesis and (2) match anything inside the parenthesis</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb40"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>all_txt <span class="ot">&lt;-</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  all_txt <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_replace_all</span>(<span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">(.+</span><span class="sc">\\</span><span class="st">)"</span>, <span class="at">replacement =</span> <span class="st">""</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>all_txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code> [1] "Louis XI the Prudent, 1461–83"                                                  
+ [2] "Charles VIII the Affable, 1483–98"                                              
+ [3] "Louis XII, 1498–1515"                                                           
+ [4] "Francis I, 1515–47"                                                             
+ [5] "Henry II, 1547–59"                                                              
+ [6] "Francis II, 1559–60"                                                            
+ [7] "Charles IX, 1560–74 "                                                           
+ [8] "Henry III, 1574–89"                                                             
+ [9] "Henry IV the Great, 1589–1610"                                                  
+[10] "the Regency of Marie de Medici, 1610–17"                                        
+[11] "Louis XIII the Just and his minister Cardinal Richelieu, 1610–43"               
+[12] "the Regency of Anne of Austria and her minister Cardinal Mazarin, 1643–51"      
+[13] "Louis XIV the Sun King and his minister Jean-Baptiste Colbert, 1643–1715"       
+[14] "the Régence, a period of regency under Philip II of Orléans, 1715–23"           
+[15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury, 1715–74"
+[16] "Louis XVI, 1774–92"                                                             </code></pre>
+</div>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-11" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-11">Case study: mapping the kings of France</h2>
+<p>Extract years in power:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb42"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  all_txt <span class="sc">%&gt;%</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_extract_all</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[[1]]
+[1] "1461" "83"  
+
+[[2]]
+[1] "1483" "98"  
+
+[[3]]
+[1] "1498" "1515"
+
+[[4]]
+[1] "1515" "47"  
+
+[[5]]
+[1] "1547" "59"  
+
+[[6]]
+[1] "1559" "60"  
+
+[[7]]
+[1] "1560" "74"  
+
+[[8]]
+[1] "1574" "89"  
+
+[[9]]
+[1] "1589" "1610"
+
+[[10]]
+[1] "1610" "17"  
+
+[[11]]
+[1] "1610" "43"  
+
+[[12]]
+[1] "1643" "51"  
+
+[[13]]
+[1] "1643" "1715"
+
+[[14]]
+[1] "1715" "23"  
+
+[[15]]
+[1] "1715" "74"  
+
+[[16]]
+[1] "1774" "92"  </code></pre>
+</div>
+</div>
+<p>Problem: two or four digit year.</p>
+</section>
+<section id="case-study-mapping-the-kings-of-france-12" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-12">Case study: mapping the kings of France</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb44"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>convert_time_period <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  start_year <span class="ot">&lt;-</span> x[<span class="dv">1</span>]</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  end_year <span class="ot">&lt;-</span> x[<span class="dv">2</span>]</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If end year has only 2 digits</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nchar</span>(end_year) <span class="sc">==</span> <span class="dv">2</span>) {</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract the first two years from the start year</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    end_year_prefix <span class="ot">&lt;-</span> <span class="fu">str_sub</span>(start_year, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Paste together the correct year for the end year</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    end_year <span class="ot">&lt;-</span> <span class="fu">paste0</span>(end_year_prefix, end_year)</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Replace correct end year</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>  x[<span class="dv">2</span>] <span class="ot">&lt;-</span> end_year</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>(x)</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>sequence_kings <span class="ot">&lt;-</span> <span class="fu">lapply</span>(res, convert_time_period)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-13" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-13">Case study: mapping the kings of France</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb45"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>sequence_kings <span class="ot">&lt;-</span> <span class="fu">lapply</span>(res, convert_time_period)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>sequence_kings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[[1]]
+[1] 1461 1483
+
+[[2]]
+[1] 1483 1498
+
+[[3]]
+[1] 1498 1515
+
+[[4]]
+[1] 1515 1547
+
+[[5]]
+[1] 1547 1559
+
+[[6]]
+[1] 1559 1560
+
+[[7]]
+[1] 1560 1574
+
+[[8]]
+[1] 1574 1589
+
+[[9]]
+[1] 1589 1610
+
+[[10]]
+[1] 1610 1617
+
+[[11]]
+[1] 1610 1643
+
+[[12]]
+[1] 1643 1651
+
+[[13]]
+[1] 1643 1715
+
+[[14]]
+[1] 1715 1723
+
+[[15]]
+[1] 1715 1774
+
+[[16]]
+[1] 1774 1792</code></pre>
+</div>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-14" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-14">Case study: mapping the kings of France</h2>
+<p>Extract name of monarch</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb47"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>all_txt <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_extract</span>(<span class="st">"^.+,"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code> [1] "Louis XI the Prudent,"                                                  
+ [2] "Charles VIII the Affable,"                                              
+ [3] "Louis XII,"                                                             
+ [4] "Francis I,"                                                             
+ [5] "Henry II,"                                                              
+ [6] "Francis II,"                                                            
+ [7] "Charles IX,"                                                            
+ [8] "Henry III,"                                                             
+ [9] "Henry IV the Great,"                                                    
+[10] "the Regency of Marie de Medici,"                                        
+[11] "Louis XIII the Just and his minister Cardinal Richelieu,"               
+[12] "the Regency of Anne of Austria and her minister Cardinal Mazarin,"      
+[13] "Louis XIV the Sun King and his minister Jean-Baptiste Colbert,"         
+[14] "the Régence, a period of regency under Philip II of Orléans,"           
+[15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury,"
+[16] "Louis XVI,"                                                             </code></pre>
+</div>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-15" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-15">Case study: mapping the kings of France</h2>
+<p>We just have to replace the comma with an empty space to make it cleaner:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb49"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>names_kings <span class="ot">&lt;-</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  all_txt <span class="sc">%&gt;%</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_extract</span>(<span class="st">"^.+,"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_replace_all</span>(<span class="st">","</span>, <span class="st">""</span>)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>names_kings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code> [1] "Louis XI the Prudent"                                                  
+ [2] "Charles VIII the Affable"                                              
+ [3] "Louis XII"                                                             
+ [4] "Francis I"                                                             
+ [5] "Henry II"                                                              
+ [6] "Francis II"                                                            
+ [7] "Charles IX"                                                            
+ [8] "Henry III"                                                             
+ [9] "Henry IV the Great"                                                    
+[10] "the Regency of Marie de Medici"                                        
+[11] "Louis XIII the Just and his minister Cardinal Richelieu"               
+[12] "the Regency of Anne of Austria and her minister Cardinal Mazarin"      
+[13] "Louis XIV the Sun King and his minister Jean-Baptiste Colbert"         
+[14] "the Régence a period of regency under Philip II of Orléans"            
+[15] "Louis XV the Beloved and his minister Cardinal André-Hercule de Fleury"
+[16] "Louis XVI"                                                             </code></pre>
+</div>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-16" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-16">Case study: mapping the kings of France</h2>
+<p>Combine everything into tidy data frame</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb51"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into data frames</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>sequence_kings_df <span class="ot">&lt;-</span> <span class="fu">lapply</span>(sequence_kings, <span class="cf">function</span>(x) <span class="fu">data.frame</span>(<span class="at">start =</span> x[<span class="dv">1</span>], <span class="at">end =</span> x[<span class="dv">2</span>]))</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>final_kings <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, sequence_kings_df)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Add king names</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>final_kings<span class="sc">$</span>event <span class="ot">&lt;-</span> names_kings</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>final_kings<span class="sc">$</span>start <span class="ot">&lt;-</span> <span class="fu">make_date</span>(final_kings<span class="sc">$</span>start, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>final_kings<span class="sc">$</span>end <span class="ot">&lt;-</span> <span class="fu">make_date</span>(final_kings<span class="sc">$</span>end, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Final data frame</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>final_kings <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(final_kings)</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>final_kings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 16 × 3
+   start      end        event                                                  
+   &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;                                                  
+ 1 1461-01-01 1483-01-01 Louis XI the Prudent                                   
+ 2 1483-01-01 1498-01-01 Charles VIII the Affable                               
+ 3 1498-01-01 1515-01-01 Louis XII                                              
+ 4 1515-01-01 1547-01-01 Francis I                                              
+ 5 1547-01-01 1559-01-01 Henry II                                               
+ 6 1559-01-01 1560-01-01 Francis II                                             
+ 7 1560-01-01 1574-01-01 Charles IX                                             
+ 8 1574-01-01 1589-01-01 Henry III                                              
+ 9 1589-01-01 1610-01-01 Henry IV the Great                                     
+10 1610-01-01 1617-01-01 the Regency of Marie de Medici                         
+11 1610-01-01 1643-01-01 Louis XIII the Just and his minister Cardinal Richelieu
+12 1643-01-01 1651-01-01 the Regency of Anne of Austria and her minister Cardin…
+13 1643-01-01 1715-01-01 Louis XIV the Sun King and his minister Jean-Baptiste …
+14 1715-01-01 1723-01-01 the Régence a period of regency under Philip II of Orl…
+15 1715-01-01 1774-01-01 Louis XV the Beloved and his minister Cardinal André-H…
+16 1774-01-01 1792-01-01 Louis XVI                                              </code></pre>
+</div>
+</div>
+</section>
+<section id="case-study-mapping-the-kings-of-france-17" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-mapping-the-kings-of-france-17">Case study: mapping the kings of France</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb53"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_vistime</span>(final_kings, <span class="at">col.group =</span> <span class="st">"event"</span>, <span class="at">show_labels =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro_regex_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- /main column -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>

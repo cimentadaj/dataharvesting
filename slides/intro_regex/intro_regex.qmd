@@ -1,0 +1,444 @@
+---
+title: "Introduction to Regex"
+author: "Jorge Cimentada"
+format: revealjs
+editor: visual
+---
+
+```{r}
+knitr::opts_chunk$set(
+  eval = TRUE,
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.asp = 0.618
+)
+```
+
+## Regular expressions
+
+-   Regular expressions, also called "regex"
+
+> Imagine you are playing a treasure hunt game and you are given a clue that says "the treasure is hidden in a sentence with the word 'treasure' in it." You would use regex to help you quickly find the sentence with the word "treasure" in it, like a treasure hunter using a metal detector to find gold.
+
+## What do you mean?
+
+```{r}
+library(stringr)
+library(scrapex)
+library(rvest)
+library(xml2)
+library(lubridate)
+library(vistime)
+library(tibble)
+
+borges <- "I like hourglasses, maps, eighteenth century typography."
+str_view_all(borges, "eighteenth")
+```
+
+## Why is this useful?
+
+<br>
+
+```{r}
+str_replace_all(borges, "eighteenth", "[DATE]")
+```
+
+<br>
+
+```{r}
+str_extract_all(borges, "eighteenth")
+```
+
+<br>
+
+Not very handy because you know the word you're extracting 😅
+
+## The . placeholder
+
+Matches any letter, number or any type of character.
+
+```{r}
+borges <- "I like hourglasses, maps, eighteenth Eighteenth century typography."
+str_view_all(borges, ".ighteenth")
+```
+
+Also spaces..😥
+
+```{r}
+borges <- "I like hourglasses, maps, ighteenth century typography."
+str_view_all(borges, ".ighteenth")
+```
+
+## Quantifiers
+
+The `.` is often used with `+` which means that the character `.` needs to be repeated one or more times. This example is a great motivation:
+
+```{r}
+borges_two_phrase <- c(
+  "I like hourglasses, maps, eighteenth century typography.",
+  "I like hourglasses, maps, seventeenth century typography."
+)
+
+str_view_all(borges_two_phrase, "maps, . century")
+```
+
+## Quantifiers
+
+What you want is:
+
+```{r}
+str_view_all(borges_two_phrase, "maps, .+ century")
+```
+
+## Escaping .
+
+What if you wanted to actually match `.`?
+
+```{r}
+borges <- "I like hourglasses. I also like maps, eighteenth century typography"
+str_view_all(borges, "I like .+")
+```
+
+Good but matches the entire phrase. How do we match *until* the `.`?
+
+```{r}
+str_view_all(borges, "I like .+\\.")
+```
+
+## The OR (`|`) operator
+
+You'll often want to match either one regexp or another. Suppose we want to extract the century from the vector below.
+
+```{r}
+borges_two_phrase <- c(
+  "I like hourglasses, maps, eighteenth century typography.",
+  "I like hourglasses, maps, seventeenth century typography."
+)
+
+res <- str_extract_all(borges_two_phrase, "maps, .+ century")
+res
+```
+
+## The OR (`|`) operator
+
+<br>
+
+Use `|` to separate regex. Here we use it to say: replace either `map,` (contains the space) or `century` (contains a space):
+
+<br>
+
+```{r}
+res %>% str_replace_all("maps, | century", "")
+```
+
+## Anchors
+
+Anchors are `^` for beginning and `$` for ending. If you start with power, you end up with money.
+
+```{r}
+borges <- "I like hourglasses. I also like maps, eighteenth century typography"
+str_view_all(borges, "^.", match = TRUE)
+```
+
+```{r}
+str_view_all(borges, ".$", match = TRUE)
+```
+
+## Anchors
+
+```{r}
+borges_long <- c(
+  "I like cars. I like hourglasses, maps, eighteenth century typography",
+  "I like computers. I like hourglasses, maps, eighteenth century typography"
+)
+
+str_view_all(borges_long, "I like .+")
+```
+
+Both phrases have "I like" at the beginning but also have "I like" after the end of the first sentence. What if we want to match only the first sentence?
+
+## Anchors
+
+Instead, we use anchors:
+
+<br>
+
+```{r}
+str_view_all(borges_long, "^I like .+\\.")
+```
+
+🤩
+
+## Special classes: `\\d`
+
+`\\d` matches digits
+
+```{r}
+gdp <- c(
+  "Afghanistan 516 US dollars",
+  "Albania 6494 US dollars",
+  "Algeria 3765 US dollars",
+  "American Samoa 12844 US dollars",
+  "Andorra 43047 US dollars"
+)
+
+str_view_all("Angel is 8 years old", "\\d")
+```
+
+## Special classes: `\\d`
+
+`\\d` matches single digits
+
+```{r}
+str_view_all(
+  c("Angel is 8 years old", "Martha is 56 years old"),
+  "\\d"
+)
+```
+
+## Special classes: `\\d`
+
+Instead we want:
+
+```{r}
+str_view_all(
+  c("Angel is 8 years old", "Martha is 56 years old"),
+  "\\d+"
+)
+```
+
+## Special classes: `[]`
+
+Shortcut to extend the regexp `|` (or) and make it more flexible:
+
+```{r}
+retirement <-
+  read_html(retirement_age_europe_ex()) %>% html_table() %>% .[[2]]
+
+retirement
+```
+
+## Special classes: `[]`
+
+```{r, eval = FALSE}
+str_view_all(retirement$Men, "6[789]")
+```
+
+See output at [here](https://cimentadaj.github.io/dataharvesting/regex.html#special-classes).
+
+## Special classes: `[]`
+
+```{r, eval = FALSE}
+str_view_all(retirement$Men, "6[7-9]")
+```
+
+Note that `[]` works the same way for anything: numbers, letters, punctuation, spaces, etc..
+
+## Special classes: `[^]`
+
+-   `[^abc]`: matches anything except a, b, or c.
+
+```{r, eval = FALSE}
+str_view_all(retirement$Men, "6[^5-9]")
+```
+
+All ages which are below 65 will be matched.
+
+## Case study: mapping the kings of France
+
+`scrapex` contains a copy of the Wikipedia page "History of France":
+
+![](images/history_fr_main.png){fig-align="center"}
+
+## Case study: mapping the kings of France
+
+Let's load the HTML:
+
+```{r}
+history_france_html <- history_france_ex()
+history_france <- read_html(history_france_html)
+```
+
+![](images/kings_timeline_wk.png){fig-align="center"}
+
+## Case study: mapping the kings of France
+
+![](images/kings_timeline_wk_developertools.png){fig-align="center"}
+
+## Case study: mapping the kings of France
+
+![](images/kings_timeline_wk_dev.png){fig-align="center"}
+
+## Case study: mapping the kings of France
+
+`ul` tags are very common and subsetting only for `ul` tags will bring many matches. XPath is the topic of next chapter but bear with me.
+
+-   `//ul`: bring all `ul` tags from the document
+
+-   `[.//a]`: subset all `a` tags that are *below* all `ul` tags (notice the `.`)
+
+-   `[contains(@title, "House of Valois")]`: where this `a` tag needs to have a `title` attribute that contains "House of Valois".
+
+## Case study: mapping the kings of France
+
+```{r}
+history_france %>%
+  xml_find_all("//ul[.//a[contains(@title, 'House of Valois')]]")
+```
+
+## Case study: mapping the kings of France
+
+Let's pick the second slot and redo the XPath
+
+```{r}
+all_txt <- history_france %>% 
+  xml_find_all("//ul[.//a[contains(@title, 'House of Valois')]][2]") %>%
+  xml_text()
+
+all_txt
+```
+
+This is where regex comes in. Let's use our ninja skills 🦾!
+
+## Case study: mapping the kings of France
+
+```{r}
+all_txt <-
+  all_txt %>%
+  str_split("\n") %>%
+  .[[1]]
+
+all_txt
+```
+
+## Case study: mapping the kings of France
+
+We have 16 kings/queens but there are two slots that separated them by houses: House of Valois and House of Bourbon.
+
+```{r}
+all_txt <- all_txt[!str_detect(all_txt, "^House")]
+all_txt
+```
+
+There we go, 16 names and their corresponding period.
+
+## Case study: mapping the kings of France
+
+We want to extract:
+
+-   name of monarch
+
+-   years in power
+
+Problem is:
+
+```{r}
+all_txt[7]
+```
+
+<br>
+
+These are just clarifications so we should just remove.
+
+## Case study: mapping the kings of France
+
+Strategy: (1) escape parenthesis and (2) match anything inside the parenthesis
+
+```{r}
+all_txt <-
+  all_txt %>%
+  str_replace_all(pattern = "\\(.+\\)", replacement = "")
+
+all_txt
+```
+
+## Case study: mapping the kings of France
+
+Extract years in power:
+
+```{r}
+res <-
+  all_txt %>%
+  str_extract_all("\\d+")
+
+res
+```
+
+Problem: two or four digit year.
+
+## Case study: mapping the kings of France
+
+```{r}
+convert_time_period <- function(x) {
+  start_year <- x[1]
+  end_year <- x[2]
+  # If end year has only 2 digits
+  if (nchar(end_year) == 2) {
+    # Extract the first two years from the start year
+    end_year_prefix <- str_sub(start_year, 1, 2)
+    # Paste together the correct year for the end year
+    end_year <- paste0(end_year_prefix, end_year)
+  }
+  # Replace correct end year
+  x[2] <- end_year
+  as.numeric(x)
+}
+
+sequence_kings <- lapply(res, convert_time_period)
+```
+
+## Case study: mapping the kings of France
+
+```{r}
+sequence_kings <- lapply(res, convert_time_period)
+sequence_kings
+```
+
+## Case study: mapping the kings of France
+
+Extract name of monarch
+
+```{r}
+all_txt %>%
+  str_extract("^.+,")
+```
+
+## Case study: mapping the kings of France
+
+We just have to replace the comma with an empty space to make it cleaner:
+
+```{r}
+names_kings <-
+  all_txt %>%
+  str_extract("^.+,") %>%
+  str_replace_all(",", "")
+
+names_kings
+```
+
+## Case study: mapping the kings of France
+
+Combine everything into tidy data frame
+
+```{r}
+# Combine into data frames
+sequence_kings_df <- lapply(sequence_kings, function(x) data.frame(start = x[1], end = x[2]))
+final_kings <- do.call(rbind, sequence_kings_df)
+
+# Add king names
+final_kings$event <- names_kings
+final_kings$start <- make_date(final_kings$start, 1, 1)
+final_kings$end <- make_date(final_kings$end, 1, 1)
+
+# Final data frame
+final_kings <- as_tibble(final_kings)
+final_kings
+```
+
+## Case study: mapping the kings of France
+
+```{r}
+gg_vistime(final_kings, col.group = "event", show_labels = FALSE)
+```

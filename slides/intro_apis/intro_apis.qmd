@@ -1,0 +1,142 @@
+---
+title: "Introduction to APIs"
+author: "Jorge Cimentada"
+format: revealjs
+editor: visual
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  eval = TRUE,
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.asp = 0.618
+)
+```
+
+## Introduction REST APIs
+
+-   Webscraping is unstructured in nature
+
+-   Not beneficial for companies
+
+-   Potentially harming business operations
+
+-   Cleaning scraped data is cumbersome
+
+-   Website might change
+
+## Introduction REST APIs
+
+REST APIs are a natural response to that.
+
+-   REST APIs are a two party contract
+
+-   Structured way for businesses to give you data
+
+> Companies decided to create a custom \'portal\' where a user, after authenticating and
+> accepting the agreements of using this \'portal\', can access much of the data they can see on a companies website (but not necessarily what you\'re looking for, it is their prerogative).
+
+## Introduction REST APIs
+
+> Users should be careful distinguishing between APIs and REST APIs. APIs are the interface of any program. In contrast, a REST API is a data transfer design for users to share data over the internet. In this chapter we\'ll be discussing exclusively REST APIs
+
+## Introduction REST APIs
+
+Hey, but can you show us an API!?
+
+```{r, eval = FALSE}
+library(scrapex)
+res <- api_amazon()
+```
+
+    [1] "Visit your REST API at http://localhost:28723"
+    [1] "Documentation is at http://localhost:28723/__docs__/"
+
+<br>
+
+-   APIs have URLs which have documentation
+
+-   Documentation is PARAMOUNT for APIs
+
+-   For example: [Spotify API docs](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-track)
+
+## Introduction REST APIs
+
+![](images/paste-E6F74C31.png){fig-align="center"}
+
+## Introduction REST APIs
+
+-   APIs have endpoint which return specific data
+
+-   Each endpoint has documentation on its inputs/outputs
+
+![](images/paste-05E1ADC8.png){fig-align="center"}
+
+## Introduction to REST APIs
+
+1.  No input parameters needed. This endpoint returns all available authors in the Amazon Book Store so it does not need any parameters.
+
+2.  It allows you to try out this endpoint with a button that says `"Try it out"`.
+
+3.  This endpoint has two codes: `200` which means is OK and `500` which means that something wrong happened.
+
+4.  Returns a `JSON` string, a typical format used for sharing data over the web.
+
+## Authenticating in REST APIs
+
+Fake API, code: fmcQoAZnnU
+
+![](images/paste-0F25E436.png){fig-align="center"}
+
+## Requesting from a REST APIs
+
+Requesting data from `/api/v1/amazon/authors`
+
+![](images/paste-26809E14.png){fig-align="center"}
+
+## Requesting from a REST APIs
+
+![](images/paste-46A430C6.png){fig-align="center"}
+
+## Requesting from a REST APIs
+
+Things to pay attention to:
+
+-   Status code. In this case 200.
+
+-   Data is what is expected: 5 authors in Amazon database.
+
+-   Format is JSON
+
+-   Headers: think of them as attachments. Important: authentication.
+
+## Analogy headers
+
+Response is like an R list:
+
+```{r, eval = FALSE}
+response = list(
+  status_code = 200,
+  response_header = c("Authorization" = "private", "content-type" = "application/json"),
+  response_body = data()
+)
+```
+
+Header data: encoding of the response, the date and the transfer encoding.
+
+## Summary
+
+-   REST APIs have a base path.
+
+-   REST APIs are structured around endpoints. For example `https://api.spotify.com/v1/artists`
+
+-   Endpoints might not or might have parameters to filter data.
+
+-   The docs of the REST API documents parameters of each endpoint.
+
+-   Many REST APIs need authentication tokens for making requests.
+
+-   REST APIs response return status codes and headers

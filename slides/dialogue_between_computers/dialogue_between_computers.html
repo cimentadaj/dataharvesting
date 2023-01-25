@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.3.71">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Jorge Cimentada">
+  <title>A Dialogue Between Computers</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+
+  <script src="dialogue_between_computers_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="dialogue_between_computers_files/libs/quarto-html/quarto.js"></script>
+  <script src="dialogue_between_computers_files/libs/quarto-html/popper.min.js"></script>
+  <script src="dialogue_between_computers_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="dialogue_between_computers_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="dialogue_between_computers_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="dialogue_between_computers_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="dialogue_between_computers_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="dialogue_between_computers_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="dialogue_between_computers_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="fullcontent">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content">
+<header id="title-block-header">
+<h1 class="title display-7">A Dialogue Between Computers</h1>
+<p class="author">Jorge Cimentada</p>
+</header>
+<div class="cell">
+
+</div>
+<section id="a-dialogue-between-computers" class="level2">
+<h2 class="anchored" data-anchor-id="a-dialogue-between-computers">A Dialogue Between Computers</h2>
+<p>Much is found about how to talk to APIs and the technical details of accessing API data. However, how do they work?</p>
+<p><br></p>
+<div>
+<p><strong>Let’s explain it with the analogy of cloud computing.</strong></p>
+</div>
+</section>
+<section id="a-dialogue-between-computers-1" class="level2">
+<h2 class="anchored" data-anchor-id="a-dialogue-between-computers-1">A Dialogue Between Computers</h2>
+<p>What does “moving” to the cloud mean?</p>
+<ul>
+<li><p><em>“we’re moving our data to a computer hosted somewhere else in the world where professionals can take care of making backups of the data and if the computer breaks they can immediately launch a new computer with the backup copy of the data”</em>.</p></li>
+<li><p>Google/Microsoft services such as Word/Excel are just hosted on computers</p></li>
+<li><p>No magic behind this: they are probably somewhere in a computer in the United States/Europe.</p></li>
+<li><p>Servers are <strong>ON</strong> all the time</p></li>
+</ul>
+</section>
+<section id="a-dialogue-between-computers-2" class="level2">
+<h2 class="anchored" data-anchor-id="a-dialogue-between-computers-2">A Dialogue Between Computers</h2>
+<ul>
+<li><p>Doesn’t end there: <em>every website in the world has a computer behind it that hosts the data and information showed in the website</em>.</p></li>
+<li><p>Yep, that’s right: type <code>www.google.com</code> and there’s a machine behind it responding back in milliseconds.</p></li>
+<li><p>The browser prettifies the information and renders it for you.</p></li>
+<li><p>This “dialogue” between your request and the server happens every time someone enters a website.</p></li>
+</ul>
+</section>
+<section id="a-dialogue-between-computers-3" class="level2">
+<h2 class="anchored" data-anchor-id="a-dialogue-between-computers-3">A Dialogue Between Computers</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/paste-DA406479.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="anatomy-of-a-request" class="level2">
+<h2 class="anchored" data-anchor-id="anatomy-of-a-request">Anatomy of a Request</h2>
+<ul>
+<li><p>You’ve made over thousands of requests in your life without even knowing it.</p></li>
+<li><p>When you use the browser, the browser makes the request for you.</p></li>
+<li><p>When you webscrape, you make requests yourself.</p></li>
+<li><p><code>read_html</code> and <code>read_xml</code> do these for you</p></li>
+</ul>
+</section>
+<section id="anatomy-of-a-request-1" class="level2">
+<h2 class="anchored" data-anchor-id="anatomy-of-a-request-1">Anatomy of a Request</h2>
+<p>How do the instructions of a request look like?</p>
+<pre><code>GET / HTTP/3
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0
+Host: google.com
+Accept: */*</code></pre>
+<ul>
+<li><p>The type of request you’re making (<code>GET /HTTP/3</code>)</p></li>
+<li><p>The <code>User-Agent</code>.This string describes the browser/computer that you’re using such that a website can identify you.</p></li>
+<li><p>The host: the website you are requesting data from.</p></li>
+<li><p>The format that the request can accept: HTML, XML, JSON, etc..<code>*/*</code> means the browser can accept any format.</p></li>
+</ul>
+</section>
+<section id="anatomy-of-a-request-2" class="level2">
+<h2 class="anchored" data-anchor-id="anatomy-of-a-request-2">Anatomy of a Request</h2>
+<p>As it is common for human interactions, a dialogue is between two parties. The computer/server responds back like this:</p>
+<pre><code>HTTP/3 301 Moved Permanently
+Date: Mon, 25 Dic 2022 15:37:00 GMT
+Server: Apache/2.4.54 (Ubuntu)
+Location: http://www.google.org/
+Vary: Accept-Encoding
+Content-Length: 312
+Content-Type: text/html; charset=iso-8859-1
+ 
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en-us"&gt;
+…
+&lt;/html&gt;</code></pre>
+</section>
+<section id="anatomy-of-a-request-3" class="level2">
+<h2 class="anchored" data-anchor-id="anatomy-of-a-request-3">Anatomy of a Request</h2>
+<p>Full interaction</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/paste-8268C524.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="types-of-requests" class="level2">
+<h2 class="anchored" data-anchor-id="types-of-requests">Types of requests</h2>
+<p>Most common request <code>GET</code>. Your browser makes thousands of this every week. However, there are many more:</p>
+<ul>
+<li><p><code>GET</code>: retrieves whatever information is identified by the URL</p></li>
+<li><p><code>POST</code>: requests data just as <code>GET</code> but allows to enclose data in the ‘body’ of the request.</p></li>
+<li><p><code>HEAD</code>: identical to GET except that the server MUST NOT return a message-body in the response.</p></li>
+<li><p><code>PUT</code>: request that creates a new resource or replaces a resource on the server</p></li>
+<li><p><code>DELETE</code>: deletes a resource on the server</p></li>
+</ul>
+</section>
+<section id="example-of-post" class="level2">
+<h2 class="anchored" data-anchor-id="example-of-post">Example of POST</h2>
+<ol type="1">
+<li><p>You enter a website that delivers food to your home.</p></li>
+<li><p>Your browser sends <code>GET</code>request to the servers behind the website and receives a reponse and renders the result.</p></li>
+<li><p>You spend about 15 minutes choosing which plate you’re gonna order.</p></li>
+<li><p>Click on ‘submit order’.</p></li>
+<li><p>You just sent <code>POST</code> request.</p></li>
+</ol>
+<p>The <code>POST</code> request contains all the details of your order which are saved on the servers of the website and allow people at the kitchen start preparing your food.</p>
+</section>
+<section id="example-of-post-1" class="level2">
+<h2 class="anchored" data-anchor-id="example-of-post-1">Example of POST</h2>
+<pre><code>POST /test / HTTP/3
+Host: foo.example
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 27
+
+main_plate=poke_bowl&amp;drinks=water</code></pre>
+<ul>
+<li><p>Very similar to <code>GET</code>; only changes top line</p></li>
+<li><p>Contains a body, correctly structured to be accepted by the website</p></li>
+<li><p><code>POST</code> is applied when an action can be repeated many times: ordering food, books, etc..</p></li>
+<li><p><code>PUT</code> is <strong>the same</strong> but used for one-time things: updating currency (old one is removed)</p></li>
+</ul>
+</section>
+<section id="rest-apis" class="level2">
+<h2 class="anchored" data-anchor-id="rest-apis">REST APIs</h2>
+<p>Why is this all important? APIs work pretty much the same</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/paste-8268C524.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="rest-apis-1" class="level2">
+<h2 class="anchored" data-anchor-id="rest-apis-1">REST APIs</h2>
+<ul>
+<li><p>Main difference: APIs are meant to share data</p></li>
+<li><p>APIs are hosted on a server and organize data internally</p></li>
+<li><p>Using the REST framework, it exposes this data to endpoints which are connected to different parts of the data organized</p></li>
+<li><p>Endpoints can be accessed with <code>GET</code>, <code>POST</code>, etc..</p></li>
+<li><p>Non-<code>GET</code> examples: log in to your Spotify account and use <code>POST</code> and <code>DELETE</code> to add/delete songs from your playlist</p></li>
+<li><p>Exposes documentation layer for users to investigate each endpoint</p></li>
+</ul>
+</section>
+<section id="ethics-in-apis" class="level2">
+<h2 class="anchored" data-anchor-id="ethics-in-apis">Ethics in APIs</h2>
+<ul>
+<li><p><strong>Excessive requests</strong>: servers have a finite amount of bandwidth they can use. Sleep your requests.</p></li>
+<li><p><strong>Read the terms of services</strong>: companies are sharing data freely over the web but this doesn't mean you can do anything with it.</p></li>
+<li><p><strong>Authentication</strong>: many APIs require authentication. Make sure to do this every time it is needed</p></li>
+</ul>
+</section>
+</main>
+<!-- /main column -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>

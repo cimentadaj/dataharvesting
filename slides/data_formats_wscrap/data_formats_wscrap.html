@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.3.71">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Jorge Cimentada">
+  <title>Data Formats Web Scraping</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="data_formats_wscrap_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="data_formats_wscrap_files/libs/quarto-html/quarto.js"></script>
+  <script src="data_formats_wscrap_files/libs/quarto-html/popper.min.js"></script>
+  <script src="data_formats_wscrap_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="data_formats_wscrap_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="data_formats_wscrap_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="data_formats_wscrap_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="data_formats_wscrap_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="data_formats_wscrap_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="data_formats_wscrap_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="fullcontent">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content">
+<header id="title-block-header">
+<h1 class="title display-7">Data Formats Web Scraping</h1>
+<p class="author">Jorge Cimentada</p>
+</header>
+<div class="cell">
+
+</div>
+<section id="data-formats-for-webscraping" class="level1">
+<h1>Data Formats for Webscraping</h1>
+<ul>
+<li>Most web scraping involves parsing XML or HTML.</li>
+<li>XML is for data storage and transfer, HTML for website structure.</li>
+<li>Use <code>xml2</code> package in R to read both formats.</li>
+</ul>
+<p>What? What do you mean?</p>
+<section id="data-formats-for-webscraping-xml" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-xml">Data Formats for Webscraping: XML</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>xml_test <span class="ot">&lt;-</span> <span class="st">"&lt;people&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;jason&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;person type='fictional'&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;first_name&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;married&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">        Jason</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;/married&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/first_name&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;last_name&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">        Bourne</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/last_name&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;occupation&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">      Spy</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/occupation&gt;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;/person&gt;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/jason&gt;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;carol&gt;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;person type='real'&gt;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;first_name&gt;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;married&gt;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="st">        Carol</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;/married&gt;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/first_name&gt;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;last_name&gt;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="st">        Kalp</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/last_name&gt;</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;occupation&gt;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="st">      Scientist</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/occupation&gt;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;/person&gt;</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/carol&gt;</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/people&gt;</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-formats-for-webscraping-xml-1" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-xml-1">Data Formats for Webscraping: XML</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/xml_one.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="data-formats-for-webscraping-xml-2" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-xml-2">Data Formats for Webscraping: XML</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/xml_two.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="data-formats-for-webscraping-xml-3" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-xml-3">Data Formats for Webscraping: XML</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/xml_three.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="data-formats-for-webscraping-xml-4" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-xml-4">Data Formats for Webscraping: XML</h2>
+<ul>
+<li><p>XML tags have a beginning and end, with the end being signified by ‘&lt;/&gt;’</p></li>
+<li><p>XML tags can have any meaning, while HTML has standard tags for website structure.</p></li>
+<li><p>XML and HTML have many differences, some conceptual and some visible to users, and the author will focus on the most important ones for web scraping in the rest of the chapter.</p></li>
+</ul>
+</section>
+<section id="data-formats-for-webscraping-html" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-html">Data Formats for Webscraping: HTML</h2>
+<p>Let’s compare:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>html_test <span class="ot">&lt;-</span> <span class="st">"&lt;html&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;head&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;title&gt;Div Align Attribbute&lt;/title&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;/head&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;body&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;div align='left'&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">      First text</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/div&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;div align='right'&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st">      Second text</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/div&gt;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;div align='center'&gt;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st">      Third text</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/div&gt;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;div align='justify'&gt;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="st">      Fourth text</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/div&gt;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;/body&gt;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/html&gt;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-formats-for-webscraping-html-1" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-html-1">Data Formats for Webscraping: HTML</h2>
+<ul>
+<li><p>HTML tags have specific properties that structure how a website is shown on a browser</p></li>
+<li><p>These tags like <code>&lt;div&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;title&gt;</code> have predetermined behavior to format the website</p></li>
+<li><p>The tags themselves are standard across the HTML language and have specific behavior for website formatting.</p></li>
+</ul>
+<p>For example…</p>
+</section>
+<section id="data-formats-for-webscraping-html-2" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-html-2">Data Formats for Webscraping: HTML</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb3"><pre class="sourceCode html cell-code code-with-copy"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;title&gt;</span>Page Title<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span> <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"www.google.com"</span><span class="kw">&gt;</span>This is a Heading <span class="kw">&lt;/a&gt;</span> <span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p&gt;</span>This is a paragraph.<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-formats-for-webscraping-html-3" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-html-3">Data Formats for Webscraping: HTML</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/html_ex1.png" style="width:3.5in;height:2.2in" class="figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="data-formats-for-webscraping-html-4" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-html-4">Data Formats for Webscraping: HTML</h2>
+<ul>
+<li><p>In XML, all tags must have a closing tag, while some HTML tags don’t need to be closed.</p></li>
+<li><p>There are too many standard HTML tags for one to remember when getting started.</p></li>
+<li><p>XML tags have no meaning other than what the creator intended for them.</p></li>
+<li><p>HTML tags have predetermined behavior and standard across the language.</p></li>
+</ul>
+</section>
+<section id="data-formats-for-webscraping-1" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-1">Data Formats for Webscraping</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/html_ex2.jpg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="data-formats-for-webscraping-2" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-2">Data Formats for Webscraping</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>xml_raw <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(xml_test)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_structure</span>(xml_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>&lt;people&gt;
+  &lt;jason&gt;
+    &lt;person [type]&gt;
+      &lt;first_name&gt;
+        &lt;married&gt;
+          {text}
+      &lt;last_name&gt;
+        {text}
+      &lt;occupation&gt;
+        {text}
+  &lt;carol&gt;
+    &lt;person [type]&gt;
+      &lt;first_name&gt;
+        &lt;married&gt;
+          {text}
+      &lt;last_name&gt;
+        {text}
+      &lt;occupation&gt;
+        {text}</code></pre>
+</div>
+</div>
+</section>
+<section id="data-formats-for-webscraping-3" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-3">Data Formats for Webscraping</h2>
+<p>In more detail, the structure is as follows:</p>
+<ul>
+<li><p>The <strong>root</strong> node is <code>&lt;people&gt;</code></p></li>
+<li><p>The <strong>child</strong> nodes are <code>&lt;jason&gt;</code> and <code>&lt;carol&gt;</code></p></li>
+<li><p>Then each <strong>child</strong> node has nodes <code>&lt;first_name&gt;</code>, <code>&lt;married&gt;</code>, <code>&lt;last_name&gt;</code> and <code>&lt;occupation&gt;</code> nested within them.</p></li>
+</ul>
+</section>
+<section id="data-formats-for-webscraping-4" class="level2">
+<h2 class="anchored" data-anchor-id="data-formats-for-webscraping-4">Data Formats for Webscraping</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_child</span>(xml_raw, <span class="at">search =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>{xml_node}
+&lt;jason&gt;
+[1] &lt;person type="fictional"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Jason\n ...</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_child</span>(xml_raw, <span class="at">search =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>{xml_node}
+&lt;carol&gt;
+[1] &lt;person type="real"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Carol\n      ...</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>child_xml <span class="ot">&lt;-</span> <span class="fu">xml_children</span>(xml_raw)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>child_xml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>{xml_nodeset (2)}
+[1] &lt;jason&gt;\n  &lt;person type="fictional"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n ...
+[2] &lt;carol&gt;\n  &lt;person type="real"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n      ...</code></pre>
+</div>
+</div>
+</section>
+<section id="tag-attributes" class="level2">
+<h2 class="anchored" data-anchor-id="tag-attributes">Tag attributes</h2>
+<p>Tags can also have different attributes which are usually specified as <code>&lt;fake_tag attribute='fake'&gt;</code> and ended as usual with <code>&lt;/fake_tag&gt;</code></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the attribute type from all nodes</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_attrs</span>(child_xml, <span class="st">"type"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[[1]]
+named character(0)
+
+[[2]]
+named character(0)</code></pre>
+</div>
+</div>
+<p>No attribute? Right!</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>child_xml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>{xml_nodeset (2)}
+[1] &lt;jason&gt;\n  &lt;person type="fictional"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n ...
+[2] &lt;carol&gt;\n  &lt;person type="real"&gt;\n    &lt;first_name&gt;\n      &lt;married&gt;\n      ...</code></pre>
+</div>
+</div>
+<p>Do these tags have an attribute? No, because if they did, they would have something like <code>&lt;jason type='fake_tag'&gt;</code></p>
+</section>
+<section id="tag-attributes-1" class="level2">
+<h2 class="anchored" data-anchor-id="tag-attributes-1">Tag attributes</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We go down one level of children</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>person_nodes <span class="ot">&lt;-</span> <span class="fu">xml_children</span>(child_xml)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;person&gt; is now the main node, so we can extract attributes</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>person_nodes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>{xml_nodeset (2)}
+[1] &lt;person type="fictional"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Jason\n ...
+[2] &lt;person type="real"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Carol\n      ...</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Both type attributes</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_attrs</span>(person_nodes, <span class="st">"type"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[[1]]
+       type 
+"fictional" 
+
+[[2]]
+  type 
+"real" </code></pre>
+</div>
+</div>
+</section>
+<section id="tag-attributes-2" class="level2">
+<h2 class="anchored" data-anchor-id="tag-attributes-2">Tag attributes</h2>
+<p>You can even extract the address of specific tags:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specific address of each person tag for the whole xml tree</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># only using the `person_nodes`</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_path</span>(person_nodes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] "/people/jason/person" "/people/carol/person"</code></pre>
+</div>
+</div>
+<p>---</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can use results from xml_path like directories</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_find_all</span>(xml_raw, <span class="st">"/people/jason/person"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>{xml_nodeset (1)}
+[1] &lt;person type="fictional"&gt;\n  &lt;first_name&gt;\n    &lt;married&gt;\n        Jason\n ...</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Same as: <code>xml_raw %&gt;% xml_child(search = 1)</code>.</p></li>
+<li><p>For deeply nested trees, <code>xml_find_all</code> will be better.</p></li>
+</ul>
+</section>
+<section id="tag-attributes-3" class="level2">
+<h2 class="anchored" data-anchor-id="tag-attributes-3">Tag attributes</h2>
+<p>HTML also has tag attributes:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>html_raw <span class="ot">&lt;-</span> <span class="fu">read_html</span>(html_test)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">html_structure</span>(html_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;
+      {text}
+  &lt;body&gt;
+    {text}
+    &lt;div [align]&gt;
+      {text}
+    {text}
+    &lt;div [align]&gt;
+      {text}
+    {text}
+    &lt;div [align]&gt;
+      {text}
+    {text}
+    &lt;div [align]&gt;
+      {text}
+    {text}</code></pre>
+</div>
+</div>
+</section>
+<section id="tag-attributes-4" class="level2">
+<h2 class="anchored" data-anchor-id="tag-attributes-4">Tag attributes</h2>
+<p>How to separate XML from HTML?</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb26"><pre class="sourceCode html cell-code code-with-copy"><code class="sourceCode html"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;?xml</span> version="1.0&gt;</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>&lt;company&gt;</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    &lt;name&gt; John Doe &lt;/name&gt;</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    &lt;email&gt; johndoe@gmail.com &lt;/email&gt;</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>&lt;/address&gt;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>---</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb27"><pre class="sourceCode html cell-code code-with-copy"><code class="sourceCode html"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a> <span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span>My First Heading<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p&gt;</span>My first paragraph.<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<ul>
+<li><p>XML and HTML are tag-based and have parent-child relationships</p></li>
+<li><p>XML tags have special meanings while HTML tags have behavior</p></li>
+<li><p>Navigating nodes in XML and HTML can be done with <code>xml_child</code>, <code>xml_children</code> and <code>xml_find_all</code></p></li>
+<li><p>Extracting attributes and text is done with <code>xml_attr</code> and <code>xml_text</code></p></li>
+<li><p>HTML is more commonly used in web scraping because it is designed to show website format.</p></li>
+</ul>
+</section>
+</section>
+</main>
+<!-- /main column -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>
