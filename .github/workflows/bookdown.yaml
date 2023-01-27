@@ -55,8 +55,12 @@ jobs:
       - name: Build site
         run: Rscript -e 'bookdown::render_book("index.Rmd", quiet = TRUE)'
 
-      - name: Render slides
-        run: quarto render ./slides --to html
+      - name: Restore packages renv
+        shell: Rscript {0}
+        run: |
+          all_dirs <- fs::dir_ls("slides", type = "directory")
+          all_files <- fs::dir_ls(all_dirs, regexp = "\\.qmd")
+          purrr::walk(all_files, quarto::quarto_render)
 
       - name: Move slides to book
         run: cp -rf ./slides/ ./_book/

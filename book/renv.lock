@@ -922,10 +922,10 @@
     },
     "fs": {
       "Package": "fs",
-      "Version": "1.5.2",
+      "Version": "1.6.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "7c89603d81793f0d5486d91ab1fc6f1d",
+      "Hash": "0120e8c933bace1141e0b0d376b0c010",
       "Requirements": []
     },
     "future": {
@@ -1799,6 +1799,14 @@
         "askpass"
       ]
     },
+    "packrat": {
+      "Package": "packrat",
+      "Version": "0.9.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "2735eb4b51c302014f53acbb3c80a65f",
+      "Requirements": []
+    },
     "pak": {
       "Package": "pak",
       "Version": "0.3.0",
@@ -2071,19 +2079,32 @@
     },
     "purrr": {
       "Package": "purrr",
-      "Version": "0.3.4",
+      "Version": "1.0.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "purrr",
-      "RemoteRef": "purrr",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "source",
-      "RemoteSha": "0.3.4",
-      "Hash": "97def703420c8ab10d8f0e6c72101e02",
+      "Hash": "d71c815267c640f17ddbf7f16144b4bb",
       "Requirements": [
+        "cli",
+        "lifecycle",
         "magrittr",
-        "rlang"
+        "rlang",
+        "vctrs"
+      ]
+    },
+    "quarto": {
+      "Package": "quarto",
+      "Version": "1.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "298a252816cabed120391c955aced484",
+      "Requirements": [
+        "jsonlite",
+        "later",
+        "processx",
+        "rmarkdown",
+        "rsconnect",
+        "rstudioapi",
+        "yaml"
       ]
     },
     "rappdirs": {
@@ -2376,6 +2397,22 @@
       "RemoteSha": "2.0.3",
       "Hash": "1de7ab598047a87bba48434ba35d497d",
       "Requirements": []
+    },
+    "rsconnect": {
+      "Package": "rsconnect",
+      "Version": "0.8.29",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "fe178fc15af80952f546aafedf655b36",
+      "Requirements": [
+        "curl",
+        "digest",
+        "jsonlite",
+        "openssl",
+        "packrat",
+        "rstudioapi",
+        "yaml"
+      ]
     },
     "rstudioapi": {
       "Package": "rstudioapi",
@@ -3041,19 +3078,14 @@
     },
     "vctrs": {
       "Package": "vctrs",
-      "Version": "0.4.1",
+      "Version": "0.5.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "vctrs",
-      "RemoteRef": "vctrs",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "source",
-      "RemoteSha": "0.4.1",
-      "Hash": "8b54f22e2a58c4f275479c92ce041a57",
+      "Hash": "e4ffa94ceed5f124d429a5a5f0f5b378",
       "Requirements": [
         "cli",
         "glue",
+        "lifecycle",
         "rlang"
       ]
     },

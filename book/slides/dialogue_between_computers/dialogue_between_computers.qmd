@@ -173,6 +173,6 @@ Why is this all important? APIs work pretty much the same
 
 -   **Excessive requests**: servers have a finite amount of bandwidth they can use. Sleep your requests.
 
--   **Read the terms of services**: companies are sharing data freely over the web but this doesn\'t mean you can do anything with it.
+-   **Read the terms of services**: companies are sharing data freely over the web but this doesn't mean you can do anything with it.
 
 -   **Authentication**: many APIs require authentication. Make sure to do this every time it is needed
