@@ -376,8 +376,8 @@
 <code class="sourceCode R"><span class="va">res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">value</span><span class="op">)</span>
-<span class="co">## Error:</span>
-<span class="co">## ! Can't combine `..1` &lt;data.frame&gt; and `..3` &lt;list&gt;.</span></code></pre></div>
+<span class="co">## Error in `list_unchop()`:</span>
+<span class="co">## ! Can't combine `x[[1]]` &lt;data.frame&gt; and `x[[3]]` &lt;list&gt;.</span></code></pre></div>
 <p>It says exactly that: the first slot is a data frame and the third slot is a list. It can’t find a way to combine them. The main problem you’ll encounter with JSON’s is that you’re trying to parse some JSON that has many nested arrays and some of these arrays are not compatible for unnesting so you’ll have to submerge yourself into these nested arrays and fix whatever data you want to extract.</p>
 </div>
 <div id="accessing-deeply-nested-jsons" class="section level2" number="13.3">
@@ -636,7 +636,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-26.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

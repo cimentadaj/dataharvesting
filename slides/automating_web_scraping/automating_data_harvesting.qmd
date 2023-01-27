@@ -274,7 +274,7 @@ These simple rules will allow you to go very far in scheduling scripts for your 
 
 -   Schedule our newspaper scraper to run every minute, just to make sure it works.
 
--   Will get messy because it\'ll append the same resultsin the CSV file continuously.
+-   Will get messy because it'll append the same resultsin the CSV file continuously.
 
 -   However, it will give proof that the script is running on a schedule.
 

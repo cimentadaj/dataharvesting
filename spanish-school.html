@@ -279,7 +279,7 @@
 ## 1 38.8274492 0.0221681</code></pre>
 <p>We can see that it worked for a single school, so we can try on all schools. The only thing left is to extract this for many schools. As shown earlier, <code>scrapex</code> contains a list of 27 school links that we can automatically scrape. Let’s loop over those, get the information of coordinates for each and collapse all of them into a data frame.</p>
 <div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">coordinates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">school_grabber</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">coordinates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">school_grabber</span><span class="op">)</span>
 <span class="va">coordinates</span></code></pre></div>
 <pre><code>##    latitude  longitude
 ## 1  42.72779 -8.6567935
@@ -403,7 +403,7 @@
   <span class="op">)</span>
 <span class="op">}</span>
 
-<span class="va">public_private_schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">grab_public_private_school</span><span class="op">)</span>
+<span class="va">public_private_schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">grab_public_private_school</span><span class="op">)</span>
 <span class="va">public_private_schools</span></code></pre></div>
 <pre><code>##    public_private
 ## 1  Centro Privado
@@ -518,7 +518,7 @@
   <span class="op">)</span>
 <span class="op">}</span>
 
-<span class="va">all_type_schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">grab_type_school</span><span class="op">)</span>
+<span class="va">all_type_schools</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_dfr</a></span><span class="op">(</span><span class="va">school_links</span>, <span class="va">grab_type_school</span><span class="op">)</span>
 <span class="va">all_type_schools</span></code></pre></div>
 <pre><code>##                                     type_school
 ## 1                              Escuela Infantil
@@ -675,7 +675,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-26.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
