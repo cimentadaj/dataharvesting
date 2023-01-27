@@ -55,7 +55,7 @@ jobs:
       - name: Build site
         run: Rscript -e 'bookdown::render_book("index.Rmd", quiet = TRUE)'
 
-      - name: Restore packages renv
+      - name: Render slides
         shell: Rscript {0}
         run: |
           all_dirs <- fs::dir_ls("slides", type = "directory")
