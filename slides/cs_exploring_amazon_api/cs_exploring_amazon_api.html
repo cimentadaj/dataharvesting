@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.3.71">
+  <meta name="author" content="Jorge Cimentada">
+  <title>Case study: Exploring the Amazon API</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="cs_exploring_amazon_api_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="cs_exploring_amazon_api_files/libs/revealjs/dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="cs_exploring_amazon_api_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+
+  <script src="cs_exploring_amazon_api_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="cs_exploring_amazon_api_files/libs/quarto-html/tabby.min.js"></script>
+  <script src="cs_exploring_amazon_api_files/libs/quarto-html/popper.min.js"></script>
+  <script src="cs_exploring_amazon_api_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <link href="cs_exploring_amazon_api_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="cs_exploring_amazon_api_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet">
+  <link href="cs_exploring_amazon_api_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <link href="cs_exploring_amazon_api_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="cs_exploring_amazon_api_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="cs_exploring_amazon_api_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="cs_exploring_amazon_api_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.7em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-captioned.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-captioned) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-captioned.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-captioned .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-captioned .callout-caption  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-captioned.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-captioned.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-caption {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-caption {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-caption {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-captioned .callout-body > :last-child,
+  .callout.callout-captioned .callout-body > div > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-captioned .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-captioned) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-caption {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-caption {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-caption {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-caption {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-caption {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal #title-slide.center,
+    .reveal .title-slide.center,
+    .reveal .controls .navigate-left .controls-arrow,
+    .reveal .controls .navigate-right .controls-arrow {
+      margin-top: -15px;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="center">
+  <h1 class="title">Case study: Exploring the Amazon API</h1>
+  <p class="author">Jorge Cimentada</p>
+</section>
+
+<section class="slide level2">
+
+<div class="cell">
+
+</div>
+</section>
+<section id="exploring-amazon-api" class="title-slide slide level1 center">
+<h1>Exploring Amazon API</h1>
+<ul>
+<li><p>Amazon, the largest e-commerce website, has many APIs.</p></li>
+<li><p>Some of these are open to the public while others are used internally.</p></li>
+<li><p>Your company has just hired an Amazon which grants your company to access one of the Amazon APIs.</p></li>
+<li><p>This is the same API we explore in the presentation on “Introduction to REST APIs”</p></li>
+<li><p>If you remember correctly, the API can be launched with the function <a href="https://rdrr.io/pkg/scrapex/man/api_amazon.html"><code>api_amazon()</code></a> from the <code>scrapex</code> package.</p></li>
+</ul>
+</section>
+
+<section>
+<section id="exploring-amazon-api-1" class="title-slide slide level1 center">
+<h1>Exploring Amazon API</h1>
+<p>Launching the API:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(scrapex)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(httr2)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>az_api <span class="ot">&lt;-</span> <span class="fu">api_amazon</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] "Visit your REST API at http://localhost:33917"
+[1] "Documentation is at http://localhost:33917/__docs__/"</code></pre>
+</div>
+</div>
+<ol type="1">
+<li>Explore docs</li>
+<li>Explore endpoints</li>
+<li>Try it out</li>
+</ol>
+</section>
+<section id="exploring-amazon-api-2" class="slide level2">
+<h2>Exploring Amazon API</h2>
+
+<img data-src="images/paste-AB0B155A.png" class="r-stretch"></section>
+<section id="exploring-amazon-api-3" class="slide level2">
+<h2>Exploring Amazon API</h2>
+<ul>
+<li><p>7 endpoints</p></li>
+<li><p>All of them are <code>GET</code> requests: important, we don’t need to add a <code>body</code> anywhere.</p></li>
+</ul>
+<blockquote>
+<p>The endpoints contains data on all sorts of data from Amazon: authors and books from Amazon Books, users who visited Amazon and how each of these users bought certain Amazon products. As you might be hinting, this is quite some sensitive data. Unless you work at Amazon, you'll probably never have access to this. That's when security comes in.</p>
+</blockquote>
+</section>
+<section id="tokens-and-security" class="slide level2">
+<h2>Tokens and security</h2>
+<p>Amazon has granted you access to their internal APIs but every few days Amazon has forced you to log in to your Amazon account and extract a token that needs to be refreshed before making any requests to the API.</p>
+<p><br></p>
+<ul>
+<li><p>Tokens are common in the API world</p></li>
+<li><p>Ensure security on every request</p></li>
+<li><p>Forces the user to identify on each request</p></li>
+<li><p>Links a token to an email</p></li>
+</ul>
+</section>
+<section id="tokens-and-security-1" class="slide level2">
+<h2>Tokens and security</h2>
+<ul>
+<li><p>For real examples, this token is usually sent over email or on your profile page somwhere</p></li>
+<li><p>Since this is a fake example, <code>scrapex</code> has <code>amazon_bearer_token()</code></p></li>
+<li><p>Token are a random set of characters</p></li>
+<li><p>Every time you run it, it will return a new “valid” token</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>token <span class="ot">&lt;-</span> <span class="fu">amazon_bearer_tokens</span>()</span>
+<span id="cb7-2"><a href="#cb7-2"></a>token</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] "Cc$OYq5&lt;PqDLh)"</code></pre>
+</div>
+</div>
+</section>
+<section id="tokens-and-security-2" class="slide level2">
+<h2>Tokens and security</h2>
+<p>With this token in hand, how do I use it?</p>
+<ul>
+<li><p>Depends on API</p></li>
+<li><p>Read on docs how to do it</p></li>
+<li><p>It’s very common for these tokens to go in the headers</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>main_api_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(az_api<span class="sc">$</span>api_web, <span class="st">"/api/v1/amazon/"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a>header_token <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Bearer "</span>, token)</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a>req <span class="ot">&lt;-</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a>  main_api_path <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="fu">request</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>  <span class="fu">req_headers</span>(<span class="at">Authorization =</span> header_token)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="tokens-and-security-3" class="slide level2">
+<h2>Tokens and security</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>req</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>&lt;httr2_request&gt;</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>GET http://localhost:33917/api/v1/amazon/</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Headers:</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>• Authorization: '&lt;REDACTED&gt;'</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Body: empty</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Specified the root URL of the API (we are not pointing to a particular endpoint just yet)</p></li>
+<li><p>We've specified one <code>key=value</code> pair for the headers: <code>Authorization</code>.</p></li>
+<li><p>It automatically detects this header is private so it won't show it.</p></li>
+</ul>
+</section>
+<section id="amazon-books-authors" class="slide level2">
+<h2>Amazon Books: Authors</h2>
+<p><strong>The authors endpoint</strong></p>
+
+<p>No parameters needed</p>
+<img data-src="images/paste-2585BB6A.png" class="r-stretch quarto-figure-center"></section>
+<section id="amazon-books-authors-1" class="slide level2">
+<h2>Amazon Books: Authors</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>req_res <span class="ot">&lt;-</span> req <span class="sc">%&gt;%</span> <span class="fu">req_url_path_append</span>(<span class="st">"authors"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>req_res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>&lt;httr2_request&gt;</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>GET http://localhost:33917/api/v1/amazon/authors</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Headers:</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>• Authorization: '&lt;REDACTED&gt;'</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Body: empty</code></pre>
+</div>
+</div>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>res <span class="ot">&lt;-</span> req_res <span class="sc">%&gt;%</span> <span class="fu">req_perform</span>()</span>
+<span id="cb22-2"><a href="#cb22-2"></a>res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>&lt;httr2_response&gt;</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>GET http://localhost:33917/api/v1/amazon/authors</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Status: 200 OK</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Content-Type: application/json</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Body: In memory (217 bytes)</code></pre>
+</div>
+</div>
+</section>
+<section id="amazon-books-authors-2" class="slide level2">
+<h2>Amazon Books: Authors</h2>
+<p>The request was successful with a <code>200</code> status code. The content type is JSON so we can extract it with <code>resp_body_json</code> and set <code>simplifyVector = TRUE</code> to convert it directly to a data frame:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>res <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>             author    genre
+1 Cameron Gutkowski       Ad
+2  Stuart Armstrong     Sunt
+3    Kameron Grimes     Eius
+4     Genoveva Hand        A
+5      Kobe Effertz Possimus</code></pre>
+</div>
+</div>
+</section>
+<section id="amazon-books-authors-3" class="slide level2">
+<h2>Amazon Books: Authors</h2>
+
+<p>This endpoint's URL is <code>books</code> and requires two parameters: <code>author</code> and <code>genre</code></p>
+<img data-src="images/paste-D6E059B3.png" class="r-stretch quarto-figure-center"></section>
+<section id="amazon-books-authors-4" class="slide level2">
+<h2>Amazon Books: Authors</h2>
+<p>How do we specify the two string parameters in a request? <code>req_url_query</code></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>req_res <span class="ot">&lt;-</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>  req <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a>  <span class="fu">req_url_path_append</span>(<span class="st">"books"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a>  <span class="fu">req_url_query</span>(<span class="at">author =</span> <span class="st">"Stuart Armstrong"</span>, <span class="at">genre =</span> <span class="st">"Sunt"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5"></a></span>
+<span id="cb30-6"><a href="#cb30-6"></a>req_res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>&lt;httr2_request&gt;</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>GET
+http://localhost:33917/api/v1/amazon/books?author=Stuart%20Armstrong&amp;genre=Sunt</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Headers:</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>• Authorization: '&lt;REDACTED&gt;'</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Body: empty</code></pre>
+</div>
+</div>
+</section>
+<section id="amazon-books-authors-5" class="slide level2">
+<h2>Amazon Books: Authors</h2>
+<p>Let's perform the request and directly extract the result with <code>resp_body_json</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb36"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">req_perform</span>(req_res) <span class="sc">%&gt;%</span> <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb36-3"><a href="#cb36-3"></a>resp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 5 × 10
+  id_book title author genre description isbn  image published publisher user_id
+    &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;       &lt;int&gt;
+1     970 I ev… Stuar… Sunt  Dodo said,… 9798… http… 1993-11-… Sequi Et      319
+2     970 I ev… Stuar… Sunt  Dodo said,… 9798… http… 1993-11-… Sequi Et      471
+3     970 I ev… Stuar… Sunt  Dodo said,… 9798… http… 1993-11-… Sequi Et      187
+4     970 I ev… Stuar… Sunt  Dodo said,… 9798… http… 1993-11-… Sequi Et      918
+5     970 I ev… Stuar… Sunt  Dodo said,… 9798… http… 1993-11-… Sequi Et      692</code></pre>
+</div>
+</div>
+</section>
+<section id="amazon-books-authors-6" class="slide level2">
+<h2>Amazon Books: Authors</h2>
+<p>Weird? Seems all rows are repeated?</p>
+<blockquote>
+<p>That's because the column <code>user_id</code> is showing us the users who have read this book. Aside from the author-book relationship, Amazon also has the book-customer relationship in these APIs.</p>
+</blockquote>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb38"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>resp <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>user_id) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  id_book             title           author genre
+1     970 I ever was at in. Stuart Armstrong  Sunt
+                                                                                                                                                                                        description
+1 Dodo said, 'EVERYBODY has won, and all the unjust things--' when his eye chanced to fall upon Alice, as she could, for the rest waited in silence. At last the Caterpillar took the place of the.
+           isbn                           image  published publisher
+1 9798181432758 http://placeimg.com/480/640/any 1993-11-02  Sequi Et</code></pre>
+</div>
+</div>
+</section>
+<section id="amazon-books-authors-7" class="slide level2">
+<h2>Amazon Books: Authors</h2>
+<p>After figuring out that the only author is <code>Stuart Armstrong</code>, we can access actual samples of <code>Stuart's</code> books:</p>
+
+<img data-src="images/paste-594AB17B.png" class="r-stretch quarto-figure-center"></section>
+<section id="amazon-books-authors-8" class="slide level2">
+<h2>Amazon Books: Authors</h2>
+<ul>
+<li>Needs <code>author</code> as parameter</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb40"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>resp <span class="ot">&lt;-</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a>  req <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3"></a>  <span class="fu">req_url_path_append</span>(<span class="st">"texts"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4"></a>  <span class="fu">req_url_query</span>(<span class="at">author =</span> <span class="st">"Stuart Armstrong"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-5"><a href="#cb40-5"></a>  <span class="fu">req_perform</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb40-6"><a href="#cb40-6"></a>  <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-7"><a href="#cb40-7"></a></span>
+<span id="cb40-8"><a href="#cb40-8"></a>resp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  id_books             title           author
+1      970 I ever was at in. Stuart Armstrong
+                                                                                         content
+1 Dodo said, 'EVERYBODY has won, and all the unjust things--' when his eye chanced to fall upon.</code></pre>
+</div>
+</div>
+</section>
+<section id="amazon-books-user-behavior" class="slide level2">
+<h2>Amazon Books: User Behavior</h2>
+<p><code>products_users</code>: …access amazon's products/users database</p>
+
+<img data-src="images/paste-CBBCE658.png" class="r-stretch quarto-figure-center"></section>
+<section id="amazon-books-user-behavior-1" class="slide level2">
+<h2>Amazon Books: User Behavior</h2>
+<ul>
+<li><p>Link user behavior through different endpoints. Take user <code>319</code> (see <a href="https://cimentadaj.github.io/dataharvesting/case-study-exploring-the-amazon-api.html#understand-amazon-books">14.2</a>) and see which other products the user has bought on Amazon.</p></li>
+<li><p>Hidden relationships that you could uncover with the real data set: people who read certain books might have propensities to order certain products</p></li>
+<li><p>This endpoint needs only one parameter, the user id (int not str)</p></li>
+</ul>
+</section>
+<section id="amazon-books-user-behavior-2" class="slide level2">
+<h2>Amazon Books: User Behavior</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb42"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>resp <span class="ot">&lt;-</span></span>
+<span id="cb42-2"><a href="#cb42-2"></a>  req <span class="sc">%&gt;%</span></span>
+<span id="cb42-3"><a href="#cb42-3"></a>  <span class="fu">req_url_path_append</span>(<span class="st">"products_users"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb42-4"><a href="#cb42-4"></a>  <span class="fu">req_url_query</span>(<span class="at">user_id =</span> <span class="dv">319</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb42-5"><a href="#cb42-5"></a>  <span class="fu">req_perform</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb42-6"><a href="#cb42-6"></a>  <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb42-7"><a href="#cb42-7"></a></span>
+<span id="cb42-8"><a href="#cb42-8"></a>resp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  product_id user_id           ean          upc
+1         74     199 9062391405629 023609654276
+                             image
+1 http://placeimg.com/640/480/tech
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               images
+1 Eum odio sit veritatis aut., Aut mollitia ad nam ut., Quos ex fugit voluptatem., Ratione aut quibusdam quia voluptatem. Id unde aut qui doloremque vero cum et. Non amet qui excepturi ut minima autem. Reiciendis soluta aperiam aut dolores voluptatem ipsum., Id est et quas asperiores voluptatum. Ut delectus aspernatur laborum adipisci voluptas. Quo molestiae sed autem corrupti ut optio. Quisquam molestiae dolor iusto repudiandae mollitia quis., Omnis facilis dolor vero. Vel et et temporibus qui debitis aut modi. Saepe provident officiis quod voluptatem et., http://placeimg.com/640/480/any, http://placeimg.com/640/480/any, http://placeimg.com/640/480/any
+  net_price taxes     price
+1  298634.4    22 364334.02
+                                                                     tags
+1 numquam, blanditiis, inventore, rerum, aut, voluptate, quo, rerum, enim</code></pre>
+</div>
+</div>
+</section>
+<section id="amazon-books-user-behavior-3" class="slide level2">
+<h2>Amazon Books: User Behavior</h2>
+<ul>
+<li><p>Info: price, image and tags of the product</p></li>
+<li><p>Where’s the name? <em>Amazon's product database…</em></p></li>
+</ul>
+
+<img data-src="images/paste-8BDB0176.png" class="r-stretch quarto-figure-center"></section>
+<section id="amazon-books-user-behavior-4" class="slide level2">
+<h2>Amazon Books: User Behavior</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb44"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>resp <span class="ot">&lt;-</span></span>
+<span id="cb44-2"><a href="#cb44-2"></a>  req <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="#cb44-3"></a>  <span class="fu">req_url_path_append</span>(<span class="st">"products"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb44-4"><a href="#cb44-4"></a>  <span class="fu">req_url_query</span>(<span class="at">product_id =</span> <span class="dv">74</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb44-5"><a href="#cb44-5"></a>  <span class="fu">req_perform</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb44-6"><a href="#cb44-6"></a>  <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb44-7"><a href="#cb44-7"></a></span>
+<span id="cb44-8"><a href="#cb44-8"></a>resp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  id                       name
+1 74 Quod qui sit vero vero ad.
+                                                                                                           description
+1 Mollitia ullam animi aut et perspiciatis et tempore ipsa. Quidem praesentium ipsum nihil soluta iusto ducimus nulla.</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Great, we know the name of the product</p>
+</section>
+<section id="amazon-books-user-behavior-5" class="slide level2">
+<h2>Amazon Books: User Behavior</h2>
+<p><em>User’s database:</em></p>
+
+<img data-src="images/paste-1A738628.png" class="r-stretch quarto-figure-center"></section>
+<section id="amazon-books-user-behavior-6" class="slide level2">
+<h2>Amazon Books: User Behavior</h2>
+<ul>
+<li><p>Needs two arguments</p></li>
+<li><p>Not required (what?). Only one is required (any of the two).</p></li>
+<li><p>Different formats: string and integer</p></li>
+<li><p>Not clear what info you’ll get since the endpoint is too generic: user’s database</p></li>
+<li><p>Let’s make a query and see what it returns</p></li>
+</ul>
+</section>
+<section id="amazon-books-user-behavior-7" class="slide level2">
+<h2>Amazon Books: User Behavior</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb46"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>resp <span class="ot">&lt;-</span></span>
+<span id="cb46-2"><a href="#cb46-2"></a>  req <span class="sc">%&gt;%</span></span>
+<span id="cb46-3"><a href="#cb46-3"></a>  <span class="fu">req_url_path_append</span>(<span class="st">"users"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-4"><a href="#cb46-4"></a>  <span class="fu">req_url_query</span>(<span class="at">user_id =</span> <span class="dv">319</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-5"><a href="#cb46-5"></a>  <span class="fu">req_perform</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb46-6"><a href="#cb46-6"></a>  <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-7"><a href="#cb46-7"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb46-8"><a href="#cb46-8"></a></span>
+<span id="cb46-9"><a href="#cb46-9"></a>resp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  user_id countries macAddress        ip           
+    &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;             &lt;chr&gt;        
+1     319 Gambia    73:AE:9F:86:CC:3A 127.77.16.104</code></pre>
+</div>
+</div>
+<p>Alright, we know where the user is from, together with some technical IT info.</p>
+</section>
+<section id="amazon-books-user-behavior-8" class="slide level2">
+<h2>Amazon Books: User Behavior</h2>
+<p>We can replicate the previous one but specify a country:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb48"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>resp <span class="ot">&lt;-</span></span>
+<span id="cb48-2"><a href="#cb48-2"></a>  req <span class="sc">%&gt;%</span></span>
+<span id="cb48-3"><a href="#cb48-3"></a>  <span class="fu">req_url_path_append</span>(<span class="st">"users"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb48-4"><a href="#cb48-4"></a>  <span class="fu">req_url_query</span>(<span class="at">country =</span> <span class="st">"Germany"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb48-5"><a href="#cb48-5"></a>  <span class="fu">req_perform</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb48-6"><a href="#cb48-6"></a>  <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb48-7"><a href="#cb48-7"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb48-8"><a href="#cb48-8"></a></span>
+<span id="cb48-9"><a href="#cb48-9"></a>resp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  user_id countries macAddress        ip           
+    &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;             &lt;chr&gt;        
+1     700 Germany   41:5B:FE:BF:21:B4 53.214.36.82 
+2     505 Germany   31:4E:07:78:81:09 78.141.68.137</code></pre>
+</div>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li><p>Different endpoints return different data + have different access strategies</p></li>
+<li><p>Some endpoints might be inter-dependent</p></li>
+<li><p>Documentation of each endpoint is crucial for understanding the API</p></li>
+<li><p>Better to construct endpoints with functions from the <code>httr2</code> package</p></li>
+</ul>
+</section>
+<section id="homework" class="slide level2">
+<h2>Homework</h2>
+<ul>
+<li><p>No homework, focus on final project</p></li>
+<li><p>Make sure to submit the project ASAP. Will give me more time to revise. <strong>Deadline is next class.</strong></p></li>
+</ul>
+<div class="footer footer-default">
+
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="cs_exploring_amazon_api_files/libs/revealjs/dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="cs_exploring_amazon_api_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="cs_exploring_amazon_api_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="cs_exploring_amazon_api_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="cs_exploring_amazon_api_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="cs_exploring_amazon_api_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="cs_exploring_amazon_api_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="cs_exploring_amazon_api_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="cs_exploring_amazon_api_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="cs_exploring_amazon_api_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          // dispatch for htmlwidgets
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for reveal
+        if (window.Reveal) {
+          window.Reveal.addEventListener("slidechanged", function(event) {
+            fireSlideChanged(event.previousSlide, event.currentSlide);
+          });
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        target: function(trigger) {
+          return trigger.previousElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        setTimeout(function() {
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto-reveal',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          let href = ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+        tippyHover(ref, function() {
+          var popup = window.document.createElement('div');
+          cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    });
+    </script>
+    
+
+</body></html>

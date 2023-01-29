@@ -26,7 +26,7 @@ Slides:
     -   [Reminder project guidelines](./project_guidelines/project_guidelines.html)
 
 -   Sixth class
-    -   Exploring the Amazon API
+    -   [Exploring the Amazon API](./cs_exploring_amazon_api/cs_exploring_amazon_api.html)
     
 -   Seventh class
     -   [Automating Webscraping](./automating_web_scraping/automating_web_scraping.html)
