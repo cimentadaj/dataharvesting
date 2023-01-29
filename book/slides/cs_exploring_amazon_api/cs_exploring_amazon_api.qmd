@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
 
 Launching the API:
 
-```{r}
+```{r, message = FALSE}
 library(scrapex)
 library(httr2)
 library(dplyr)
@@ -324,3 +324,5 @@ resp
 -   No homework, focus on final project
 
 -   Make sure to submit the project ASAP. Will give me more time to revise. **Deadline is next class.**
+
+-   Submission of your project will be to paste the Github URL to the repo [here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=0).
