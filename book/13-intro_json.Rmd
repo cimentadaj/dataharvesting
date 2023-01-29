@@ -221,7 +221,7 @@ For each of the 'categories' (by this I mean, `president`, `vicepresident`, `opp
 
 To do this, there's a general strategy of combining two functions: `enframe` and `unnest`. `enframe` takes a named list and does two things. First, it extracts the *names* of each slot in the list and stores it in a column in a data frame. Secondly, it takes **everything** inside each slot and stores it in a *list-column*. 
 
-What is a list-column? It's a column of class *list* that can contain different things for each row (if you remember, all columns in R must be of the same kind, either `numeric`, `character` or something else but there can't be two types in the same column. With list-columns, this is an exception). In our example, the **first row of this list-column is a data frame that has two rows** (the data frame for `president`), the second row is an empty data frame with an `NA` value and the third is now a data frame since we altered the JSON manually (remember?). Here's what the result of `enframe` would look like:
+What is a list-column? It's a column of class *list* that can contain different things for each row (if you remember, all columns in R must be of the same kind, either `numeric`, `character` or something else but there can't be two types in the same column). In our example, the **first row of this list-column is a data frame that has two rows** (the data frame for `president`), the second row is an empty data frame with an `NA` value and the third is now a data frame since we altered the JSON manually (remember?). Here's what the result of `enframe` would look like:
 
 ```{r}
 res %>%

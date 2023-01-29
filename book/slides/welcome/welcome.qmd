@@ -65,17 +65,17 @@ Scoring for the class:
 
 <br>
 
-Webscraping -- **1st Feb / 8th Feb / 15th Feb**
+Webscraping -- First three classes (**1st Feb / 8th Feb / 15th Feb)**
 
 <br>
 
-APIs - **22nd Feb / 1st March / 8th March**
+APIs - Next three classes (**22nd Feb / 1st March / 8th March)**
 
 <br>
 
-Automating Data Harvesting - **15th March**
+Automating Data Harvesting (Final class) - **15th March**
 
-<br>
+<br>5 February
 
 Presentation of projects - **20th March (pending confirmation)**
 
@@ -85,13 +85,13 @@ Final project spreadsheet is [here](https://docs.google.com/spreadsheets/d/11Qmd
 
 -   26 students / 13 groups / groups of 2
 
--   Try to find your partner as soon as possible -- **deadline 15 February**
+-   Try to find your partner as soon as possible -- **deadline 15 February (third class)**
 
--   Final project ideas submission -- **deadline 1st March**
+-   Final project ideas submission -- **deadline 1st March (fifth class)**
 
 -   2 weeks of work on final project
 
--   Final project submission -- **deadline 15th March**
+-   Final project submission -- **deadline 15th March (seventh class)**
 
 -   Final project presentation -- **20th March (pending confirmation)**
 
