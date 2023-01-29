@@ -407,3 +407,9 @@ Exit cron and wait a few minutes...⏲️
 -   Saving data on each request is paramount (could by database or locally)
 
 -   Automation can take you a long way!
+
+## Homework
+
+-   Today is the deadline to send your final project.
+
+-   Prepare presentation for your project next week. 8 minutes for each team. Aim do it in 5-6 minutes and I'll give you oral and written feedback.

@@ -662,3 +662,11 @@ ggplot(sp_sf) +
 -   Thinking outside the box
 
 🤯
+
+## Homework
+
+-   Chapter 10 and 11 -- read + exercises
+
+-   Deadline for groups is today. Anyone missing? [Here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=0).
+
+-   Each group should send me an email with their project idea (other team members as cc) and I will advise on whether it\'s a good idea. Deadline is in **two weeks.**

@@ -67,9 +67,9 @@ api_covid <- api_coveragedb()
 
 -   The API is now launched in the background
 
--   Note that learning about a new API online you **won\'t** have to launch any API.
+-   Note that learning about a new API online you **won't** have to launch any API.
 
--   APIs are hosted on servers elsewhere and you\'ll just need to read how to access the API.
+-   APIs are hosted on servers elsewhere and you'll just need to read how to access the API.
 
 -   First thing you want to do is access docs.
 
@@ -95,7 +95,7 @@ api_covid <- api_coveragedb()
 
 ## A Primer on APIs
 
--   A base URL. In this case, it\'s <http://localhost:2234>. **Yours will be different because you launched it in your local computer**.
+-   A base URL. In this case, it's <http://localhost:2234>. **Yours will be different because you launched it in your local computer**.
 
 -   The endpoint URL of this specific endpoint. For the COVID cases, this is `/api/v1/covid_cases`.
 
@@ -131,7 +131,7 @@ req_california_m <-
 req_california_m
 ```
 
-Do you see the idea here? `request` builds a placeholder for the endpoint and then you add as many \"add-on\'s\" as you want to your request.
+Do you see the idea here? `request` builds a placeholder for the endpoint and then you add as many "add-on's" as you want to your request.
 
 ## Making your first request
 
@@ -303,3 +303,12 @@ resp_body_california %>%
   geom_line() +
   theme_bw()
 ```
+
+## Homework
+
+-   Chapter 12 and 13 -- read + exercises
+
+```{=html}
+<!-- -->
+```
+-   How are project ideas coming along? Should confirm with me by email. Deadline to submit project ideas are next week. I advise to start working on project **now**. [Here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=0).

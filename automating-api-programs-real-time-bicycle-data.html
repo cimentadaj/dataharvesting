@@ -158,10 +158,10 @@
 <span class="co">## [1] 29</span>
 <span class="co">## </span>
 <span class="co">## [[1]]$current_time</span>
-<span class="co">## [1] "2023-01-27 10:12:21"</span>
+<span class="co">## [1] "2023-01-29 12:57:54"</span>
 <span class="co">## </span>
 <span class="co">## [[1]]$in_use</span>
-<span class="co">## [1] 18</span>
+<span class="co">## [1] 28</span>
 <span class="co">## </span>
 <span class="co">## </span>
 <span class="co">## [[2]]</span>
@@ -184,10 +184,10 @@
 <span class="co">## [1] 27</span>
 <span class="co">## </span>
 <span class="co">## [[2]]$current_time</span>
-<span class="co">## [1] "2023-01-27 10:12:21"</span>
+<span class="co">## [1] "2023-01-29 12:57:54"</span>
 <span class="co">## </span>
 <span class="co">## [[2]]$in_use</span>
-<span class="co">## [1] 24</span></code></pre></div>
+<span class="co">## [1] 25</span></code></pre></div>
 <p>I’ve only shown the first two slots of the resulting list (parsed from the JSON directly using <code>resp_body_json</code>). This output looks like each slot is the row of a data frame where each contains a column, with names like <code>slots</code>, <code>in_use</code>, <code>latitude/longitude</code> and <code>streetName</code>. There are different ways to parse this output but the first that comes to mind is to loop over each slot and simply try to convert it to a data frame. Since each slot has a named list inside, <code>data.frame</code> can convert that directly to a data frame and we can bind all those rows into a single data frame. Let’s try it:</p>
 <div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_output</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span>
@@ -197,8 +197,8 @@
 <span class="co">## 1 BIKE  41.3980    2.1800 Gran Via Corts Catalanes          760    29</span>
 <span class="co">## 2 BIKE  41.3955    2.1771  Roger de Flor/ Gran Vía          126    27</span>
 <span class="co">##          current_time in_use</span>
-<span class="co">## 1 2023-01-27 10:12:21     18</span>
-<span class="co">## 2 2023-01-27 10:12:21     24</span></code></pre></div>
+<span class="co">## 1 2023-01-29 12:57:54     28</span>
+<span class="co">## 2 2023-01-29 12:57:54     25</span></code></pre></div>
 <p>Yep, works well. Let’s go back to the request an extract all stations and combine them together:</p>
 <div class="sourceCode" id="cb350"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_stations</span> <span class="op">&lt;-</span>
@@ -233,26 +233,26 @@
 <span class="co">## 19 BIKE  41.4102    2.1758                      Cartagena          308    20</span>
 <span class="co">## 20 BIKE  41.4109    2.1740       Sant Antoni Maria Claret          214     2</span>
 <span class="co">##           current_time in_use</span>
-<span class="co">## 1  2023-01-27 10:12:21     18</span>
-<span class="co">## 2  2023-01-27 10:12:21     24</span>
-<span class="co">## 3  2023-01-27 10:12:21     18</span>
-<span class="co">## 4  2023-01-27 10:12:21      0</span>
-<span class="co">## 5  2023-01-27 10:12:21      2</span>
-<span class="co">## 6  2023-01-27 10:12:21     14</span>
-<span class="co">## 7  2023-01-27 10:12:21     15</span>
-<span class="co">## 8  2023-01-27 10:12:21     22</span>
-<span class="co">## 9  2023-01-27 10:12:21      5</span>
-<span class="co">## 10 2023-01-27 10:12:21      1</span>
-<span class="co">## 11 2023-01-27 10:12:21      6</span>
-<span class="co">## 12 2023-01-27 10:12:21      1</span>
-<span class="co">## 13 2023-01-27 10:12:21     23</span>
-<span class="co">## 14 2023-01-27 10:12:21      5</span>
-<span class="co">## 15 2023-01-27 10:12:21     18</span>
-<span class="co">## 16 2023-01-27 10:12:21      4</span>
-<span class="co">## 17 2023-01-27 10:12:21     11</span>
-<span class="co">## 18 2023-01-27 10:12:21     12</span>
-<span class="co">## 19 2023-01-27 10:12:21     17</span>
-<span class="co">## 20 2023-01-27 10:12:21      2</span></code></pre></div>
+<span class="co">## 1  2023-01-29 12:57:54     28</span>
+<span class="co">## 2  2023-01-29 12:57:54     25</span>
+<span class="co">## 3  2023-01-29 12:57:54      3</span>
+<span class="co">## 4  2023-01-29 12:57:54      8</span>
+<span class="co">## 5  2023-01-29 12:57:54     29</span>
+<span class="co">## 6  2023-01-29 12:57:54      7</span>
+<span class="co">## 7  2023-01-29 12:57:54     17</span>
+<span class="co">## 8  2023-01-29 12:57:54      9</span>
+<span class="co">## 9  2023-01-29 12:57:54     19</span>
+<span class="co">## 10 2023-01-29 12:57:54     21</span>
+<span class="co">## 11 2023-01-29 12:57:54     16</span>
+<span class="co">## 12 2023-01-29 12:57:54      2</span>
+<span class="co">## 13 2023-01-29 12:57:54      8</span>
+<span class="co">## 14 2023-01-29 12:57:54     14</span>
+<span class="co">## 15 2023-01-29 12:57:54      3</span>
+<span class="co">## 16 2023-01-29 12:57:54     16</span>
+<span class="co">## 17 2023-01-29 12:57:54     14</span>
+<span class="co">## 18 2023-01-29 12:57:54     14</span>
+<span class="co">## 19 2023-01-29 12:57:54      6</span>
+<span class="co">## 20 2023-01-29 12:57:54      1</span></code></pre></div>
 <p>Great, there we go. We managed to access the API, request the real time information of all bicycles and parse the output into a data frame. The most important columns here are <code>slots</code>, <code>current_time</code> and <code>in_use</code>. With these three you can calculate the rate at which the station is used throughout the day. In addition, we have cool stuff like the <code>latitude</code>/<code>longitude</code> to locate the station in case we want to make, for example, maps of bicycle usage. Let’s take a step back and move all of our code into a function that makes a request:</p>
 <div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">real_time_bicing</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bicing_api</span><span class="op">)</span> <span class="op">{</span>
@@ -280,26 +280,26 @@
 <span class="va">second</span> <span class="op">&lt;-</span> <span class="fu">real_time_bicing</span><span class="op">(</span><span class="va">bicing</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">in_use</span><span class="op">)</span> <span class="op"><a href="https://httr2.r-lib.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>second_in_use <span class="op">=</span> <span class="va">in_use</span><span class="op">)</span>
 <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_cols</a></span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span>
 <span class="co">##    first_in_use second_in_use</span>
-<span class="co">## 1            19            29</span>
-<span class="co">## 2            17             0</span>
-<span class="co">## 3            25            20</span>
-<span class="co">## 4             6             4</span>
-<span class="co">## 5            22            23</span>
-<span class="co">## 6            24             0</span>
-<span class="co">## 7            14             3</span>
-<span class="co">## 8            14             3</span>
-<span class="co">## 9             9             7</span>
-<span class="co">## 10            9             1</span>
-<span class="co">## 11           18            26</span>
-<span class="co">## 12            3             3</span>
-<span class="co">## 13           12            25</span>
-<span class="co">## 14            9             5</span>
-<span class="co">## 15           15             3</span>
-<span class="co">## 16           18            18</span>
-<span class="co">## 17           10            22</span>
-<span class="co">## 18            7             2</span>
-<span class="co">## 19           17             5</span>
-<span class="co">## 20            2             0</span></code></pre></div>
+<span class="co">## 1             8             9</span>
+<span class="co">## 2             4             1</span>
+<span class="co">## 3            27            14</span>
+<span class="co">## 4             6            14</span>
+<span class="co">## 5            22            13</span>
+<span class="co">## 6            27            19</span>
+<span class="co">## 7            11            21</span>
+<span class="co">## 8             5            20</span>
+<span class="co">## 9            26            17</span>
+<span class="co">## 10           11            13</span>
+<span class="co">## 11            5            18</span>
+<span class="co">## 12            1             1</span>
+<span class="co">## 13           10             2</span>
+<span class="co">## 14           13             8</span>
+<span class="co">## 15           15             1</span>
+<span class="co">## 16           19            20</span>
+<span class="co">## 17           26            13</span>
+<span class="co">## 18            1            11</span>
+<span class="co">## 19           18            19</span>
+<span class="co">## 20            2             1</span></code></pre></div>
 <p>We performed two requests and only selected the column <code>in_use</code> to check that these two columns are different. In effect, the bicycle usage of two requests just 1 second apart shows vastly different usage patterns for each station. This highlights that what we’re really interested here is in adding the two ingredients for making this a robust program: save the data on the fly and automate the script.</p>
 </div>
 <div id="saving-data-in-api-programs" class="section level2" number="15.2">
@@ -500,7 +500,7 @@ Number rows: 20</code></pre>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-27.</p>
+    <p>"<strong>Data Harvesting with R</strong>" was written by Jorge Cimentada. It was last built on 2023-01-29.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -424,3 +424,11 @@ XPath is a very rich language with over 20 years of development. I've covered so
 -   [Extensive XPath Cheetsheet](https://www.lambdatest.com/blog/most-exhaustive-xpath-locators-cheat-sheet/)
 
 -   [XPath tutorial](https://www.w3schools.com/xml/xpath_intro.asp)
+
+## Homework
+
+-   Read and complete exercises of chapter 6
+
+-   Deadline for group definitions is next week. How is it going? [Here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=0).
+
+-   Start thinking about projects.

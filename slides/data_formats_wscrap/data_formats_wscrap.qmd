@@ -289,3 +289,11 @@ How to separate XML from HTML?
 -   Extracting attributes and text is done with `xml_attr` and `xml_text`
 
 -   HTML is more commonly used in web scraping because it is designed to show website format.
+
+## Homework
+
+-   Complete the exercises of chapter 2/3
+
+-   Read and complete exercises of chapter 4 and 5
+
+-   Start finding a partner for your group. [Here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=0).
