@@ -42,6 +42,7 @@ We'll talk to APIs
 <br>
 
 -   Tutoring on Tuesdays between 18h-20h. **Requests should be per email and should receive a confirmation per email. Tutoring will be online over video call.**
+-   My email: **cimentadaj\@gmail.com**
 -   Classes on Wednesdays
 -   Class between 18:00 - 19:30
 -   15 minute break
@@ -77,13 +78,13 @@ Automating Data Harvesting (Final class) - **15th March**
 
 <br>5 February
 
-Presentation of projects - **20th March (pending confirmation)**
+Presentation of projects - **24th March / 16:30-19:15**
 
 ## Final project
 
 Final project spreadsheet is [here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit?usp=sharing).
 
--   26 students / 13 groups / groups of 2
+-   23 students / 11 groups / 10 groups of 2 and 1 group of 3
 
 -   Try to find your partner as soon as possible -- **deadline 15 February (third class)**
 
@@ -93,9 +94,9 @@ Final project spreadsheet is [here](https://docs.google.com/spreadsheets/d/11Qmd
 
 -   Final project submission -- **deadline 15th March (seventh class)**
 
--   Final project presentation -- **20th March (pending confirmation)**
+-   Final project presentation -- **24th March / 16:30-19:15**
 
--   Every team will have 8 minutes to present.
+-   Every team will have 10 minutes to present.
 
 ## Project expectations
 
@@ -119,9 +120,7 @@ Final project spreadsheet is [here](https://docs.google.com/spreadsheets/d/11Qmd
 
     -   **Remember most of the mark is for this project.** 
 
--   API Projects: tokens should not be osted on your repository. Provide clear instructions where to place tokens for reproducibility.
-
--   Final project should be an R package.
+-   API Projects: tokens should not be hosted on your repository. Provide clear instructions where to place tokens for reproducibility.
 
 ## Project expectations
 
