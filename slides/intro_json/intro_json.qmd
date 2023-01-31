@@ -32,9 +32,9 @@ knitr::opts_chunk$set(
 
 Why is JSON important? Why not use a CSV, for example? or XML? I'll skip the boring stuff and leave you with three:
 
-1.  It\'s lightweight and easy to share
+1.  It's lightweight and easy to share
 2.  It has support in nearly all programming languages
-3.  It allows you to make nested relationships and they\'re easy to read
+3.  It allows you to make nested relationships and they're easy to read
 
 JSONs are easy to read directly from the source file. In this session we'll focus on real-world examples of the problems you'll face while working with JSONs
 
@@ -128,9 +128,8 @@ Let's break it down:
 
 -   Three keys (names of each slot) where each contains a 1 row data frame inside.
 
-```{=html}
 <!-- -->
-```
+
     {
        "key":[
           ## First row
@@ -214,7 +213,7 @@ json_str <- '
 fromJSON(json_str, simplifyDataFrame = TRUE)
 ```
 
-JSON\'s are `key:value` pairs and the value it self can be an array with other key/value pairs.
+JSON's are `key:value` pairs and the value it self can be an array with other key/value pairs.
 
 ## Real JSON example
 
@@ -284,11 +283,11 @@ res
 
 ## Real JSON example
 
-1.  A data frame for the first slot. That\'s correct because the JSON contained an array with two sets of `key:value` pairs. That\'s translatable to a data frame with two rows even though one of the two sets did not have a field for `age`.
+1.  A data frame for the first slot. That's correct because the JSON contained an array with two sets of `key:value` pairs. That's translatable to a data frame with two rows even though one of the two sets did not have a field for `age`.
 
 2.  An NA value since `null` is the way missing values are represented in JSON but notice that this `null` is in a JSON array so this is effectively a data frame with an `NA` value.
 
-3.  A named list. That\'s right because there is no array structure (`[...]`) so `key:value` pairs are interpreted as a named list.
+3.  A named list. That's right because there is no array structure (`[...]`) so `key:value` pairs are interpreted as a named list.
 
 ## Real JSON example
 
@@ -317,7 +316,7 @@ Most important part of this section. Taking the previous example, how can we tur
 
 -   This is the ideal summary of the result: everything in a single data frame with complete and incomplete information.
 
--   Each \'category\' (`president`, `vicepresident`, `opposition`) is a row.
+-   Each 'category' (`president`, `vicepresident`, `opposition`) is a row.
 
 ## The `enframe` + `unnest` strategy
 
@@ -331,7 +330,7 @@ Most important part of this section. Taking the previous example, how can we tur
 
 ## The `enframe` + `unnest` strategy
 
--   List-column: column of class list that can contain different things (if you remember, all columns in R must be of the same kind, either `numeric`, `character` or something else but there can\'t be two types in the same column).
+-   List-column: column of class list that can contain different things (if you remember, all columns in R must be of the same kind, either `numeric`, `character` or something else but there can't be two types in the same column).
 
 -   In our example,
 
@@ -358,11 +357,11 @@ res %>%
 
 How do we transform it?
 
--   `unnest` takes list-columns and \'unpacks\' them into the common class of the list.
+-   `unnest` takes list-columns and 'unpacks' them into the common class of the list.
 
 -   If the all objects are of different classes (`data.frame`, `vectors`, etc..), then `unnest` will fail.
 
--   If all objects within the list are of the same class, it will combine all of them into a proper column or \'unpack\' it\'s values.
+-   If all objects within the list are of the same class, it will combine all of them into a proper column or 'unpack' it's values.
 
 All of this sounds convoluted right? Let's see some applied examples.
 
@@ -421,13 +420,13 @@ res %>%
 
 <br>
 
-The main problem you\'ll encounter with JSON\'s is that you\'re trying to parse some JSON that has many **nested arrays** and some of these arrays are not **compatible for unnesting** so you\'ll have to submerge yourself into these nested arrays and fix whatever data you want to extract.
+The main problem you'll encounter with JSON's is that you're trying to parse some JSON that has many **nested arrays** and some of these arrays are not **compatible for unnesting** so you'll have to submerge yourself into these nested arrays and fix whatever data you want to extract.
 
 ## Accessing deeply nested JSONs
 
 <br>
 
-> Suppose that as part of a research project, you\'ve recently been granted access to the API of a company. You\'re interested in studying the relationship between the geo-location of clients, their shopping patterns and their social class.
+> Suppose that as part of a research project, you've recently been granted access to the API of a company. You're interested in studying the relationship between the geo-location of clients, their shopping patterns and their social class.
 
 ## Accessing deeply nested JSONs
 
@@ -529,7 +528,7 @@ res$client1
 
 ## Accessing deeply nested JSONs
 
-Say we wanted to append "Device: " to the device of each client:
+Say we wanted to append "Device:" to the device of each client:
 
 ```{r, error = TRUE}
 paste0("Device: ", res$client1$device)
@@ -553,7 +552,7 @@ lapply(res$client1$device[[1]], class)
 
 <br>
 
-`location` is also a list. Let\'s look at what\'s inside:
+`location` is also a list. Let's look at what's inside:
 
 ```{r}
 res$client1$device[[1]]$location[[1]]
@@ -567,7 +566,7 @@ res$client1$device[[1]]$location[[1]]
 
 -   The problem is that these are recurrent data frames inside data frames and so on.
 
--   It\'s difficult to assess where to stop and this is a good example where `unnest` is very handy.
+-   It's difficult to assess where to stop and this is a good example where `unnest` is very handy.
 
 ```{r}
 res$client1 %>%

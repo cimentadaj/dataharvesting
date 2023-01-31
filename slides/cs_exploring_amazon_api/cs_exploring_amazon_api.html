@@ -424,8 +424,8 @@
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-4"><a href="#cb1-4"></a>az_api <span class="ot">&lt;-</span> <span class="fu">api_amazon</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] "Visit your REST API at http://localhost:42030"
-[1] "Documentation is at http://localhost:42030/__docs__/"</code></pre>
+<pre><code>[1] "Visit your REST API at http://localhost:34956"
+[1] "Documentation is at http://localhost:34956/__docs__/"</code></pre>
 </div>
 </div>
 <ol type="1">
@@ -445,7 +445,7 @@
 <li><p>All of them are <code>GET</code> requests: important, we don’t need to add a <code>body</code> anywhere.</p></li>
 </ul>
 <blockquote>
-<p>The endpoints contains data on all sorts of data from Amazon: authors and books from Amazon Books, users who visited Amazon and how each of these users bought certain Amazon products. As you might be hinting, this is quite some sensitive data. Unless you work at Amazon, you'll probably never have access to this. That's when security comes in.</p>
+<p>The endpoints contains data on all sorts of data from Amazon: authors and books from Amazon Books, users who visited Amazon and how each of these users bought certain Amazon products. As you might be hinting, this is quite some sensitive data. Unless you work at Amazon, you’ll probably never have access to this. That’s when security comes in.</p>
 </blockquote>
 </section>
 <section id="tokens-and-security" class="slide level2">
@@ -501,7 +501,7 @@
 <pre><code>&lt;httr2_request&gt;</code></pre>
 </div>
 <div class="cell-output-stderr">
-<pre><code>GET http://localhost:42030/api/v1/amazon/</code></pre>
+<pre><code>GET http://localhost:34956/api/v1/amazon/</code></pre>
 </div>
 <div class="cell-output-stderr">
 <pre><code>Headers:</code></pre>
@@ -515,8 +515,8 @@
 </div>
 <ul>
 <li><p>Specified the root URL of the API (we are not pointing to a particular endpoint just yet)</p></li>
-<li><p>We've specified one <code>key=value</code> pair for the headers: <code>Authorization</code>.</p></li>
-<li><p>It automatically detects this header is private so it won't show it.</p></li>
+<li><p>We’ve specified one <code>key=value</code> pair for the headers: <code>Authorization</code>.</p></li>
+<li><p>It automatically detects this header is private so it won’t show it.</p></li>
 </ul>
 </section>
 <section id="amazon-books-authors" class="slide level2">
@@ -534,7 +534,7 @@
 <pre><code>&lt;httr2_request&gt;</code></pre>
 </div>
 <div class="cell-output-stderr">
-<pre><code>GET http://localhost:42030/api/v1/amazon/authors</code></pre>
+<pre><code>GET http://localhost:34956/api/v1/amazon/authors</code></pre>
 </div>
 <div class="cell-output-stderr">
 <pre><code>Headers:</code></pre>
@@ -554,7 +554,7 @@
 <pre><code>&lt;httr2_response&gt;</code></pre>
 </div>
 <div class="cell-output-stderr">
-<pre><code>GET http://localhost:42030/api/v1/amazon/authors</code></pre>
+<pre><code>GET http://localhost:34956/api/v1/amazon/authors</code></pre>
 </div>
 <div class="cell-output-stderr">
 <pre><code>Status: 200 OK</code></pre>
@@ -586,7 +586,7 @@
 <section id="amazon-books-authors-3" class="slide level2">
 <h2>Amazon Books: Authors</h2>
 
-<p>This endpoint's URL is <code>books</code> and requires two parameters: <code>author</code> and <code>genre</code></p>
+<p>This endpoint’s URL is <code>books</code> and requires two parameters: <code>author</code> and <code>genre</code></p>
 <img data-src="images/paste-D6E059B3.png" class="r-stretch quarto-figure-center"></section>
 <section id="amazon-books-authors-4" class="slide level2">
 <h2>Amazon Books: Authors</h2>
@@ -603,7 +603,7 @@
 </div>
 <div class="cell-output-stderr">
 <pre><code>GET
-http://localhost:42030/api/v1/amazon/books?author=Stuart%20Armstrong&amp;genre=Sunt</code></pre>
+http://localhost:34956/api/v1/amazon/books?author=Stuart%20Armstrong&amp;genre=Sunt</code></pre>
 </div>
 <div class="cell-output-stderr">
 <pre><code>Headers:</code></pre>
@@ -618,7 +618,7 @@ http://localhost:42030/api/v1/amazon/books?author=Stuart%20Armstrong&amp;genre=S
 </section>
 <section id="amazon-books-authors-5" class="slide level2">
 <h2>Amazon Books: Authors</h2>
-<p>Let's perform the request and directly extract the result with <code>resp_body_json</code>:</p>
+<p>Let’s perform the request and directly extract the result with <code>resp_body_json</code>:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb32"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">req_perform</span>(req_res) <span class="sc">%&gt;%</span> <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb32-2"><a href="#cb32-2"></a>  <span class="fu">as_tibble</span>()</span>
@@ -639,7 +639,7 @@ http://localhost:42030/api/v1/amazon/books?author=Stuart%20Armstrong&amp;genre=S
 <h2>Amazon Books: Authors</h2>
 <p>Weird? Seems all rows are repeated?</p>
 <blockquote>
-<p>That's because the column <code>user_id</code> is showing us the users who have read this book. Aside from the author-book relationship, Amazon also has the book-customer relationship in these APIs.</p>
+<p>That’s because the column <code>user_id</code> is showing us the users who have read this book. Aside from the author-book relationship, Amazon also has the book-customer relationship in these APIs.</p>
 </blockquote>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb34"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>resp <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>user_id) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -682,7 +682,7 @@ http://localhost:42030/api/v1/amazon/books?author=Stuart%20Armstrong&amp;genre=S
 </section>
 <section id="amazon-books-user-behavior" class="slide level2">
 <h2>Amazon Books: User Behavior</h2>
-<p><code>products_users</code>: …access amazon's products/users database</p>
+<p><code>products_users</code>: …access amazon’s products/users database</p>
 
 <img data-src="images/paste-CBBCE658.png" class="r-stretch quarto-figure-center"></section>
 <section id="amazon-books-user-behavior-1" class="slide level2">
@@ -722,7 +722,7 @@ http://localhost:42030/api/v1/amazon/books?author=Stuart%20Armstrong&amp;genre=S
 <h2>Amazon Books: User Behavior</h2>
 <ul>
 <li><p>Info: price, image and tags of the product</p></li>
-<li><p>Where’s the name? <em>Amazon's product database…</em></p></li>
+<li><p>Where’s the name? <em>Amazon’s product database…</em></p></li>
 </ul>
 
 <img data-src="images/paste-8BDB0176.png" class="r-stretch quarto-figure-center"></section>

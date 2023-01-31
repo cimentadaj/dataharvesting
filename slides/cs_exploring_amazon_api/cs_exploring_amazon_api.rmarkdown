@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+
 # Exploring Amazon API
 
 -   Amazon, the largest e-commerce website, has many APIs.
@@ -32,12 +33,14 @@ knitr::opts_chunk$set(
 
 Launching the API:
 
+
 ```{r, message = FALSE}
 library(scrapex)
 library(httr2)
 library(dplyr)
 az_api <- api_amazon()
 ```
+
 
 1.  Explore docs
 2.  Explore endpoints
@@ -79,10 +82,12 @@ Amazon has granted you access to their internal APIs but every few days Amazon h
 
 -   Every time you run it, it will return a new "valid" token
 
+
 ```{r}
 token <- amazon_bearer_tokens()
 token
 ```
+
 
 ## Tokens and security
 
@@ -94,6 +99,7 @@ With this token in hand, how do I use it?
 
 -   It's very common for these tokens to go in the headers
 
+
 ```{r}
 main_api_path <- paste0(az_api$api_web, "/api/v1/amazon/")
 header_token <- paste0("Bearer ", token)
@@ -104,11 +110,14 @@ req <-
   req_headers(Authorization = header_token)
 ```
 
+
 ## Tokens and security
+
 
 ```{r}
 req
 ```
+
 
 -   Specified the root URL of the API (we are not pointing to a particular endpoint just yet)
 
@@ -126,26 +135,32 @@ No parameters needed
 
 ## Amazon Books: Authors
 
+
 ```{r}
 req_res <- req %>% req_url_path_append("authors")
 req_res
 ```
 
+
 <br>
+
 
 ```{r}
 res <- req_res %>% req_perform()
 res
 ```
 
+
 ## Amazon Books: Authors
 
 The request was successful with a `200` status code. The content type is JSON so we can extract it with `resp_body_json` and set `simplifyVector = TRUE` to convert it directly to a data frame:
+
 
 ```{r}
 res %>%
   resp_body_json(simplifyVector = TRUE)
 ```
+
 
 ## Amazon Books: Authors
 
@@ -157,6 +172,7 @@ This endpoint's URL is `books` and requires two parameters: `author` and `genre`
 
 How do we specify the two string parameters in a request? `req_url_query`
 
+
 ```{r}
 req_res <-
   req %>%
@@ -166,9 +182,11 @@ req_res <-
 req_res
 ```
 
+
 ## Amazon Books: Authors
 
 Let's perform the request and directly extract the result with `resp_body_json`:
+
 
 ```{r}
 resp <- req_perform(req_res) %>% resp_body_json(simplifyVector = TRUE) %>%
@@ -176,15 +194,18 @@ resp <- req_perform(req_res) %>% resp_body_json(simplifyVector = TRUE) %>%
 resp
 ```
 
+
 ## Amazon Books: Authors
 
 Weird? Seems all rows are repeated?
 
 > That's because the column `user_id` is showing us the users who have read this book. Aside from the author-book relationship, Amazon also has the book-customer relationship in these APIs.
 
+
 ```{r}
 resp %>% select(-user_id) %>% distinct() %>% as.data.frame()
 ```
+
 
 ## Amazon Books: Authors
 
@@ -196,6 +217,7 @@ After figuring out that the only author is `Stuart Armstrong`, we can access act
 
 -   Needs `author` as parameter
 
+
 ```{r}
 resp <-
   req %>%
@@ -206,6 +228,7 @@ resp <-
 
 resp
 ```
+
 
 ## Amazon Books: User Behavior
 
@@ -223,6 +246,7 @@ resp
 
 ## Amazon Books: User Behavior
 
+
 ```{r}
 resp <-
   req %>%
@@ -234,6 +258,7 @@ resp <-
 resp
 ```
 
+
 ## Amazon Books: User Behavior
 
 -   Info: price, image and tags of the product
@@ -243,6 +268,7 @@ resp
 ![](images/paste-8BDB0176.png){fig-align="center"}
 
 ## Amazon Books: User Behavior
+
 
 ```{r}
 resp <-
@@ -254,6 +280,7 @@ resp <-
 
 resp
 ```
+
 
 <br>
 
@@ -279,6 +306,7 @@ Great, we know the name of the product
 
 ## Amazon Books: User Behavior
 
+
 ```{r}
 resp <-
   req %>%
@@ -291,11 +319,13 @@ resp <-
 resp
 ```
 
+
 Alright, we know where the user is from, together with some technical IT info.
 
 ## Amazon Books: User Behavior
 
 We can replicate the previous one but specify a country:
+
 
 ```{r}
 resp <-
@@ -308,6 +338,7 @@ resp <-
 
 resp
 ```
+
 
 ## Summary
 
@@ -326,3 +357,4 @@ resp
 -   Make sure to submit the project ASAP. Will give me more time to revise. **Deadline is next class.**
 
 -   Submission of your project will be to paste the Github URL to the repo [here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=0).
+

@@ -417,9 +417,9 @@
 <h2>Introduction to JSON</h2>
 <p>Why is JSON important? Why not use a CSV, for example? or XML? I’ll skip the boring stuff and leave you with three:</p>
 <ol type="1">
-<li>It's lightweight and easy to share</li>
+<li>It’s lightweight and easy to share</li>
 <li>It has support in nearly all programming languages</li>
-<li>It allows you to make nested relationships and they're easy to read</li>
+<li>It allows you to make nested relationships and they’re easy to read</li>
 </ol>
 <p>JSONs are easy to read directly from the source file. In this session we’ll focus on real-world examples of the problems you’ll face while working with JSONs</p>
 </section>
@@ -584,7 +584,7 @@ $opposition
 1    Pitaso Everyone United  45</code></pre>
 </div>
 </div>
-<p>JSON's are <code>key:value</code> pairs and the value it self can be an array with other key/value pairs.</p>
+<p>JSON’s are <code>key:value</code> pairs and the value it self can be an array with other key/value pairs.</p>
 </section>
 <section id="real-json-example-5" class="slide level2">
 <h2>Real JSON example</h2>
@@ -672,9 +672,9 @@ $opposition$age
 <section id="real-json-example-9" class="slide level2">
 <h2>Real JSON example</h2>
 <ol type="1">
-<li><p>A data frame for the first slot. That's correct because the JSON contained an array with two sets of <code>key:value</code> pairs. That's translatable to a data frame with two rows even though one of the two sets did not have a field for <code>age</code>.</p></li>
+<li><p>A data frame for the first slot. That’s correct because the JSON contained an array with two sets of <code>key:value</code> pairs. That’s translatable to a data frame with two rows even though one of the two sets did not have a field for <code>age</code>.</p></li>
 <li><p>An NA value since <code>null</code> is the way missing values are represented in JSON but notice that this <code>null</code> is in a JSON array so this is effectively a data frame with an <code>NA</code> value.</p></li>
-<li><p>A named list. That's right because there is no array structure (<code>[...]</code>) so <code>key:value</code> pairs are interpreted as a named list.</p></li>
+<li><p>A named list. That’s right because there is no array structure (<code>[...]</code>) so <code>key:value</code> pairs are interpreted as a named list.</p></li>
 </ol>
 </section>
 <section id="real-json-example-10" class="slide level2">
@@ -714,7 +714,7 @@ $opposition
 ## 4 opposition    Pitaso     Everyone United    45</code></pre>
 <ul>
 <li><p>This is the ideal summary of the result: everything in a single data frame with complete and incomplete information.</p></li>
-<li><p>Each 'category' (<code>president</code>, <code>vicepresident</code>, <code>opposition</code>) is a row.</p></li>
+<li><p>Each ‘category’ (<code>president</code>, <code>vicepresident</code>, <code>opposition</code>) is a row.</p></li>
 </ul>
 </section>
 <section id="the-enframe-unnest-strategy-1" class="slide level2">
@@ -731,7 +731,7 @@ $opposition
 <section id="the-enframe-unnest-strategy-2" class="slide level2">
 <h2>The <code>enframe</code> + <code>unnest</code> strategy</h2>
 <ul>
-<li><p>List-column: column of class list that can contain different things (if you remember, all columns in R must be of the same kind, either <code>numeric</code>, <code>character</code> or something else but there can't be two types in the same column).</p></li>
+<li><p>List-column: column of class list that can contain different things (if you remember, all columns in R must be of the same kind, either <code>numeric</code>, <code>character</code> or something else but there can’t be two types in the same column).</p></li>
 <li><p>In our example,</p>
 <ul>
 <li><p>First row of this list-column is a data frame that has two rows</p></li>
@@ -765,9 +765,9 @@ $opposition
 <h2>The <code>enframe</code> + <code>unnest</code> strategy</h2>
 <p>How do we transform it?</p>
 <ul>
-<li><p><code>unnest</code> takes list-columns and 'unpacks' them into the common class of the list.</p></li>
+<li><p><code>unnest</code> takes list-columns and ‘unpacks’ them into the common class of the list.</p></li>
 <li><p>If the all objects are of different classes (<code>data.frame</code>, <code>vectors</code>, etc..), then <code>unnest</code> will fail.</p></li>
-<li><p>If all objects within the list are of the same class, it will combine all of them into a proper column or 'unpack' it's values.</p></li>
+<li><p>If all objects within the list are of the same class, it will combine all of them into a proper column or ‘unpack’ it’s values.</p></li>
 </ul>
 <p>All of this sounds convoluted right? Let’s see some applied examples.</p>
 </section>
@@ -833,13 +833,13 @@ $opposition
 </div>
 </div>
 <p><br></p>
-<p>The main problem you'll encounter with JSON's is that you're trying to parse some JSON that has many <strong>nested arrays</strong> and some of these arrays are not <strong>compatible for unnesting</strong> so you'll have to submerge yourself into these nested arrays and fix whatever data you want to extract.</p>
+<p>The main problem you’ll encounter with JSON’s is that you’re trying to parse some JSON that has many <strong>nested arrays</strong> and some of these arrays are not <strong>compatible for unnesting</strong> so you’ll have to submerge yourself into these nested arrays and fix whatever data you want to extract.</p>
 </section>
 <section id="accessing-deeply-nested-jsons" class="slide level2">
 <h2>Accessing deeply nested JSONs</h2>
 <p><br></p>
 <blockquote>
-<p>Suppose that as part of a research project, you've recently been granted access to the API of a company. You're interested in studying the relationship between the geo-location of clients, their shopping patterns and their social class.</p>
+<p>Suppose that as part of a research project, you’ve recently been granted access to the API of a company. You’re interested in studying the relationship between the geo-location of clients, their shopping patterns and their social class.</p>
 </blockquote>
 </section>
 <section id="accessing-deeply-nested-jsons-1" class="slide level2">
@@ -980,7 +980,7 @@ $location
 </div>
 </div>
 <p><br></p>
-<p><code>location</code> is also a list. Let's look at what's inside:</p>
+<p><code>location</code> is also a list. Let’s look at what’s inside:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb34"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>res<span class="sc">$</span>client1<span class="sc">$</span>device[[<span class="dv">1</span>]]<span class="sc">$</span>location[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -997,7 +997,7 @@ $location
 <ul>
 <li><p>Whenever <code>fromJSON</code> encounters an array within an array, it converts each one to a data frame.</p></li>
 <li><p>The problem is that these are recurrent data frames inside data frames and so on.</p></li>
-<li><p>It's difficult to assess where to stop and this is a good example where <code>unnest</code> is very handy.</p></li>
+<li><p>It’s difficult to assess where to stop and this is a good example where <code>unnest</code> is very handy.</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb36"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>res<span class="sc">$</span>client1 <span class="sc">%&gt;%</span></span>

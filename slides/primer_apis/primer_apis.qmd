@@ -308,7 +308,6 @@ resp_body_california %>%
 
 -   Chapter 12 and 13 -- read + exercises
 
-```{=html}
 <!-- -->
-```
+
 -   How are project ideas coming along? Should confirm with me by email. Deadline to submit project ideas are next week. I advise to start working on project **now**. [Here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=0).
