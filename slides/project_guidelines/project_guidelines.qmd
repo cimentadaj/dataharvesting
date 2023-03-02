@@ -7,11 +7,11 @@ editor: visual
 
 ## Project guidelines
 
-1.  A public Github repository that I will clone.
+1.  A **private** Github repository that you will share with me.
 2.  A clear README on how to reproduce the scraper EXACTLY.
 3.  The entire scraping program should be in an RMarkdown HTML file.
 4.  The project should not be an R package or a set of scripts (see 3.)
-5.  One of the key points in the homework is to make it reproducible: I should be able to clone the repository and execute whatever you need to me to produce the scraper.
+5.  One of the key points is to make it reproducible: I should be able to clone the repository and execute whatever you need to me to produce the scraper.
 
 ## Project guidelines
 

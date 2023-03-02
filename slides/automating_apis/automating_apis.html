@@ -436,8 +436,8 @@
 <span id="cb1-5"><a href="#cb1-5"></a></span>
 <span id="cb1-6"><a href="#cb1-6"></a>bicing <span class="ot">&lt;-</span> <span class="fu">api_bicing</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] "Visit your REST API at http://localhost:46107"
-[1] "Documentation is at http://localhost:46107/__docs__/"</code></pre>
+<pre><code>[1] "Visit your REST API at http://localhost:36197"
+[1] "Documentation is at http://localhost:36197/__docs__/"</code></pre>
 </div>
 </div>
 </section>
@@ -478,7 +478,7 @@
 <pre><code>&lt;httr2_response&gt;</code></pre>
 </div>
 <div class="cell-output-stderr">
-<pre><code>GET http://localhost:46107/api/v1/real_time_bicycles</code></pre>
+<pre><code>GET http://localhost:36197/api/v1/real_time_bicycles</code></pre>
 </div>
 <div class="cell-output-stderr">
 <pre><code>Status: 200 OK</code></pre>
@@ -530,10 +530,10 @@
 [1] 29
 
 [[1]]$current_time
-[1] "2023-03-02 10:34:59"
+[1] "2023-03-02 11:00:52"
 
 [[1]]$in_use
-[1] 23
+[1] 20
 
 
 [[2]]
@@ -556,10 +556,10 @@
 [1] 27
 
 [[2]]$current_time
-[1] "2023-03-02 10:34:59"
+[1] "2023-03-02 11:00:52"
 
 [[2]]$in_use
-[1] 9</code></pre>
+[1] 12</code></pre>
 </div>
 </div>
 </section>
@@ -583,8 +583,8 @@
 1 BIKE  41.3980    2.1800 Gran Via Corts Catalanes          760    29
 2 BIKE  41.3955    2.1771  Roger de Flor/ Gran Vía          126    27
          current_time in_use
-1 2023-03-02 10:34:59     23
-2 2023-03-02 10:34:59      9</code></pre>
+1 2023-03-02 11:00:52     20
+2 2023-03-02 11:00:52     12</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -627,26 +627,26 @@
 19 BIKE  41.4102    2.1758                      Cartagena          308    20
 20 BIKE  41.4109    2.1740       Sant Antoni Maria Claret          214     2
           current_time in_use
-1  2023-03-02 10:34:59     23
-2  2023-03-02 10:34:59      9
-3  2023-03-02 10:34:59     23
-4  2023-03-02 10:34:59     15
-5  2023-03-02 10:34:59     19
-6  2023-03-02 10:34:59     39
-7  2023-03-02 10:34:59     20
-8  2023-03-02 10:34:59     16
-9  2023-03-02 10:34:59      8
-10 2023-03-02 10:34:59     19
-11 2023-03-02 10:34:59     29
-12 2023-03-02 10:34:59      0
-13 2023-03-02 10:34:59     16
-14 2023-03-02 10:34:59      9
-15 2023-03-02 10:34:59     11
-16 2023-03-02 10:34:59     18
-17 2023-03-02 10:34:59      0
-18 2023-03-02 10:34:59     22
-19 2023-03-02 10:34:59      4
-20 2023-03-02 10:34:59      2</code></pre>
+1  2023-03-02 11:00:52     20
+2  2023-03-02 11:00:52     12
+3  2023-03-02 11:00:52     12
+4  2023-03-02 11:00:52     14
+5  2023-03-02 11:00:52      6
+6  2023-03-02 11:00:52     24
+7  2023-03-02 11:00:52     15
+8  2023-03-02 11:00:52     13
+9  2023-03-02 11:00:52      5
+10 2023-03-02 11:00:52     19
+11 2023-03-02 11:00:52     26
+12 2023-03-02 11:00:52      1
+13 2023-03-02 11:00:52     19
+14 2023-03-02 11:00:52      6
+15 2023-03-02 11:00:52     12
+16 2023-03-02 11:00:52      3
+17 2023-03-02 11:00:52      6
+18 2023-03-02 11:00:52     27
+19 2023-03-02 11:00:52     10
+20 2023-03-02 11:00:52      0</code></pre>
 </div>
 </div>
 </section>
@@ -692,25 +692,25 @@
 <span id="cb17-3"><a href="#cb17-3"></a><span class="fu">bind_cols</span>(first, second)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>   first_in_use second_in_use
-1            11             2
-2            24            18
-3             4            27
-4             2            12
-5             9            35
-6            10            36
-7             0            15
-8             0            13
-9            24            11
-10            5            11
-11           25            14
-12            0             0
-13           16            11
-14           16            16
-15            9            20
-16            3            19
-17            8             1
-18            9            12
-19            9             3
+1            10            23
+2             8            19
+3             9             7
+4             1            16
+5            35            37
+6            28            19
+7            11            21
+8            12             8
+9             9             2
+10           11            10
+11           17             7
+12            0             2
+13           18            14
+14           18             9
+15           10            18
+16           16            11
+17           16             1
+18            7            21
+19            2             0
 20            1             2</code></pre>
 </div>
 </div>
