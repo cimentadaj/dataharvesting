@@ -9,14 +9,11 @@ editor: visual
 
 1.  A public Github repository that I will clone.
 2.  A clear README on how to reproduce the scraper EXACTLY.
-3.  One of the key points in the homework is to make it reproducible: I should be able to clone the repository and execute whatever you need to me to produce the scraper.
-4.  Document what the output is, where it is saved and what each script in the program does.
+3.  The entire scraping program should be in an RMarkdown HTML file.
+4.  The project should not be an R package or a set of scripts (see 3.)
+5.  One of the key points in the homework is to make it reproducible: I should be able to clone the repository and execute whatever you need to me to produce the scraper.
 
 ## Project guidelines
 
 1.  We want some medium-hard scraping/API projects. This means that I expect you to scrape several sources of information (on the same website or combining several websites) to build a meaningful dataset that you can possibly use for other classes or your own benefit. Remember most of the mark is for this project.
 2.  If your project is an API you need to provide clear instructions on how to get a token and where I need to place the token. \*IMPORTANT: TOKENS SHOULD NOT BE POSTED ON YOUR REPOSITORY, THIS IS SENSITIVE INFORMATION\*.
-
-## Examples
-
--   <https://github.com/sg-peytrignet/MHSDS-pipeline>
