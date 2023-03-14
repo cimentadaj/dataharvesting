@@ -29,5 +29,5 @@ Slides:
     -   [Exploring the Amazon API](./cs_exploring_amazon_api/cs_exploring_amazon_api.html)
     
 -   Seventh class
-    -   [Automating Webscraping](./automating_web_scraping/automating_web_scraping.html)
+    -   [Automating Webscraping](./automating_web_scraping/automating_data_harvesting.html)
     -   [Grabbing real time bicycle data](./automating_apis/automating_apis.html)
