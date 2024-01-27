@@ -54,7 +54,7 @@ jobs:
           restore-keys: bookdown-
 
       - name: Build site
-        run: Rscript -e 'install.packages("rnaturalearthhires", repos = "http://packages.ropensci.org", type = "source"); bookdown::render_book("index.Rmd", quiet = TRUE)'
+        run: Rscript -e 'install.packages("sp"); install.packages("rnaturalearthhires", repos = "http://packages.ropensci.org", type = "source"); bookdown::render_book("index.Rmd", quiet = TRUE)'
 
       - name: Render slides
         shell: Rscript {0}
