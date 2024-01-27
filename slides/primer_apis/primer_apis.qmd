@@ -310,4 +310,4 @@ resp_body_california %>%
 
 <!-- -->
 
--   How are project ideas coming along? Should confirm with me by email. Deadline to submit project ideas are next week. I advise to start working on project **now**. [Here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=0).
+-   How are project ideas coming along? Should confirm with me by email. Deadline to submit project ideas are next week. I advise to start working on project **now**. [Here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=73208201).

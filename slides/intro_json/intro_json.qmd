@@ -627,6 +627,6 @@ all_res %>%
 
 -   Chapter 14 -- read + exercises
 
--   Everyone should have a project + a group [here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=0).
+-   Everyone should have a project + a group [here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=73208201).
 
 -   Work on project should begin now. Submissions can be done from now on. Final deadline for the project is in two weeks.
