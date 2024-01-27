@@ -290,9 +290,10 @@ Pick `nano`, the easiest one.
 
 ## Scheduling our scraper
 
-![](images/crontab_schedule_file.png){fig-align="center"}
-
 Here is where we write `* * * * * Rscript ~/newspaper/newspaper_scraper.R`
+Depending, you might need to add: `PATH=/usr/local/bin:/usr/bin:/bin`
+
+![](images/crontab_schedule_file.png){fig-align="center"}
 
 ## Scheduling our scraper
 
