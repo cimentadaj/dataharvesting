@@ -111,14 +111,20 @@
     },
     "Rcpp": {
       "Package": "Rcpp",
-      "Version": "1.0.9",
+      "Version": "1.0.12",
       "Source": "Repository",
       "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "Rcpp",
+      "RemoteRef": "Rcpp",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0.12",
       "Requirements": [
         "methods",
         "utils"
       ],
-      "Hash": "e9c08b94391e9f3f97355841229124f2"
+      "Hash": "5ea2700d21e038ace58269ecdbeb9ec0"
     },
     "RcppArmadillo": {
       "Package": "RcppArmadillo",
@@ -2103,12 +2109,6 @@
       "Version": "0.17.3",
       "Source": "Repository",
       "Repository": "RSPM",
-      "RemoteType": "standard",
-      "RemotePkgRef": "renv",
-      "RemoteRef": "renv",
-      "RemoteRepos": "https://packagemanager.rstudio.com/all/__linux__/jammy/latest",
-      "RemotePkgPlatform": "source",
-      "RemoteSha": "0.17.3",
       "Requirements": [
         "utils"
       ],
@@ -2172,7 +2172,7 @@
     },
     "rnaturalearth": {
       "Package": "rnaturalearth",
-      "Version": "0.1.0",
+      "Version": "1.0.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "RemoteType": "standard",
@@ -2180,14 +2180,16 @@
       "RemoteRef": "rnaturalearth",
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "source",
-      "RemoteSha": "0.1.0",
+      "RemoteSha": "1.0.1",
       "Requirements": [
         "R",
+        "httr",
+        "jsonlite",
         "sf",
-        "sp",
+        "terra",
         "utils"
       ],
-      "Hash": "946d1b43d7aba91dfa804f02302a5125"
+      "Hash": "741166cab0fe76d8a5670d3ee459a2a4"
     },
     "robotstxt": {
       "Package": "robotstxt",
@@ -2420,29 +2422,6 @@
       "Repository": "CRAN",
       "Hash": "3606bb09e0914edd4fc8313b500dcd5e"
     },
-    "sp": {
-      "Package": "sp",
-      "Version": "1.5-0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "sp",
-      "RemoteRef": "sp",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "source",
-      "RemoteSha": "1.5-0",
-      "Requirements": [
-        "R",
-        "grDevices",
-        "graphics",
-        "grid",
-        "lattice",
-        "methods",
-        "stats",
-        "utils"
-      ],
-      "Hash": "2a118bdd2db0a301711e0a9e3e3206d5"
-    },
     "spiderbar": {
       "Package": "spiderbar",
       "Version": "0.2.4",
@@ -2510,6 +2489,24 @@
         "cpp11"
       ],
       "Hash": "90b28393209827327de889f49935140a"
+    },
+    "terra": {
+      "Package": "terra",
+      "Version": "1.7-65",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "terra",
+      "RemoteRef": "terra",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.7-65",
+      "Requirements": [
+        "R",
+        "Rcpp",
+        "methods"
+      ],
+      "Hash": "8e245fd4eab07bf55ddb2e6ea353c0e1"
     },
     "tibble": {
       "Package": "tibble",
