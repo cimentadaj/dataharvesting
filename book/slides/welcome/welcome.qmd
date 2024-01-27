@@ -11,7 +11,7 @@ format:
 
 -   Jorge Cimentada
 
--   Senior Data Scientist at eDreams
+-   Chief Data Scientist at Cognitiva Labs
 
 -   PhD in Sociology
 
@@ -33,7 +33,8 @@ We'll talk to APIs
 
 ::: {.columns style="display: flex !important; height: 40%;"}
 ::: {.column width="50%" style="display: flex; justify-content: center; align-items: center;"}
-### <https://cimentadaj.github.io/dataharvesting>
+### <https://cimentadaj.github.io/dataharvesting/>
+### <https://cimentadaj.github.io/dataharvesting/slides/>
 :::
 :::
 
@@ -66,35 +67,35 @@ Scoring for the class:
 
 <br>
 
-Webscraping -- First three classes (**1st Feb / 8th Feb / 15th Feb)**
+Webscraping -- First three classes (**31st Jan / 7th Feb / 14th Feb)**
 
 <br>
 
-APIs - Next three classes (**22nd Feb / 1st March / 8th March)**
+APIs - Next three classes (**21st Feb / 28th Feb / 6th March)**
 
 <br>
 
-Automating Data Harvesting (Final class) - **15th March**
+Automating Data Harvesting (Final class) - **13nd March**
 
-<br>5 February
+<br>22nd February
 
-Presentation of projects - **24th March / 16:30-19:15**
+Presentation of projects - **22nd March / 16:30-19:15**
 
 ## Final project
 
-Final project spreadsheet is [here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit?usp=sharing).
+Final project spreadsheet is [here](https://docs.google.com/spreadsheets/d/11QmdgRXvbwtN9hSOwVyw9-iVjrN-yeRq_BOudidAnX8/edit#gid=73208201).
 
--   23 students / 11 groups / 10 groups of 2 and 1 group of 3
+-   30 students / 15 groups
 
--   Try to find your partner as soon as possible -- **deadline 15 February (third class)**
+-   Try to find your partner as soon as possible -- **deadline 14 February (third class)**
 
--   Final project ideas submission -- **deadline 1st March (fifth class)**
+-   Final project ideas submission -- **deadline 28th Feb (fifth class)**
 
 -   2 weeks of work on final project
 
--   Final project submission -- **deadline 15th March (seventh class)**
+-   Final project submission -- **deadline 13nd March (seventh class)**
 
--   Final project presentation -- **24th March / 16:30-19:15**
+-   Final project presentation -- **22nd March / 18:00-20:45**
 
 -   Every team will have 10 minutes to present.
 
@@ -132,6 +133,11 @@ Project ideas should be consulted and approved by me before the deadline
 
 Emails can be directed at cimentadaj\@gmail.com
 
+Examples from previous classes:
+
+- https://github.com/myanesp/media-streaming-tmdb
+- https://github.com/myanesp/tmdbR
+
 ## Contribute
 
 Contribute to the book!
@@ -141,3 +147,11 @@ Contribute to the book!
 ### <https://cimentadaj.github.io/dataharvesting>
 :::
 :::
+
+## Motivation
+
+Motivation: [https://www.coverage-db.org/](https://www.coverage-db.org/)
+
+<br>
+
+Demotivation: [https://www.vox.com/2016/5/12/11666116/70000-okcupid-users-data-release](https://www.vox.com/2016/5/12/11666116/70000-okcupid-users-data-release)
