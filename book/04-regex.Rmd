@@ -115,7 +115,7 @@ Be aware that you need to append `\\` in front of **any** special character in r
 
 ## The OR (`|`) operator
 
-To make your regexp generic, you'll often want to match either one regexp or another. The `|` allows you to do it very succintly. Suppose we want to extract the century from the vector below. We can do it like this:
+To make your regexp generic, you'll often want to match either one regexp or another. The `|` allows you to do it very succinctly. Suppose we want to extract the century from the vector below. We can do it like this:
 
 ```{r}
 borges_two_phrase <- c(
