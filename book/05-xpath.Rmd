@@ -532,5 +532,18 @@ lengthy_art <-
 art_p[lengthy_art] %>%
   xml_find_all(".//h2/a") %>%
   xml_text()
+
+# alternative solution
+nodes <-
+  newspaper |> 
+  xml_find_all("//article[./p[@class = 'c_d']]")
+
+nodes |> 
+  xml_children() |> 
+  xml_find_all("//p") |> 
+  xml_text() |> 
+  str_replace("(\n|\\\\n)", "") |> 
+  nchar() |> 
+  which.max()
 ```
 
