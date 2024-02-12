@@ -436,8 +436,8 @@
 <span id="cb1-5"><a href="#cb1-5"></a></span>
 <span id="cb1-6"><a href="#cb1-6"></a>bicing <span class="ot">&lt;-</span> <span class="fu">api_bicing</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
-<pre><code>[1] "Visit your REST API at http://localhost:47142"
-[1] "Documentation is at http://localhost:47142/__docs__/"</code></pre>
+<pre><code>[1] "Visit your REST API at http://localhost:12911"
+[1] "Documentation is at http://localhost:12911/__docs__/"</code></pre>
 </div>
 </div>
 </section>
@@ -478,7 +478,7 @@
 <pre><code>&lt;httr2_response&gt;</code></pre>
 </div>
 <div class="cell-output-stderr">
-<pre><code>GET http://localhost:47142/api/v1/real_time_bicycles</code></pre>
+<pre><code>GET http://localhost:12911/api/v1/real_time_bicycles</code></pre>
 </div>
 <div class="cell-output-stderr">
 <pre><code>Status: 200 OK</code></pre>
@@ -487,7 +487,7 @@
 <pre><code>Content-Type: application/json</code></pre>
 </div>
 <div class="cell-output-stderr">
-<pre><code>Body: In memory (3315 bytes)</code></pre>
+<pre><code>Body: In memory (3312 bytes)</code></pre>
 </div>
 </div>
 </section>
@@ -530,7 +530,7 @@
 [1] 29
 
 [[1]]$current_time
-[1] "2024-02-06 07:50:22"
+[1] "2024-02-12 15:25:02"
 
 [[1]]$in_use
 [1] 28
@@ -556,10 +556,10 @@
 [1] 27
 
 [[2]]$current_time
-[1] "2024-02-06 07:50:22"
+[1] "2024-02-12 15:25:02"
 
 [[2]]$in_use
-[1] 18</code></pre>
+[1] 10</code></pre>
 </div>
 </div>
 </section>
@@ -583,8 +583,8 @@
 1 BIKE  41.3980    2.1800 Gran Via Corts Catalanes          760    29
 2 BIKE  41.3955    2.1771  Roger de Flor/ Gran Vía          126    27
          current_time in_use
-1 2024-02-06 07:50:22     28
-2 2024-02-06 07:50:22     18</code></pre>
+1 2024-02-12 15:25:02     28
+2 2024-02-12 15:25:02     10</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -627,26 +627,26 @@
 19 BIKE  41.4102    2.1758                      Cartagena          308    20
 20 BIKE  41.4109    2.1740       Sant Antoni Maria Claret          214     2
           current_time in_use
-1  2024-02-06 07:50:22     28
-2  2024-02-06 07:50:22     18
-3  2024-02-06 07:50:22     26
-4  2024-02-06 07:50:22     15
-5  2024-02-06 07:50:22     27
-6  2024-02-06 07:50:22     24
-7  2024-02-06 07:50:22      6
-8  2024-02-06 07:50:22     10
-9  2024-02-06 07:50:22     26
-10 2024-02-06 07:50:22     14
-11 2024-02-06 07:50:22     19
-12 2024-02-06 07:50:22      2
-13 2024-02-06 07:50:22     22
-14 2024-02-06 07:50:22     14
-15 2024-02-06 07:50:22      6
-16 2024-02-06 07:50:22      3
-17 2024-02-06 07:50:22     24
-18 2024-02-06 07:50:22     12
-19 2024-02-06 07:50:22      9
-20 2024-02-06 07:50:22      0</code></pre>
+1  2024-02-12 15:25:02     28
+2  2024-02-12 15:25:02     10
+3  2024-02-12 15:25:02     19
+4  2024-02-12 15:25:02      8
+5  2024-02-12 15:25:02      0
+6  2024-02-12 15:25:02      8
+7  2024-02-12 15:25:02     19
+8  2024-02-12 15:25:02     17
+9  2024-02-12 15:25:02      8
+10 2024-02-12 15:25:02     17
+11 2024-02-12 15:25:02     26
+12 2024-02-12 15:25:02      2
+13 2024-02-12 15:25:02     12
+14 2024-02-12 15:25:02     14
+15 2024-02-12 15:25:02      6
+16 2024-02-12 15:25:02      1
+17 2024-02-12 15:25:02     23
+18 2024-02-12 15:25:02      2
+19 2024-02-12 15:25:02     15
+20 2024-02-12 15:25:02      0</code></pre>
 </div>
 </div>
 </section>
@@ -692,26 +692,26 @@
 <span id="cb17-3"><a href="#cb17-3"></a><span class="fu">bind_cols</span>(first, second)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>   first_in_use second_in_use
-1            28             3
-2            21             2
-3             0             0
-4             3            12
-5             7             1
-6             0            37
-7            22            21
-8            13            14
-9             7            19
-10            9             2
-11            2             5
-12            2             3
-13           13             9
-14            1             2
-15            9            16
-16            7            12
-17           25            26
-18            2            28
-19           10            20
-20            1             2</code></pre>
+1             9            14
+2            18            13
+3            18            19
+4            17            18
+5            28            14
+6            12            14
+7             1            20
+8            24            14
+9            20            11
+10           21             8
+11            8             8
+12            1             1
+13            2             5
+14            6            11
+15           12            13
+16            6            19
+17           25             3
+18           24            24
+19            2            19
+20            1             0</code></pre>
 </div>
 </div>
 </section>
