@@ -506,6 +506,7 @@ newspaper %>%
   unlist() %>%
   # Remove all spaces before/after the city for counting properly
   trimws() %>%
+  str_replace(" DC", "") %>%
   table()
 ```
 
