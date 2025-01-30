@@ -33,7 +33,7 @@ jobs:
         run: sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libv8-dev build-essential fonts-liberation libgdal-dev cmake pkg-config libudunits2-dev libmkl-rt libglpk-dev libfontconfig1-dev libnode-dev
 
       - name: Cache packages renv
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ${{ env.RENV_PATHS_ROOT }}
           key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
@@ -47,7 +47,7 @@ jobs:
           renv::restore()
 
       - name: Cache bookdown results
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: _bookdown_files
           key: bookdown-${{ hashFiles('**/*Rmd') }}
