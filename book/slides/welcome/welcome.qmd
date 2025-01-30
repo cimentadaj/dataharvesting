@@ -44,7 +44,7 @@ We'll talk to APIs
 
 -   Tutoring on Tuesdays between 18h-20h. **Requests should be per email and should receive a confirmation per email. Tutoring will be online over video call.**
 -   My email: **cimentadaj\@gmail.com**
--   Classes on Wednesdays
+-   Classes on Thursdays
 -   Class between 18:00 - 19:30
 -   15 minute break
 -   Class between 19:45 to 20:45
@@ -67,19 +67,19 @@ Scoring for the class:
 
 <br>
 
-Webscraping -- First three classes (**31st Jan / 7th Feb / 14th Feb)**
+Webscraping -- First three classes (**30st Jan / 6th Feb / 13th Feb)**
 
 <br>
 
-APIs - Next three classes (**21st Feb / 28th Feb / 6th March)**
+APIs - Next three classes (**20st Feb / 27th Feb / 6th March)**
 
 <br>
 
-Automating Data Harvesting (Final class) - **13nd March**
+Automating Data Harvesting (Final class, REMOTE CLASS) - **13nd March**
 
 <br>22nd February
 
-Presentation of projects - **22nd March / 16:30-19:15**
+Presentation of projects - **27nd March / 16:30-19:15**
 
 ## Final project
 
@@ -89,13 +89,13 @@ Final project spreadsheet is [here](https://docs.google.com/spreadsheets/d/11Qmd
 
 -   Try to find your partner as soon as possible -- **deadline 14 February (third class)**
 
--   Final project ideas submission -- **deadline 28th Feb (fifth class)**
+-   Final project ideas submission -- **deadline 27th Feb (fifth class)**
 
 -   2 weeks of work on final project
 
 -   Final project submission -- **deadline 13nd March (seventh class)**
 
--   Final project presentation -- **22nd March / 18:00-20:45**
+-   Final project presentation -- **27nd March / 16:30-19:15**
 
 -   Every team will have 10 minutes to present.
 
