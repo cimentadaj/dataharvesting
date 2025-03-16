@@ -34,7 +34,7 @@ Regular expressions (regexp from now on) are a way for you to find patterns with
 
 ```{r}
 borges <- "I like hourglasses, maps, eighteenth century typography."
-str_view_all(borges, "eighteenth", match = TRUE)
+str_view(borges, "eighteenth", match = TRUE)
 ```
 
 That's one of the simplest regexp I can think of. That's a regular expression right there: you're matching only the word "eighteenth". `stringr` has two functions which will be at the backbone of using regexp in R: `str_replace_all` and `str_extract_all`. The first one will replace a string with another string. For example:
@@ -59,14 +59,14 @@ If I asked you to match all occurrences of `eighteenth` or `Eighteenth` how woul
 
 ```{r}
 borges <- "I like hourglasses, maps, eighteenth Eighteenth century typography."
-str_view_all(borges, ".ighteenth", match = TRUE)
+str_view(borges, ".ighteenth", match = TRUE)
 ```
 
 The regexp I used is `.ighteenth` meaning that I want to match *any character* (`.`) followed directly by `ighteenth`. It matches both the capital letter word as well the lower case word. However, it would also match *any other* character, even empty spaces:
 
 ```{r}
 borges <- "I like hourglasses, maps, ighteenth century typography."
-str_view_all(borges, ".ighteenth", match = TRUE)
+str_view(borges, ".ighteenth", match = TRUE)
 ```
 
 ## Quantifiers
@@ -79,13 +79,13 @@ borges_two_phrase <- c(
   "I like hourglasses, maps, seventeenth century typography."
 )
 
-str_view_all(borges_two_phrase, "maps, . century")
+str_view(borges_two_phrase, "maps, . century")
 ```
 
 Nothing was matched. Why? Because we're saying we want to match something like this: `maps, [a] century.`. Replace `[a]` with whatever character you want and that's what your matching. Of course, that doesn't have a match anywhere in the string. What we want instead is this:
 
 ```{r}
-str_view_all(borges_two_phrase, "maps, .+ century")
+str_view(borges_two_phrase, "maps, .+ century")
 ```
 
 This is saying: match the part `maps,` followed by *any character* (`.`) repeated one or more times (`+`) which is followed by `century`.
@@ -96,7 +96,7 @@ This is saying: match the part `maps,` followed by *any character* (`.`) repeate
 
 ```{r}
 borges <- "I like hourglasses. I also like maps, eighteenth century typography"
-str_view_all(borges, "I like .+")
+str_view(borges, "I like .+")
 ```
 
 `I like .+` is almost there. It says: match the phrase `I like` followed by any character repeated one or more times. However, that matches the entire phrase because it doesn't know we want it stop at the first `.`, right after hourglasses. To match a literal `.` you need to append it with two `\\`. It would look like this: `I like .+\\.`. This reads like this:
@@ -108,7 +108,7 @@ str_view_all(borges, "I like .+")
 Let's apply it:
 
 ```{r}
-str_view_all(borges, "I like .+\\.")
+str_view(borges, "I like .+\\.")
 ```
 
 Be aware that you need to append `\\` in front of **any** special character in regexp. For example, if you wanted to match the quantifier `+` literally, you'll need to do it like this: `\\+`. There's a bunch of special character in regexp but you'll just need to know a few like `(`, `)`, `+`, `.`, `$`, `^` or `|`.
@@ -139,13 +139,13 @@ Anchors are also another feature of regexp. `^` is used to match the start of th
 
 ```{r}
 borges <- "I like hourglasses. I also like maps, eighteenth century typography"
-str_view_all(borges, "^.", match = TRUE)
+str_view(borges, "^.", match = TRUE)
 ```
 
 Conversely, to match the last letter of a string:
 
 ```{r}
-str_view_all(borges, ".$", match = TRUE)
+str_view(borges, ".$", match = TRUE)
 ```
 
 This might seem like something which doesn't have much use but it's actually very handy. Take this text as an example:
@@ -160,14 +160,14 @@ borges_long <- c(
 Both phrases have "I like" at the beginning but also have "I like" after the end of the first sentence. Using what we know until now won't be enough:
 
 ```{r}
-str_view_all(borges_long, "^I like .+")
+str_view(borges_long, "^I like .+")
 ```
 
 To achieve what we want we could use the trick to match literal dot and add the anchor of the beginning:
 
 
 ```{r}
-str_view_all(borges_long, "^I like .+\\.")
+str_view(borges_long, "^I like .+\\.")
 ```
 
 ## Matching spaces
@@ -175,7 +175,7 @@ str_view_all(borges_long, "^I like .+\\.")
 You can also match spaces in regexp and replace them:
 
 ```{r}
-str_view_all(borges, " ")
+str_view(borges, " ")
 ```
 
 Since spaces come in different ways (new lines or a tabs), you can also use the special character `\\s`:
@@ -205,13 +205,13 @@ gdp <- c(
 The keyword `\\d` will match a single digit. So for example, if we wanted to match the age of a child in a string (`Angel is 8 years old)`, writing a regexp like `\\d` will match that `8`. For example:
 
 ```{r}
-str_view_all("Angel is 8 years old", "\\d")
+str_view("Angel is 8 years old", "\\d")
 ```
 
 If we matched instead someone older, `\\d` will match each digit *separately*:
 
 ```{r}
-str_view_all(
+str_view(
   c("Angel is 8 years old", "Martha is 56 years old"),
   "\\d"
 )
@@ -220,7 +220,7 @@ str_view_all(
 If you pay close attention, the regexp matched `56` but each digit separately. However, we could combine this with the quantifier `+` to match *one or more* digits. For example:
 
 ```{r}
-str_view_all(
+str_view(
   c("Angel is 8 years old", "Martha is 56 years old"),
   "\\d+"
 )
@@ -251,13 +251,13 @@ retirement
 One way is to explicitly use `|` to match all ages like this: `(67|68|69)`. Instead, using brackets (`[]`), regexp will match everything inside as if it were `|`. So for example:
 
 ```{r}
-str_view_all(retirement$Men, "6[789]")
+str_view(retirement$Men, "6[789]")
 ```
 
 This regexp will match the number `6` followed either by `7`, `8`, or `9`. If these numbers are sequential (as it is now) it has additional shortcuts to make it simpler:
 
 ```{r}
-str_view_all(retirement$Men, "6[7-9]")
+str_view(retirement$Men, "6[7-9]")
 ```
 
 Note that `[]` works the same way for anything: numbers, letters, punctuation, spaces, etc..
@@ -267,7 +267,7 @@ Note that `[]` works the same way for anything: numbers, letters, punctuation, s
 Similarly to the previous example `[abc]`, `[^abc]` will match anything except these letters. So recycling our previous retirement example, if we wanted to match all ages except those after 65, the regexp would be like this:
 
 ```{r}
-str_view_all(retirement$Men, "6[^5-9]")
+str_view(retirement$Men, "6[^5-9]")
 ```
 
 All ages which are below 65 will be matched.
